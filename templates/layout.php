@@ -33,7 +33,11 @@ $dfmg_stats = apply_filters(
 <div class="dfmg-shell">
 	<header class="dfmg-header">
 		<div class="dfmg-header__who">
-			<a class="dfmg-header__name" href="<?php echo esc_url( Game::url() ); ?>"><?php echo esc_html( $character->name ); ?></a>
+			<?php $dfmg_has_profile = (bool) \DigiFalk\UnderworldEmpire\Plugin::instance()->modules->get( 'profile' ); ?>
+			<a class="dfmg-header__name" href="<?php echo esc_url( $dfmg_has_profile ? Game::url( 'profile' ) : Game::url() ); ?>" title="<?php echo esc_attr( $dfmg_has_profile ? __( 'My profile', 'underworld-empire' ) : __( 'Overview', 'underworld-empire' ) ); ?>">
+				<span class="dfmg-header__avatar" aria-hidden="true"><?php echo esc_html( mb_strtoupper( mb_substr( $character->name, 0, 1 ) ) ); ?></span>
+				<span class="dfmg-header__label"><?php echo esc_html( $character->name ); ?></span>
+			</a>
 			<div class="dfmg-progress" title="<?php echo esc_attr( sprintf( /* translators: %s: percent */ __( '%s%% to next rank', 'underworld-empire' ), $character->rank_progress() ) ); ?>">
 				<span style="width:<?php echo esc_attr( (string) $character->rank_progress() ); ?>%"></span>
 			</div>

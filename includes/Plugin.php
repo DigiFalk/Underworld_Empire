@@ -45,6 +45,7 @@ final class Plugin {
 		Updater::init();
 		Items::boot();
 		$this->modules->boot_enabled();
+		Migrations::run();
 
 		Game::init();
 		if ( is_admin() ) {

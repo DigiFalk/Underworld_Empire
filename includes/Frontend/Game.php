@@ -28,6 +28,9 @@ final class Game {
 
 	public static function init(): void {
 		add_shortcode( 'underworld_empire', array( __CLASS__, 'shortcode' ) );
+		// Shortcode names of earlier versions.
+		add_shortcode( 'mafia_game', array( __CLASS__, 'shortcode' ) );
+		add_shortcode( 'maffia_game', array( __CLASS__, 'shortcode' ) );
 		add_action( 'admin_post_dfmg', array( __CLASS__, 'handle_action' ) );
 		add_action( 'admin_post_nopriv_dfmg', array( __CLASS__, 'handle_guest_action' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
@@ -36,10 +39,19 @@ final class Game {
 	public static function register_assets(): void {
 		wp_register_style( 'dfmg-game', DFMG_URL . 'assets/css/game.css', array(), DFMG_VERSION );
 		wp_register_script( 'dfmg-game', DFMG_URL . 'assets/js/game.js', array(), DFMG_VERSION, true );
-		if ( is_singular() && has_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ), 'underworld_empire' ) ) {
+		if ( is_singular() && self::has_game_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ) ) ) {
 			wp_enqueue_style( 'dfmg-game' );
 			wp_enqueue_script( 'dfmg-game' );
 		}
+	}
+
+	private static function has_game_shortcode( string $content ): bool {
+		foreach ( array( 'underworld_empire', 'mafia_game', 'maffia_game' ) as $tag ) {
+			if ( has_shortcode( $content, $tag ) ) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -175,7 +187,8 @@ final class Game {
 	}
 
 	private static function wrap( string $html ): string {
-		return '<div class="dfmg" data-now="' . esc_attr( (string) time() ) . '">' . $html . '</div>';
+		$class = 'dark' === Settings::get( 'appearance', 'theme' ) ? 'dfmg dfmg--dark' : 'dfmg';
+		return '<div class="' . esc_attr( $class ) . '" data-now="' . esc_attr( (string) time() ) . '">' . $html . '</div>';
 	}
 
 	/**

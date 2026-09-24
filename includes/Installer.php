@@ -284,6 +284,8 @@ final class Installer {
 		);
 		if ( $page_id && ! is_wp_error( $page_id ) ) {
 			update_option( 'dfmg_page_id', (int) $page_id );
+			// Wide template of the bundled theme; other themes ignore it.
+			update_post_meta( (int) $page_id, '_wp_page_template', 'page-game' );
 		}
 	}
 }

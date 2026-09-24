@@ -3,6 +3,18 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.3.0
+
+- The game now follows the colours and font of the active WordPress theme. A new
+  *Appearance* setting switches back to the built-in dark look.
+- Bundled block theme **Underworld Empire** (Appearance → Themes) in the game's colours,
+  with a wide *Game* template that is applied to the game page.
+- The player name in the top left is now a button to your own profile.
+- Fixed the last Dutch label (the *Cars* table of the Garage module).
+- Installs that still have Dutch starting data (ranks, crimes, cars, items, ...) are
+  translated to English automatically; renamed rows are left alone. Old game pages with
+  `[maffia_game]` or `[mafia_game]` are switched to `[underworld_empire]`.
+
 ## 1.2.1
 
 - Every module with settings or game data now has a **Configure** button on the Modules

@@ -3,7 +3,7 @@
  * Plugin Name:       Underworld Empire
  * Plugin URI:        https://github.com/DigiFalk/Underworld_Empire
  * Description:       A complete, modular mafia browser game (PBBG) for WordPress. Crimes, car theft, families, casino, murders and more — all as separate, extendable modules.
- * Version:           1.2.1
+ * Version:           1.3.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            DigiFalk
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'DFMG_VERSION', '1.2.1' );
+define( 'DFMG_VERSION', '1.3.0' );
 define( 'DFMG_DB_VERSION', '1' );
 define( 'DFMG_FILE', __FILE__ );
 define( 'DFMG_DIR', plugin_dir_path( __FILE__ ) );
@@ -52,6 +52,9 @@ spl_autoload_register(
 );
 
 require_once DFMG_DIR . 'includes/functions.php';
+
+// Bundled "Underworld Empire" block theme: shows up under Appearance → Themes while the plugin is active.
+register_theme_directory( DFMG_DIR . 'themes' );
 
 register_activation_hook( __FILE__, array( 'DigiFalk\\UnderworldEmpire\\Installer', 'activate' ) );
 register_deactivation_hook( __FILE__, array( 'DigiFalk\\UnderworldEmpire\\Installer', 'deactivate' ) );

@@ -94,7 +94,7 @@ final class BulletFactory extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'bullet factory', 'underworld-empire' ),
+				'label' => __( 'Bullet factory', 'underworld-empire' ),
 				'group' => 'city',
 				'order' => 40,
 				'timer' => self::TIMER,

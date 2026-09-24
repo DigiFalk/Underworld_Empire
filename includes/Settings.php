@@ -69,6 +69,16 @@ final class Settings {
 	 */
 	public static function core_fields(): array {
 		return array(
+			'appearance'         => array(
+				'label'       => __( 'Appearance', 'underworld-empire' ),
+				'type'        => 'select',
+				'default'     => 'theme',
+				'options'     => array(
+					'theme' => __( 'Follow the colours and font of the WordPress theme', 'underworld-empire' ),
+					'dark'  => __( 'Built-in dark look', 'underworld-empire' ),
+				),
+				'description' => __( 'Tip: activate the bundled "Underworld Empire" theme under Appearance → Themes for a matching website.', 'underworld-empire' ),
+			),
 			'currency_symbol'    => array(
 				'label'   => __( 'Currency symbol', 'underworld-empire' ),
 				'type'    => 'text',

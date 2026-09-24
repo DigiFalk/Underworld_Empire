@@ -93,7 +93,7 @@ final class Garage extends Module {
 	public function admin_tables(): array {
 		return array(
 			'cars' => array(
-				'label'   => __( "Auto's", 'underworld-empire' ),
+				'label'   => __( 'Cars', 'underworld-empire' ),
 				'table'   => 'cars',
 				'order'   => 'value ASC',
 				'columns' => array(

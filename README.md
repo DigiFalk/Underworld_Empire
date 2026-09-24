@@ -70,7 +70,16 @@ See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
 
 ## Customising the look
 
-* All colours are CSS custom properties on `.dfmg` (see `assets/css/game.css`) and can be overridden in your theme.
+* **Appearance** (Underworld Empire → Settings): by default the game follows the colours and
+  font of your WordPress theme, in light and dark themes alike. Choose *Built-in dark look* for
+  the original dark style regardless of the theme.
+* **Bundled theme**: the plugin ships the block theme **Underworld Empire** (dark, gold accents).
+  Activate it under *Appearance → Themes* to give the whole website the look of the game. The
+  game page uses its wide template *Game (wide, no title)*. The theme is available while the
+  plugin is active.
+* Block themes can fine-tune the game with these optional palette slugs in `theme.json`:
+  `accent`, `surface`, `surface-2`, `border`, `muted`, `button`, `button-text`.
+* All styles are CSS custom properties on `.dfmg` (see `assets/css/game.css`) and can be overridden in your theme.
 * Every template can be overridden from your theme:
   * core templates: `<theme>/underworld-empire/layout.php`, `login.php`, `create-character.php`, `dead.php`, `closed.php`, `messages.php`
   * module templates: `<theme>/underworld-empire/<module-id>/<template>.php`

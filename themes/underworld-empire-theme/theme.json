@@ -1,0 +1,96 @@
+{
+	"$schema": "https://schemas.wp.org/wp/6.0/theme.json",
+	"version": 2,
+	"settings": {
+		"appearanceTools": true,
+		"useRootPaddingAwareAlignments": true,
+		"color": {
+			"defaultPalette": false,
+			"defaultGradients": false,
+			"palette": [
+				{ "slug": "base", "name": "Base", "color": "#121417" },
+				{ "slug": "surface", "name": "Surface", "color": "#1b1e23" },
+				{ "slug": "surface-2", "name": "Surface 2", "color": "#23272e" },
+				{ "slug": "border", "name": "Border", "color": "#2f343c" },
+				{ "slug": "contrast", "name": "Contrast", "color": "#e6e3dc" },
+				{ "slug": "muted", "name": "Muted", "color": "#9a978f" },
+				{ "slug": "accent", "name": "Accent", "color": "#c9a24a" },
+				{ "slug": "button", "name": "Button", "color": "#c9a24a" },
+				{ "slug": "button-text", "name": "Button text", "color": "#1a1405" }
+			]
+		},
+		"typography": {
+			"fontFamilies": [
+				{ "slug": "system", "name": "System", "fontFamily": "system-ui, -apple-system, \"Segoe UI\", Roboto, sans-serif" }
+			],
+			"fontSizes": [
+				{ "slug": "small", "name": "Small", "size": "0.875rem" },
+				{ "slug": "medium", "name": "Medium", "size": "1rem" },
+				{ "slug": "large", "name": "Large", "size": "1.5rem" },
+				{ "slug": "x-large", "name": "Extra large", "size": "2.25rem" }
+			]
+		},
+		"layout": {
+			"contentSize": "760px",
+			"wideSize": "1240px"
+		},
+		"spacing": {
+			"units": [ "px", "em", "rem", "%", "vw" ]
+		}
+	},
+	"styles": {
+		"color": {
+			"background": "var(--wp--preset--color--base)",
+			"text": "var(--wp--preset--color--contrast)"
+		},
+		"typography": {
+			"fontFamily": "var(--wp--preset--font-family--system)",
+			"fontSize": "var(--wp--preset--font-size--medium)",
+			"lineHeight": "1.6"
+		},
+		"spacing": {
+			"padding": { "top": "0", "right": "24px", "bottom": "0", "left": "24px" },
+			"blockGap": "1.5rem"
+		},
+		"elements": {
+			"link": {
+				"color": { "text": "var(--wp--preset--color--accent)" },
+				":hover": { "typography": { "textDecoration": "underline" } }
+			},
+			"heading": {
+				"color": { "text": "var(--wp--preset--color--contrast)" },
+				"typography": { "fontWeight": "700", "lineHeight": "1.2" }
+			},
+			"button": {
+				"color": {
+					"background": "var(--wp--preset--color--button)",
+					"text": "var(--wp--preset--color--button-text)"
+				},
+				"border": { "radius": "6px" },
+				"typography": { "fontWeight": "600" }
+			}
+		},
+		"blocks": {
+			"core/site-title": {
+				"typography": { "fontSize": "var(--wp--preset--font-size--large)", "fontWeight": "800", "letterSpacing": "0.02em" },
+				"elements": { "link": { "color": { "text": "var(--wp--preset--color--contrast)" } } }
+			},
+			"core/navigation": {
+				"elements": { "link": { "color": { "text": "var(--wp--preset--color--contrast)" } } }
+			},
+			"core/post-date": {
+				"color": { "text": "var(--wp--preset--color--muted)" }
+			},
+			"core/separator": {
+				"color": { "text": "var(--wp--preset--color--border)" }
+			}
+		}
+	},
+	"templateParts": [
+		{ "name": "header", "title": "Header", "area": "header" },
+		{ "name": "footer", "title": "Footer", "area": "footer" }
+	],
+	"customTemplates": [
+		{ "name": "page-game", "title": "Game (wide, no title)", "postTypes": [ "page" ] }
+	]
+}
