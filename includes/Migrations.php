@@ -20,6 +20,31 @@ final class Migrations {
 			$done['english_seed'] = time();
 			update_option( self::OPTION, $done );
 		}
+		if ( empty( $done['round_name_en'] ) ) {
+			self::round_name_en();
+			$done['round_name_en'] = time();
+			update_option( self::OPTION, $done );
+		}
+	}
+
+	/**
+	 * The first migration only knew "Ronde 1". Any Dutch round name like "Ronde 2"
+	 * becomes "Round 2" (and "Punten" in any case becomes "Points").
+	 */
+	private static function round_name_en(): void {
+		$settings = Settings::all();
+		$changed  = false;
+		if ( isset( $settings['round_name'] ) && preg_match( '/^\s*ronde\s+(\d+)\s*$/i', (string) $settings['round_name'], $m ) ) {
+			$settings['round_name'] = 'Round ' . $m[1];
+			$changed                = true;
+		}
+		if ( isset( $settings['points_name'] ) && 'punten' === strtolower( trim( (string) $settings['points_name'] ) ) ) {
+			$settings['points_name'] = 'Points';
+			$changed                 = true;
+		}
+		if ( $changed ) {
+			Settings::save( $settings );
+		}
 	}
 
 	/**

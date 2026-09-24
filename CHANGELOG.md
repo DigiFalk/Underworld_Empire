@@ -3,6 +3,12 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.8.1
+
+- Fixed: a Dutch round name from the very first version ("Ronde 2", "Ronde 3", ...) is now
+  translated to "Round 2", "Round 3", ... The earlier update only translated "Ronde 1".
+  Premium points still called "punten" become "Points".
+
 ## 1.8.0
 
 A premium look for the game, the theme and the admin.
