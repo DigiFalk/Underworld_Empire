@@ -6,23 +6,23 @@
  * Author: DigiFalk
  * Required: yes
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Frontend\Game;
-use DigiFalk\MafiaGame\Module\Module;
-use DigiFalk\MafiaGame\Ranks;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Frontend\Game;
+use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\UnderworldEmpire\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Overview extends Module {
 
 	public function title(): string {
-		return __( 'Overview', 'wp-mafia-game' );
+		return __( 'Overview', 'underworld-empire' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -36,7 +36,7 @@ final class Overview extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Overview', 'wp-mafia-game' ),
+				'label' => __( 'Overview', 'underworld-empire' ),
 				'group' => 'general',
 				'order' => 1,
 			),

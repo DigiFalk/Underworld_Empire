@@ -13,19 +13,19 @@
  *    * Author: DigiFalk
  *    * Requires: bank, garage
  *    * /
- *   return new class extends \DigiFalk\MafiaGame\Module\Module { ... };
+ *   return new class extends \DigiFalk\UnderworldEmpire\Module\Module { ... };
  *
  * See docs/MODULES.md for the full guide.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Module;
+namespace DigiFalk\UnderworldEmpire\Module;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\Flash;
-use DigiFalk\MafiaGame\Frontend\Game;
-use DigiFalk\MafiaGame\Settings;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\Flash;
+use DigiFalk\UnderworldEmpire\Frontend\Game;
+use DigiFalk\UnderworldEmpire\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -206,10 +206,10 @@ abstract class Module {
 
 	/**
 	 * Render a template from views/ in the module directory. Themes can override it
-	 * by placing a file in <theme>/wp-mafia-game/<module-id>/<template>.php.
+	 * by placing a file in <theme>/underworld-empire/<module-id>/<template>.php.
 	 */
 	public function view( string $template, array $vars = array() ): string {
-		$file = locate_template( 'wp-mafia-game/' . $this->id . '/' . $template . '.php' );
+		$file = locate_template( 'underworld-empire/' . $this->id . '/' . $template . '.php' );
 		if ( ! $file ) {
 			$file = $this->dir . 'views/' . $template . '.php';
 		}

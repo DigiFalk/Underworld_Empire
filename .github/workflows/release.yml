@@ -1,7 +1,7 @@
 name: Release
 
-# Publishes a GitHub release for every new plugin version pushed to the default branch.
-# Raise "Version:" and DFMG_VERSION in wp-mafia-game.php and add a CHANGELOG.md section.
+# Publishes a GitHub release for every new plugin version pushed to the main branch.
+# Raise "Version:" and DFMG_VERSION in underworld-empire.php and add a CHANGELOG.md section.
 
 on:
   push:
@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   release:
-    if: github.ref_name == github.event.repository.default_branch
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,8 +24,8 @@ jobs:
       - name: Read version
         id: version
         run: |
-          header=$(grep -m1 -E '^\s*\*\s*Version:' wp-mafia-game.php | sed -E 's/.*Version:\s*//' | tr -d '[:space:]')
-          constant=$(grep -m1 "define( 'DFMG_VERSION'" wp-mafia-game.php | sed -E "s/.*'DFMG_VERSION', '([^']+)'.*/\1/")
+          header=$(grep -m1 -E '^\s*\*\s*Version:' underworld-empire.php | sed -E 's/.*Version:\s*//' | tr -d '[:space:]')
+          constant=$(grep -m1 "define( 'DFMG_VERSION'" underworld-empire.php | sed -E "s/.*'DFMG_VERSION', '([^']+)'.*/\1/")
           if [ "$header" != "$constant" ]; then
             echo "::error::Version header ($header) and DFMG_VERSION ($constant) differ."
             exit 1
@@ -44,9 +44,9 @@ jobs:
       - name: Build zip
         if: steps.version.outputs.exists == 'false'
         run: |
-          mkdir -p build/wp-mafia-game
-          rsync -a --exclude '.git' --exclude '.github' --exclude 'build' --exclude '.gitattributes' --exclude '.gitignore' ./ build/wp-mafia-game/
-          cd build && zip -rq wp-mafia-game.zip wp-mafia-game
+          mkdir -p build/underworld-empire
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'build' --exclude '.gitattributes' --exclude '.gitignore' ./ build/underworld-empire/
+          cd build && zip -rq underworld-empire.zip underworld-empire
 
       - name: Release notes
         if: steps.version.outputs.exists == 'false'
@@ -63,8 +63,8 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "v${{ steps.version.outputs.version }}" build/wp-mafia-game.zip \
+          gh release create "v${{ steps.version.outputs.version }}" build/underworld-empire.zip \
             --target "$GITHUB_SHA" \
-            --title "WP Mafia Game ${{ steps.version.outputs.version }}" \
+            --title "Underworld Empire ${{ steps.version.outputs.version }}" \
             --notes-file build/notes.md \
             --latest

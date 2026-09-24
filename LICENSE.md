@@ -2,7 +2,7 @@
 
 Copyright (c) 2026 DigiFalk. All rights reserved.
 
-This software ("WP Mafia Game"), including its source code, modules, templates,
+This software ("Underworld Empire"), including its source code, modules, templates,
 stylesheets, scripts and documentation, is the property of DigiFalk.
 
 ## Permitted

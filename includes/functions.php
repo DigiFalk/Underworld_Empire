@@ -2,13 +2,13 @@
 /**
  * Public helper functions, handy for themes and custom modules.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Plugin;
-use DigiFalk\MafiaGame\Settings;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Plugin;
+use DigiFalk\UnderworldEmpire\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -57,5 +57,5 @@ function dfmg_money( $amount ) {
  * @return string
  */
 function dfmg_url( $route = '', $args = array() ) {
-	return \DigiFalk\MafiaGame\Frontend\Game::url( $route, $args );
+	return \DigiFalk\UnderworldEmpire\Frontend\Game::url( $route, $args );
 }

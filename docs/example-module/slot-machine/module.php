@@ -1,19 +1,19 @@
 <?php
 /**
  * Module Name: Slot Machine
- * Description: Example module: a simple slot machine. Copy this folder to wp-content/mafia-modules/ to activate it.
+ * Description: Example module: a simple slot machine. Copy this folder to wp-content/underworld-modules/ to activate it.
  * Version: 1.0.0
  * Author: DigiFalk
  * Default: yes
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Module\Module;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -23,19 +23,19 @@ final class SlotMachine extends Module {
 	const SYMBOLS = array( '🍒', '🍋', '🔔', '💎', '7' );
 
 	public function title(): string {
-		return __( 'Slot machine', 'wp-mafia-game' );
+		return __( 'Slot machine', 'underworld-empire' );
 	}
 
-	/** Settings appear automatically under Mafia Game > Settings. */
+	/** Settings appear automatically under Underworld Empire > Settings. */
 	public function settings_fields(): array {
 		return array(
 			'slots_bet'      => array(
-				'label'   => __( 'Bet per spin', 'wp-mafia-game' ),
+				'label'   => __( 'Bet per spin', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 500,
 			),
 			'slots_cooldown' => array(
-				'label'   => __( 'Cooldown (sec)', 'wp-mafia-game' ),
+				'label'   => __( 'Cooldown (sec)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 10,
 			),
@@ -46,7 +46,7 @@ final class SlotMachine extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Slot machine', 'wp-mafia-game' ),
+				'label' => __( 'Slot machine', 'underworld-empire' ),
 				'group' => 'casino',
 				'order' => 20,
 				'timer' => self::TIMER,
@@ -69,11 +69,11 @@ final class SlotMachine extends Module {
 	public function action_spin( Character $c, array $input ): void {
 		$bet = (int) $this->setting( 'slots_bet' );
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $this->setting( 'slots_cooldown' ) ) ) {
-			$this->error( __( 'The machine is still spinning.', 'wp-mafia-game' ) );
+			$this->error( __( 'The machine is still spinning.', 'underworld-empire' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $bet ) ) {
-			$this->error( __( 'You don\'t have enough cash.', 'wp-mafia-game' ) );
+			$this->error( __( 'You don\'t have enough cash.', 'underworld-empire' ) );
 			return;
 		}
 		$reels = array();
@@ -87,9 +87,9 @@ final class SlotMachine extends Module {
 		if ( $win ) {
 			$c->add( 'money', $win );
 			/* translators: %s: money */
-			$this->success( sprintf( __( 'You win! You get %s.', 'wp-mafia-game' ), Format::money( $win ) ) );
+			$this->success( sprintf( __( 'You win! You get %s.', 'underworld-empire' ), Format::money( $win ) ) );
 		} else {
-			$this->error( __( 'Too bad, nothing won.', 'wp-mafia-game' ) );
+			$this->error( __( 'Too bad, nothing won.', 'underworld-empire' ) );
 		}
 		// Statistics and the dfmg_action hook.
 		$c->log( 'slots', $win > 0, $win - $bet );

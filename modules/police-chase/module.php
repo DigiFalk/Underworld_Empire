@@ -5,15 +5,15 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Module\Module;
-use DigiFalk\MafiaGame\Ranks;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\UnderworldEmpire\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,43 +22,43 @@ final class PoliceChase extends Module {
 	const TIMER = 'chase';
 
 	public function title(): string {
-		return __( 'Police chase', 'wp-mafia-game' );
+		return __( 'Police chase', 'underworld-empire' );
 	}
 
 	public function settings_fields(): array {
 		return array(
 			'chase_cooldown'     => array(
-				'label'   => __( 'Cooldown afterwards (sec)', 'wp-mafia-game' ),
+				'label'   => __( 'Cooldown afterwards (sec)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 300,
 			),
 			'chase_escape'       => array(
-				'label'   => __( 'Chance of escaping per move (%)', 'wp-mafia-game' ),
+				'label'   => __( 'Chance of escaping per move (%)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 25,
 			),
 			'chase_caught'       => array(
-				'label'   => __( 'Chance of getting caught per move (%)', 'wp-mafia-game' ),
+				'label'   => __( 'Chance of getting caught per move (%)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 25,
 			),
 			'chase_jail'         => array(
-				'label'   => __( 'Jail time (sec)', 'wp-mafia-game' ),
+				'label'   => __( 'Jail time (sec)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 150,
 			),
 			'chase_reward_min'   => array(
-				'label'   => __( 'Min. reward per rank level', 'wp-mafia-game' ),
+				'label'   => __( 'Min. reward per rank level', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 150,
 			),
 			'chase_reward_max'   => array(
-				'label'   => __( 'Max. reward per rank level', 'wp-mafia-game' ),
+				'label'   => __( 'Max. reward per rank level', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 850,
 			),
 			'chase_exp'          => array(
-				'label'   => __( 'Experience for escaping', 'wp-mafia-game' ),
+				'label'   => __( 'Experience for escaping', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 3,
 			),
@@ -68,7 +68,7 @@ final class PoliceChase extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Police chase', 'wp-mafia-game' ),
+				'label' => __( 'Police chase', 'underworld-empire' ),
 				'group' => 'crime',
 				'order' => 30,
 				'timer' => self::TIMER,
@@ -78,10 +78,10 @@ final class PoliceChase extends Module {
 
 	public static function routes(): array {
 		return array(
-			'alley'   => __( 'Left, into the alley', 'wp-mafia-game' ),
-			'highway' => __( 'Straight ahead, onto the highway', 'wp-mafia-game' ),
-			'harbour' => __( 'Right, towards the harbour', 'wp-mafia-game' ),
-			'tunnel'  => __( 'Through the tunnel', 'wp-mafia-game' ),
+			'alley'   => __( 'Left, into the alley', 'underworld-empire' ),
+			'highway' => __( 'Straight ahead, onto the highway', 'underworld-empire' ),
+			'harbour' => __( 'Right, towards the harbour', 'underworld-empire' ),
+			'tunnel'  => __( 'Through the tunnel', 'underworld-empire' ),
 		);
 	}
 
@@ -101,7 +101,7 @@ final class PoliceChase extends Module {
 			return;
 		}
 		if ( $c->timer_active( self::TIMER ) ) {
-			$this->error( __( 'The police are still looking for you. Wait a while before hitting the streets again.', 'wp-mafia-game' ) );
+			$this->error( __( 'The police are still looking for you. Wait a while before hitting the streets again.', 'underworld-empire' ) );
 			return;
 		}
 		$roll   = wp_rand( 1, 100 );
@@ -118,16 +118,16 @@ final class PoliceChase extends Module {
 			$c->add( 'exp', (int) $this->setting( 'chase_exp' ) );
 			$c->log( 'police-chase', true, $reward );
 			/* translators: %s: money */
-			$this->success( sprintf( __( 'You escaped! On the way you found %s in the glove box.', 'wp-mafia-game' ), Format::money( $reward ) ) );
+			$this->success( sprintf( __( 'You escaped! On the way you found %s in the glove box.', 'underworld-empire' ), Format::money( $reward ) ) );
 		} elseif ( $roll <= $escape + $caught ) {
 			if ( ! $c->claim_cooldown( self::TIMER, (int) $this->setting( 'chase_cooldown' ) ) ) {
 				return;
 			}
 			$c->jail( (int) $this->setting( 'chase_jail' ) );
 			$c->log( 'police-chase', false );
-			$this->error( __( 'Roadblock! You got caught and you\'re going to jail.', 'wp-mafia-game' ) );
+			$this->error( __( 'Roadblock! You got caught and you\'re going to jail.', 'underworld-empire' ) );
 		} else {
-			$this->notice( __( 'The sirens are still on your tail... pick your next turn!', 'wp-mafia-game' ) );
+			$this->notice( __( 'The sirens are still on your tail... pick your next turn!', 'underworld-empire' ) );
 		}
 	}
 }

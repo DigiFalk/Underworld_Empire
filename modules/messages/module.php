@@ -5,14 +5,14 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Module\Module;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -21,7 +21,7 @@ final class Messages extends Module {
 	const PER_PAGE = 20;
 
 	public function title(): string {
-		return __( 'Messages', 'wp-mafia-game' );
+		return __( 'Messages', 'underworld-empire' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -58,7 +58,7 @@ final class Messages extends Module {
 	public function settings_fields(): array {
 		return array(
 			'messages_cooldown' => array(
-				'label'   => __( 'Cooldown between messages (sec)', 'wp-mafia-game' ),
+				'label'   => __( 'Cooldown between messages (sec)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 10,
 			),
@@ -69,7 +69,7 @@ final class Messages extends Module {
 		add_filter(
 			'dfmg_profile_actions',
 			function ( $actions, Character $target ) {
-				$actions[] = '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( $this->url( array( 'view' => 'compose', 'to' => $target->name ) ) ) . '">' . esc_html__( 'Send message', 'wp-mafia-game' ) . '</a>';
+				$actions[] = '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( $this->url( array( 'view' => 'compose', 'to' => $target->name ) ) ) . '">' . esc_html__( 'Send message', 'underworld-empire' ) . '</a>';
 				return $actions;
 			},
 			10,
@@ -84,7 +84,7 @@ final class Messages extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Messages', 'wp-mafia-game' ),
+				'label' => __( 'Messages', 'underworld-empire' ),
 				'group' => 'general',
 				'order' => 20,
 				'badge' => self::unread( $c ) ?: '',
@@ -163,15 +163,15 @@ final class Messages extends Module {
 			'to'   => $input['to'] ?? '',
 		);
 		if ( ! $to || ! $to->is_alive() ) {
-			$this->error( __( 'This player doesn\'t exist (anymore).', 'wp-mafia-game' ) );
+			$this->error( __( 'This player doesn\'t exist (anymore).', 'underworld-empire' ) );
 			return $back;
 		}
 		if ( '' === $body ) {
-			$this->error( __( 'Your message is empty.', 'wp-mafia-game' ) );
+			$this->error( __( 'Your message is empty.', 'underworld-empire' ) );
 			return $back;
 		}
 		if ( ! $c->claim_cooldown( 'message', (int) $this->setting( 'messages_cooldown' ) ) ) {
-			$this->error( __( 'You\'re sending messages too fast. Wait a moment.', 'wp-mafia-game' ) );
+			$this->error( __( 'You\'re sending messages too fast. Wait a moment.', 'underworld-empire' ) );
 			return $back;
 		}
 		DB::insert(
@@ -179,7 +179,7 @@ final class Messages extends Module {
 			array(
 				'sender_id'    => $c->id(),
 				'recipient_id' => $to->id(),
-				'subject'      => $subject ?: __( '(no subject)', 'wp-mafia-game' ),
+				'subject'      => $subject ?: __( '(no subject)', 'underworld-empire' ),
 				'body'         => mb_substr( $body, 0, 10000 ),
 				'parent_id'    => absint( $input['reply'] ?? 0 ),
 				'created_at'   => time(),
@@ -187,7 +187,7 @@ final class Messages extends Module {
 		);
 		do_action( 'dfmg_message_sent', $c, $to );
 		/* translators: %s: player */
-		$this->success( sprintf( __( 'Message sent to %s.', 'wp-mafia-game' ), $to->name ) );
+		$this->success( sprintf( __( 'Message sent to %s.', 'underworld-empire' ), $to->name ) );
 		return array( 'view' => 'sent' );
 	}
 

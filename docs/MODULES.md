@@ -1,4 +1,4 @@
-# Building modules for WP Mafia Game
+# Building modules for Underworld Empire
 
 Everything players see in the game is a **module**. The core only provides the foundation:
 characters, timers, ranks, cities, items, properties, routing, administration and styling.
@@ -8,16 +8,16 @@ Adding modules extends the game without touching the plugin itself.
 
 | Location | When to use |
 | --- | --- |
-| `wp-content/plugins/wp-mafia-game/modules/<id>/` | Bundled modules. Don't edit: changes are lost on update. |
-| `wp-content/mafia-modules/<id>/` | **Your own modules.** Survives updates. A module with the same id as a bundled module replaces it. Change the folder with `define( 'DFMG_CUSTOM_MODULES_DIR', '/path' );` in `wp-config.php`. |
+| `wp-content/plugins/underworld-empire/modules/<id>/` | Bundled modules. Don't edit: changes are lost on update. |
+| `wp-content/underworld-modules/<id>/` | **Your own modules.** Survives updates. A module with the same id as a bundled module replaces it. Change the folder with `define( 'DFMG_CUSTOM_MODULES_DIR', '/path' );` in `wp-config.php`. |
 | Another plugin | `add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( __DIR__ . '/my-module/module.php' ) );` |
 
 The folder name is the module **id** (e.g. `slot-machine`). It is also used in the URL
-(`?mg=slot-machine`). Enable new modules under *Mafia Game → Modules*.
+(`?mg=slot-machine`). Enable new modules under *Underworld Empire → Modules*.
 
 ## The smallest module
 
-`wp-content/mafia-modules/hello/module.php`:
+`wp-content/underworld-modules/hello/module.php`:
 
 ```php
 <?php
@@ -28,8 +28,8 @@ The folder name is the module **id** (e.g. `slot-machine`). It is also used in t
  * Author: DigiFalk
  */
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\Module\Module;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -55,7 +55,7 @@ return new class() extends Module {
 };
 ```
 
-The file must return an object that extends `DigiFalk\MafiaGame\Module\Module`.
+The file must return an object that extends `DigiFalk\UnderworldEmpire\Module\Module`.
 A named class works too (use your own namespace to avoid collisions).
 
 ### Header fields
@@ -92,17 +92,17 @@ Menu groups: `general`, `crime`, `city`, `casino`, `murder`, `family`, `money`, 
 
 | Code | What |
 | --- | --- |
-| `$this->view( 'file', $vars )` | Renders `views/file.php`. Inside the template `$this` is the module. Themes can override it in `<theme>/wp-mafia-game/<id>/file.php`. |
+| `$this->view( 'file', $vars )` | Renders `views/file.php`. Inside the template `$this` is the module. Themes can override it in `<theme>/underworld-empire/<id>/file.php`. |
 | `$this->form( 'action', $hidden )` … `</form>` | Form posting to `action_action`, including a nonce. |
 | `$this->button( 'action', 'Label', $hidden, $class )` | Form with a single button. |
 | `$this->url( $args, $route )` | Link to a (different) game page. |
 | `$this->setting( 'key' )` | Read a setting (falls back to the default from `settings_fields()`). |
 | `$this->success()`, `$this->error()`, `$this->notice()` | Messages shown after the redirect. |
-| `UI::cooldown()`, `UI::bar()`, `UI::pager()`, `UI::property()` | Ready-made components (`DigiFalk\MafiaGame\Frontend\UI`). |
+| `UI::cooldown()`, `UI::bar()`, `UI::pager()`, `UI::property()` | Ready-made components (`DigiFalk\UnderworldEmpire\Frontend\UI`). |
 | `Format::money()`, `Format::number()`, `Format::duration()`, `Format::countdown()`, `Format::parse_amount()` | Formatting and input parsing. |
 | `DB::row()`, `DB::results()`, `DB::value()`, `DB::query()`, `DB::insert()`, `DB::update()` | Database. Write tables as `{short_name}`; placeholders as in `$wpdb->prepare()`. |
 
-### The character (`DigiFalk\MafiaGame\Character`)
+### The character (`DigiFalk\UnderworldEmpire\Character`)
 
 ```php
 $c->name; $c->money; $c->bank; $c->bullets; $c->exp; $c->points; $c->location_id;
@@ -216,7 +216,7 @@ Points are a column on the character. For example after a WooCommerce payment:
 ```php
 add_action( 'woocommerce_order_status_completed', function ( $order_id ) {
 	$order = wc_get_order( $order_id );
-	$c     = \DigiFalk\MafiaGame\Character::for_user( $order->get_user_id() );
+	$c     = \DigiFalk\UnderworldEmpire\Character::for_user( $order->get_user_id() );
 	if ( $c ) {
 		$c->add( 'points', 100 );
 		$c->notify( 'Thank you! You received 100 points.' );

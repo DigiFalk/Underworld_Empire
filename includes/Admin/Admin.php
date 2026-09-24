@@ -2,19 +2,19 @@
 /**
  * WordPress admin screens.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Admin;
+namespace DigiFalk\UnderworldEmpire\Admin;
 
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Frontend\Game;
-use DigiFalk\MafiaGame\Items;
-use DigiFalk\MafiaGame\Locations;
-use DigiFalk\MafiaGame\Plugin;
-use DigiFalk\MafiaGame\Ranks;
-use DigiFalk\MafiaGame\Settings;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Frontend\Game;
+use DigiFalk\UnderworldEmpire\Items;
+use DigiFalk\UnderworldEmpire\Locations;
+use DigiFalk\UnderworldEmpire\Plugin;
+use DigiFalk\UnderworldEmpire\Ranks;
+use DigiFalk\UnderworldEmpire\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -45,7 +45,7 @@ final class Admin {
 	}
 
 	public static function plugin_links( array $links ): array {
-		array_unshift( $links, '<a href="' . esc_url( admin_url( 'admin.php?page=dfmg' ) ) . '">' . esc_html__( 'Manage', 'wp-mafia-game' ) . '</a>' );
+		array_unshift( $links, '<a href="' . esc_url( admin_url( 'admin.php?page=dfmg' ) ) . '">' . esc_html__( 'Manage', 'underworld-empire' ) . '</a>' );
 		return $links;
 	}
 
@@ -57,11 +57,11 @@ final class Admin {
 
 	public static function menu(): void {
 		$cap = self::cap();
-		add_menu_page( __( 'Mafia Game', 'wp-mafia-game' ), __( 'Mafia Game', 'wp-mafia-game' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ), 'dashicons-shield-alt', 58 );
-		add_submenu_page( 'dfmg', __( 'Dashboard', 'wp-mafia-game' ), __( 'Dashboard', 'wp-mafia-game' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ) );
-		add_submenu_page( 'dfmg', __( 'Modules', 'wp-mafia-game' ), __( 'Modules', 'wp-mafia-game' ), $cap, 'dfmg-modules', array( __CLASS__, 'page_modules' ) );
-		add_submenu_page( 'dfmg', __( 'Game data', 'wp-mafia-game' ), __( 'Game data', 'wp-mafia-game' ), $cap, 'dfmg-data', array( __CLASS__, 'page_data' ) );
-		add_submenu_page( 'dfmg', __( 'Settings', 'wp-mafia-game' ), __( 'Settings', 'wp-mafia-game' ), $cap, 'dfmg-settings', array( __CLASS__, 'page_settings' ) );
+		add_menu_page( __( 'Underworld Empire', 'underworld-empire' ), __( 'Underworld Empire', 'underworld-empire' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ), 'dashicons-shield-alt', 58 );
+		add_submenu_page( 'dfmg', __( 'Dashboard', 'underworld-empire' ), __( 'Dashboard', 'underworld-empire' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ) );
+		add_submenu_page( 'dfmg', __( 'Modules', 'underworld-empire' ), __( 'Modules', 'underworld-empire' ), $cap, 'dfmg-modules', array( __CLASS__, 'page_modules' ) );
+		add_submenu_page( 'dfmg', __( 'Game data', 'underworld-empire' ), __( 'Game data', 'underworld-empire' ), $cap, 'dfmg-data', array( __CLASS__, 'page_data' ) );
+		add_submenu_page( 'dfmg', __( 'Settings', 'underworld-empire' ), __( 'Settings', 'underworld-empire' ), $cap, 'dfmg-settings', array( __CLASS__, 'page_settings' ) );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -74,78 +74,78 @@ final class Admin {
 	public static function tables(): array {
 		$tables = array(
 			'characters'  => array(
-				'label'      => __( 'Players', 'wp-mafia-game' ),
+				'label'      => __( 'Players', 'underworld-empire' ),
 				'table'      => 'characters',
 				'order'      => 'id DESC',
 				'can_create' => false,
 				'search'     => 'name',
-				'help'       => __( 'Player characters. Here you can, among other things, award premium points.', 'wp-mafia-game' ),
+				'help'       => __( 'Player characters. Here you can, among other things, award premium points.', 'underworld-empire' ),
 				'columns'    => array(
-					'name'        => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'type' => 'text', 'required' => true ),
+					'name'        => array( 'label' => __( 'Name', 'underworld-empire' ), 'type' => 'text', 'required' => true ),
 					'status'      => array(
-						'label'   => __( 'Status', 'wp-mafia-game' ),
+						'label'   => __( 'Status', 'underworld-empire' ),
 						'type'    => 'select',
 						'options' => array(
-							1 => __( 'Alive', 'wp-mafia-game' ),
-							0 => __( 'Dead', 'wp-mafia-game' ),
+							1 => __( 'Alive', 'underworld-empire' ),
+							0 => __( 'Dead', 'underworld-empire' ),
 						),
 					),
-					'money'       => array( 'label' => __( 'Cash', 'wp-mafia-game' ), 'type' => 'int' ),
-					'bank'        => array( 'label' => __( 'Bank', 'wp-mafia-game' ), 'type' => 'int' ),
-					'bullets'     => array( 'label' => __( 'Bullets', 'wp-mafia-game' ), 'type' => 'int' ),
-					'exp'         => array( 'label' => __( 'Experience', 'wp-mafia-game' ), 'type' => 'int' ),
-					'points'      => array( 'label' => __( 'Points', 'wp-mafia-game' ), 'type' => 'int' ),
-					'damage'      => array( 'label' => __( 'Damage', 'wp-mafia-game' ), 'type' => 'int', 'list' => false ),
-					'rank_id'     => array( 'label' => __( 'Rank', 'wp-mafia-game' ), 'type' => 'select', 'options' => array( Ranks::class, 'options' ) ),
-					'location_id' => array( 'label' => __( 'City', 'wp-mafia-game' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),
-					'bio'         => array( 'label' => __( 'Profile text', 'wp-mafia-game' ), 'type' => 'textarea' ),
+					'money'       => array( 'label' => __( 'Cash', 'underworld-empire' ), 'type' => 'int' ),
+					'bank'        => array( 'label' => __( 'Bank', 'underworld-empire' ), 'type' => 'int' ),
+					'bullets'     => array( 'label' => __( 'Bullets', 'underworld-empire' ), 'type' => 'int' ),
+					'exp'         => array( 'label' => __( 'Experience', 'underworld-empire' ), 'type' => 'int' ),
+					'points'      => array( 'label' => __( 'Points', 'underworld-empire' ), 'type' => 'int' ),
+					'damage'      => array( 'label' => __( 'Damage', 'underworld-empire' ), 'type' => 'int', 'list' => false ),
+					'rank_id'     => array( 'label' => __( 'Rank', 'underworld-empire' ), 'type' => 'select', 'options' => array( Ranks::class, 'options' ) ),
+					'location_id' => array( 'label' => __( 'City', 'underworld-empire' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),
+					'bio'         => array( 'label' => __( 'Profile text', 'underworld-empire' ), 'type' => 'textarea' ),
 				),
 			),
 			'ranks'       => array(
-				'label'   => __( 'Ranks', 'wp-mafia-game' ),
+				'label'   => __( 'Ranks', 'underworld-empire' ),
 				'table'   => 'ranks',
 				'order'   => 'exp_required ASC',
 				'columns' => array(
-					'name'          => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'required' => true ),
-					'exp_required'  => array( 'label' => __( 'Required experience', 'wp-mafia-game' ), 'type' => 'int' ),
-					'max_players'   => array( 'label' => __( 'Max. players (0 = unlimited)', 'wp-mafia-game' ), 'type' => 'int' ),
-					'cash_reward'   => array( 'label' => __( 'Cash reward', 'wp-mafia-game' ), 'type' => 'int' ),
-					'bullet_reward' => array( 'label' => __( 'Bullet reward', 'wp-mafia-game' ), 'type' => 'int' ),
-					'max_health'    => array( 'label' => __( 'Health', 'wp-mafia-game' ), 'type' => 'int', 'default' => 1000 ),
+					'name'          => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
+					'exp_required'  => array( 'label' => __( 'Required experience', 'underworld-empire' ), 'type' => 'int' ),
+					'max_players'   => array( 'label' => __( 'Max. players (0 = unlimited)', 'underworld-empire' ), 'type' => 'int' ),
+					'cash_reward'   => array( 'label' => __( 'Cash reward', 'underworld-empire' ), 'type' => 'int' ),
+					'bullet_reward' => array( 'label' => __( 'Bullet reward', 'underworld-empire' ), 'type' => 'int' ),
+					'max_health'    => array( 'label' => __( 'Health', 'underworld-empire' ), 'type' => 'int', 'default' => 1000 ),
 				),
 			),
 			'money_ranks' => array(
-				'label'   => __( 'Wealth titles', 'wp-mafia-game' ),
+				'label'   => __( 'Wealth titles', 'underworld-empire' ),
 				'table'   => 'money_ranks',
 				'order'   => 'min_money ASC',
 				'columns' => array(
-					'name'      => array( 'label' => __( 'Title', 'wp-mafia-game' ), 'required' => true ),
-					'min_money' => array( 'label' => __( 'From amount', 'wp-mafia-game' ), 'type' => 'int' ),
+					'name'      => array( 'label' => __( 'Title', 'underworld-empire' ), 'required' => true ),
+					'min_money' => array( 'label' => __( 'From amount', 'underworld-empire' ), 'type' => 'int' ),
 				),
 			),
 			'locations'   => array(
-				'label'   => __( 'Cities', 'wp-mafia-game' ),
+				'label'   => __( 'Cities', 'underworld-empire' ),
 				'table'   => 'locations',
 				'columns' => array(
-					'name'         => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'required' => true ),
-					'travel_cost'  => array( 'label' => __( 'Travel cost', 'wp-mafia-game' ), 'type' => 'int' ),
-					'travel_time'  => array( 'label' => __( 'Cooldown after travelling (sec)', 'wp-mafia-game' ), 'type' => 'int' ),
-					'bullet_stock' => array( 'label' => __( 'Bullet stock', 'wp-mafia-game' ), 'type' => 'int' ),
-					'bullet_price' => array( 'label' => __( 'Default bullet price', 'wp-mafia-game' ), 'type' => 'int' ),
+					'name'         => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
+					'travel_cost'  => array( 'label' => __( 'Travel cost', 'underworld-empire' ), 'type' => 'int' ),
+					'travel_time'  => array( 'label' => __( 'Cooldown after travelling (sec)', 'underworld-empire' ), 'type' => 'int' ),
+					'bullet_stock' => array( 'label' => __( 'Bullet stock', 'underworld-empire' ), 'type' => 'int' ),
+					'bullet_price' => array( 'label' => __( 'Default bullet price', 'underworld-empire' ), 'type' => 'int' ),
 				),
 			),
 			'items'       => array(
-				'label'   => __( 'Items', 'wp-mafia-game' ),
+				'label'   => __( 'Items', 'underworld-empire' ),
 				'table'   => 'items',
 				'search'  => 'name',
 				'columns' => array(
-					'name'        => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'required' => true ),
-					'type'        => array( 'label' => __( 'Type', 'wp-mafia-game' ), 'type' => 'select', 'options' => array( Items::class, 'type_options' ) ),
-					'price'       => array( 'label' => __( 'Price', 'wp-mafia-game' ), 'type' => 'int' ),
-					'buyable'     => array( 'label' => __( 'For sale on the black market', 'wp-mafia-game' ), 'type' => 'checkbox', 'default' => 1 ),
-					'description' => array( 'label' => __( 'Description', 'wp-mafia-game' ), 'type' => 'textarea' ),
+					'name'        => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
+					'type'        => array( 'label' => __( 'Type', 'underworld-empire' ), 'type' => 'select', 'options' => array( Items::class, 'type_options' ) ),
+					'price'       => array( 'label' => __( 'Price', 'underworld-empire' ), 'type' => 'int' ),
+					'buyable'     => array( 'label' => __( 'For sale on the black market', 'underworld-empire' ), 'type' => 'checkbox', 'default' => 1 ),
+					'description' => array( 'label' => __( 'Description', 'underworld-empire' ), 'type' => 'textarea' ),
 					'effects'     => array(
-						'label'       => __( 'Effects', 'wp-mafia-game' ),
+						'label'       => __( 'Effects', 'underworld-empire' ),
 						'type'        => 'textarea',
 						'description' => self::effects_help(),
 					),
@@ -166,7 +166,7 @@ final class Admin {
 		foreach ( Items::effects() as $key => $effect ) {
 			$lines[] = '<code>' . esc_html( $key ) . '=…</code> ' . esc_html( $effect['label'] );
 		}
-		return __( 'One effect per line.', 'wp-mafia-game' ) . '<br>' . implode( '<br>', $lines );
+		return __( 'One effect per line.', 'underworld-empire' ) . '<br>' . implode( '<br>', $lines );
 	}
 
 	public static function page_data(): void {
@@ -179,12 +179,12 @@ final class Admin {
 			$current = (string) key( $tables );
 		}
 		$edit = sanitize_text_field( wp_unslash( $_GET['edit'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		echo '<div class="wrap dfmg-admin"><h1>' . esc_html__( 'Game data', 'wp-mafia-game' ) . '</h1>';
+		echo '<div class="wrap dfmg-admin"><h1>' . esc_html__( 'Game data', 'underworld-empire' ) . '</h1>';
 		self::notices();
 		echo '<div class="dfmg-admin-data"><ul class="dfmg-admin-tabs">';
 		$group = null;
 		foreach ( $tables as $key => $def ) {
-			$g = $def['module'] ?? __( 'Core', 'wp-mafia-game' );
+			$g = $def['module'] ?? __( 'Core', 'underworld-empire' );
 			if ( $g !== $group ) {
 				echo '<li class="dfmg-admin-tabs__group">' . esc_html( $g ) . '</li>';
 				$group = $g;
@@ -204,7 +204,7 @@ final class Admin {
 		$key    = sanitize_key( wp_unslash( $_POST['table'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$tables = self::tables();
 		if ( ! self::can() || ! isset( $tables[ $key ] ) ) {
-			wp_die( esc_html__( 'Access denied.', 'wp-mafia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
 		}
 		check_admin_referer( 'dfmg_data_save_' . $key );
 		DataTable::save( $key, $tables[ $key ] );
@@ -216,7 +216,7 @@ final class Admin {
 		$id     = absint( $_GET['id'] ?? 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$tables = self::tables();
 		if ( ! self::can() || ! isset( $tables[ $key ] ) ) {
-			wp_die( esc_html__( 'Access denied.', 'wp-mafia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
 		}
 		check_admin_referer( 'dfmg_data_delete_' . $key . '_' . $id );
 		DataTable::delete( $key, $tables[ $key ], $id );
@@ -238,30 +238,30 @@ final class Admin {
 		$actions = (int) DB::value( 'SELECT COUNT(*) FROM {activity} WHERE created_at > %d', time() - DAY_IN_SECONDS );
 		?>
 		<div class="wrap dfmg-admin">
-			<h1><?php esc_html_e( 'Mafia Game', 'wp-mafia-game' ); ?></h1>
+			<h1><?php esc_html_e( 'Underworld Empire', 'underworld-empire' ); ?></h1>
 			<?php self::notices(); ?>
 			<div class="dfmg-admin-cards">
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $alive ) ); ?></strong><span><?php esc_html_e( 'Living players', 'wp-mafia-game' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $online ) ); ?></strong><span><?php esc_html_e( 'Online now', 'wp-mafia-game' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $dead ) ); ?></strong><span><?php esc_html_e( 'Murdered', 'wp-mafia-game' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::money( $money ) ); ?></strong><span><?php esc_html_e( 'Money in circulation', 'wp-mafia-game' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $actions ) ); ?></strong><span><?php esc_html_e( 'Actions (24 hours)', 'wp-mafia-game' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $alive ) ); ?></strong><span><?php esc_html_e( 'Living players', 'underworld-empire' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $online ) ); ?></strong><span><?php esc_html_e( 'Online now', 'underworld-empire' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $dead ) ); ?></strong><span><?php esc_html_e( 'Murdered', 'underworld-empire' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::money( $money ) ); ?></strong><span><?php esc_html_e( 'Money in circulation', 'underworld-empire' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $actions ) ); ?></strong><span><?php esc_html_e( 'Actions (24 hours)', 'underworld-empire' ); ?></span></div>
 			</div>
 
-			<h2><?php esc_html_e( 'Game page', 'wp-mafia-game' ); ?></h2>
+			<h2><?php esc_html_e( 'Game page', 'underworld-empire' ); ?></h2>
 			<p>
-				<?php esc_html_e( 'The game runs on the page with the shortcode', 'wp-mafia-game' ); ?> <code>[mafia_game]</code>:
+				<?php esc_html_e( 'The game runs on the page with the shortcode', 'underworld-empire' ); ?> <code>[underworld_empire]</code>:
 				<a href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank"><?php echo esc_html( Game::page_url() ); ?></a>
 			</p>
 
-			<h2><?php esc_html_e( 'New round', 'wp-mafia-game' ); ?></h2>
-			<p><?php esc_html_e( 'Erases all characters and player data (money, cars, families, messages, ...). Game data like crimes, cities and items is kept.', 'wp-mafia-game' ); ?></p>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'All player data will be erased. Continue?', 'wp-mafia-game' ) ); ?>');">
+			<h2><?php esc_html_e( 'New round', 'underworld-empire' ); ?></h2>
+			<p><?php esc_html_e( 'Erases all characters and player data (money, cars, families, messages, ...). Game data like crimes, cities and items is kept.', 'underworld-empire' ); ?></p>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'All player data will be erased. Continue?', 'underworld-empire' ) ); ?>');">
 				<input type="hidden" name="action" value="dfmg_new_round">
 				<?php wp_nonce_field( 'dfmg_new_round' ); ?>
-				<p><label><?php esc_html_e( 'New round name', 'wp-mafia-game' ); ?> <input type="text" name="round_name" value="<?php echo esc_attr( (string) Settings::get( 'round_name' ) ); ?>"></label></p>
-				<p><label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'I understand this can\'t be undone', 'wp-mafia-game' ); ?></label></p>
-				<?php submit_button( __( 'Start new round', 'wp-mafia-game' ), 'delete' ); ?>
+				<p><label><?php esc_html_e( 'New round name', 'underworld-empire' ); ?> <input type="text" name="round_name" value="<?php echo esc_attr( (string) Settings::get( 'round_name' ) ); ?>"></label></p>
+				<p><label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'I understand this can\'t be undone', 'underworld-empire' ); ?></label></p>
+				<?php submit_button( __( 'Start new round', 'underworld-empire' ), 'delete' ); ?>
 			</form>
 		</div>
 		<?php
@@ -269,7 +269,7 @@ final class Admin {
 
 	public static function handle_new_round(): void {
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Access denied.', 'wp-mafia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
 		}
 		check_admin_referer( 'dfmg_new_round' );
 		if ( empty( $_POST['confirm'] ) ) {
@@ -293,19 +293,19 @@ final class Admin {
 		}
 		$registry = Plugin::instance()->modules;
 		$sources  = array(
-			'bundled' => __( 'Bundled', 'wp-mafia-game' ),
-			'custom'  => __( 'Custom module', 'wp-mafia-game' ),
-			'plugin'  => __( 'Other plugin', 'wp-mafia-game' ),
+			'bundled' => __( 'Bundled', 'underworld-empire' ),
+			'custom'  => __( 'Custom module', 'underworld-empire' ),
+			'plugin'  => __( 'Other plugin', 'underworld-empire' ),
 		);
 		?>
 		<div class="wrap dfmg-admin">
-			<h1><?php esc_html_e( 'Modules', 'wp-mafia-game' ); ?></h1>
+			<h1><?php esc_html_e( 'Modules', 'underworld-empire' ); ?></h1>
 			<?php self::notices(); ?>
 			<p>
 				<?php
 				printf(
 					/* translators: %s: directory */
-					esc_html__( 'Place custom modules in %s (one folder per module containing a module.php). See docs/MODULES.md in the plugin.', 'wp-mafia-game' ),
+					esc_html__( 'Place custom modules in %s (one folder per module containing a module.php). See docs/MODULES.md in the plugin.', 'underworld-empire' ),
 					'<code>' . esc_html( str_replace( ABSPATH, '', DFMG_CUSTOM_MODULES_DIR ) ) . '</code>'
 				);
 				?>
@@ -313,10 +313,10 @@ final class Admin {
 			<table class="widefat striped dfmg-modules">
 				<thead>
 					<tr>
-						<th><?php esc_html_e( 'Module', 'wp-mafia-game' ); ?></th>
-						<th><?php esc_html_e( 'Description', 'wp-mafia-game' ); ?></th>
-						<th><?php esc_html_e( 'Requires', 'wp-mafia-game' ); ?></th>
-						<th><?php esc_html_e( 'Source', 'wp-mafia-game' ); ?></th>
+						<th><?php esc_html_e( 'Module', 'underworld-empire' ); ?></th>
+						<th><?php esc_html_e( 'Description', 'underworld-empire' ); ?></th>
+						<th><?php esc_html_e( 'Requires', 'underworld-empire' ); ?></th>
+						<th><?php esc_html_e( 'Source', 'underworld-empire' ); ?></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -330,14 +330,14 @@ final class Admin {
 							<td><?php echo esc_html( $sources[ $info['source'] ] ?? $info['source'] ); ?></td>
 							<td>
 								<?php if ( $info['required'] ) : ?>
-									<em><?php esc_html_e( 'Required', 'wp-mafia-game' ); ?></em>
+									<em><?php esc_html_e( 'Required', 'underworld-empire' ); ?></em>
 								<?php else : ?>
 									<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 										<input type="hidden" name="action" value="dfmg_module">
 										<input type="hidden" name="module" value="<?php echo esc_attr( $id ); ?>">
 										<input type="hidden" name="state" value="<?php echo $on ? 'off' : 'on'; ?>">
 										<?php wp_nonce_field( 'dfmg_module_' . $id ); ?>
-										<button class="button <?php echo $on ? '' : 'button-primary'; ?>"><?php echo $on ? esc_html__( 'Disable', 'wp-mafia-game' ) : esc_html__( 'Enable', 'wp-mafia-game' ); ?></button>
+										<button class="button <?php echo $on ? '' : 'button-primary'; ?>"><?php echo $on ? esc_html__( 'Disable', 'underworld-empire' ) : esc_html__( 'Enable', 'underworld-empire' ); ?></button>
 									</form>
 								<?php endif; ?>
 							</td>
@@ -352,7 +352,7 @@ final class Admin {
 	public static function handle_module(): void {
 		$id = sanitize_key( wp_unslash( $_POST['module'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Access denied.', 'wp-mafia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
 		}
 		check_admin_referer( 'dfmg_module_' . $id );
 		$registry = Plugin::instance()->modules;
@@ -371,7 +371,7 @@ final class Admin {
 	private static function settings_sections(): array {
 		$sections = array(
 			'core' => array(
-				'label'  => __( 'General', 'wp-mafia-game' ),
+				'label'  => __( 'General', 'underworld-empire' ),
 				'fields' => Settings::core_fields(),
 			),
 		);
@@ -393,7 +393,7 @@ final class Admin {
 		}
 		?>
 		<div class="wrap dfmg-admin">
-			<h1><?php esc_html_e( 'Settings', 'wp-mafia-game' ); ?></h1>
+			<h1><?php esc_html_e( 'Settings', 'underworld-empire' ); ?></h1>
 			<?php self::notices(); ?>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="dfmg_settings">
@@ -415,7 +415,7 @@ final class Admin {
 						<?php endforeach; ?>
 					</table>
 				<?php endforeach; ?>
-				<?php submit_button( __( 'Save settings', 'wp-mafia-game' ) ); ?>
+				<?php submit_button( __( 'Save settings', 'underworld-empire' ) ); ?>
 			</form>
 		</div>
 		<?php
@@ -423,7 +423,7 @@ final class Admin {
 
 	public static function handle_settings(): void {
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Access denied.', 'wp-mafia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
 		}
 		check_admin_referer( 'dfmg_settings' );
 		$input  = (array) wp_unslash( $_POST['settings'] ?? array() ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -448,9 +448,9 @@ final class Admin {
 		}
 		$notice   = sanitize_key( wp_unslash( $_GET['dfmg_notice'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$messages = array(
-			'saved'   => __( 'Saved.', 'wp-mafia-game' ),
-			'deleted' => __( 'Deleted.', 'wp-mafia-game' ),
-			'round'   => __( 'A new round has started.', 'wp-mafia-game' ),
+			'saved'   => __( 'Saved.', 'underworld-empire' ),
+			'deleted' => __( 'Deleted.', 'underworld-empire' ),
+			'round'   => __( 'A new round has started.', 'underworld-empire' ),
 		);
 		if ( isset( $messages[ $notice ] ) ) {
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $messages[ $notice ] ) . '</p></div>';

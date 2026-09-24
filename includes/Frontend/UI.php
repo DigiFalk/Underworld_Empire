@@ -2,14 +2,14 @@
 /**
  * Small reusable pieces of markup for module views.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Frontend;
+namespace DigiFalk\UnderworldEmpire\Frontend;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Property;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Property;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -59,17 +59,17 @@ final class UI {
 		$owner = $property->owner();
 		$html  = '<div class="dfmg-property">';
 		if ( $owner && $owner->id() === $c->id() ) {
-			$html .= '<span>' . esc_html__( 'This is your property.', 'wp-mafia-game' ) . '</span> ';
-			$html .= '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( Game::url( 'properties' ) ) . '">' . esc_html__( 'Manage', 'wp-mafia-game' ) . '</a>';
-			$html .= ' <span class="dfmg-muted">' . esc_html__( 'Profit:', 'wp-mafia-game' ) . ' ' . esc_html( Format::money( $property->profit() ) ) . '</span>';
+			$html .= '<span>' . esc_html__( 'This is your property.', 'underworld-empire' ) . '</span> ';
+			$html .= '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( Game::url( 'properties' ) ) . '">' . esc_html__( 'Manage', 'underworld-empire' ) . '</a>';
+			$html .= ' <span class="dfmg-muted">' . esc_html__( 'Profit:', 'underworld-empire' ) . ' ' . esc_html( Format::money( $property->profit() ) ) . '</span>';
 		} elseif ( $owner ) {
 			/* translators: %s: player */
-			$html .= sprintf( esc_html__( 'Owner: %s', 'wp-mafia-game' ), $owner->link() );
+			$html .= sprintf( esc_html__( 'Owner: %s', 'underworld-empire' ), $owner->link() );
 		} else {
-			$html .= '<span>' . esc_html__( 'This property has no owner.', 'wp-mafia-game' ) . '</span> ';
+			$html .= '<span>' . esc_html__( 'This property has no owner.', 'underworld-empire' ) . '</span> ';
 			$html .= Game::form_open( 'core', 'buy_property', array( 'type' => $property->type_key(), 'return' => $return_route ), 'dfmg-inline-form' );
 			/* translators: %s: price */
-			$html .= '<button type="submit" class="dfmg-button">' . esc_html( sprintf( __( 'Buy for %s', 'wp-mafia-game' ), Format::money( $property->buy_price() ) ) ) . '</button></form>';
+			$html .= '<button type="submit" class="dfmg-button">' . esc_html( sprintf( __( 'Buy for %s', 'underworld-empire' ), Format::money( $property->buy_price() ) ) ) . '</button></form>';
 		}
 		return $html . '</div>';
 	}

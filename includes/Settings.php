@@ -2,10 +2,10 @@
 /**
  * Game settings, stored in a single option.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame;
+namespace DigiFalk\UnderworldEmpire;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -70,57 +70,57 @@ final class Settings {
 	public static function core_fields(): array {
 		return array(
 			'currency_symbol'    => array(
-				'label'   => __( 'Currency symbol', 'wp-mafia-game' ),
+				'label'   => __( 'Currency symbol', 'underworld-empire' ),
 				'type'    => 'text',
 				'default' => '$',
 			),
 			'points_name'        => array(
-				'label'   => __( 'Name of premium points', 'wp-mafia-game' ),
+				'label'   => __( 'Name of premium points', 'underworld-empire' ),
 				'type'    => 'text',
-				'default' => __( 'Points', 'wp-mafia-game' ),
+				'default' => __( 'Points', 'underworld-empire' ),
 			),
 			'start_money'        => array(
-				'label'   => __( 'Starting money for new characters', 'wp-mafia-game' ),
+				'label'   => __( 'Starting money for new characters', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 250,
 			),
 			'start_bullets'      => array(
-				'label'   => __( 'Starting bullets for new characters', 'wp-mafia-game' ),
+				'label'   => __( 'Starting bullets for new characters', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 100,
 			),
 			'round_name'         => array(
-				'label'   => __( 'Current round name', 'wp-mafia-game' ),
+				'label'   => __( 'Current round name', 'underworld-empire' ),
 				'type'    => 'text',
-				'default' => __( 'Round 1', 'wp-mafia-game' ),
+				'default' => __( 'Round 1', 'underworld-empire' ),
 			),
 			'round_start'        => array(
-				'label'       => __( 'Round start', 'wp-mafia-game' ),
+				'label'       => __( 'Round start', 'underworld-empire' ),
 				'type'        => 'datetime',
 				'default'     => '',
-				'description' => __( 'Leave empty = open immediately.', 'wp-mafia-game' ),
+				'description' => __( 'Leave empty = open immediately.', 'underworld-empire' ),
 			),
 			'round_end'          => array(
-				'label'       => __( 'Round end', 'wp-mafia-game' ),
+				'label'       => __( 'Round end', 'underworld-empire' ),
 				'type'        => 'datetime',
 				'default'     => '',
-				'description' => __( 'Leave empty = no end date.', 'wp-mafia-game' ),
+				'description' => __( 'Leave empty = no end date.', 'underworld-empire' ),
 			),
 			'online_minutes'     => array(
-				'label'   => __( 'Minutes a player counts as online', 'wp-mafia-game' ),
+				'label'   => __( 'Minutes a player counts as online', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 15,
 			),
 			'hide_admin_bar'     => array(
-				'label'   => __( 'Hide the WordPress admin bar for players', 'wp-mafia-game' ),
+				'label'   => __( 'Hide the WordPress admin bar for players', 'underworld-empire' ),
 				'type'    => 'checkbox',
 				'default' => 1,
 			),
 			'delete_on_uninstall' => array(
-				'label'       => __( 'Delete all game data when the plugin is deleted', 'wp-mafia-game' ),
+				'label'       => __( 'Delete all game data when the plugin is deleted', 'underworld-empire' ),
 				'type'        => 'checkbox',
 				'default'     => 0,
-				'description' => __( 'Warning: all tables and settings will be erased.', 'wp-mafia-game' ),
+				'description' => __( 'Warning: all tables and settings will be erased.', 'underworld-empire' ),
 			),
 		);
 	}

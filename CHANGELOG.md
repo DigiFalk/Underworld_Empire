@@ -1,7 +1,18 @@
 # Changelog
 
-All notable changes to WP Mafia Game. Each `## x.y.z` section is used as the notes of the
+All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
+
+## 1.2.0
+
+- New name: **Underworld Empire**. Plugin file `underworld-empire.php`, text domain
+  `underworld-empire`, shortcode `[underworld_empire]`, release asset `underworld-empire.zip`,
+  custom modules folder `wp-content/underworld-modules/`, theme override folder
+  `underworld-empire/` and PHP namespace `DigiFalk\UnderworldEmpire`.
+- Releases are now published from the `main` branch.
+- Game data and settings are kept (database tables and options are unchanged).
+- Upgrading from 1.1.x: because the main plugin file was renamed, WordPress deactivates the
+  plugin after the update. Activate **Underworld Empire** again on the Plugins screen.
 
 ## 1.1.1
 
@@ -11,12 +22,11 @@ GitHub release for that version.
 ## 1.1.0
 
 - Whole plugin translated to English: game, admin, starting data and documentation.
-- Renamed internally to "mafia": plugin file `wp-mafia-game.php`, text domain `wp-mafia-game`,
-  shortcode `[mafia_game]`, custom modules folder `wp-content/mafia-modules/`,
-  theme override folder `wp-mafia-game/` and PHP namespace `DigiFalk\MafiaGame`.
+- Renamed internally from "maffia" to "mafia" (plugin file, text domain, shortcode,
+  custom modules folder, theme override folder and PHP namespace).
 - Automatic updates: the plugin checks the GitHub releases and updates through the
   standard WordPress plugin updater, with a *Check for updates* link on the Plugins screen.
-- Every version is published as a GitHub release with a ready-to-install `wp-mafia-game.zip`.
+- Every version is published as a GitHub release with a ready-to-install zip.
 
 ## 1.0.0
 

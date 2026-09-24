@@ -1,20 +1,20 @@
 <?php
 /**
- * @var \DigiFalk\MafiaGame\Character $c
+ * @var \DigiFalk\UnderworldEmpire\Character $c
  * @var array                          $grouped
  * @var array                          $types
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Frontend\UI;
-use DigiFalk\MafiaGame\Items;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Frontend\UI;
+use DigiFalk\UnderworldEmpire\Items;
 
 defined( 'ABSPATH' ) || exit;
 
 if ( ! $grouped ) {
-	echo UI::empty_state( __( 'The dealer has nothing on offer today.', 'wp-mafia-game' ) ); // phpcs:ignore
+	echo UI::empty_state( __( 'The dealer has nothing on offer today.', 'underworld-empire' ) ); // phpcs:ignore
 	return;
 }
 foreach ( $grouped as $dfmg_type => $dfmg_items ) : ?>
@@ -32,7 +32,7 @@ foreach ( $grouped as $dfmg_type => $dfmg_items ) : ?>
 					<?php endforeach; ?>
 				</ul>
 				<p class="dfmg-price"><?php echo esc_html( Format::money( $dfmg_item['price'] ) ); ?></p>
-				<?php echo $this->button( 'buy', __( 'Buy', 'wp-mafia-game' ), array( 'item' => $dfmg_item['id'] ) ); // phpcs:ignore ?>
+				<?php echo $this->button( 'buy', __( 'Buy', 'underworld-empire' ), array( 'item' => $dfmg_item['id'] ) ); // phpcs:ignore ?>
 			</div>
 		<?php endforeach; ?>
 	</div>

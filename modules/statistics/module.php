@@ -5,24 +5,24 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Locations;
-use DigiFalk\MafiaGame\Module\Module;
-use DigiFalk\MafiaGame\Ranks;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Locations;
+use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\UnderworldEmpire\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Statistics extends Module {
 
 	public function title(): string {
-		return __( 'Statistics', 'wp-mafia-game' );
+		return __( 'Statistics', 'underworld-empire' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -36,7 +36,7 @@ final class Statistics extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Statistics', 'wp-mafia-game' ),
+				'label' => __( 'Statistics', 'underworld-empire' ),
 				'group' => 'community',
 				'order' => 40,
 			),
@@ -51,15 +51,15 @@ final class Statistics extends Module {
 		$stats = get_transient( 'dfmg_statistics' );
 		if ( ! is_array( $stats ) ) {
 			$stats = array(
-				__( 'Living players', 'wp-mafia-game' )     => Format::number( (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1' ) ),
-				__( 'Murdered players', 'wp-mafia-game' )   => Format::number( (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 0' ) ),
-				__( 'Money in circulation', 'wp-mafia-game' )      => Format::money( (int) DB::value( 'SELECT COALESCE(SUM(money + bank), 0) FROM {characters} WHERE status = 1' ) ),
-				__( 'Bullets in circulation', 'wp-mafia-game' )    => Format::number( (int) DB::value( 'SELECT COALESCE(SUM(bullets), 0) FROM {characters} WHERE status = 1' ) ),
-				__( 'Successful crimes', 'wp-mafia-game' )  => Format::number( $this->count_action( 'crimes' ) ),
-				__( 'Failed crimes', 'wp-mafia-game' )   => Format::number( $this->count_action( 'crimes', false ) ),
-				__( 'Stolen cars', 'wp-mafia-game' )    => Format::number( $this->count_action( 'car-theft' ) ),
-				__( 'Breakouts', 'wp-mafia-game' )           => Format::number( $this->count_action( 'jail.bust' ) ),
-				__( 'Murders', 'wp-mafia-game' )             => Format::number( $this->count_action( 'murder' ) ),
+				__( 'Living players', 'underworld-empire' )     => Format::number( (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1' ) ),
+				__( 'Murdered players', 'underworld-empire' )   => Format::number( (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 0' ) ),
+				__( 'Money in circulation', 'underworld-empire' )      => Format::money( (int) DB::value( 'SELECT COALESCE(SUM(money + bank), 0) FROM {characters} WHERE status = 1' ) ),
+				__( 'Bullets in circulation', 'underworld-empire' )    => Format::number( (int) DB::value( 'SELECT COALESCE(SUM(bullets), 0) FROM {characters} WHERE status = 1' ) ),
+				__( 'Successful crimes', 'underworld-empire' )  => Format::number( $this->count_action( 'crimes' ) ),
+				__( 'Failed crimes', 'underworld-empire' )   => Format::number( $this->count_action( 'crimes', false ) ),
+				__( 'Stolen cars', 'underworld-empire' )    => Format::number( $this->count_action( 'car-theft' ) ),
+				__( 'Breakouts', 'underworld-empire' )           => Format::number( $this->count_action( 'jail.bust' ) ),
+				__( 'Murders', 'underworld-empire' )             => Format::number( $this->count_action( 'murder' ) ),
 			);
 			$stats = apply_filters( 'dfmg_statistics', $stats );
 			set_transient( 'dfmg_statistics', $stats, 5 * MINUTE_IN_SECONDS );
@@ -71,12 +71,12 @@ final class Statistics extends Module {
 		}
 		$html .= '</div>';
 
-		$html .= '<div class="dfmg-grid dfmg-grid--2"><section class="dfmg-card"><h3>' . esc_html__( 'Players per city', 'wp-mafia-game' ) . '</h3><table class="dfmg-table">';
+		$html .= '<div class="dfmg-grid dfmg-grid--2"><section class="dfmg-card"><h3>' . esc_html__( 'Players per city', 'underworld-empire' ) . '</h3><table class="dfmg-table">';
 		foreach ( Locations::all() as $loc ) {
 			$n     = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1 AND location_id = %d', $loc['id'] );
 			$html .= '<tr><td>' . esc_html( $loc['name'] ) . '</td><td>' . esc_html( Format::number( $n ) ) . '</td></tr>';
 		}
-		$html .= '</table></section><section class="dfmg-card"><h3>' . esc_html__( 'Players per rank', 'wp-mafia-game' ) . '</h3><table class="dfmg-table">';
+		$html .= '</table></section><section class="dfmg-card"><h3>' . esc_html__( 'Players per rank', 'underworld-empire' ) . '</h3><table class="dfmg-table">';
 		foreach ( Ranks::all() as $rank ) {
 			$n     = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1 AND rank_id = %d', $rank['id'] );
 			$html .= '<tr><td>' . esc_html( $rank['name'] ) . '</td><td>' . esc_html( Format::number( $n ) ) . '</td></tr>';

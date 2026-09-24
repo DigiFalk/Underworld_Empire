@@ -19,14 +19,14 @@
  *       ],
  *   ]
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Admin;
+namespace DigiFalk\UnderworldEmpire\Admin;
 
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Locations;
-use DigiFalk\MafiaGame\Ranks;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Locations;
+use DigiFalk\UnderworldEmpire\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -117,7 +117,7 @@ final class DataTable {
 		<h2>
 			<?php echo esc_html( $def['label'] ); ?>
 			<?php if ( $def['can_create'] ) : ?>
-				<a class="page-title-action" href="<?php echo esc_url( self::base_url( $key, array( 'edit' => 'new' ) ) ); ?>"><?php esc_html_e( 'Add new', 'wp-mafia-game' ); ?></a>
+				<a class="page-title-action" href="<?php echo esc_url( self::base_url( $key, array( 'edit' => 'new' ) ) ); ?>"><?php esc_html_e( 'Add new', 'underworld-empire' ); ?></a>
 			<?php endif; ?>
 		</h2>
 		<?php if ( $def['help'] ) : ?>
@@ -128,7 +128,7 @@ final class DataTable {
 				<input type="hidden" name="page" value="dfmg-data">
 				<input type="hidden" name="table" value="<?php echo esc_attr( $key ); ?>">
 				<input type="search" name="s" value="<?php echo esc_attr( $search ); ?>">
-				<button class="button"><?php esc_html_e( 'Search', 'wp-mafia-game' ); ?></button>
+				<button class="button"><?php esc_html_e( 'Search', 'underworld-empire' ); ?></button>
 			</form>
 		<?php endif; ?>
 		<table class="widefat striped">
@@ -143,7 +143,7 @@ final class DataTable {
 			</thead>
 			<tbody>
 				<?php if ( ! $rows ) : ?>
-					<tr><td colspan="<?php echo count( $list_cols ) + 2; ?>"><?php esc_html_e( 'Nothing added yet.', 'wp-mafia-game' ); ?></td></tr>
+					<tr><td colspan="<?php echo count( $list_cols ) + 2; ?>"><?php esc_html_e( 'Nothing added yet.', 'underworld-empire' ); ?></td></tr>
 				<?php endif; ?>
 				<?php foreach ( $rows as $row ) : ?>
 					<tr>
@@ -152,9 +152,9 @@ final class DataTable {
 							<td><?php echo esc_html( self::display_value( $col, $row[ $name ] ?? '' ) ); ?></td>
 						<?php endforeach; ?>
 						<td class="dfmg-admin-actions">
-							<a href="<?php echo esc_url( self::base_url( $key, array( 'edit' => $row['id'] ) ) ); ?>"><?php esc_html_e( 'Edit', 'wp-mafia-game' ); ?></a>
+							<a href="<?php echo esc_url( self::base_url( $key, array( 'edit' => $row['id'] ) ) ); ?>"><?php esc_html_e( 'Edit', 'underworld-empire' ); ?></a>
 							<?php if ( $def['can_delete'] ) : ?>
-								| <a class="dfmg-delete" onclick="return confirm('<?php echo esc_js( __( 'Are you sure?', 'wp-mafia-game' ) ); ?>');" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dfmg_data_delete&table=' . rawurlencode( $key ) . '&id=' . (int) $row['id'] ), 'dfmg_data_delete_' . $key . '_' . $row['id'] ) ); ?>"><?php esc_html_e( 'Delete', 'wp-mafia-game' ); ?></a>
+								| <a class="dfmg-delete" onclick="return confirm('<?php echo esc_js( __( 'Are you sure?', 'underworld-empire' ) ); ?>');" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dfmg_data_delete&table=' . rawurlencode( $key ) . '&id=' . (int) $row['id'] ), 'dfmg_data_delete_' . $key . '_' . $row['id'] ) ); ?>"><?php esc_html_e( 'Delete', 'underworld-empire' ); ?></a>
 							<?php endif; ?>
 						</td>
 					</tr>
@@ -186,14 +186,14 @@ final class DataTable {
 		if ( 'new' !== $id ) {
 			$row = DB::row( 'SELECT * FROM {' . $def['table'] . '} WHERE id = %d', (int) $id ) ?: array();
 			if ( ! $row ) {
-				echo '<p>' . esc_html__( 'Not found.', 'wp-mafia-game' ) . '</p>';
+				echo '<p>' . esc_html__( 'Not found.', 'underworld-empire' ) . '</p>';
 				return;
 			}
 		} elseif ( ! $def['can_create'] ) {
 			return;
 		}
 		?>
-		<h2><?php echo esc_html( $def['label'] ); ?> &mdash; <?php echo 'new' === $id ? esc_html__( 'new', 'wp-mafia-game' ) : '#' . (int) $id; ?></h2>
+		<h2><?php echo esc_html( $def['label'] ); ?> &mdash; <?php echo 'new' === $id ? esc_html__( 'new', 'underworld-empire' ) : '#' . (int) $id; ?></h2>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<input type="hidden" name="action" value="dfmg_data_save">
 			<input type="hidden" name="table" value="<?php echo esc_attr( $key ); ?>">
@@ -213,8 +213,8 @@ final class DataTable {
 					</tr>
 				<?php endforeach; ?>
 			</table>
-			<?php submit_button( __( 'Save', 'wp-mafia-game' ) ); ?>
-			<a href="<?php echo esc_url( self::base_url( $key ) ); ?>">&larr; <?php esc_html_e( 'Back to overview', 'wp-mafia-game' ); ?></a>
+			<?php submit_button( __( 'Save', 'underworld-empire' ) ); ?>
+			<a href="<?php echo esc_url( self::base_url( $key ) ); ?>">&larr; <?php esc_html_e( 'Back to overview', 'underworld-empire' ); ?></a>
 		</form>
 		<?php
 	}

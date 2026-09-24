@@ -3,10 +3,10 @@
  * A player character. A WordPress user can own several characters over time
  * (after being murdered a new one is started), but only one alive at once.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame;
+namespace DigiFalk\UnderworldEmpire;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -111,14 +111,14 @@ final class Character {
 	public static function validate_name( string $name ) {
 		$name = trim( $name );
 		if ( ! preg_match( '/^[A-Za-z0-9_\-]{3,20}$/', $name ) ) {
-			return new \WP_Error( 'name', __( 'A name consists of 3 to 20 letters, digits, - or _.', 'wp-mafia-game' ) );
+			return new \WP_Error( 'name', __( 'A name consists of 3 to 20 letters, digits, - or _.', 'underworld-empire' ) );
 		}
 		if ( self::find_by_name( $name ) ) {
-			return new \WP_Error( 'name', __( 'This name is already taken.', 'wp-mafia-game' ) );
+			return new \WP_Error( 'name', __( 'This name is already taken.', 'underworld-empire' ) );
 		}
 		$blocked = apply_filters( 'dfmg_blocked_names', array( 'admin', 'administrator', 'moderator', 'system', 'systeem' ) );
 		if ( in_array( strtolower( $name ), $blocked, true ) ) {
-			return new \WP_Error( 'name', __( 'This name is not allowed.', 'wp-mafia-game' ) );
+			return new \WP_Error( 'name', __( 'This name is not allowed.', 'underworld-empire' ) );
 		}
 		return true;
 	}
@@ -135,7 +135,7 @@ final class Character {
 		}
 		$alive = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE user_id = %d AND status = %d', $user_id, self::ALIVE );
 		if ( $alive ) {
-			return new \WP_Error( 'alive', __( 'You already have a living character.', 'wp-mafia-game' ) );
+			return new \WP_Error( 'alive', __( 'You already have a living character.', 'underworld-empire' ) );
 		}
 
 		// Premium points belong to the player, not the character: carry them over.
@@ -173,7 +173,7 @@ final class Character {
 
 		$id = DB::insert( 'characters', $data );
 		if ( ! $id ) {
-			return new \WP_Error( 'db', __( 'Character could not be created.', 'wp-mafia-game' ) );
+			return new \WP_Error( 'db', __( 'Character could not be created.', 'underworld-empire' ) );
 		}
 		self::$current = false;
 		$character     = self::find( $id );
@@ -437,16 +437,16 @@ final class Character {
 			}
 			if ( (int) $next['bullet_reward'] ) {
 				/* translators: %s: number of bullets */
-				$rewards[] = sprintf( __( '%s bullets', 'wp-mafia-game' ), Format::number( $next['bullet_reward'] ) );
+				$rewards[] = sprintf( __( '%s bullets', 'underworld-empire' ), Format::number( $next['bullet_reward'] ) );
 			}
 			$message = sprintf(
 				/* translators: %s: rank name */
-				__( 'Congratulations! You have been promoted to %s.', 'wp-mafia-game' ),
+				__( 'Congratulations! You have been promoted to %s.', 'underworld-empire' ),
 				$next['name']
 			);
 			if ( $rewards ) {
 				/* translators: %s: list of rewards */
-				$message .= ' ' . sprintf( __( 'Reward: %s.', 'wp-mafia-game' ), implode( ', ', $rewards ) );
+				$message .= ' ' . sprintf( __( 'Reward: %s.', 'underworld-empire' ), implode( ', ', $rewards ) );
 			}
 			$this->notify( $message );
 			$this->log( 'rank.up', true, (int) $next['id'] );
@@ -503,7 +503,7 @@ final class Character {
 	public function location(): array {
 		return Locations::get( (int) $this->row['location_id'] ) ?? array(
 			'id'   => 0,
-			'name' => __( 'Unknown', 'wp-mafia-game' ),
+			'name' => __( 'Unknown', 'underworld-empire' ),
 		);
 	}
 
@@ -579,6 +579,6 @@ final class Character {
 
 	public static function link_by_id( int $id ): string {
 		$c = self::find( $id );
-		return $c ? $c->link() : '<em>' . esc_html__( 'Unknown', 'wp-mafia-game' ) . '</em>';
+		return $c ? $c->link() : '<em>' . esc_html__( 'Unknown', 'underworld-empire' ) . '</em>';
 	}
 }

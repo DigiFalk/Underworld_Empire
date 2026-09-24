@@ -5,15 +5,15 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Module\Module;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +22,7 @@ final class Membership extends Module {
 	const TIMER = 'membership';
 
 	public function title(): string {
-		return __( 'Premium membership', 'wp-mafia-game' );
+		return __( 'Premium membership', 'underworld-empire' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -60,15 +60,15 @@ final class Membership extends Module {
 	public function settings_fields(): array {
 		return array(
 			'membership_reduction' => array(
-				'label'   => __( 'Cooldown reduction (%)', 'wp-mafia-game' ),
+				'label'   => __( 'Cooldown reduction (%)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 25,
 			),
 			'membership_timers'    => array(
-				'label'       => __( 'Timers with reduction', 'wp-mafia-game' ),
+				'label'       => __( 'Timers with reduction', 'underworld-empire' ),
 				'type'        => 'text',
 				'default'     => 'crime,theft,travel,chase',
-				'description' => __( 'Comma separated timer names.', 'wp-mafia-game' ),
+				'description' => __( 'Comma separated timer names.', 'underworld-empire' ),
 			),
 		);
 	}
@@ -76,13 +76,13 @@ final class Membership extends Module {
 	public function admin_tables(): array {
 		return array(
 			'memberships' => array(
-				'label'   => __( 'Memberships', 'wp-mafia-game' ),
+				'label'   => __( 'Memberships', 'underworld-empire' ),
 				'table'   => 'memberships',
 				'order'   => 'days ASC',
 				'columns' => array(
-					'name' => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'required' => true ),
-					'days' => array( 'label' => __( 'Days', 'wp-mafia-game' ), 'type' => 'int', 'default' => 7 ),
-					'cost' => array( 'label' => __( 'Cost (points)', 'wp-mafia-game' ), 'type' => 'int' ),
+					'name' => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
+					'days' => array( 'label' => __( 'Days', 'underworld-empire' ), 'type' => 'int', 'default' => 7 ),
+					'cost' => array( 'label' => __( 'Cost (points)', 'underworld-empire' ), 'type' => 'int' ),
 				),
 			),
 		);
@@ -94,7 +94,7 @@ final class Membership extends Module {
 			'dfmg_membership_benefits',
 			function ( $benefits ) {
 				/* translators: %d: percent */
-				$benefits[] = sprintf( __( '%d%% shorter cooldowns for crimes, car theft, travel and police chases.', 'wp-mafia-game' ), (int) $this->setting( 'membership_reduction' ) );
+				$benefits[] = sprintf( __( '%d%% shorter cooldowns for crimes, car theft, travel and police chases.', 'underworld-empire' ), (int) $this->setting( 'membership_reduction' ) );
 				return $benefits;
 			}
 		);
@@ -118,7 +118,7 @@ final class Membership extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Membership', 'wp-mafia-game' ),
+				'label' => __( 'Membership', 'underworld-empire' ),
 				'group' => 'premium',
 				'order' => 10,
 				'timer' => self::TIMER,
@@ -144,14 +144,14 @@ final class Membership extends Module {
 		}
 		if ( ! $c->spend( 'points', (int) $package['cost'] ) ) {
 			/* translators: %s: points */
-			$this->error( sprintf( __( 'You need %s.', 'wp-mafia-game' ), Format::points( (int) $package['cost'] ) ) );
+			$this->error( sprintf( __( 'You need %s.', 'underworld-empire' ), Format::points( (int) $package['cost'] ) ) );
 			return;
 		}
 		$from = max( time(), $c->timer( self::TIMER ) );
 		$c->set_timer( self::TIMER, $from + (int) $package['days'] * DAY_IN_SECONDS );
 		$c->log( 'membership.buy', true, (int) $package['cost'], (int) $package['id'] );
 		/* translators: %s: package */
-		$this->success( sprintf( __( 'Thank you! Your membership (%s) is active.', 'wp-mafia-game' ), $package['name'] ) );
+		$this->success( sprintf( __( 'Thank you! Your membership (%s) is active.', 'underworld-empire' ), $package['name'] ) );
 	}
 }
 

@@ -1,13 +1,13 @@
 <?php
 /**
- * @var \DigiFalk\MafiaGame\Character $c
+ * @var \DigiFalk\UnderworldEmpire\Character $c
  * @var array                          $message
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\Format;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\Format;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -19,14 +19,14 @@ echo $this->view( 'tabs', array( 'active' => $dfmg_incoming ? 'inbox' : 'sent' )
 	<p class="dfmg-muted">
 		<?php
 		/* translators: 1: sender, 2: recipient, 3: date */
-		printf( esc_html__( 'From %1$s to %2$s, %3$s', 'wp-mafia-game' ), Character::link_by_id( (int) $message['sender_id'] ), Character::link_by_id( (int) $message['recipient_id'] ), esc_html( Format::date( (int) $message['created_at'] ) ) ); // phpcs:ignore
+		printf( esc_html__( 'From %1$s to %2$s, %3$s', 'underworld-empire' ), Character::link_by_id( (int) $message['sender_id'] ), Character::link_by_id( (int) $message['recipient_id'] ), esc_html( Format::date( (int) $message['created_at'] ) ) ); // phpcs:ignore
 		?>
 	</p>
 	<div class="dfmg-usertext"><?php echo wp_kses_post( wpautop( esc_html( $message['body'] ) ) ); ?></div>
 	<div class="dfmg-actions">
 		<?php if ( $dfmg_incoming ) : ?>
-			<a class="dfmg-button" href="<?php echo esc_url( $this->url( array( 'view' => 'compose', 'reply' => $message['id'] ) ) ); ?>"><?php esc_html_e( 'Reply', 'wp-mafia-game' ); ?></a>
+			<a class="dfmg-button" href="<?php echo esc_url( $this->url( array( 'view' => 'compose', 'reply' => $message['id'] ) ) ); ?>"><?php esc_html_e( 'Reply', 'underworld-empire' ); ?></a>
 		<?php endif; ?>
-		<?php echo $this->button( 'delete', __( 'Delete', 'wp-mafia-game' ), array( 'id' => $message['id'], 'sent' => $dfmg_incoming ? 0 : 1 ), 'dfmg-button dfmg-button--ghost' ); // phpcs:ignore ?>
+		<?php echo $this->button( 'delete', __( 'Delete', 'underworld-empire' ), array( 'id' => $message['id'], 'sent' => $dfmg_incoming ? 0 : 1 ), 'dfmg-button dfmg-button--ghost' ); // phpcs:ignore ?>
 	</div>
 </article>

@@ -2,10 +2,10 @@
 /**
  * Core tables, starting data and activation logic.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame;
+namespace DigiFalk\UnderworldEmpire;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -266,7 +266,7 @@ final class Installer {
 	}
 
 	/**
-	 * Create the page that hosts the game (shortcode [mafia_game]).
+	 * Create the page that hosts the game (shortcode [underworld_empire]).
 	 */
 	public static function create_game_page(): void {
 		$page_id = (int) get_option( 'dfmg_page_id' );
@@ -275,9 +275,9 @@ final class Installer {
 		}
 		$page_id = wp_insert_post(
 			array(
-				'post_title'   => __( 'Mafia Game', 'wp-mafia-game' ),
-				'post_name'    => 'mafia-game',
-				'post_content' => '[mafia_game]',
+				'post_title'   => __( 'Underworld Empire', 'underworld-empire' ),
+				'post_name'    => 'underworld-empire',
+				'post_content' => '[underworld_empire]',
 				'post_status'  => 'publish',
 				'post_type'    => 'page',
 			)

@@ -5,23 +5,23 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Locations;
-use DigiFalk\MafiaGame\Module\Module;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Locations;
+use DigiFalk\UnderworldEmpire\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Families extends Module {
 
 	public function title(): string {
-		return __( 'Families', 'wp-mafia-game' );
+		return __( 'Families', 'underworld-empire' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -77,33 +77,33 @@ final class Families extends Module {
 	public function settings_fields(): array {
 		return array(
 			'family_cost'          => array(
-				'label'   => __( 'Cost to found a family', 'wp-mafia-game' ),
+				'label'   => __( 'Cost to found a family', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 1000000,
 			),
 			'family_one_per_city'  => array(
-				'label'   => __( 'At most one family per city', 'wp-mafia-game' ),
+				'label'   => __( 'At most one family per city', 'underworld-empire' ),
 				'type'    => 'checkbox',
 				'default' => 1,
 			),
 			'family_base_capacity' => array(
-				'label'   => __( 'Base number of members', 'wp-mafia-game' ),
+				'label'   => __( 'Base number of members', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 5,
 			),
 			'family_upgrade_cost'  => array(
-				'label'       => __( 'Expansion cost per level', 'wp-mafia-game' ),
+				'label'       => __( 'Expansion cost per level', 'underworld-empire' ),
 				'type'        => 'int',
 				'default'     => 250000,
-				'description' => __( 'Cost = level × this amount, paid from the family vault. Each level adds 1 extra slot.', 'wp-mafia-game' ),
+				'description' => __( 'Cost = level × this amount, paid from the family vault. Each level adds 1 extra slot.', 'underworld-empire' ),
 			),
 			'family_cash_tax'      => array(
-				'label'   => __( 'Laundering fee for money deposits (%)', 'wp-mafia-game' ),
+				'label'   => __( 'Laundering fee for money deposits (%)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 15,
 			),
 			'family_bullet_tax'    => array(
-				'label'   => __( 'Loss when depositing bullets (%)', 'wp-mafia-game' ),
+				'label'   => __( 'Loss when depositing bullets (%)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 25,
 			),
@@ -113,17 +113,17 @@ final class Families extends Module {
 	public function admin_tables(): array {
 		return array(
 			'families' => array(
-				'label'      => __( 'Families', 'wp-mafia-game' ),
+				'label'      => __( 'Families', 'underworld-empire' ),
 				'table'      => 'families',
 				'can_create' => false,
 				'search'     => 'name',
 				'columns'    => array(
-					'name'        => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'required' => true ),
-					'location_id' => array( 'label' => __( 'City', 'wp-mafia-game' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),
-					'level'       => array( 'label' => __( 'Level', 'wp-mafia-game' ), 'type' => 'int' ),
-					'money'       => array( 'label' => __( 'Vault', 'wp-mafia-game' ), 'type' => 'int' ),
-					'bullets'     => array( 'label' => __( 'Bullets', 'wp-mafia-game' ), 'type' => 'int' ),
-					'description' => array( 'label' => __( 'Profile', 'wp-mafia-game' ), 'type' => 'textarea' ),
+					'name'        => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
+					'location_id' => array( 'label' => __( 'City', 'underworld-empire' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),
+					'level'       => array( 'label' => __( 'Level', 'underworld-empire' ), 'type' => 'int' ),
+					'money'       => array( 'label' => __( 'Vault', 'underworld-empire' ), 'type' => 'int' ),
+					'bullets'     => array( 'label' => __( 'Bullets', 'underworld-empire' ), 'type' => 'int' ),
+					'description' => array( 'label' => __( 'Profile', 'underworld-empire' ), 'type' => 'textarea' ),
 				),
 			),
 		);
@@ -140,7 +140,7 @@ final class Families extends Module {
 			function ( $fields, Character $c ) {
 				$family = self::family_of( $c );
 				if ( $family ) {
-					$fields[ __( 'Family', 'wp-mafia-game' ) ] = '<a href="' . esc_url( $this->url( array( 'view' => 'family', 'id' => $family['id'] ) ) ) . '">' . esc_html( $family['name'] ) . '</a>';
+					$fields[ __( 'Family', 'underworld-empire' ) ] = '<a href="' . esc_url( $this->url( array( 'view' => 'family', 'id' => $family['id'] ) ) ) . '">' . esc_html( $family['name'] ) . '</a>';
 				}
 				return $fields;
 			},
@@ -152,7 +152,7 @@ final class Families extends Module {
 			static function ( $allowed, Character $attacker, Character $target ) {
 				$mine = self::family_of( $attacker );
 				if ( true === $allowed && $mine && ( self::family_of( $target )['id'] ?? 0 ) === $mine['id'] ) {
-					return new \WP_Error( 'family', __( 'You don\'t murder family.', 'wp-mafia-game' ) );
+					return new \WP_Error( 'family', __( 'You don\'t murder family.', 'underworld-empire' ) );
 				}
 				return $allowed;
 			},
@@ -168,7 +168,7 @@ final class Families extends Module {
 		}
 		DB::delete( 'family_members', array( 'character_id' => $victim->id() ) );
 		/* translators: %s: player */
-		self::log( (int) $family['id'], 0, sprintf( __( '%s was murdered.', 'wp-mafia-game' ), $victim->name ) );
+		self::log( (int) $family['id'], 0, sprintf( __( '%s was murdered.', 'underworld-empire' ), $victim->name ) );
 
 		if ( (int) $family['underboss_id'] === $victim->id() ) {
 			DB::update( 'families', array( 'underboss_id' => 0 ), array( 'id' => $family['id'] ) );
@@ -184,11 +184,11 @@ final class Families extends Module {
 					),
 					array( 'id' => $family['id'] )
 				);
-				$heir->notify( __( 'Your boss was murdered. You now lead the family!', 'wp-mafia-game' ) );
+				$heir->notify( __( 'Your boss was murdered. You now lead the family!', 'underworld-empire' ) );
 				/* translators: %s: player */
-				self::log( (int) $family['id'], $heir->id(), sprintf( __( '%s is the new boss.', 'wp-mafia-game' ), $heir->name ) );
+				self::log( (int) $family['id'], $heir->id(), sprintf( __( '%s is the new boss.', 'underworld-empire' ), $heir->name ) );
 			} else {
-				self::dissolve( (int) $family['id'], __( 'Your family has been disbanded: the boss was murdered without a successor.', 'wp-mafia-game' ) );
+				self::dissolve( (int) $family['id'], __( 'Your family has been disbanded: the boss was murdered without a successor.', 'underworld-empire' ) );
 			}
 		}
 	}
@@ -246,14 +246,14 @@ final class Families extends Module {
 		return apply_filters(
 			'dfmg_family_permissions',
 			array(
-				'invite'           => __( 'Invite members', 'wp-mafia-game' ),
-				'kick'             => __( 'Kick members', 'wp-mafia-game' ),
-				'upgrade'          => __( 'Expand family', 'wp-mafia-game' ),
-				'withdraw_money'   => __( 'Withdraw money from the vault', 'wp-mafia-game' ),
-				'withdraw_bullets' => __( 'Withdraw bullets from the vault', 'wp-mafia-game' ),
-				'edit_profile'     => __( 'Edit profile', 'wp-mafia-game' ),
-				'edit_internal'    => __( 'Edit internal notice', 'wp-mafia-game' ),
-				'logs'             => __( 'View log', 'wp-mafia-game' ),
+				'invite'           => __( 'Invite members', 'underworld-empire' ),
+				'kick'             => __( 'Kick members', 'underworld-empire' ),
+				'upgrade'          => __( 'Expand family', 'underworld-empire' ),
+				'withdraw_money'   => __( 'Withdraw money from the vault', 'underworld-empire' ),
+				'withdraw_bullets' => __( 'Withdraw bullets from the vault', 'underworld-empire' ),
+				'edit_profile'     => __( 'Edit profile', 'underworld-empire' ),
+				'edit_internal'    => __( 'Edit internal notice', 'underworld-empire' ),
+				'logs'             => __( 'View log', 'underworld-empire' ),
 			)
 		);
 	}
@@ -274,12 +274,12 @@ final class Families extends Module {
 
 	public static function role( array $family, int $character_id ): string {
 		if ( (int) $family['boss_id'] === $character_id ) {
-			return __( 'Boss', 'wp-mafia-game' );
+			return __( 'Boss', 'underworld-empire' );
 		}
 		if ( (int) $family['underboss_id'] === $character_id ) {
-			return __( 'Underboss', 'wp-mafia-game' );
+			return __( 'Underboss', 'underworld-empire' );
 		}
-		return __( 'Member', 'wp-mafia-game' );
+		return __( 'Member', 'underworld-empire' );
 	}
 
 	private static function dissolve( int $family_id, string $message ): void {
@@ -300,7 +300,7 @@ final class Families extends Module {
 	public function menu( Character $c ): array {
 		$items   = array(
 			array(
-				'label' => __( 'All families', 'wp-mafia-game' ),
+				'label' => __( 'All families', 'underworld-empire' ),
 				'group' => 'family',
 				'order' => 10,
 			),
@@ -309,7 +309,7 @@ final class Families extends Module {
 		$invites = (int) DB::value( 'SELECT COUNT(*) FROM {family_invites} WHERE character_id = %d', $c->id() );
 		if ( $family ) {
 			$items[] = array(
-				'label' => __( 'My family', 'wp-mafia-game' ),
+				'label' => __( 'My family', 'underworld-empire' ),
 				'group' => 'family',
 				'order' => 20,
 				'args'  => array( 'view' => 'home' ),
@@ -390,11 +390,11 @@ final class Families extends Module {
 	private function require_family( Character $c, string $permission = '' ): ?array {
 		$family = self::family_of( $c );
 		if ( ! $family ) {
-			$this->error( __( 'You are not in a family.', 'wp-mafia-game' ) );
+			$this->error( __( 'You are not in a family.', 'underworld-empire' ) );
 			return null;
 		}
 		if ( $permission && ! self::can( $c, $permission ) ) {
-			$this->error( __( 'You don\'t have the family permission for that.', 'wp-mafia-game' ) );
+			$this->error( __( 'You don\'t have the family permission for that.', 'underworld-empire' ) );
 			return null;
 		}
 		return $family;
@@ -412,28 +412,28 @@ final class Families extends Module {
 		$location = absint( $input['location'] ?? 0 );
 		$cost     = (int) $this->setting( 'family_cost' );
 		if ( self::family_of( $c ) ) {
-			$this->error( __( 'You are already in a family.', 'wp-mafia-game' ) );
+			$this->error( __( 'You are already in a family.', 'underworld-empire' ) );
 			return;
 		}
 		if ( mb_strlen( $name ) < 3 || mb_strlen( $name ) > 30 ) {
-			$this->error( __( 'A family name is 3 to 30 characters long.', 'wp-mafia-game' ) );
+			$this->error( __( 'A family name is 3 to 30 characters long.', 'underworld-empire' ) );
 			return;
 		}
 		if ( ! Locations::get( $location ) ) {
-			$this->error( __( 'Choose a city.', 'wp-mafia-game' ) );
+			$this->error( __( 'Choose a city.', 'underworld-empire' ) );
 			return;
 		}
 		if ( DB::value( 'SELECT id FROM {families} WHERE name = %s', $name ) ) {
-			$this->error( __( 'That name is already taken.', 'wp-mafia-game' ) );
+			$this->error( __( 'That name is already taken.', 'underworld-empire' ) );
 			return;
 		}
 		if ( $this->setting( 'family_one_per_city' ) && DB::value( 'SELECT id FROM {families} WHERE location_id = %d', $location ) ) {
-			$this->error( __( 'A family already rules this city.', 'wp-mafia-game' ) );
+			$this->error( __( 'A family already rules this city.', 'underworld-empire' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Founding a family costs %s in cash.', 'wp-mafia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'Founding a family costs %s in cash.', 'underworld-empire' ), Format::money( $cost ) ) );
 			return;
 		}
 		$id = DB::insert(
@@ -459,10 +459,10 @@ final class Families extends Module {
 		);
 		DB::delete( 'family_invites', array( 'character_id' => $c->id() ) );
 		/* translators: %s: player */
-		self::log( $id, $c->id(), sprintf( __( '%s founded the family.', 'wp-mafia-game' ), $c->name ) );
+		self::log( $id, $c->id(), sprintf( __( '%s founded the family.', 'underworld-empire' ), $c->name ) );
 		$c->log( 'family.create', true, $cost, $id );
 		/* translators: %s: family */
-		$this->success( sprintf( __( 'The family %s has been founded. You are the boss.', 'wp-mafia-game' ), $name ) );
+		$this->success( sprintf( __( 'The family %s has been founded. You are the boss.', 'underworld-empire' ), $name ) );
 		return $this->home();
 	}
 
@@ -473,11 +473,11 @@ final class Families extends Module {
 		}
 		$target = Character::find_by_name( sanitize_text_field( $input['name'] ?? '' ) );
 		if ( ! $target || ! $target->is_alive() ) {
-			$this->error( __( 'This player doesn\'t exist.', 'wp-mafia-game' ) );
+			$this->error( __( 'This player doesn\'t exist.', 'underworld-empire' ) );
 		} elseif ( self::family_of( $target ) ) {
-			$this->error( __( 'This player is already in a family.', 'wp-mafia-game' ) );
+			$this->error( __( 'This player is already in a family.', 'underworld-empire' ) );
 		} elseif ( DB::value( 'SELECT id FROM {family_invites} WHERE family_id = %d AND character_id = %d', $family['id'], $target->id() ) ) {
-			$this->error( __( 'This player has already been invited.', 'wp-mafia-game' ) );
+			$this->error( __( 'This player has already been invited.', 'underworld-empire' ) );
 		} else {
 			DB::insert(
 				'family_invites',
@@ -489,10 +489,10 @@ final class Families extends Module {
 				)
 			);
 			/* translators: %s: family */
-			$target->notify( sprintf( __( 'You have been invited to the family %s. Check it under Families.', 'wp-mafia-game' ), esc_html( $family['name'] ) ) );
+			$target->notify( sprintf( __( 'You have been invited to the family %s. Check it under Families.', 'underworld-empire' ), esc_html( $family['name'] ) ) );
 			/* translators: 1: player, 2: player */
-			self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s invited %2$s.', 'wp-mafia-game' ), $c->name, $target->name ) );
-			$this->success( __( 'Invitation sent.', 'wp-mafia-game' ) );
+			self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s invited %2$s.', 'underworld-empire' ), $c->name, $target->name ) );
+			$this->success( __( 'Invitation sent.', 'underworld-empire' ) );
 		}
 		return $this->home();
 	}
@@ -518,15 +518,15 @@ final class Families extends Module {
 		$invite = DB::row( 'SELECT * FROM {family_invites} WHERE id = %d AND character_id = %d', absint( $input['invite'] ?? 0 ), $c->id() );
 		$family = $invite ? self::get( (int) $invite['family_id'] ) : null;
 		if ( ! $family ) {
-			$this->error( __( 'This invitation is no longer valid.', 'wp-mafia-game' ) );
+			$this->error( __( 'This invitation is no longer valid.', 'underworld-empire' ) );
 			return;
 		}
 		if ( self::family_of( $c ) ) {
-			$this->error( __( 'You are already in a family.', 'wp-mafia-game' ) );
+			$this->error( __( 'You are already in a family.', 'underworld-empire' ) );
 			return;
 		}
 		if ( count( self::members( (int) $family['id'] ) ) >= $this->capacity( $family ) ) {
-			$this->error( __( 'This family is full.', 'wp-mafia-game' ) );
+			$this->error( __( 'This family is full.', 'underworld-empire' ) );
 			return;
 		}
 		DB::insert(
@@ -540,9 +540,9 @@ final class Families extends Module {
 		);
 		DB::delete( 'family_invites', array( 'character_id' => $c->id() ) );
 		/* translators: %s: player */
-		self::log( (int) $family['id'], $c->id(), sprintf( __( '%s joined the family.', 'wp-mafia-game' ), $c->name ) );
+		self::log( (int) $family['id'], $c->id(), sprintf( __( '%s joined the family.', 'underworld-empire' ), $c->name ) );
 		/* translators: %s: family */
-		$this->success( sprintf( __( 'Welcome to %s.', 'wp-mafia-game' ), $family['name'] ) );
+		$this->success( sprintf( __( 'Welcome to %s.', 'underworld-empire' ), $family['name'] ) );
 		return $this->home();
 	}
 
@@ -565,7 +565,7 @@ final class Families extends Module {
 			return;
 		}
 		if ( (int) $family['boss_id'] === $c->id() ) {
-			$this->error( __( 'A boss doesn\'t leave. Hand over leadership or disband the family.', 'wp-mafia-game' ) );
+			$this->error( __( 'A boss doesn\'t leave. Hand over leadership or disband the family.', 'underworld-empire' ) );
 			return $this->home();
 		}
 		DB::delete( 'family_members', array( 'character_id' => $c->id() ) );
@@ -573,8 +573,8 @@ final class Families extends Module {
 			DB::update( 'families', array( 'underboss_id' => 0 ), array( 'id' => $family['id'] ) );
 		}
 		/* translators: %s: player */
-		self::log( (int) $family['id'], $c->id(), sprintf( __( '%s left the family.', 'wp-mafia-game' ), $c->name ) );
-		$this->success( __( 'You left the family.', 'wp-mafia-game' ) );
+		self::log( (int) $family['id'], $c->id(), sprintf( __( '%s left the family.', 'underworld-empire' ), $c->name ) );
+		$this->success( __( 'You left the family.', 'underworld-empire' ) );
 	}
 
 	public function action_kick( Character $c, array $input ): array {
@@ -584,7 +584,7 @@ final class Families extends Module {
 			return $this->home();
 		}
 		if ( in_array( $target->id(), array( (int) $family['boss_id'], $c->id() ), true ) ) {
-			$this->error( __( 'You can\'t remove that member.', 'wp-mafia-game' ) );
+			$this->error( __( 'You can\'t remove that member.', 'underworld-empire' ) );
 			return $this->home();
 		}
 		if ( DB::delete( 'family_members', array( 'character_id' => $target->id(), 'family_id' => $family['id'] ) ) ) {
@@ -592,9 +592,9 @@ final class Families extends Module {
 				DB::update( 'families', array( 'underboss_id' => 0 ), array( 'id' => $family['id'] ) );
 			}
 			/* translators: %s: family */
-			$target->notify( sprintf( __( 'You were kicked out of the family %s.', 'wp-mafia-game' ), esc_html( $family['name'] ) ) );
+			$target->notify( sprintf( __( 'You were kicked out of the family %s.', 'underworld-empire' ), esc_html( $family['name'] ) ) );
 			/* translators: 1: player, 2: player */
-			self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s kicked %2$s out of the family.', 'wp-mafia-game' ), $c->name, $target->name ) );
+			self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s kicked %2$s out of the family.', 'underworld-empire' ), $c->name, $target->name ) );
 		}
 		return $this->home();
 	}
@@ -605,7 +605,7 @@ final class Families extends Module {
 			return $this->home();
 		}
 		if ( (int) $family['boss_id'] !== $c->id() ) {
-			$this->error( __( 'Only the boss assigns roles.', 'wp-mafia-game' ) );
+			$this->error( __( 'Only the boss assigns roles.', 'underworld-empire' ) );
 			return $this->home();
 		}
 		$member = Character::find( absint( $input['member'] ?? 0 ) );
@@ -617,7 +617,7 @@ final class Families extends Module {
 		if ( 'underboss' === $role && $member->id() !== $c->id() ) {
 			DB::update( 'families', array( 'underboss_id' => $member->id() ), array( 'id' => $family['id'] ) );
 			/* translators: %s: player */
-			self::log( (int) $family['id'], $c->id(), sprintf( __( '%s was appointed underboss.', 'wp-mafia-game' ), $member->name ) );
+			self::log( (int) $family['id'], $c->id(), sprintf( __( '%s was appointed underboss.', 'underworld-empire' ), $member->name ) );
 		} elseif ( 'boss' === $role && $member->id() !== $c->id() ) {
 			DB::update(
 				'families',
@@ -628,14 +628,14 @@ final class Families extends Module {
 				array( 'id' => $family['id'] )
 			);
 			/* translators: %s: player */
-			self::log( (int) $family['id'], $c->id(), sprintf( __( '%s is the new boss.', 'wp-mafia-game' ), $member->name ) );
-			$member->notify( __( 'You are the new boss of your family.', 'wp-mafia-game' ) );
+			self::log( (int) $family['id'], $c->id(), sprintf( __( '%s is the new boss.', 'underworld-empire' ), $member->name ) );
+			$member->notify( __( 'You are the new boss of your family.', 'underworld-empire' ) );
 		} elseif ( 'member' === $role && (int) $family['underboss_id'] === $member->id() ) {
 			DB::update( 'families', array( 'underboss_id' => 0 ), array( 'id' => $family['id'] ) );
 		}
 		$perms = array_intersect( array_keys( self::permissions() ), array_map( 'sanitize_key', (array) ( $input['perms'] ?? array() ) ) );
 		DB::update( 'family_members', array( 'permissions' => implode( ',', $perms ) ), array( 'character_id' => $member->id() ) );
-		$this->success( __( 'Permissions updated.', 'wp-mafia-game' ) );
+		$this->success( __( 'Permissions updated.', 'underworld-empire' ) );
 		return $this->home();
 	}
 
@@ -647,17 +647,17 @@ final class Families extends Module {
 		$field  = 'bullets' === ( $input['what'] ?? '' ) ? 'bullets' : 'money';
 		$amount = Format::parse_amount( $input['amount'] ?? 0 );
 		if ( $amount < 1 || ! $c->spend( $field, $amount ) ) {
-			$this->error( __( 'You don\'t have that much.', 'wp-mafia-game' ) );
+			$this->error( __( 'You don\'t have that much.', 'underworld-empire' ) );
 			return $this->home();
 		}
 		$tax    = (int) $this->setting( 'money' === $field ? 'family_cash_tax' : 'family_bullet_tax' );
 		$credit = (int) floor( $amount * ( 100 - max( 0, min( 100, $tax ) ) ) / 100 );
 		DB::query( "UPDATE {families} SET `$field` = `$field` + %d WHERE id = %d", $credit, $family['id'] );
-		$label = 'money' === $field ? Format::money( $credit ) : sprintf( /* translators: %s: number */ __( '%s bullets', 'wp-mafia-game' ), Format::number( $credit ) );
+		$label = 'money' === $field ? Format::money( $credit ) : sprintf( /* translators: %s: number */ __( '%s bullets', 'underworld-empire' ), Format::number( $credit ) );
 		/* translators: 1: player, 2: amount */
-		self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s deposited %2$s into the vault.', 'wp-mafia-game' ), $c->name, $label ) );
+		self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s deposited %2$s into the vault.', 'underworld-empire' ), $c->name, $label ) );
 		/* translators: %s: amount */
-		$this->success( sprintf( __( '%s has been deposited into the family vault.', 'wp-mafia-game' ), $label ) );
+		$this->success( sprintf( __( '%s has been deposited into the family vault.', 'underworld-empire' ), $label ) );
 		return $this->home();
 	}
 
@@ -670,15 +670,15 @@ final class Families extends Module {
 		$amount = Format::parse_amount( $input['amount'] ?? 0 );
 		$done   = $amount > 0 && DB::query( "UPDATE {families} SET `$field` = `$field` - %d WHERE id = %d AND `$field` >= %d", $amount, $family['id'], $amount );
 		if ( ! $done ) {
-			$this->error( __( 'The vault doesn\'t hold that much.', 'wp-mafia-game' ) );
+			$this->error( __( 'The vault doesn\'t hold that much.', 'underworld-empire' ) );
 			return $this->home();
 		}
 		$c->add( $field, $amount );
-		$label = 'money' === $field ? Format::money( $amount ) : sprintf( /* translators: %s: number */ __( '%s bullets', 'wp-mafia-game' ), Format::number( $amount ) );
+		$label = 'money' === $field ? Format::money( $amount ) : sprintf( /* translators: %s: number */ __( '%s bullets', 'underworld-empire' ), Format::number( $amount ) );
 		/* translators: 1: player, 2: amount */
-		self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s withdrew %2$s from the vault.', 'wp-mafia-game' ), $c->name, $label ) );
+		self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s withdrew %2$s from the vault.', 'underworld-empire' ), $c->name, $label ) );
 		/* translators: %s: amount */
-		$this->success( sprintf( __( 'You withdrew %s.', 'wp-mafia-game' ), $label ) );
+		$this->success( sprintf( __( 'You withdrew %s.', 'underworld-empire' ), $label ) );
 		return $this->home();
 	}
 
@@ -691,12 +691,12 @@ final class Families extends Module {
 		$done = DB::query( 'UPDATE {families} SET money = money - %d, level = level + 1 WHERE id = %d AND money >= %d AND level = %d', $cost, $family['id'], $cost, $family['level'] );
 		if ( ! $done ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Expanding costs %s from the family vault.', 'wp-mafia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'Expanding costs %s from the family vault.', 'underworld-empire' ), Format::money( $cost ) ) );
 			return $this->home();
 		}
 		/* translators: 1: player, 2: money */
-		self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s expanded the family for %2$s.', 'wp-mafia-game' ), $c->name, Format::money( $cost ) ) );
-		$this->success( __( 'The family has an extra slot.', 'wp-mafia-game' ) );
+		self::log( (int) $family['id'], $c->id(), sprintf( __( '%1$s expanded the family for %2$s.', 'underworld-empire' ), $c->name, Format::money( $cost ) ) );
+		$this->success( __( 'The family has an extra slot.', 'underworld-empire' ) );
 		return $this->home();
 	}
 
@@ -707,11 +707,11 @@ final class Families extends Module {
 		}
 		$field = 'internal' === ( $input['field'] ?? '' ) ? 'internal' : 'description';
 		if ( ! self::can( $c, 'internal' === $field ? 'edit_internal' : 'edit_profile' ) ) {
-			$this->error( __( 'You don\'t have the family permission for that.', 'wp-mafia-game' ) );
+			$this->error( __( 'You don\'t have the family permission for that.', 'underworld-empire' ) );
 			return $this->home();
 		}
 		DB::update( 'families', array( $field => wp_kses_post( mb_substr( (string) ( $input['text'] ?? '' ), 0, 5000 ) ) ), array( 'id' => $family['id'] ) );
-		$this->success( __( 'Saved.', 'wp-mafia-game' ) );
+		$this->success( __( 'Saved.', 'underworld-empire' ) );
 		return $this->home();
 	}
 
@@ -721,18 +721,18 @@ final class Families extends Module {
 	public function action_disband( Character $c, array $input ) {
 		$family = $this->require_family( $c );
 		if ( ! $family || (int) $family['boss_id'] !== $c->id() ) {
-			$this->error( __( 'Only the boss can disband the family.', 'wp-mafia-game' ) );
+			$this->error( __( 'Only the boss can disband the family.', 'underworld-empire' ) );
 			return;
 		}
 		if ( empty( $input['confirm'] ) ) {
-			$this->error( __( 'Tick the confirmation box.', 'wp-mafia-game' ) );
+			$this->error( __( 'Tick the confirmation box.', 'underworld-empire' ) );
 			return $this->home();
 		}
 		$c->add( 'money', (int) $family['money'] );
 		$c->add( 'bullets', (int) $family['bullets'] );
 		/* translators: %s: family */
-		self::dissolve( (int) $family['id'], sprintf( __( 'The family %s was disbanded by the boss.', 'wp-mafia-game' ), esc_html( $family['name'] ) ) );
-		$this->success( __( 'The family has been disbanded. The vault went to you.', 'wp-mafia-game' ) );
+		self::dissolve( (int) $family['id'], sprintf( __( 'The family %s was disbanded by the boss.', 'underworld-empire' ), esc_html( $family['name'] ) ) );
+		$this->success( __( 'The family has been disbanded. The vault went to you.', 'underworld-empire' ) );
 	}
 }
 

@@ -5,17 +5,17 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Locations;
-use DigiFalk\MafiaGame\Module\Module;
-use DigiFalk\MafiaGame\Property;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Locations;
+use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\UnderworldEmpire\Property;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,7 +25,7 @@ final class BulletFactory extends Module {
 	const TIMER = 'bullets';
 
 	public function title(): string {
-		return __( 'Bullet factory', 'wp-mafia-game' );
+		return __( 'Bullet factory', 'underworld-empire' );
 	}
 
 	public function boot(): void {
@@ -33,9 +33,9 @@ final class BulletFactory extends Module {
 			'dfmg_property_types',
 			function ( $types ) {
 				$types[ self::TYPE ] = array(
-					'label'         => __( 'Bullet factory', 'wp-mafia-game' ),
+					'label'         => __( 'Bullet factory', 'underworld-empire' ),
 					'price'         => (int) $this->setting( 'bullets_property_price' ),
-					'setting_label' => __( 'Price per bullet', 'wp-mafia-game' ),
+					'setting_label' => __( 'Price per bullet', 'underworld-empire' ),
 					'setting_min'   => 1,
 					'setting_max'   => (int) $this->setting( 'bullets_max_price' ),
 					'route'         => $this->id(),
@@ -49,42 +49,42 @@ final class BulletFactory extends Module {
 	public function settings_fields(): array {
 		return array(
 			'bullets_max_per_buy'    => array(
-				'label'   => __( 'Max. bullets per purchase', 'wp-mafia-game' ),
+				'label'   => __( 'Max. bullets per purchase', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 250,
 			),
 			'bullets_cooldown'       => array(
-				'label'   => __( 'Cooldown between purchases (sec)', 'wp-mafia-game' ),
+				'label'   => __( 'Cooldown between purchases (sec)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 60,
 			),
 			'bullets_max_price'      => array(
-				'label'   => __( 'Max. price an owner may charge', 'wp-mafia-game' ),
+				'label'   => __( 'Max. price an owner may charge', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 500,
 			),
 			'bullets_owner_share'    => array(
-				'label'   => __( 'Owner share of revenue (%)', 'wp-mafia-game' ),
+				'label'   => __( 'Owner share of revenue (%)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 50,
 			),
 			'bullets_property_price' => array(
-				'label'   => __( 'Factory purchase price', 'wp-mafia-game' ),
+				'label'   => __( 'Factory purchase price', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 1000000,
 			),
 			'bullets_restock_min'    => array(
-				'label'   => __( 'Production per hour (min.)', 'wp-mafia-game' ),
+				'label'   => __( 'Production per hour (min.)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 2000,
 			),
 			'bullets_restock_max'    => array(
-				'label'   => __( 'Production per hour (max.)', 'wp-mafia-game' ),
+				'label'   => __( 'Production per hour (max.)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 3000,
 			),
 			'bullets_max_stock'      => array(
-				'label'   => __( 'Maximum stock per city', 'wp-mafia-game' ),
+				'label'   => __( 'Maximum stock per city', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 50000,
 			),
@@ -94,7 +94,7 @@ final class BulletFactory extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'bullet factory', 'wp-mafia-game' ),
+				'label' => __( 'bullet factory', 'underworld-empire' ),
 				'group' => 'city',
 				'order' => 40,
 				'timer' => self::TIMER,
@@ -160,16 +160,16 @@ final class BulletFactory extends Module {
 		$max      = (int) $this->setting( 'bullets_max_per_buy' );
 		$location = Locations::get( (int) $c->location_id );
 		if ( ! $location || $qty < 1 ) {
-			$this->error( __( 'How many bullets do you want to buy?', 'wp-mafia-game' ) );
+			$this->error( __( 'How many bullets do you want to buy?', 'underworld-empire' ) );
 			return;
 		}
 		if ( $qty > $max ) {
 			/* translators: %s: number */
-			$this->error( sprintf( __( 'You can buy at most %s bullets at a time.', 'wp-mafia-game' ), Format::number( $max ) ) );
+			$this->error( sprintf( __( 'You can buy at most %s bullets at a time.', 'underworld-empire' ), Format::number( $max ) ) );
 			return;
 		}
 		if ( $c->timer_active( self::TIMER ) ) {
-			$this->error( __( 'The factory will serve you again shortly.', 'wp-mafia-game' ) );
+			$this->error( __( 'The factory will serve you again shortly.', 'underworld-empire' ) );
 			return;
 		}
 		$property = Property::get( self::TYPE, (int) $location['id'] );
@@ -178,13 +178,13 @@ final class BulletFactory extends Module {
 		// Reserve stock first so two buyers can not take the same bullets.
 		$reserved = DB::query( 'UPDATE {locations} SET bullet_stock = bullet_stock - %d WHERE id = %d AND bullet_stock >= %d', $qty, (int) $location['id'], $qty );
 		if ( ! $reserved ) {
-			$this->error( __( 'The factory doesn\'t have that many bullets in stock.', 'wp-mafia-game' ) );
+			$this->error( __( 'The factory doesn\'t have that many bullets in stock.', 'underworld-empire' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $cost ) ) {
 			DB::query( 'UPDATE {locations} SET bullet_stock = bullet_stock + %d WHERE id = %d', $qty, (int) $location['id'] );
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'wp-mafia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'underworld-empire' ), Format::money( $cost ) ) );
 			return;
 		}
 		Locations::flush();
@@ -199,7 +199,7 @@ final class BulletFactory extends Module {
 		}
 		$c->log( 'bullets.buy', true, $qty );
 		/* translators: 1: bullets, 2: money */
-		$this->success( sprintf( __( 'You bought %1$s bullets for %2$s.', 'wp-mafia-game' ), Format::number( $qty ), Format::money( $cost ) ) );
+		$this->success( sprintf( __( 'You bought %1$s bullets for %2$s.', 'underworld-empire' ), Format::number( $qty ), Format::money( $cost ) ) );
 	}
 }
 

@@ -5,22 +5,22 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Module\Module;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Hospital extends Module {
 
 	public function title(): string {
-		return __( 'Hospital', 'wp-mafia-game' );
+		return __( 'Hospital', 'underworld-empire' );
 	}
 
 	public function allowed_in_hospital(): bool {
@@ -48,12 +48,12 @@ final class Hospital extends Module {
 	public function settings_fields(): array {
 		return array(
 			'hospital_full_cost' => array(
-				'label'   => __( 'Cost of a full recovery', 'wp-mafia-game' ),
+				'label'   => __( 'Cost of a full recovery', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 25000,
 			),
 			'hospital_full_time' => array(
-				'label'   => __( 'Admission time for a full recovery (sec)', 'wp-mafia-game' ),
+				'label'   => __( 'Admission time for a full recovery (sec)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 3600,
 			),
@@ -63,7 +63,7 @@ final class Hospital extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Hospital', 'wp-mafia-game' ),
+				'label' => __( 'Hospital', 'underworld-empire' ),
 				'group' => 'city',
 				'order' => 30,
 				'timer' => 'hospital',
@@ -100,23 +100,23 @@ final class Hospital extends Module {
 
 	public function action_admit( Character $c, array $input ): void {
 		if ( $c->is_hospitalized() ) {
-			$this->error( __( 'You are already in hospital.', 'wp-mafia-game' ) );
+			$this->error( __( 'You are already in hospital.', 'underworld-empire' ) );
 			return;
 		}
 		$quote = $this->quote( $c );
 		if ( ! (int) $c->damage ) {
-			$this->error( __( 'You are perfectly healthy.', 'wp-mafia-game' ) );
+			$this->error( __( 'You are perfectly healthy.', 'underworld-empire' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $quote['cost'] ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'The treatment costs %s. You don\'t have that in cash.', 'wp-mafia-game' ), Format::money( $quote['cost'] ) ) );
+			$this->error( sprintf( __( 'The treatment costs %s. You don\'t have that in cash.', 'underworld-empire' ), Format::money( $quote['cost'] ) ) );
 			return;
 		}
 		$c->set( 'damage', 0 );
 		$c->set_timer( 'hospital', time() + $quote['time'] );
 		$c->log( 'hospital', true, $quote['cost'] );
-		$this->success( __( 'You have been admitted. The doctors are doing their job.', 'wp-mafia-game' ) );
+		$this->success( __( 'You have been admitted. The doctors are doing their job.', 'underworld-empire' ) );
 	}
 }
 

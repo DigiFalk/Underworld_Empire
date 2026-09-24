@@ -6,16 +6,16 @@
  * Author: DigiFalk
  * Requires: garage
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Module\Module;
-use DigiFalk\MafiaGame\Ranks;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\UnderworldEmpire\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -24,7 +24,7 @@ final class CarTheft extends Module {
 	const TIMER = 'theft';
 
 	public function title(): string {
-		return __( 'Car theft', 'wp-mafia-game' );
+		return __( 'Car theft', 'underworld-empire' );
 	}
 
 	public function schema(): array {
@@ -72,12 +72,12 @@ final class CarTheft extends Module {
 	public function settings_fields(): array {
 		return array(
 			'theft_cooldown'    => array(
-				'label'   => __( 'Cooldown between attempts (sec)', 'wp-mafia-game' ),
+				'label'   => __( 'Cooldown between attempts (sec)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 180,
 			),
 			'theft_jail_chance' => array(
-				'label'   => __( 'Chance of jail on failure (%)', 'wp-mafia-game' ),
+				'label'   => __( 'Chance of jail on failure (%)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 33,
 			),
@@ -87,18 +87,18 @@ final class CarTheft extends Module {
 	public function admin_tables(): array {
 		return array(
 			'theft_spots' => array(
-				'label'   => __( 'Theft spots', 'wp-mafia-game' ),
+				'label'   => __( 'Theft spots', 'underworld-empire' ),
 				'table'   => 'theft_spots',
 				'order'   => 'min_rank ASC, chance DESC',
 				'columns' => array(
-					'name'       => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'required' => true ),
-					'chance'     => array( 'label' => __( 'Chance (%)', 'wp-mafia-game' ), 'type' => 'int', 'default' => 50 ),
-					'min_rank'   => array( 'label' => __( 'From rank (level)', 'wp-mafia-game' ), 'type' => 'int', 'default' => 1 ),
-					'max_damage' => array( 'label' => __( 'Max. damage (%)', 'wp-mafia-game' ), 'type' => 'int', 'default' => 50 ),
-					'min_value'  => array( 'label' => __( 'Min. car value', 'wp-mafia-game' ), 'type' => 'int' ),
-					'max_value'  => array( 'label' => __( 'Max. car value', 'wp-mafia-game' ), 'type' => 'int' ),
-					'exp'        => array( 'label' => __( 'Experience', 'wp-mafia-game' ), 'type' => 'int', 'default' => 2 ),
-					'jail_time'  => array( 'label' => __( 'Jail time (sec)', 'wp-mafia-game' ), 'type' => 'int', 'default' => 60 ),
+					'name'       => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
+					'chance'     => array( 'label' => __( 'Chance (%)', 'underworld-empire' ), 'type' => 'int', 'default' => 50 ),
+					'min_rank'   => array( 'label' => __( 'From rank (level)', 'underworld-empire' ), 'type' => 'int', 'default' => 1 ),
+					'max_damage' => array( 'label' => __( 'Max. damage (%)', 'underworld-empire' ), 'type' => 'int', 'default' => 50 ),
+					'min_value'  => array( 'label' => __( 'Min. car value', 'underworld-empire' ), 'type' => 'int' ),
+					'max_value'  => array( 'label' => __( 'Max. car value', 'underworld-empire' ), 'type' => 'int' ),
+					'exp'        => array( 'label' => __( 'Experience', 'underworld-empire' ), 'type' => 'int', 'default' => 2 ),
+					'jail_time'  => array( 'label' => __( 'Jail time (sec)', 'underworld-empire' ), 'type' => 'int', 'default' => 60 ),
 				),
 			),
 		);
@@ -107,7 +107,7 @@ final class CarTheft extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Car theft', 'wp-mafia-game' ),
+				'label' => __( 'Car theft', 'underworld-empire' ),
 				'group' => 'crime',
 				'order' => 20,
 				'timer' => self::TIMER,
@@ -159,16 +159,16 @@ final class CarTheft extends Module {
 			}
 		}
 		if ( ! $spot ) {
-			$this->error( __( 'You don\'t know this spot (yet).', 'wp-mafia-game' ) );
+			$this->error( __( 'You don\'t know this spot (yet).', 'underworld-empire' ) );
 			return;
 		}
 		$car = $this->pick_car( (int) $spot['min_value'], (int) $spot['max_value'] );
 		if ( ! $car ) {
-			$this->error( __( 'There are no cars here. Ask the administrator to add cars.', 'wp-mafia-game' ) );
+			$this->error( __( 'There are no cars here. Ask the administrator to add cars.', 'underworld-empire' ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $this->setting( 'theft_cooldown' ) ) ) {
-			$this->error( __( 'You have to wait a little.', 'wp-mafia-game' ) );
+			$this->error( __( 'You have to wait a little.', 'underworld-empire' ) );
 			return;
 		}
 
@@ -178,7 +178,7 @@ final class CarTheft extends Module {
 			$c->add( 'exp', (int) $spot['exp'] );
 			$c->log( 'car-theft', true, (int) round( $car['value'] * ( 100 - $damage ) / 100 ), (int) $car['id'] );
 			/* translators: 1: car, 2: damage percent, 3: value */
-			$this->success( sprintf( __( 'Car stolen: %1$s with %2$d%% damage (value %3$s).', 'wp-mafia-game' ), $car['name'], $damage, Format::money( round( $car['value'] * ( 100 - $damage ) / 100 ) ) ) );
+			$this->success( sprintf( __( 'Car stolen: %1$s with %2$d%% damage (value %3$s).', 'underworld-empire' ), $car['name'], $damage, Format::money( round( $car['value'] * ( 100 - $damage ) / 100 ) ) ) );
 			return;
 		}
 
@@ -186,10 +186,10 @@ final class CarTheft extends Module {
 		if ( wp_rand( 1, 100 ) <= (int) $this->setting( 'theft_jail_chance' ) ) {
 			$c->jail( (int) $spot['jail_time'] );
 			/* translators: %s: car */
-			$this->error( sprintf( __( 'The alarm of the %s went off. The police arrest you.', 'wp-mafia-game' ), $car['name'] ) );
+			$this->error( sprintf( __( 'The alarm of the %s went off. The police arrest you.', 'underworld-empire' ), $car['name'] ) );
 		} else {
 			/* translators: %s: car */
-			$this->error( sprintf( __( 'You couldn\'t get the %s open.', 'wp-mafia-game' ), $car['name'] ) );
+			$this->error( sprintf( __( 'You couldn\'t get the %s open.', 'underworld-empire' ), $car['name'] ) );
 		}
 	}
 }

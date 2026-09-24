@@ -1,24 +1,24 @@
 <?php
 /**
- * Front end: the [mafia_game] shortcode, routing and action handling.
+ * Front end: the [underworld_empire] shortcode, routing and action handling.
  *
  * Pages:   <game page>?mg=<module id>&...
  * Actions: POST to admin-post.php with action=dfmg, module=<id>, do=<action>, nonce.
  *          The module method action_<do>( Character $c, array $input ) is called,
  *          after which the player is redirected back (Post/Redirect/Get).
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Frontend;
+namespace DigiFalk\UnderworldEmpire\Frontend;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\Flash;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Module\Module;
-use DigiFalk\MafiaGame\Plugin;
-use DigiFalk\MafiaGame\Property;
-use DigiFalk\MafiaGame\Settings;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\Flash;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\UnderworldEmpire\Plugin;
+use DigiFalk\UnderworldEmpire\Property;
+use DigiFalk\UnderworldEmpire\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,7 +27,7 @@ final class Game {
 	const DEFAULT_ROUTE = 'overview';
 
 	public static function init(): void {
-		add_shortcode( 'mafia_game', array( __CLASS__, 'shortcode' ) );
+		add_shortcode( 'underworld_empire', array( __CLASS__, 'shortcode' ) );
 		add_action( 'admin_post_dfmg', array( __CLASS__, 'handle_action' ) );
 		add_action( 'admin_post_nopriv_dfmg', array( __CLASS__, 'handle_guest_action' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
@@ -36,7 +36,7 @@ final class Game {
 	public static function register_assets(): void {
 		wp_register_style( 'dfmg-game', DFMG_URL . 'assets/css/game.css', array(), DFMG_VERSION );
 		wp_register_script( 'dfmg-game', DFMG_URL . 'assets/js/game.js', array(), DFMG_VERSION, true );
-		if ( is_singular() && has_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ), 'mafia_game' ) ) {
+		if ( is_singular() && has_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ), 'underworld_empire' ) ) {
 			wp_enqueue_style( 'dfmg-game' );
 			wp_enqueue_script( 'dfmg-game' );
 		}
@@ -76,10 +76,10 @@ final class Game {
 	}
 
 	/**
-	 * Render a core template (overridable in <theme>/wp-mafia-game/<name>.php).
+	 * Render a core template (overridable in <theme>/underworld-empire/<name>.php).
 	 */
 	public static function template( string $name, array $vars = array() ): string {
-		$file = locate_template( 'wp-mafia-game/' . $name . '.php' );
+		$file = locate_template( 'underworld-empire/' . $name . '.php' );
 		if ( ! $file ) {
 			$file = DFMG_DIR . 'templates/' . $name . '.php';
 		}
@@ -150,10 +150,10 @@ final class Game {
 		$module   = $registry->get( $route ) ?: $registry->get( self::DEFAULT_ROUTE );
 
 		if ( ! $module ) {
-			return self::wrap( '<p>' . esc_html__( 'No modules are active.', 'wp-mafia-game' ) . '</p>' );
+			return self::wrap( '<p>' . esc_html__( 'No modules are active.', 'underworld-empire' ) . '</p>' );
 		}
 		if ( $module->id() !== $route ) {
-			Flash::error( __( 'This page doesn\'t exist.', 'wp-mafia-game' ) );
+			Flash::error( __( 'This page doesn\'t exist.', 'underworld-empire' ) );
 		}
 
 		$module  = self::resolve( $c, $module );
@@ -185,15 +185,15 @@ final class Game {
 		$groups = apply_filters(
 			'dfmg_menu_groups',
 			array(
-				'general'   => __( 'General', 'wp-mafia-game' ),
-				'crime'     => __( 'Crime', 'wp-mafia-game' ),
-				'city'      => __( 'City', 'wp-mafia-game' ),
-				'casino'    => __( 'Casino', 'wp-mafia-game' ),
-				'murder'    => __( 'Murder', 'wp-mafia-game' ),
-				'family'    => __( 'Family', 'wp-mafia-game' ),
-				'money'     => __( 'Assets', 'wp-mafia-game' ),
-				'premium'   => __( 'Premium', 'wp-mafia-game' ),
-				'community' => __( 'Community', 'wp-mafia-game' ),
+				'general'   => __( 'General', 'underworld-empire' ),
+				'crime'     => __( 'Crime', 'underworld-empire' ),
+				'city'      => __( 'City', 'underworld-empire' ),
+				'casino'    => __( 'Casino', 'underworld-empire' ),
+				'murder'    => __( 'Murder', 'underworld-empire' ),
+				'family'    => __( 'Family', 'underworld-empire' ),
+				'money'     => __( 'Assets', 'underworld-empire' ),
+				'premium'   => __( 'Premium', 'underworld-empire' ),
+				'community' => __( 'Community', 'underworld-empire' ),
 			)
 		);
 
@@ -256,7 +256,7 @@ final class Game {
 		// phpcs:enable
 
 		if ( ! wp_verify_nonce( sanitize_text_field( $input['_dfmg_nonce'] ?? '' ), self::nonce_action( $module_id, $action ) ) ) {
-			Flash::error( __( 'Your session has expired, please try again.', 'wp-mafia-game' ) );
+			Flash::error( __( 'Your session has expired, please try again.', 'underworld-empire' ) );
 			self::redirect( 'core' === $module_id ? '' : $module_id );
 		}
 
@@ -280,13 +280,13 @@ final class Game {
 		$module   = $registry->get( $module_id );
 		$method   = 'action_' . str_replace( '-', '_', $action );
 		if ( ! $module || ! is_callable( array( $module, $method ) ) ) {
-			Flash::error( __( 'Unknown action.', 'wp-mafia-game' ) );
+			Flash::error( __( 'Unknown action.', 'underworld-empire' ) );
 			self::redirect( '' );
 		}
 
 		$resolved = self::resolve( $c, $module );
 		if ( $resolved->id() !== $module->id() ) {
-			Flash::error( __( 'You can\'t do that right now.', 'wp-mafia-game' ) );
+			Flash::error( __( 'You can\'t do that right now.', 'underworld-empire' ) );
 			self::redirect( $resolved->id() );
 		}
 
@@ -309,7 +309,7 @@ final class Game {
 				Flash::error( $result->get_error_message() );
 			} else {
 				/* translators: %s: character name */
-				Flash::success( sprintf( __( 'Welcome to the underworld, %s.', 'wp-mafia-game' ), $result->name ) );
+				Flash::success( sprintf( __( 'Welcome to the underworld, %s.', 'underworld-empire' ), $result->name ) );
 			}
 		}
 		self::redirect( '' );
@@ -323,24 +323,24 @@ final class Game {
 		$config = Property::type( $type );
 		$route  = sanitize_key( $input['return'] ?? '' );
 		if ( ! $config ) {
-			Flash::error( __( 'This property doesn\'t exist.', 'wp-mafia-game' ) );
+			Flash::error( __( 'This property doesn\'t exist.', 'underworld-empire' ) );
 			self::redirect( $route );
 		}
 		$property = Property::get( $type, (int) $c->location_id );
 		if ( $property->is_owned() ) {
-			Flash::error( __( 'This property already has an owner.', 'wp-mafia-game' ) );
+			Flash::error( __( 'This property already has an owner.', 'underworld-empire' ) );
 			self::redirect( $route );
 		}
 		$price = $property->buy_price();
 		if ( ! $c->spend( 'money', $price ) ) {
 			/* translators: %s: money */
-			Flash::error( sprintf( __( 'You need %s in cash.', 'wp-mafia-game' ), Format::money( $price ) ) );
+			Flash::error( sprintf( __( 'You need %s in cash.', 'underworld-empire' ), Format::money( $price ) ) );
 			self::redirect( $route );
 		}
 		$property->transfer( $c->id() );
 		$c->log( 'property.buy', true, $price, $property->location_id() );
 		/* translators: 1: property, 2: city */
-		Flash::success( sprintf( __( 'Congratulations, the %1$s in %2$s is now yours.', 'wp-mafia-game' ), $property->label(), $c->location_name() ) );
+		Flash::success( sprintf( __( 'Congratulations, the %1$s in %2$s is now yours.', 'underworld-empire' ), $property->label(), $c->location_name() ) );
 		self::redirect( $route );
 	}
 

@@ -3,7 +3,7 @@
  * Runs when the plugin is deleted from the WordPress admin.
  * Data is only removed when "Delete all game data when the plugin is deleted" is enabled.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;

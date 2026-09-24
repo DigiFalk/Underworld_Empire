@@ -1,5 +1,5 @@
 /**
- * WP Mafia Game – live countdowns and mobile menu. No dependencies.
+ * Underworld Empire – live countdowns and mobile menu. No dependencies.
  */
 ( function () {
 	'use strict';

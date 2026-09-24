@@ -5,16 +5,16 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame\Modules;
+namespace DigiFalk\UnderworldEmpire\Modules;
 
-use DigiFalk\MafiaGame\Character;
-use DigiFalk\MafiaGame\DB;
-use DigiFalk\MafiaGame\Format;
-use DigiFalk\MafiaGame\Module\Module;
-use DigiFalk\MafiaGame\Ranks;
+use DigiFalk\UnderworldEmpire\Character;
+use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\UnderworldEmpire\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -23,7 +23,7 @@ final class Crimes extends Module {
 	const TIMER = 'crime';
 
 	public function title(): string {
-		return __( 'Crimes', 'wp-mafia-game' );
+		return __( 'Crimes', 'underworld-empire' );
 	}
 
 	public function schema(): array {
@@ -87,12 +87,12 @@ final class Crimes extends Module {
 	public function settings_fields(): array {
 		return array(
 			'crimes_jail_chance' => array(
-				'label'       => __( 'Chance of jail on failure (%)', 'wp-mafia-game' ),
+				'label'       => __( 'Chance of jail on failure (%)', 'underworld-empire' ),
 				'type'        => 'int',
 				'default'     => 33,
 			),
 			'crimes_max_skill'   => array(
-				'label'   => __( 'Maximum success chance (%)', 'wp-mafia-game' ),
+				'label'   => __( 'Maximum success chance (%)', 'underworld-empire' ),
 				'type'    => 'int',
 				'default' => 95,
 			),
@@ -102,21 +102,21 @@ final class Crimes extends Module {
 	public function admin_tables(): array {
 		return array(
 			'crimes' => array(
-				'label'   => __( 'Crimes', 'wp-mafia-game' ),
+				'label'   => __( 'Crimes', 'underworld-empire' ),
 				'table'   => 'crimes',
 				'order'   => 'min_rank ASC, id ASC',
 				'columns' => array(
-					'name'         => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'required' => true ),
-					'description'  => array( 'label' => __( 'Description', 'wp-mafia-game' ), 'type' => 'textarea' ),
-					'min_rank'     => array( 'label' => __( 'From rank (level)', 'wp-mafia-game' ), 'type' => 'int', 'default' => 1 ),
-					'cooldown'     => array( 'label' => __( 'Cooldown (sec)', 'wp-mafia-game' ), 'type' => 'int', 'default' => 60 ),
-					'min_money'    => array( 'label' => __( 'Min. money', 'wp-mafia-game' ), 'type' => 'int' ),
-					'max_money'    => array( 'label' => __( 'Max. money', 'wp-mafia-game' ), 'type' => 'int' ),
-					'min_bullets'  => array( 'label' => __( 'Min. bullets', 'wp-mafia-game' ), 'type' => 'int', 'list' => false ),
-					'max_bullets'  => array( 'label' => __( 'Max. bullets', 'wp-mafia-game' ), 'type' => 'int', 'list' => false ),
-					'exp'          => array( 'label' => __( 'Experience', 'wp-mafia-game' ), 'type' => 'int', 'default' => 1 ),
-					'start_chance' => array( 'label' => __( 'Starting chance (%)', 'wp-mafia-game' ), 'type' => 'int', 'default' => 20 ),
-					'jail_time'    => array( 'label' => __( 'Jail time (sec)', 'wp-mafia-game' ), 'type' => 'int', 'default' => 60 ),
+					'name'         => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
+					'description'  => array( 'label' => __( 'Description', 'underworld-empire' ), 'type' => 'textarea' ),
+					'min_rank'     => array( 'label' => __( 'From rank (level)', 'underworld-empire' ), 'type' => 'int', 'default' => 1 ),
+					'cooldown'     => array( 'label' => __( 'Cooldown (sec)', 'underworld-empire' ), 'type' => 'int', 'default' => 60 ),
+					'min_money'    => array( 'label' => __( 'Min. money', 'underworld-empire' ), 'type' => 'int' ),
+					'max_money'    => array( 'label' => __( 'Max. money', 'underworld-empire' ), 'type' => 'int' ),
+					'min_bullets'  => array( 'label' => __( 'Min. bullets', 'underworld-empire' ), 'type' => 'int', 'list' => false ),
+					'max_bullets'  => array( 'label' => __( 'Max. bullets', 'underworld-empire' ), 'type' => 'int', 'list' => false ),
+					'exp'          => array( 'label' => __( 'Experience', 'underworld-empire' ), 'type' => 'int', 'default' => 1 ),
+					'start_chance' => array( 'label' => __( 'Starting chance (%)', 'underworld-empire' ), 'type' => 'int', 'default' => 20 ),
+					'jail_time'    => array( 'label' => __( 'Jail time (sec)', 'underworld-empire' ), 'type' => 'int', 'default' => 60 ),
 				),
 			),
 		);
@@ -125,7 +125,7 @@ final class Crimes extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Crimes', 'wp-mafia-game' ),
+				'label' => __( 'Crimes', 'underworld-empire' ),
 				'group' => 'crime',
 				'order' => 10,
 				'timer' => self::TIMER,
@@ -171,11 +171,11 @@ final class Crimes extends Module {
 			}
 		}
 		if ( ! $crime ) {
-			$this->error( __( 'This crime doesn\'t exist or is too hard for you yet.', 'wp-mafia-game' ) );
+			$this->error( __( 'This crime doesn\'t exist or is too hard for you yet.', 'underworld-empire' ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $crime['cooldown'] ) ) {
-			$this->error( __( 'You have to wait a little before your next crime.', 'wp-mafia-game' ) );
+			$this->error( __( 'You have to wait a little before your next crime.', 'underworld-empire' ) );
 			return;
 		}
 
@@ -193,18 +193,18 @@ final class Crimes extends Module {
 			$loot = array( Format::money( $money ) );
 			if ( $bullets ) {
 				/* translators: %s: number of bullets */
-				$loot[] = sprintf( __( '%s bullets', 'wp-mafia-game' ), Format::number( $bullets ) );
+				$loot[] = sprintf( __( '%s bullets', 'underworld-empire' ), Format::number( $bullets ) );
 			}
 			/* translators: 1: crime, 2: loot */
-			$this->success( sprintf( __( 'Success: "%1$s". Your loot: %2$s.', 'wp-mafia-game' ), $crime['name'], implode( ' ' . __( 'and', 'wp-mafia-game' ) . ' ', $loot ) ) );
+			$this->success( sprintf( __( 'Success: "%1$s". Your loot: %2$s.', 'underworld-empire' ), $crime['name'], implode( ' ' . __( 'and', 'underworld-empire' ) . ' ', $loot ) ) );
 			$c->log( 'crimes', true, $money, $id );
 		} else {
 			$gain = wp_rand( 1, 2 );
 			if ( wp_rand( 1, 100 ) <= (int) $this->setting( 'crimes_jail_chance' ) ) {
 				$c->jail( (int) $crime['jail_time'] );
-				$this->error( __( 'Failed! The police were faster and you end up in a cell.', 'wp-mafia-game' ) );
+				$this->error( __( 'Failed! The police were faster and you end up in a cell.', 'underworld-empire' ) );
 			} else {
-				$this->error( __( 'Failed, but you managed to get away unseen.', 'wp-mafia-game' ) );
+				$this->error( __( 'Failed, but you managed to get away unseen.', 'underworld-empire' ) );
 			}
 			$c->log( 'crimes', false, 0, $id );
 		}

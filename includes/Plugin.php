@@ -2,14 +2,14 @@
 /**
  * Plugin bootstrap.
  *
- * @package DigiFalk\MafiaGame
+ * @package DigiFalk\UnderworldEmpire
  */
 
-namespace DigiFalk\MafiaGame;
+namespace DigiFalk\UnderworldEmpire;
 
-use DigiFalk\MafiaGame\Admin\Admin;
-use DigiFalk\MafiaGame\Frontend\Game;
-use DigiFalk\MafiaGame\Module\Registry;
+use DigiFalk\UnderworldEmpire\Admin\Admin;
+use DigiFalk\UnderworldEmpire\Frontend\Game;
+use DigiFalk\UnderworldEmpire\Module\Registry;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -34,7 +34,7 @@ final class Plugin {
 	}
 
 	private function boot(): void {
-		load_plugin_textdomain( 'wp-mafia-game', false, dirname( plugin_basename( DFMG_FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'underworld-empire', false, dirname( plugin_basename( DFMG_FILE ) ) . '/languages' );
 
 		Installer::maybe_upgrade();
 
