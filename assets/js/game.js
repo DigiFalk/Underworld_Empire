@@ -56,12 +56,36 @@
 
 	var toggle = root.querySelector( '.dfmg-menu-toggle' );
 	var nav = root.querySelector( '.dfmg-nav' );
+	function setMenu( open ) {
+		nav.classList.toggle( 'is-open', open );
+		toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+	}
 	if ( toggle && nav ) {
 		toggle.addEventListener( 'click', function () {
-			var open = nav.classList.toggle( 'is-open' );
-			toggle.setAttribute( 'aria-expanded', open ? 'true' : 'false' );
+			setMenu( ! nav.classList.contains( 'is-open' ) );
+		} );
+		document.addEventListener( 'keydown', function ( e ) {
+			if ( 'Escape' === e.key && nav.classList.contains( 'is-open' ) ) {
+				setMenu( false );
+				toggle.focus();
+			}
 		} );
 	}
+
+	// Small screens show tables as cards: give every cell the label of its column.
+	root.querySelectorAll( '.dfmg-table' ).forEach( function ( table ) {
+		var heads = table.querySelectorAll( 'thead th' );
+		if ( ! heads.length ) {
+			return;
+		}
+		table.querySelectorAll( 'tbody tr' ).forEach( function ( row ) {
+			Array.prototype.forEach.call( row.children, function ( cell, i ) {
+				if ( heads[ i ] && ! cell.hasAttribute( 'data-label' ) ) {
+					cell.setAttribute( 'data-label', heads[ i ].textContent.trim() );
+				}
+			} );
+		} );
+	} );
 
 	// Prevent accidental double submits.
 	root.addEventListener( 'submit', function ( e ) {

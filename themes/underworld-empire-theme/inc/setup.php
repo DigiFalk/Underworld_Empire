@@ -113,7 +113,6 @@ function uet_assets(): void {
 		wp_enqueue_style( 'uet-fonts', $google, array(), null ); // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion
 	}
 	wp_enqueue_style( 'uet-theme', UET_URI . 'assets/css/theme.css', array(), UET_VERSION );
-	wp_add_inline_style( 'uet-theme', uet_dynamic_css() );
 	wp_enqueue_script( 'uet-theme', UET_URI . 'assets/js/theme.js', array(), UET_VERSION, true );
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
 		wp_enqueue_script( 'comment-reply' );

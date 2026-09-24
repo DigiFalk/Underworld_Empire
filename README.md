@@ -80,11 +80,18 @@ See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
     (16 fonts, optional Google Fonts, sizes, weights, heading case), site layout (full width,
     boxed, content boxed), container widths, corner radius, sidebar position per page type,
     breadcrumbs, page titles and a scroll-to-top button.
-  * **Header**: three layouts, logo and logo width, site title/tagline, header width and
-    padding, search, call-to-action button, sticky and transparent header, top bar with
-    text and menu, mobile menu with breakpoint and label, header colours.
-  * **Footer**: 0-4 widget columns, copyright text with `[current_year]` `[site_title]`
-    `[site_url]` `[theme_author]`, footer menu, centered or split layout, colours.
+  * **Header builder** (drag & drop): three rows (top, main, bottom) with left, center and
+    right zones, separate layouts for desktop and for tablet/mobile, plus the contents of the
+    mobile menu panel (dropdown or off-canvas). Elements: logo & title, primary and secondary
+    menu, search, button, HTML/text, social icons, player account and menu toggle. Row
+    heights and colours, sticky and transparent header.
+  * **Footer builder** (drag & drop): three rows with 1-4 columns each. Elements: copyright,
+    footer menu, social icons, HTML/text, logo and widget areas Footer 1-4. Alignment,
+    padding and colours per row.
+  * **Per device values**: font sizes, logo width, header row heights, side spacing and
+    footer padding can be set separately for desktop, tablet and mobile.
+  * **Live preview**: colours, typography, sizes, header and footer update instantly in the
+    preview without reloading the page.
   * **Blog**: list or 2/3-column grid, featured images, date/author/categories/comments,
     excerpt length, read-more text; single posts with featured image, meta, tags, author box
     and previous/next navigation.

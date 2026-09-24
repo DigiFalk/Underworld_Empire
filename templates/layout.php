@@ -50,7 +50,7 @@ $dfmg_stats = apply_filters(
 				</div>
 			<?php endforeach; ?>
 		</dl>
-		<button type="button" class="dfmg-menu-toggle" aria-controls="dfmg-nav" aria-expanded="false"><?php esc_html_e( 'Menu', 'underworld-empire' ); ?></button>
+		<button type="button" class="dfmg-menu-toggle" aria-controls="dfmg-nav" aria-expanded="false"><span class="dfmg-menu-toggle__icon" aria-hidden="true"></span><span><?php esc_html_e( 'Menu', 'underworld-empire' ); ?></span></button>
 	</header>
 
 	<div class="dfmg-body">

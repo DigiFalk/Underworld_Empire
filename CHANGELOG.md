@@ -3,6 +3,22 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.5.0
+
+- Theme 3.0.0: **drag & drop header builder** (three rows × left/center/right, separate
+  desktop and tablet/mobile layouts, mobile menu panel as dropdown or off-canvas) and
+  **footer builder** (three rows with 1-4 columns). New elements: secondary menu, HTML/text,
+  social icons, player account (links to the game profile) and menu toggle.
+- **Per device values** (desktop, tablet, mobile) for font sizes, logo width, header row
+  heights, side spacing and footer padding, with device buttons that switch the preview.
+- **Live preview**: colours, typography, sizes, header and footer update without reloading.
+- Existing header and footer settings of theme 2.0 are converted into the builders.
+- Mobile polish for the theme: full width content on phones (no more clipped content),
+  submenu toggles in the mobile menu, off-canvas panel below the admin bar.
+- Mobile polish for the game: tables become cards with labels, full width forms and
+  buttons, compact two-column game menu with an animated menu button, stats bar that no
+  longer breaks words, no horizontal scrolling at 360, 390, 768 and 1024 px.
+
 ## 1.4.0
 
 - The bundled **Underworld Empire** theme (2.0.0) is rebuilt as a fully customisable theme

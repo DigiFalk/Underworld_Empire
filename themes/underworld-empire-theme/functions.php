@@ -9,7 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'UET_VERSION', '2.0.0' );
+define( 'UET_VERSION', '3.0.0' );
 define( 'UET_DIR', trailingslashit( get_template_directory() ) );
 define( 'UET_URI', trailingslashit( get_template_directory_uri() ) );
 
@@ -19,6 +19,7 @@ require UET_DIR . 'inc/css.php';
 require UET_DIR . 'inc/customizer.php';
 require UET_DIR . 'inc/layout.php';
 require UET_DIR . 'inc/template-tags.php';
+require UET_DIR . 'inc/builder.php';
 require UET_DIR . 'inc/wrapper.php';
 require UET_DIR . 'inc/meta-box.php';
 

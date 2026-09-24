@@ -26,39 +26,6 @@ function uet_site_branding(): void {
 	echo '</div>';
 }
 
-function uet_primary_menu(): void {
-	if ( has_nav_menu( 'primary' ) ) {
-		wp_nav_menu(
-			array(
-				'theme_location' => 'primary',
-				'container'      => false,
-				'menu_class'     => 'uet-menu',
-				'depth'          => 3,
-			)
-		);
-	} elseif ( current_user_can( 'edit_theme_options' ) ) {
-		echo '<ul class="uet-menu"><li><a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '">' . esc_html__( 'Add a menu', 'underworld-empire-theme' ) . '</a></li></ul>';
-	}
-}
-
-function uet_header_actions(): void {
-	$text = (string) uet_opt( 'header_button_text' );
-	$url  = (string) uet_opt( 'header_button_url' );
-	if ( ! $text && ! uet_opt( 'header_search' ) ) {
-		return;
-	}
-	echo '<div class="uet-header__actions">';
-	if ( uet_opt( 'header_search' ) ) {
-		echo '<details class="uet-header-search"><summary aria-label="' . esc_attr__( 'Search', 'underworld-empire-theme' ) . '">';
-		echo '<svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M10 2a8 8 0 0 1 6.32 12.9l5.39 5.4-1.41 1.4-5.4-5.39A8 8 0 1 1 10 2zm0 2a6 6 0 1 0 0 12 6 6 0 0 0 0-12z"/></svg>';
-		echo '</summary><div class="uet-header-search__panel">' . get_search_form( array( 'echo' => false ) ) . '</div></details>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
-	}
-	if ( $text ) {
-		echo '<a class="uet-button uet-header-button" href="' . esc_url( $url ?: home_url( '/' ) ) . '">' . esc_html( $text ) . '</a>';
-	}
-	echo '</div>';
-}
-
 /**
  * Breadcrumb trail.
  */

@@ -1,44 +1,18 @@
 <?php
 /**
- * Site footer.
+ * Site footer (built with Appearance → Customize → Footer → Footer builder).
  *
  * @package UnderworldEmpireTheme
  */
 
 defined( 'ABSPATH' ) || exit;
-
-$uet_columns = (int) uet_opt( 'footer_widgets' );
 ?>
 </div><!-- .uet-content -->
-<?php if ( uet_show_footer() ) : ?>
-	<footer class="uet-footer" id="colophon">
-		<?php if ( $uet_columns ) : ?>
-			<div class="uet-footer__widgets uet-container uet-cols-<?php echo (int) $uet_columns; ?>">
-				<?php for ( $uet_i = 1; $uet_i <= $uet_columns; $uet_i++ ) : ?>
-					<div class="uet-footer__col"><?php dynamic_sidebar( 'footer-' . $uet_i ); ?></div>
-				<?php endfor; ?>
-			</div>
-		<?php endif; ?>
-		<div class="uet-footer__bar">
-			<div class="uet-container uet-footer__bar-inner uet-footer--<?php echo esc_attr( (string) uet_opt( 'footer_layout' ) ); ?>">
-				<div class="uet-copyright"><?php echo uet_copyright(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></div>
-				<?php
-				if ( has_nav_menu( 'footer' ) ) {
-					wp_nav_menu(
-						array(
-							'theme_location'  => 'footer',
-							'container'       => 'nav',
-							'container_class' => 'uet-footer__menu',
-							'menu_class'      => 'uet-inline-menu',
-							'depth'           => 1,
-						)
-					);
-				}
-				?>
-			</div>
-		</div>
-	</footer>
-<?php endif; ?>
+<?php
+if ( uet_show_footer() ) {
+	uet_render_footer();
+}
+?>
 </div><!-- .uet-site -->
 <?php if ( uet_opt( 'scroll_top' ) ) : ?>
 	<a href="#" class="uet-scroll-top uet-scroll-top--<?php echo esc_attr( (string) uet_opt( 'scroll_top_position' ) ); ?>" aria-label="<?php esc_attr_e( 'Scroll to top', 'underworld-empire-theme' ); ?>">

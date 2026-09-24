@@ -137,19 +137,20 @@ function uet_options(): array {
 
 		/* Typography -------------------------------------------------------- */
 		'body_font'              => array( 'system', 'uet_typography', 'select', __( 'Body font', 'underworld-empire-theme' ), $font_choices ),
-		'body_size'              => array( 16, 'uet_typography', 'number', __( 'Body font size (px)', 'underworld-empire-theme' ), array( 'min' => 12, 'max' => 24 ) ),
+		'body_size'              => array( array( 16, 16, 15 ), 'uet_typography', 'responsive', __( 'Body font size (px)', 'underworld-empire-theme' ), array( 'min' => 12, 'max' => 24 ) ),
 		'body_line_height'       => array( 16, 'uet_typography', 'number', __( 'Line height (×10)', 'underworld-empire-theme' ), array( 'min' => 10, 'max' => 24 ), __( '16 = 1.6', 'underworld-empire-theme' ) ),
 		'heading_font'           => array( 'system', 'uet_typography', 'select', __( 'Heading font', 'underworld-empire-theme' ), $font_choices ),
 		'heading_weight'         => array( '700', 'uet_typography', 'select', __( 'Heading weight', 'underworld-empire-theme' ), array( '400' => '400', '500' => '500', '600' => '600', '700' => '700', '800' => '800' ) ),
 		'heading_transform'      => array( 'none', 'uet_typography', 'select', __( 'Heading letter case', 'underworld-empire-theme' ), array( 'none' => __( 'Normal', 'underworld-empire-theme' ), 'uppercase' => __( 'Uppercase', 'underworld-empire-theme' ) ) ),
-		'h1_size'                => array( 40, 'uet_typography', 'number', __( 'H1 size (px)', 'underworld-empire-theme' ), array( 'min' => 20, 'max' => 96 ) ),
-		'h2_size'                => array( 30, 'uet_typography', 'number', __( 'H2 size (px)', 'underworld-empire-theme' ), array( 'min' => 16, 'max' => 72 ) ),
-		'h3_size'                => array( 24, 'uet_typography', 'number', __( 'H3 size (px)', 'underworld-empire-theme' ), array( 'min' => 14, 'max' => 56 ) ),
+		'h1_size'                => array( array( 40, 34, 28 ), 'uet_typography', 'responsive', __( 'H1 size (px)', 'underworld-empire-theme' ), array( 'min' => 18, 'max' => 96 ) ),
+		'h2_size'                => array( array( 30, 27, 23 ), 'uet_typography', 'responsive', __( 'H2 size (px)', 'underworld-empire-theme' ), array( 'min' => 16, 'max' => 72 ) ),
+		'h3_size'                => array( array( 24, 21, 19 ), 'uet_typography', 'responsive', __( 'H3 size (px)', 'underworld-empire-theme' ), array( 'min' => 14, 'max' => 56 ) ),
 		'google_fonts'           => array( 0, 'uet_typography', 'checkbox', __( 'Load fonts from Google Fonts', 'underworld-empire-theme' ), null, __( 'Needed for the web fonts in the lists above. Off = the system font is used instead (no external requests, GDPR friendly).', 'underworld-empire-theme' ) ),
 
 		/* Layout ------------------------------------------------------------ */
 		'site_layout'            => array( 'full-width', 'uet_layout', 'select', __( 'Site layout', 'underworld-empire-theme' ), array( 'full-width' => __( 'Full width', 'underworld-empire-theme' ), 'boxed' => __( 'Boxed (site in a box)', 'underworld-empire-theme' ), 'content-boxed' => __( 'Content boxed (content in cards)', 'underworld-empire-theme' ) ) ),
 		'container_width'        => array( 1200, 'uet_layout', 'number', __( 'Container width (px)', 'underworld-empire-theme' ), array( 'min' => 720, 'max' => 1920 ) ),
+		'container_padding'      => array( array( 24, 20, 16 ), 'uet_layout', 'responsive', __( 'Side spacing (px)', 'underworld-empire-theme' ), array( 'min' => 0, 'max' => 80 ) ),
 		'narrow_width'           => array( 760, 'uet_layout', 'number', __( 'Narrow container width (px)', 'underworld-empire-theme' ), array( 'min' => 480, 'max' => 1200 ) ),
 		'button_radius'          => array( 6, 'uet_layout', 'number', __( 'Button & box corner radius (px)', 'underworld-empire-theme' ), array( 'min' => 0, 'max' => 40 ) ),
 		'sidebar_default'        => array( 'right', 'uet_sidebar', 'select', __( 'Default sidebar', 'underworld-empire-theme' ), array_slice( $sidebar_choices, 1, null, true ) ),
@@ -159,28 +160,48 @@ function uet_options(): array {
 		'sidebar_width'          => array( 30, 'uet_sidebar', 'number', __( 'Sidebar width (%)', 'underworld-empire-theme' ), array( 'min' => 15, 'max' => 50 ) ),
 
 		/* Header ------------------------------------------------------------ */
-		'header_layout'          => array( 'logo-left', 'uet_header', 'select', __( 'Header layout', 'underworld-empire-theme' ), array( 'logo-left' => __( 'Logo left, menu right', 'underworld-empire-theme' ), 'logo-right' => __( 'Logo right, menu left', 'underworld-empire-theme' ), 'centered' => __( 'Logo centered, menu below', 'underworld-empire-theme' ) ) ),
-		'header_width'           => array( 'contained', 'uet_header', 'select', __( 'Header width', 'underworld-empire-theme' ), array( 'contained' => __( 'Contained', 'underworld-empire-theme' ), 'full' => __( 'Full width', 'underworld-empire-theme' ) ) ),
-		'header_padding'         => array( 18, 'uet_header', 'number', __( 'Header vertical padding (px)', 'underworld-empire-theme' ), array( 'min' => 0, 'max' => 80 ) ),
-		'logo_width'             => array( 180, 'uet_header', 'number', __( 'Logo width (px)', 'underworld-empire-theme' ), array( 'min' => 40, 'max' => 600 ) ),
-		'show_title'             => array( 1, 'uet_header', 'checkbox', __( 'Show site title', 'underworld-empire-theme' ) ),
-		'show_tagline'           => array( 0, 'uet_header', 'checkbox', __( 'Show tagline', 'underworld-empire-theme' ) ),
-		'header_search'          => array( 0, 'uet_header', 'checkbox', __( 'Show search in header', 'underworld-empire-theme' ) ),
-		'header_button_text'     => array( '', 'uet_header', 'text', __( 'Header button text', 'underworld-empire-theme' ), null, __( 'Leave empty to hide the button.', 'underworld-empire-theme' ) ),
-		'header_button_url'      => array( '', 'uet_header', 'url', __( 'Header button link', 'underworld-empire-theme' ) ),
-		'header_sticky'          => array( 0, 'uet_header', 'checkbox', __( 'Sticky header', 'underworld-empire-theme' ) ),
-		'header_transparent'     => array( 'off', 'uet_header', 'select', __( 'Transparent header', 'underworld-empire-theme' ), array( 'off' => __( 'Off', 'underworld-empire-theme' ), 'front' => __( 'Front page only', 'underworld-empire-theme' ), 'all' => __( 'Whole site', 'underworld-empire-theme' ) ), __( 'The header floats over the page content. Can be changed per page.', 'underworld-empire-theme' ) ),
-		'color_header_bg'        => array( '', 'uet_header', 'color', __( 'Header background', 'underworld-empire-theme' ), null, __( 'Empty = palette surface colour.', 'underworld-empire-theme' ) ),
-		'color_header_text'      => array( '', 'uet_header', 'color', __( 'Header text & menu', 'underworld-empire-theme' ) ),
-		'top_bar'                => array( 0, 'uet_topbar', 'checkbox', __( 'Show top bar above the header', 'underworld-empire-theme' ) ),
-		'top_bar_text'           => array( '', 'uet_topbar', 'textarea', __( 'Top bar text', 'underworld-empire-theme' ), null, __( 'Shown left; the "Top bar" menu is shown right. Simple HTML allowed.', 'underworld-empire-theme' ) ),
-		'mobile_breakpoint'      => array( 921, 'uet_mobile', 'number', __( 'Mobile menu below width (px)', 'underworld-empire-theme' ), array( 'min' => 480, 'max' => 1400 ) ),
-		'mobile_menu_label'      => array( __( 'Menu', 'underworld-empire-theme' ), 'uet_mobile', 'text', __( 'Mobile menu button label', 'underworld-empire-theme' ) ),
+		'header_builder'         => array( '', 'uet_header_builder', 'header_builder', __( 'Header layout', 'underworld-empire-theme' ), null, __( 'Drag elements into the rows. Switch between desktop and mobile with the tabs; the mobile menu panel holds what opens under the menu toggle.', 'underworld-empire-theme' ) ),
+		'header_width'           => array( 'contained', 'uet_header_general', 'select', __( 'Header width', 'underworld-empire-theme' ), array( 'contained' => __( 'Contained', 'underworld-empire-theme' ), 'full' => __( 'Full width', 'underworld-empire-theme' ) ) ),
+		'header_sticky'          => array( 0, 'uet_header_general', 'checkbox', __( 'Sticky header', 'underworld-empire-theme' ) ),
+		'header_transparent'     => array( 'off', 'uet_header_general', 'select', __( 'Transparent header', 'underworld-empire-theme' ), array( 'off' => __( 'Off', 'underworld-empire-theme' ), 'front' => __( 'Front page only', 'underworld-empire-theme' ), 'all' => __( 'Whole site', 'underworld-empire-theme' ) ), __( 'The header floats over the page content. Can be changed per page.', 'underworld-empire-theme' ) ),
+		'color_header_bg'        => array( '', 'uet_header_general', 'color', __( 'Header background', 'underworld-empire-theme' ), null, __( 'Empty = palette surface colour.', 'underworld-empire-theme' ) ),
+		'color_header_text'      => array( '', 'uet_header_general', 'color', __( 'Header text & menu', 'underworld-empire-theme' ) ),
+		'hrow_above_height'      => array( array( 40, 40, 36 ), 'uet_header_rows', 'responsive', __( 'Top row height (px)', 'underworld-empire-theme' ), array( 'min' => 24, 'max' => 200 ) ),
+		'hrow_above_bg'          => array( '', 'uet_header_rows', 'color', __( 'Top row background', 'underworld-empire-theme' ), null, __( 'Empty = palette surface 2 colour.', 'underworld-empire-theme' ) ),
+		'hrow_primary_height'    => array( array( 76, 68, 60 ), 'uet_header_rows', 'responsive', __( 'Main row height (px)', 'underworld-empire-theme' ), array( 'min' => 30, 'max' => 250 ) ),
+		'hrow_primary_bg'        => array( '', 'uet_header_rows', 'color', __( 'Main row background', 'underworld-empire-theme' ), null, __( 'Empty = header background.', 'underworld-empire-theme' ) ),
+		'hrow_below_height'      => array( array( 52, 48, 44 ), 'uet_header_rows', 'responsive', __( 'Bottom row height (px)', 'underworld-empire-theme' ), array( 'min' => 24, 'max' => 200 ) ),
+		'hrow_below_bg'          => array( '', 'uet_header_rows', 'color', __( 'Bottom row background', 'underworld-empire-theme' ), null, __( 'Empty = header background.', 'underworld-empire-theme' ) ),
+		'logo_width'             => array( array( 180, 160, 130 ), 'uet_header_logo', 'responsive', __( 'Logo width (px)', 'underworld-empire-theme' ), array( 'min' => 40, 'max' => 600 ) ),
+		'show_title'             => array( 1, 'uet_header_logo', 'checkbox', __( 'Show site title', 'underworld-empire-theme' ) ),
+		'show_tagline'           => array( 0, 'uet_header_logo', 'checkbox', __( 'Show tagline', 'underworld-empire-theme' ) ),
+		'hb_button_text'         => array( (string) get_theme_mod( 'uet_header_button_text', '' ) ?: __( 'Play now', 'underworld-empire-theme' ), 'uet_header_button', 'text', __( 'Button text', 'underworld-empire-theme' ) ),
+		'hb_button_url'          => array( (string) get_theme_mod( 'uet_header_button_url', '' ), 'uet_header_button', 'url', __( 'Button link', 'underworld-empire-theme' ), null, __( 'Empty = the game page.', 'underworld-empire-theme' ) ),
+		'hb_button_style'        => array( 'filled', 'uet_header_button', 'select', __( 'Button style', 'underworld-empire-theme' ), array( 'filled' => __( 'Filled', 'underworld-empire-theme' ), 'outline' => __( 'Outline', 'underworld-empire-theme' ) ) ),
+		'hb_html'                => array( (string) get_theme_mod( 'uet_top_bar_text', '' ), 'uet_header_html', 'textarea', __( 'HTML / text', 'underworld-empire-theme' ), null, __( 'Simple HTML and shortcodes are allowed.', 'underworld-empire-theme' ) ),
+		'hb_search_style'        => array( 'icon', 'uet_header_search', 'select', __( 'Search style', 'underworld-empire-theme' ), array( 'icon' => __( 'Icon with dropdown', 'underworld-empire-theme' ), 'field' => __( 'Search field', 'underworld-empire-theme' ) ) ),
+		'social_facebook'        => array( '', 'uet_social', 'url', 'Facebook' ),
+		'social_instagram'       => array( '', 'uet_social', 'url', 'Instagram' ),
+		'social_x'               => array( '', 'uet_social', 'url', 'X' ),
+		'social_youtube'         => array( '', 'uet_social', 'url', 'YouTube' ),
+		'social_tiktok'          => array( '', 'uet_social', 'url', 'TikTok' ),
+		'social_discord'         => array( '', 'uet_social', 'url', 'Discord' ),
+		'social_twitch'          => array( '', 'uet_social', 'url', 'Twitch' ),
+		'mobile_breakpoint'      => array( 921, 'uet_mobile', 'number', __( 'Use the mobile header below this width (px)', 'underworld-empire-theme' ), array( 'min' => 480, 'max' => 1400 ) ),
+		'mobile_popup'           => array( 'dropdown', 'uet_mobile', 'select', __( 'Mobile menu panel', 'underworld-empire-theme' ), array( 'dropdown' => __( 'Dropdown below the header', 'underworld-empire-theme' ), 'offcanvas' => __( 'Off-canvas (slides in from the side)', 'underworld-empire-theme' ) ) ),
+		'mobile_menu_label'      => array( __( 'Menu', 'underworld-empire-theme' ), 'uet_mobile', 'text', __( 'Menu toggle label', 'underworld-empire-theme' ), null, __( 'Leave empty for an icon-only button.', 'underworld-empire-theme' ) ),
 
 		/* Footer ------------------------------------------------------------ */
-		'footer_widgets'         => array( 0, 'uet_footer', 'select', __( 'Footer widget columns', 'underworld-empire-theme' ), array( '0' => __( 'None', 'underworld-empire-theme' ), '1' => '1', '2' => '2', '3' => '3', '4' => '4' ), __( 'Add widgets under Appearance → Widgets → Footer 1-4.', 'underworld-empire-theme' ) ),
-		'footer_layout'          => array( 'center', 'uet_footer', 'select', __( 'Footer bar layout', 'underworld-empire-theme' ), array( 'center' => __( 'Centered', 'underworld-empire-theme' ), 'split' => __( 'Copyright left, menu right', 'underworld-empire-theme' ) ) ),
+		'footer_builder'         => array( '', 'uet_footer_builder', 'footer_builder', __( 'Footer layout', 'underworld-empire-theme' ), null, __( 'Choose the number of columns per row, then drag elements into the columns.', 'underworld-empire-theme' ) ),
+		'frow_above_align'       => array( 'left', 'uet_footer_rows', 'select', __( 'Top row alignment', 'underworld-empire-theme' ), array( 'left' => __( 'Left', 'underworld-empire-theme' ), 'center' => __( 'Center', 'underworld-empire-theme' ), 'right' => __( 'Right', 'underworld-empire-theme' ), 'split' => __( 'Spread (first column left, last right)', 'underworld-empire-theme' ) ) ),
+		'frow_primary_align'     => array( 'left', 'uet_footer_rows', 'select', __( 'Middle row alignment', 'underworld-empire-theme' ), array( 'left' => __( 'Left', 'underworld-empire-theme' ), 'center' => __( 'Center', 'underworld-empire-theme' ), 'right' => __( 'Right', 'underworld-empire-theme' ), 'split' => __( 'Spread (first column left, last right)', 'underworld-empire-theme' ) ) ),
+		'frow_below_align'       => array( 'split', 'uet_footer_rows', 'select', __( 'Bottom row alignment', 'underworld-empire-theme' ), array( 'left' => __( 'Left', 'underworld-empire-theme' ), 'center' => __( 'Center', 'underworld-empire-theme' ), 'right' => __( 'Right', 'underworld-empire-theme' ), 'split' => __( 'Spread (first column left, last right)', 'underworld-empire-theme' ) ) ),
+		'footer_row_padding'     => array( array( 28, 24, 20 ), 'uet_footer_rows', 'responsive', __( 'Row padding (px)', 'underworld-empire-theme' ), array( 'min' => 0, 'max' => 120 ) ),
+		'frow_above_bg'          => array( '', 'uet_footer_rows', 'color', __( 'Top row background', 'underworld-empire-theme' ), null, __( 'Empty = footer background.', 'underworld-empire-theme' ) ),
+		'frow_primary_bg'        => array( '', 'uet_footer_rows', 'color', __( 'Middle row background', 'underworld-empire-theme' ) ),
+		'frow_below_bg'          => array( '', 'uet_footer_rows', 'color', __( 'Bottom row background', 'underworld-empire-theme' ) ),
 		'footer_copyright'       => array( 'Copyright &copy; [current_year] [site_title]', 'uet_footer', 'textarea', __( 'Copyright text', 'underworld-empire-theme' ), null, __( 'Available codes: [current_year] [site_title] [site_url] [theme_author]', 'underworld-empire-theme' ) ),
+		'fb_html'                => array( '', 'uet_footer', 'textarea', __( 'Footer HTML / text', 'underworld-empire-theme' ), null, __( 'Used by the "HTML / text" footer element. Simple HTML and shortcodes are allowed.', 'underworld-empire-theme' ) ),
 		'color_footer_bg'        => array( '', 'uet_footer', 'color', __( 'Footer background', 'underworld-empire-theme' ), null, __( 'Empty = palette surface colour.', 'underworld-empire-theme' ) ),
 		'color_footer_text'      => array( '', 'uet_footer', 'color', __( 'Footer text', 'underworld-empire-theme' ) ),
 
@@ -209,13 +230,14 @@ function uet_options(): array {
 
 	$options = array();
 	foreach ( $o as $key => $row ) {
+		$numeric         = in_array( $row[2], array( 'number', 'responsive' ), true );
 		$options[ $key ] = array(
 			'default'     => $row[0],
 			'section'     => $row[1],
 			'type'        => $row[2],
 			'label'       => $row[3],
-			'choices'     => ( 'number' === $row[2] ) ? array() : ( $row[4] ?? array() ),
-			'input_attrs' => ( 'number' === $row[2] ) ? ( $row[4] ?? array() ) : array(),
+			'choices'     => $numeric ? array() : ( $row[4] ?? array() ),
+			'input_attrs' => $numeric ? ( $row[4] ?? array() ) : array(),
 			'description' => $row[5] ?? '',
 		);
 	}
@@ -230,7 +252,23 @@ function uet_options(): array {
 function uet_opt( string $key ) {
 	$options = uet_options();
 	$default = $options[ $key ]['default'] ?? null;
+	if ( is_array( $default ) ) {
+		$default = $default[0];
+	}
 	return get_theme_mod( 'uet_' . $key, $default );
+}
+
+/**
+ * Responsive value: [ desktop, tablet, mobile ].
+ */
+function uet_opt_r( string $key ): array {
+	$options  = uet_options();
+	$defaults = (array) ( $options[ $key ]['default'] ?? array( 0, 0, 0 ) );
+	return array(
+		(int) get_theme_mod( 'uet_' . $key, $defaults[0] ),
+		(int) get_theme_mod( 'uet_' . $key . '_tablet', $defaults[1] ?? $defaults[0] ),
+		(int) get_theme_mod( 'uet_' . $key . '_mobile', $defaults[2] ?? $defaults[0] ),
+	);
 }
 
 /**

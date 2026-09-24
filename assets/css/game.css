@@ -245,17 +245,111 @@
 .dfmg-card--dead { border-color: var(--dfmg-danger); }
 
 /* Responsive -------------------------------------------------------------- */
-@media (max-width: 860px) {
+.dfmg-choice-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.dfmg-menu-toggle__icon, .dfmg-menu-toggle__icon::before, .dfmg-menu-toggle__icon::after { display: block; width: 16px; height: 2px; background: currentColor; position: relative; transition: transform .2s ease, background .2s ease; }
+.dfmg-menu-toggle__icon::before, .dfmg-menu-toggle__icon::after { content: ""; position: absolute; left: 0; }
+.dfmg-menu-toggle__icon::before { top: -5px; }
+.dfmg-menu-toggle__icon::after { top: 5px; }
+.dfmg-menu-toggle[aria-expanded="true"] .dfmg-menu-toggle__icon { background: transparent; }
+.dfmg-menu-toggle[aria-expanded="true"] .dfmg-menu-toggle__icon::before { transform: translateY(5px) rotate(45deg); }
+.dfmg-menu-toggle[aria-expanded="true"] .dfmg-menu-toggle__icon::after { transform: translateY(-5px) rotate(-45deg); }
+
+@media (max-width: 1024px) {
+	.dfmg-body { grid-template-columns: 180px minmax(0, 1fr); }
+	.dfmg-main { padding: 6px 16px 22px; }
 	.dfmg-grid--3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+@media (max-width: 860px) {
+	.dfmg-grid--2 { grid-template-columns: 1fr; }
+}
 @media (max-width: 720px) {
-	.dfmg { border-radius: 0; }
-	.dfmg-body { grid-template-columns: 1fr; }
-	.dfmg-nav { display: none; border-right: 0; border-bottom: 1px solid var(--dfmg-border); }
-	.dfmg-nav.is-open { display: block; }
-	.dfmg-menu-toggle { display: inline-block; margin-left: auto; background: var(--dfmg-panel-2); color: var(--dfmg-text); border: 1px solid var(--dfmg-border); border-radius: 6px; padding: 6px 12px; font: inherit; }
-	.dfmg-stats { order: 3; flex-basis: 100%; }
+	.dfmg { border-radius: 0; border-left: 0; border-right: 0; font-size: 15px; }
+	.dfmg-header { padding: 12px 14px; gap: 10px 12px; }
+	.dfmg-header__who { min-width: 0; flex: 1; }
+	.dfmg-header__name { max-width: 100%; }
+	.dfmg-header__label { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+	.dfmg .dfmg-menu-toggle, .dfmg .dfmg-menu-toggle:hover, .dfmg .dfmg-menu-toggle:focus {
+		display: inline-flex; align-items: center; gap: 8px; margin-left: auto; min-height: 42px; padding: 8px 12px;
+		background: var(--dfmg-panel-2); color: var(--dfmg-text); border: 1px solid var(--dfmg-border); border-radius: 6px;
+		font: inherit; font-weight: 600; line-height: 1; filter: none;
+	}
+	.dfmg .dfmg-menu-toggle[aria-expanded="true"] { border-color: var(--dfmg-accent); }
+	.dfmg-stats { order: 3; flex-basis: 100%; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); gap: 8px 12px; }
+	.dfmg-stat { min-width: 0; }
+	.dfmg-stat dd { font-size: .95em; overflow: hidden; text-overflow: ellipsis; }
+	.dfmg-body { display: block; position: relative; }
+	.dfmg-nav { display: none; border-right: 0; border-bottom: 1px solid var(--dfmg-border); padding: 6px 8px 12px; }
+	.dfmg-nav.is-open { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 8px; }
+	.dfmg-nav__group h4 { margin: 10px 8px 2px; }
+	.dfmg-nav li a { padding: 9px 8px; border-radius: 6px; min-height: 40px; }
+	.dfmg-nav li.is-active a { box-shadow: inset 3px 0 0 var(--dfmg-accent); }
+	.dfmg-nav__group:last-child { grid-column: 1 / -1; border-top: 1px solid var(--dfmg-border); margin-top: 8px; padding-top: 4px; }
 	.dfmg-main { padding: 4px 14px 20px; }
-	.dfmg-grid--2, .dfmg-grid--3, .dfmg-choice-grid { grid-template-columns: 1fr; }
-	.dfmg-table { display: block; overflow-x: auto; }
+	.dfmg-title { font-size: 1.3em; margin-top: .8em; }
+	.dfmg-grid--3 { grid-template-columns: 1fr; }
+	.dfmg-card { padding: 12px 14px; }
+	.dfmg-footer { padding: 10px 14px; }
+
+	/* Data tables become cards; labels come from the table header (game.js). */
+	.dfmg-table:not(.dfmg-table--keyvalue) thead { display: none; }
+	.dfmg-table:not(.dfmg-table--keyvalue), .dfmg-table:not(.dfmg-table--keyvalue) tbody { display: block; }
+	.dfmg-table:not(.dfmg-table--keyvalue) tr {
+		display: flex; flex-wrap: wrap; align-items: center; gap: 4px 12px; margin-bottom: 10px; padding: 10px 12px;
+		background: var(--dfmg-panel); border: 1px solid var(--dfmg-border); border-radius: var(--dfmg-radius);
+	}
+	.dfmg-table:not(.dfmg-table--keyvalue) td, .dfmg-table:not(.dfmg-table--keyvalue) th { display: block; padding: 2px 0; border: 0; flex: 1 1 100%; min-width: 0; }
+	.dfmg-table:not(.dfmg-table--keyvalue) td[data-label]:not([data-label=""])::before {
+		content: attr(data-label); display: block; font-size: .72em; text-transform: uppercase; letter-spacing: .05em; color: var(--dfmg-muted);
+	}
+	.dfmg-table:not(.dfmg-table--keyvalue) td[data-label]:not([data-label=""]) { flex: 1 1 40%; }
+	.dfmg-table:not(.dfmg-table--keyvalue) td:first-child { flex-basis: 100%; font-size: 1.02em; }
+	.dfmg-table:not(.dfmg-table--keyvalue) td.dfmg-actions, .dfmg-table:not(.dfmg-table--keyvalue) td:last-child:not([data-label]), .dfmg-table:not(.dfmg-table--keyvalue) td[data-label=""] { flex-basis: 100%; }
+	.dfmg-table:not(.dfmg-table--keyvalue) td .dfmg-inline-form { margin: 2px 4px 2px 0; }
+	.dfmg-table:not(.dfmg-table--keyvalue) td > .dfmg-inline-form:only-child, .dfmg-table:not(.dfmg-table--keyvalue) td > .dfmg-inline-form:only-child .dfmg-button { width: 100%; }
+	.dfmg-table:not(.dfmg-table--keyvalue) tr.is-unread, .dfmg-table:not(.dfmg-table--keyvalue) tr.is-me { border-color: var(--dfmg-accent); }
+	.dfmg-table:not(.dfmg-table--keyvalue) tr.is-unread td, .dfmg-table:not(.dfmg-table--keyvalue) tr.is-me td { background: transparent; }
+	.dfmg-col-bar { min-width: 0; }
+	.dfmg-col-check { position: absolute; right: 10px; top: 10px; width: auto; flex: none !important; }
+	.dfmg-messages tr { position: relative; }
+	.dfmg-pos { flex: 0 0 auto !important; width: auto; }
+	.dfmg-leaderboard tr { flex-wrap: nowrap; }
+	.dfmg-leaderboard td { flex: 1 1 auto !important; }
+	.dfmg-table--keyvalue th { width: 45%; }
+	.dfmg-table--keyvalue th, .dfmg-table--keyvalue td { padding: 7px 6px; }
+
+	/* Forms: fields and buttons full width. */
+	.dfmg-form:not(.dfmg-inline-form) > input, .dfmg-form:not(.dfmg-inline-form) > select, .dfmg-form:not(.dfmg-inline-form) > label, .dfmg-form:not(.dfmg-inline-form) > textarea { flex: 1 1 100%; width: 100%; }
+	.dfmg-form:not(.dfmg-inline-form) > label input, .dfmg-form:not(.dfmg-inline-form) > label select { width: 100%; margin-top: 4px; }
+	.dfmg-form:not(.dfmg-inline-form) > button { flex: 1 1 auto; }
+	.dfmg-form--stacked button { align-self: stretch; }
+	.dfmg input[type="text"], .dfmg input[type="number"], .dfmg input[type="search"], .dfmg select, .dfmg textarea { min-height: 42px; font-size: 16px; }
+	.dfmg-button, .dfmg button.dfmg-button { padding: 10px 14px; min-height: 40px; white-space: normal; }
+	.dfmg-button--small { min-height: 34px; padding: 6px 10px; }
+	.dfmg-actions { gap: 6px; }
+	.dfmg-property { flex-direction: column; align-items: stretch; }
+	.dfmg-property .dfmg-button { width: 100%; text-align: center; }
+	.dfmg-choice-grid { grid-template-columns: 1fr; }
+	.dfmg-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+	.dfmg-tabs a { white-space: nowrap; }
+	.dfmg-pager a { min-width: 40px; text-align: center; }
+	.dfmg-cards { gap: 6px; }
+	.dfmg-card-face { width: 46px; height: 66px; font-size: 1.05em; }
+	.dfmg-details[open] { padding: 10px; }
+	.dfmg-profile__head { flex-wrap: wrap; }
+	.dfmg-welcome { padding: 20px 12px; }
+	.dfmg-welcome .dfmg-card { padding: 18px; }
+}
+@media (max-width: 380px) {
+	.dfmg-stats { grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); }
+	.dfmg-nav.is-open { grid-template-columns: 1fr; }
+}
+@media (max-width: 720px) {
+	.dfmg-table:not(.dfmg-table--keyvalue) td:first-child::before { display: none !important; }
+}
+.dfmg-table--keyvalue { width: 100%; }
+.dfmg-card--danger label, .dfmg-form > label:has(> input[type="checkbox"]) { display: inline-flex; align-items: center; gap: 8px; }
+@media (max-width: 720px) {
+	.dfmg-table.dfmg-table--keyvalue { display: table; width: 100%; }
+	.dfmg-form:not(.dfmg-inline-form) > label:has(> input[type="checkbox"]) { flex: 1 1 100%; }
+	.dfmg-form:not(.dfmg-inline-form) > label > input[type="checkbox"] { width: auto; margin: 0; }
 }

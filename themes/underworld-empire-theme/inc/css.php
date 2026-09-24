@@ -37,7 +37,13 @@ function uet_font_stack( string $key ): string {
 }
 
 /**
- * CSS custom properties for the current settings.
+ * Breakpoints used for tablet and mobile values.
+ */
+const UET_TABLET = 1024;
+const UET_MOBILE = 767;
+
+/**
+ * CSS custom properties for the current settings, with tablet and mobile overrides.
  */
 function uet_dynamic_css( string $scope = ':root' ): string {
 	$c    = uet_colors();
@@ -57,21 +63,21 @@ function uet_dynamic_css( string $scope = ':root' ): string {
 		'--uet-header-text'       => $c['header_text'],
 		'--uet-footer-bg'         => $c['footer_bg'],
 		'--uet-footer-text'       => $c['footer_text'],
+		'--uet-hrow-above-bg'     => (string) uet_opt( 'hrow_above_bg' ) ?: $c['surface_2'],
+		'--uet-hrow-primary-bg'   => (string) uet_opt( 'hrow_primary_bg' ) ?: 'transparent',
+		'--uet-hrow-below-bg'     => (string) uet_opt( 'hrow_below_bg' ) ?: 'transparent',
+		'--uet-frow-above-bg'     => (string) uet_opt( 'frow_above_bg' ) ?: 'transparent',
+		'--uet-frow-primary-bg'   => (string) uet_opt( 'frow_primary_bg' ) ?: 'transparent',
+		'--uet-frow-below-bg'     => (string) uet_opt( 'frow_below_bg' ) ?: 'transparent',
 		'--uet-font-body'         => uet_font_stack( (string) uet_opt( 'body_font' ) ),
 		'--uet-font-heading'      => uet_font_stack( (string) uet_opt( 'heading_font' ) ),
-		'--uet-body-size'         => absint( uet_opt( 'body_size' ) ) . 'px',
 		'--uet-line-height'       => ( absint( uet_opt( 'body_line_height' ) ) / 10 ),
 		'--uet-heading-weight'    => (string) uet_opt( 'heading_weight' ),
 		'--uet-heading-transform' => (string) uet_opt( 'heading_transform' ),
-		'--uet-h1'                => absint( uet_opt( 'h1_size' ) ) . 'px',
-		'--uet-h2'                => absint( uet_opt( 'h2_size' ) ) . 'px',
-		'--uet-h3'                => absint( uet_opt( 'h3_size' ) ) . 'px',
 		'--uet-container'         => absint( uet_opt( 'container_width' ) ) . 'px',
 		'--uet-narrow'            => absint( uet_opt( 'narrow_width' ) ) . 'px',
 		'--uet-radius'            => absint( uet_opt( 'button_radius' ) ) . 'px',
 		'--uet-sidebar'           => absint( uet_opt( 'sidebar_width' ) ) . '%',
-		'--uet-header-padding'    => absint( uet_opt( 'header_padding' ) ) . 'px',
-		'--uet-logo-width'        => absint( uet_opt( 'logo_width' ) ) . 'px',
 		// WordPress presets, used by blocks and by the Underworld Empire game.
 		'--wp--preset--color--base'        => $c['base'],
 		'--wp--preset--color--surface'     => $c['surface'],
@@ -84,26 +90,60 @@ function uet_dynamic_css( string $scope = ':root' ): string {
 		'--wp--preset--color--button'      => $c['button_bg'],
 		'--wp--preset--color--button-text' => $c['button_text'],
 	);
-	$css = '';
-	foreach ( $vars as $name => $value ) {
-		$css .= $name . ':' . $value . ';';
-	}
-	$selector = ':root' === $scope ? ':root,body' : $scope;
-	$out      = $selector . '{' . $css . '}';
 
-	// The mobile menu breakpoint can't be a CSS variable inside a media query.
-	$bp   = max( 320, absint( uet_opt( 'mobile_breakpoint' ) ) );
-	$out .= '@media (max-width:' . $bp . 'px){'
-		. '.uet-header .uet-menu-toggle{display:inline-flex}'
-		. '.uet-header .uet-primary-nav{display:none;flex-basis:100%;order:10}'
-		. '.uet-header.is-menu-open .uet-primary-nav{display:block}'
-		. '.uet-header .uet-primary-nav ul{flex-direction:column;align-items:stretch}'
-		. '.uet-header .uet-primary-nav .sub-menu{position:static;display:block;box-shadow:none;border:0;padding-left:16px;background:transparent}'
-		. '.uet-header--centered .uet-header__inner{flex-direction:row}'
-		. '.uet-header__actions .uet-header-button{display:none}'
-		. '}';
+	// Values per device: css variable => option.
+	$responsive = array(
+		'--uet-body-size'      => 'body_size',
+		'--uet-h1'             => 'h1_size',
+		'--uet-h2'             => 'h2_size',
+		'--uet-h3'             => 'h3_size',
+		'--uet-gutter'         => 'container_padding',
+		'--uet-logo-width'     => 'logo_width',
+		'--uet-hrow-above-h'   => 'hrow_above_height',
+		'--uet-hrow-primary-h' => 'hrow_primary_height',
+		'--uet-hrow-below-h'   => 'hrow_below_height',
+		'--uet-frow-padding'   => 'footer_row_padding',
+	);
+	$tablet = array();
+	$mobile = array();
+	foreach ( $responsive as $var => $key ) {
+		$values         = uet_opt_r( $key );
+		$vars[ $var ]   = $values[0] . 'px';
+		$tablet[ $var ] = $values[1] . 'px';
+		$mobile[ $var ] = $values[2] . 'px';
+	}
+
+	$selector = ':root' === $scope ? ':root,body' : $scope;
+	$block    = static function ( array $list ) use ( $selector ) {
+		$css = '';
+		foreach ( $list as $name => $value ) {
+			$css .= $name . ':' . $value . ';';
+		}
+		return $selector . '{' . $css . '}';
+	};
+	$out  = $block( $vars );
+	$out .= '@media (max-width:' . UET_TABLET . 'px){' . $block( $tablet ) . '}';
+	$out .= '@media (max-width:' . UET_MOBILE . 'px){' . $block( $mobile ) . '}';
+
+	if ( ':root' === $scope ) {
+		// Desktop or mobile header. A media query can't use a CSS variable.
+		$bp   = max( 320, absint( uet_opt( 'mobile_breakpoint' ) ) );
+		$out .= '@media (min-width:' . ( $bp + 1 ) . 'px){.uet-header__mobile,.uet-popup{display:none!important}}';
+		$out .= '@media (max-width:' . $bp . 'px){.uet-header__desktop{display:none}}';
+	}
 	return $out;
 }
+
+/**
+ * Print the dynamic CSS in its own element so the Customizer can replace it live.
+ */
+add_action(
+	'wp_head',
+	static function () {
+		echo '<style id="uet-dynamic-css">' . uet_dynamic_css() . '</style>' . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	},
+	20
+);
 
 /**
  * Feed the Customizer colours into the theme.json palette (block editor colour picker).
