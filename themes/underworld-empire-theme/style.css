@@ -3,10 +3,14 @@ Theme Name: Underworld Empire
 Theme URI: https://github.com/DigiFalk/Underworld_Empire
 Author: DigiFalk
 Author URI: https://github.com/DigiFalk
-Description: Dark block theme that matches the Underworld Empire game. Bundled with the Underworld Empire plugin and available while the plugin is active.
-Version: 1.0.0
-Requires at least: 6.0
+Description: Fast, fully customisable theme that matches the Underworld Empire game. Colours, typography, layout, header, footer, blog and per-page options are all set in the Customizer. Bundled with the Underworld Empire plugin and available while the plugin is active.
+Version: 2.0.0
+Requires at least: 6.1
+Tested up to: 6.8
 Requires PHP: 7.4
 License: DigiFalk License (see LICENSE.md of the Underworld Empire plugin)
 Text Domain: underworld-empire-theme
+Tags: dark, one-column, two-columns, left-sidebar, right-sidebar, custom-colors, custom-logo, custom-menu, featured-images, footer-widgets, sticky-post, theme-options, translation-ready, wide-blocks, block-styles
 */
+
+/* Styles live in assets/css/theme.css. */

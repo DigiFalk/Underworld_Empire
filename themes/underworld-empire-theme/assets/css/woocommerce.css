@@ -1,0 +1,22 @@
+/* WooCommerce – uses the same variables as the theme. */
+.woocommerce .woocommerce-breadcrumb { color: var(--uet-muted); }
+.woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
+	background: var(--uet-surface); border: 1px solid var(--uet-border); border-radius: var(--uet-radius); padding: 14px;
+}
+.woocommerce ul.products li.product .woocommerce-loop-product__title { color: var(--uet-heading); }
+.woocommerce ul.products li.product .price, .woocommerce div.product p.price, .woocommerce div.product span.price { color: var(--uet-accent); }
+.woocommerce a.button, .woocommerce button.button, .woocommerce input.button, .woocommerce #respond input#submit,
+.woocommerce a.button.alt, .woocommerce button.button.alt {
+	background: var(--uet-button-bg); color: var(--uet-button-text); border-radius: var(--uet-radius);
+}
+.woocommerce a.button:hover, .woocommerce button.button:hover, .woocommerce a.button.alt:hover, .woocommerce button.button.alt:hover {
+	background: var(--uet-button-bg); color: var(--uet-button-text); filter: brightness(1.08);
+}
+.woocommerce span.onsale { background: var(--uet-accent); color: var(--uet-button-text); }
+.woocommerce-message, .woocommerce-info, .woocommerce-error { background: var(--uet-surface); color: var(--uet-text); border-top-color: var(--uet-accent); }
+.woocommerce table.shop_table { border-color: var(--uet-border); }
+.woocommerce table.shop_table td, .woocommerce table.shop_table th { border-color: var(--uet-border); }
+.woocommerce div.product .woocommerce-tabs ul.tabs li { background: var(--uet-surface-2); border-color: var(--uet-border); }
+.woocommerce div.product .woocommerce-tabs ul.tabs li.active { background: var(--uet-surface); }
+.woocommerce div.product .woocommerce-tabs ul.tabs li a { color: var(--uet-text); }
+.woocommerce form .form-row input.input-text, .woocommerce form .form-row textarea { background: var(--uet-base); color: var(--uet-text); border-color: var(--uet-border); }

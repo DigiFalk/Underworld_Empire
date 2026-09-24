@@ -3,6 +3,20 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.4.0
+
+- The bundled **Underworld Empire** theme (2.0.0) is rebuilt as a fully customisable theme
+  with options comparable to the free version of Astra, all in *Appearance → Customize*:
+  colour palettes and custom colours, typography with optional Google Fonts, site layouts,
+  container widths, sidebars per page type, three header layouts, logo, sticky and
+  transparent header, header button and search, top bar, mobile menu, footer widget columns
+  and copyright, blog list/grid and post options, breadcrumbs and scroll to top.
+- New *Page options* box per page and post (sidebar, content layout, transparent header,
+  hide title/featured image/breadcrumbs/header/footer).
+- Menus, widget areas, custom logo, WooCommerce styling, editor styles and starter content.
+- The theme's colours are shared with WordPress blocks and with the game.
+- The theme URL is now built from the plugin URL, so it also works for symlinked plugins.
+
 ## 1.3.0
 
 - The game now follows the colours and font of the active WordPress theme. A new

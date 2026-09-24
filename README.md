@@ -73,10 +73,27 @@ See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
 * **Appearance** (Underworld Empire → Settings): by default the game follows the colours and
   font of your WordPress theme, in light and dark themes alike. Choose *Built-in dark look* for
   the original dark style regardless of the theme.
-* **Bundled theme**: the plugin ships the block theme **Underworld Empire** (dark, gold accents).
-  Activate it under *Appearance → Themes* to give the whole website the look of the game. The
-  game page uses its wide template *Game (wide, no title)*. The theme is available while the
-  plugin is active.
+* **Bundled theme**: the plugin ships the theme **Underworld Empire**. Activate it under
+  *Appearance → Themes*; it is available while the plugin is active. Everything is set in
+  *Appearance → Customize*, comparable to the free version of Astra:
+  * **Global**: colour palettes (Underworld, Noir, Daylight or custom colours), typography
+    (16 fonts, optional Google Fonts, sizes, weights, heading case), site layout (full width,
+    boxed, content boxed), container widths, corner radius, sidebar position per page type,
+    breadcrumbs, page titles and a scroll-to-top button.
+  * **Header**: three layouts, logo and logo width, site title/tagline, header width and
+    padding, search, call-to-action button, sticky and transparent header, top bar with
+    text and menu, mobile menu with breakpoint and label, header colours.
+  * **Footer**: 0-4 widget columns, copyright text with `[current_year]` `[site_title]`
+    `[site_url]` `[theme_author]`, footer menu, centered or split layout, colours.
+  * **Blog**: list or 2/3-column grid, featured images, date/author/categories/comments,
+    excerpt length, read-more text; single posts with featured image, meta, tags, author box
+    and previous/next navigation.
+  * **Page options** box on every page and post: sidebar, content layout (normal, narrow,
+    full width for page builders), transparent header, hide title/featured image/
+    breadcrumbs/header/footer.
+  * Menus (primary, top bar, footer), widget areas (sidebar, footer 1-4), custom logo,
+    WooCommerce styling, block editor styles, starter content for new sites.
+  * The palette is shared with WordPress blocks and with the game (in *Follow the theme* mode).
 * Block themes can fine-tune the game with these optional palette slugs in `theme.json`:
   `accent`, `surface`, `surface-2`, `border`, `muted`, `button`, `button-text`.
 * All styles are CSS custom properties on `.dfmg` (see `assets/css/game.css`) and can be overridden in your theme.
