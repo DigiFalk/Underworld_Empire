@@ -7,12 +7,16 @@
  *  2. wp-content/underworld-modules/<id>/module.php   (your own, survives updates; overrides bundled modules with the same id)
  *  3. Other plugins: add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( '/path/to/module.php' ) );
  *
+ * Modules with the header "Premium: yes" are bought on the DigiFalk store and only run
+ * with an activated license (see Premium\Licenses).
+ *
  * @package DigiFalk\UnderworldEmpire
  */
 
 namespace DigiFalk\UnderworldEmpire\Module;
 
 use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Premium\Licenses;
 use DigiFalk\UnderworldEmpire\Settings;
 
 defined( 'ABSPATH' ) || exit;
@@ -30,6 +34,7 @@ final class Registry {
 		'requires'    => 'Requires',
 		'default'     => 'Default',
 		'required'    => 'Required',
+		'premium'     => 'Premium',
 	);
 
 	/** @var array id => info */
@@ -87,6 +92,11 @@ final class Registry {
 		$info['requires'] = array_values( array_filter( array_map( 'sanitize_key', explode( ',', $info['requires'] ) ) ) );
 		$info['default']  = 'no' !== strtolower( trim( $info['default'] ) );
 		$info['required'] = 'yes' === strtolower( trim( $info['required'] ) );
+		$info['premium']  = 'yes' === strtolower( trim( $info['premium'] ) );
+		if ( $info['premium'] ) {
+			$info['default']  = false;
+			$info['required'] = false;
+		}
 		$this->available[ $id ] = $info;
 	}
 
@@ -121,7 +131,15 @@ final class Registry {
 				$stored[] = $id;
 			}
 		}
-		return array_values( array_filter( $stored, array( $this, 'exists' ) ) );
+		return array_values( array_filter( $stored, array( $this, 'runnable' ) ) );
+	}
+
+	/**
+	 * Exists, and when premium: licensed for this site.
+	 */
+	public function runnable( string $id ): bool {
+		$info = $this->available()[ $id ] ?? null;
+		return $info && ( empty( $info['premium'] ) || Licenses::is_licensed( $id ) );
 	}
 
 	public function is_enabled( string $id ): bool {
@@ -216,6 +234,9 @@ final class Registry {
 		$info = $this->info( $id );
 		if ( ! $info ) {
 			return new \WP_Error( 'module', __( 'Module not found.', 'underworld-empire' ) );
+		}
+		if ( ! $this->runnable( $id ) ) {
+			return new \WP_Error( 'module', __( 'This premium module needs an active license. Enter your license key on the Modules screen.', 'underworld-empire' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $info['requires'] as $dep ) {

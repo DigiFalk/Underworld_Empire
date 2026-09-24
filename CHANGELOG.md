@@ -3,6 +3,21 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.9.0
+
+- **Premium modules**: a new *Premium modules* section on the Modules screen shows modules
+  from the DigiFalk store as locked cards with price and a **Buy** button. Paste the license
+  key from your email and the module is activated for your site, downloaded, checked
+  (SHA-256, plus Ed25519 signature when the store key is set) and installed in
+  `wp-content/underworld-modules`, then switched on. Lifetime licenses: daily update check
+  and one-click updates. **Deactivate license** removes the module and frees the key for
+  another site. A premium module stops when its license is revoked.
+- Modules can be marked premium with the header `Premium: yes`; they only run with an
+  active license.
+- Store contract and module packaging: `docs/PREMIUM.md`.
+- Uninstall with "delete all game data" now also removes the game layout, migrations and
+  licenses.
+
 ## 1.8.1
 
 - Fixed: a Dutch round name from the very first version ("Ronde 2", "Ronde 3", ...) is now

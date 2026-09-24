@@ -28,6 +28,7 @@ final class Installer {
 
 	public static function deactivate(): void {
 		wp_clear_scheduled_hook( 'dfmg_hourly' );
+		wp_clear_scheduled_hook( 'dfmg_daily_license_check' );
 	}
 
 	public static function maybe_upgrade(): void {

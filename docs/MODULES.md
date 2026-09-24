@@ -57,6 +57,11 @@ return new class() extends Module {
 
 The file must return an object that extends `DigiFalk\UnderworldEmpire\Module\Module`.
 
+### Premium modules
+
+Add `Premium: yes` to the header to sell a module in the DigiFalk store; it then only runs
+with an active license. See `PREMIUM.md`.
+
 ### Icons
 
 Every menu item, page title and module card gets a line icon by the module id. Unknown ids

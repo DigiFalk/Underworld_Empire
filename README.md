@@ -65,6 +65,13 @@ sits in a collapsed danger zone. **Modules** are cards with an on/off switch, fi
 | News | `news` | Game news. |
 | Forum | `forum` | Forum with moderation. |
 
+## Premium modules
+
+Extra modules can be bought in the DigiFalk store. They show on the Modules screen as locked
+cards with a **Buy** button; paste the license key from your email and the module is
+downloaded, verified, installed and switched on. One payment, lifetime updates. Details and
+the store API: [`docs/PREMIUM.md`](docs/PREMIUM.md).
+
 ## Custom modules
 
 The game is fully modular. A module is a folder containing a `module.php`. Put your own
