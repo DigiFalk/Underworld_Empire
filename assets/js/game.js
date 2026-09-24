@@ -1,5 +1,5 @@
 /**
- * WP Maffia Game – live countdowns and mobile menu. No dependencies.
+ * WP Mafia Game – live countdowns and mobile menu. No dependencies.
  */
 ( function () {
 	'use strict';
@@ -27,7 +27,7 @@
 			parts.push( d + 'd' );
 		}
 		if ( h || d ) {
-			parts.push( h + 'u' );
+			parts.push( h + 'h' );
 		}
 		if ( m || h || d ) {
 			parts.push( pad( m ) + 'm' );

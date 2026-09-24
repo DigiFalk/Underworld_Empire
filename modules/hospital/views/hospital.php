@@ -14,27 +14,27 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="dfmg-card">
 	<?php if ( $c->is_hospitalized() ) : ?>
-		<?php echo UI::cooldown( __( 'Je wordt behandeld. Ontslag over', 'wp-maffia-game' ), $c->timer( 'hospital' ) ); // phpcs:ignore ?>
+		<?php echo UI::cooldown( __( 'You are being treated. Discharged in', 'wp-maffia-game' ), $c->timer( 'hospital' ) ); // phpcs:ignore ?>
 	<?php else : ?>
-		<p><?php esc_html_e( 'Je gezondheid:', 'wp-maffia-game' ); ?></p>
+		<p><?php esc_html_e( 'Your health:', 'wp-maffia-game' ); ?></p>
 		<?php echo UI::bar( $c->health_percent() ); // phpcs:ignore ?>
 		<?php if ( $quote['cost'] || $quote['time'] ) : ?>
 			<p>
 				<?php
 				/* translators: 1: cost, 2: duration */
-				printf( esc_html__( 'Volledig herstel kost %1$s en duurt %2$s.', 'wp-maffia-game' ), esc_html( Format::money( $quote['cost'] ) ), esc_html( Format::duration( $quote['time'] ) ) );
+				printf( esc_html__( 'A full recovery costs %1$s and takes %2$s.', 'wp-maffia-game' ), esc_html( Format::money( $quote['cost'] ) ), esc_html( Format::duration( $quote['time'] ) ) );
 				?>
 			</p>
-			<?php echo $this->button( 'admit', __( 'Laat je opnemen', 'wp-maffia-game' ) ); // phpcs:ignore ?>
+			<?php echo $this->button( 'admit', __( 'Get admitted', 'wp-maffia-game' ) ); // phpcs:ignore ?>
 		<?php else : ?>
-			<p><?php esc_html_e( 'Je hebt geen verwondingen.', 'wp-maffia-game' ); ?></p>
+			<p><?php esc_html_e( 'You have no injuries.', 'wp-maffia-game' ); ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
 </div>
 
-<h3><?php esc_html_e( 'Patiënten', 'wp-maffia-game' ); ?></h3>
+<h3><?php esc_html_e( 'Patients', 'wp-maffia-game' ); ?></h3>
 <?php if ( ! $patients ) : ?>
-	<?php echo UI::empty_state( __( 'Er liggen geen patiënten.', 'wp-maffia-game' ) ); // phpcs:ignore ?>
+	<?php echo UI::empty_state( __( 'There are no patients.', 'wp-maffia-game' ) ); // phpcs:ignore ?>
 <?php else : ?>
 	<table class="dfmg-table">
 		<?php foreach ( $patients as $dfmg_p ) : ?>

@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Auto stelen
- * Description: Steel auto's op verschillende plekken in de stad. Hoe beter de plek, hoe duurder de auto's maar hoe kleiner de kans.
+ * Module Name: Car Theft
+ * Description: Steal cars at different spots in the city. The better the spot, the more expensive the cars but the lower the chance.
  * Version: 1.0.0
  * Author: DigiFalk
  * Requires: garage
@@ -24,7 +24,7 @@ final class CarTheft extends Module {
 	const TIMER = 'theft';
 
 	public function title(): string {
-		return __( 'Auto stelen', 'wp-maffia-game' );
+		return __( 'Car theft', 'wp-maffia-game' );
 	}
 
 	public function schema(): array {
@@ -46,11 +46,11 @@ final class CarTheft extends Module {
 	public function seed(): void {
 		$spots = array(
 			// name, chance, rank, max damage, min value, max value, exp, jail.
-			array( 'Een woonwijk in de nacht', 55, 1, 90, 0, 3000, 2, 45 ),
-			array( 'Een parkeergarage in het centrum', 40, 1, 70, 0, 7000, 3, 60 ),
-			array( 'Het parkeerterrein van het vliegveld', 30, 2, 50, 2000, 20000, 4, 90 ),
-			array( 'Een villawijk', 18, 4, 30, 5000, 90000, 6, 150 ),
-			array( 'De showroom van een autodealer', 8, 6, 10, 15000, 250000, 10, 240 ),
+			array( 'A residential street at night', 55, 1, 90, 0, 3000, 2, 45 ),
+			array( 'A downtown parking garage', 40, 1, 70, 0, 7000, 3, 60 ),
+			array( 'The airport parking lot', 30, 2, 50, 2000, 20000, 4, 90 ),
+			array( 'A villa district', 18, 4, 30, 5000, 90000, 6, 150 ),
+			array( 'A car dealer showroom', 8, 6, 10, 15000, 250000, 10, 240 ),
 		);
 		foreach ( $spots as $s ) {
 			DB::insert(
@@ -72,12 +72,12 @@ final class CarTheft extends Module {
 	public function settings_fields(): array {
 		return array(
 			'theft_cooldown'    => array(
-				'label'   => __( 'Wachttijd tussen pogingen (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown between attempts (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 180,
 			),
 			'theft_jail_chance' => array(
-				'label'   => __( 'Kans op gevangenis bij mislukken (%)', 'wp-maffia-game' ),
+				'label'   => __( 'Chance of jail on failure (%)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 33,
 			),
@@ -87,18 +87,18 @@ final class CarTheft extends Module {
 	public function admin_tables(): array {
 		return array(
 			'theft_spots' => array(
-				'label'   => __( 'Steelplekken', 'wp-maffia-game' ),
+				'label'   => __( 'Theft spots', 'wp-maffia-game' ),
 				'table'   => 'theft_spots',
 				'order'   => 'min_rank ASC, chance DESC',
 				'columns' => array(
-					'name'       => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'required' => true ),
-					'chance'     => array( 'label' => __( 'Kans (%)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 50 ),
-					'min_rank'   => array( 'label' => __( 'Vanaf rang (niveau)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1 ),
-					'max_damage' => array( 'label' => __( 'Max. schade (%)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 50 ),
-					'min_value'  => array( 'label' => __( 'Min. autowaarde', 'wp-maffia-game' ), 'type' => 'int' ),
-					'max_value'  => array( 'label' => __( 'Max. autowaarde', 'wp-maffia-game' ), 'type' => 'int' ),
-					'exp'        => array( 'label' => __( 'Ervaring', 'wp-maffia-game' ), 'type' => 'int', 'default' => 2 ),
-					'jail_time'  => array( 'label' => __( 'Celstraf (sec)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 60 ),
+					'name'       => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
+					'chance'     => array( 'label' => __( 'Chance (%)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 50 ),
+					'min_rank'   => array( 'label' => __( 'From rank (level)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1 ),
+					'max_damage' => array( 'label' => __( 'Max. damage (%)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 50 ),
+					'min_value'  => array( 'label' => __( 'Min. car value', 'wp-maffia-game' ), 'type' => 'int' ),
+					'max_value'  => array( 'label' => __( 'Max. car value', 'wp-maffia-game' ), 'type' => 'int' ),
+					'exp'        => array( 'label' => __( 'Experience', 'wp-maffia-game' ), 'type' => 'int', 'default' => 2 ),
+					'jail_time'  => array( 'label' => __( 'Jail time (sec)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 60 ),
 				),
 			),
 		);
@@ -107,7 +107,7 @@ final class CarTheft extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Auto stelen', 'wp-maffia-game' ),
+				'label' => __( 'Car theft', 'wp-maffia-game' ),
 				'group' => 'crime',
 				'order' => 20,
 				'timer' => self::TIMER,
@@ -159,16 +159,16 @@ final class CarTheft extends Module {
 			}
 		}
 		if ( ! $spot ) {
-			$this->error( __( 'Deze plek ken je (nog) niet.', 'wp-maffia-game' ) );
+			$this->error( __( 'You don\'t know this spot (yet).', 'wp-maffia-game' ) );
 			return;
 		}
 		$car = $this->pick_car( (int) $spot['min_value'], (int) $spot['max_value'] );
 		if ( ! $car ) {
-			$this->error( __( 'Er staan hier geen auto\'s. Vraag de beheerder om auto\'s toe te voegen.', 'wp-maffia-game' ) );
+			$this->error( __( 'There are no cars here. Ask the administrator to add cars.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $this->setting( 'theft_cooldown' ) ) ) {
-			$this->error( __( 'Je moet nog even wachten.', 'wp-maffia-game' ) );
+			$this->error( __( 'You have to wait a little.', 'wp-maffia-game' ) );
 			return;
 		}
 
@@ -178,7 +178,7 @@ final class CarTheft extends Module {
 			$c->add( 'exp', (int) $spot['exp'] );
 			$c->log( 'car-theft', true, (int) round( $car['value'] * ( 100 - $damage ) / 100 ), (int) $car['id'] );
 			/* translators: 1: car, 2: damage percent, 3: value */
-			$this->success( sprintf( __( 'Je hebt een %1$s gestolen met %2$d%% schade (waarde %3$s).', 'wp-maffia-game' ), $car['name'], $damage, Format::money( round( $car['value'] * ( 100 - $damage ) / 100 ) ) ) );
+			$this->success( sprintf( __( 'Car stolen: %1$s with %2$d%% damage (value %3$s).', 'wp-maffia-game' ), $car['name'], $damage, Format::money( round( $car['value'] * ( 100 - $damage ) / 100 ) ) ) );
 			return;
 		}
 
@@ -186,10 +186,10 @@ final class CarTheft extends Module {
 		if ( wp_rand( 1, 100 ) <= (int) $this->setting( 'theft_jail_chance' ) ) {
 			$c->jail( (int) $spot['jail_time'] );
 			/* translators: %s: car */
-			$this->error( sprintf( __( 'Het alarm van de %s ging af. De politie pakt je op.', 'wp-maffia-game' ), $car['name'] ) );
+			$this->error( sprintf( __( 'The alarm of the %s went off. The police arrest you.', 'wp-maffia-game' ), $car['name'] ) );
 		} else {
 			/* translators: %s: car */
-			$this->error( sprintf( __( 'Het lukte niet om de %s open te krijgen.', 'wp-maffia-game' ), $car['name'] ) );
+			$this->error( sprintf( __( 'You couldn\'t get the %s open.', 'wp-maffia-game' ), $car['name'] ) );
 		}
 	}
 }

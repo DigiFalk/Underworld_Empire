@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Kogelfabriek
- * Description: Koop kogels in de fabriek van je stad. Elke fabriek kan door een speler worden gekocht, die dan de prijs bepaalt en meeverdient.
+ * Module Name: Bullet Factory
+ * Description: Buy bullets at your city's factory. Every factory can be bought by a player, who then sets the price and earns a share.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -25,7 +25,7 @@ final class BulletFactory extends Module {
 	const TIMER = 'bullets';
 
 	public function title(): string {
-		return __( 'Kogelfabriek', 'wp-maffia-game' );
+		return __( 'Bullet factory', 'wp-maffia-game' );
 	}
 
 	public function boot(): void {
@@ -33,9 +33,9 @@ final class BulletFactory extends Module {
 			'dfmg_property_types',
 			function ( $types ) {
 				$types[ self::TYPE ] = array(
-					'label'         => __( 'Kogelfabriek', 'wp-maffia-game' ),
+					'label'         => __( 'Bullet factory', 'wp-maffia-game' ),
 					'price'         => (int) $this->setting( 'bullets_property_price' ),
-					'setting_label' => __( 'Prijs per kogel', 'wp-maffia-game' ),
+					'setting_label' => __( 'Price per bullet', 'wp-maffia-game' ),
 					'setting_min'   => 1,
 					'setting_max'   => (int) $this->setting( 'bullets_max_price' ),
 					'route'         => $this->id(),
@@ -49,42 +49,42 @@ final class BulletFactory extends Module {
 	public function settings_fields(): array {
 		return array(
 			'bullets_max_per_buy'    => array(
-				'label'   => __( 'Max. kogels per aankoop', 'wp-maffia-game' ),
+				'label'   => __( 'Max. bullets per purchase', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 250,
 			),
 			'bullets_cooldown'       => array(
-				'label'   => __( 'Wachttijd tussen aankopen (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown between purchases (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 60,
 			),
 			'bullets_max_price'      => array(
-				'label'   => __( 'Max. prijs die een eigenaar mag vragen', 'wp-maffia-game' ),
+				'label'   => __( 'Max. price an owner may charge', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 500,
 			),
 			'bullets_owner_share'    => array(
-				'label'   => __( 'Aandeel eigenaar in de omzet (%)', 'wp-maffia-game' ),
+				'label'   => __( 'Owner share of revenue (%)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 50,
 			),
 			'bullets_property_price' => array(
-				'label'   => __( 'Aankoopprijs fabriek', 'wp-maffia-game' ),
+				'label'   => __( 'Factory purchase price', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 1000000,
 			),
 			'bullets_restock_min'    => array(
-				'label'   => __( 'Productie per uur (min.)', 'wp-maffia-game' ),
+				'label'   => __( 'Production per hour (min.)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 2000,
 			),
 			'bullets_restock_max'    => array(
-				'label'   => __( 'Productie per uur (max.)', 'wp-maffia-game' ),
+				'label'   => __( 'Production per hour (max.)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 3000,
 			),
 			'bullets_max_stock'      => array(
-				'label'   => __( 'Maximale voorraad per stad', 'wp-maffia-game' ),
+				'label'   => __( 'Maximum stock per city', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 50000,
 			),
@@ -94,7 +94,7 @@ final class BulletFactory extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Kogelfabriek', 'wp-maffia-game' ),
+				'label' => __( 'bullet factory', 'wp-maffia-game' ),
 				'group' => 'city',
 				'order' => 40,
 				'timer' => self::TIMER,
@@ -160,16 +160,16 @@ final class BulletFactory extends Module {
 		$max      = (int) $this->setting( 'bullets_max_per_buy' );
 		$location = Locations::get( (int) $c->location_id );
 		if ( ! $location || $qty < 1 ) {
-			$this->error( __( 'Hoeveel kogels wil je kopen?', 'wp-maffia-game' ) );
+			$this->error( __( 'How many bullets do you want to buy?', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( $qty > $max ) {
 			/* translators: %s: number */
-			$this->error( sprintf( __( 'Je kunt maximaal %s kogels per keer kopen.', 'wp-maffia-game' ), Format::number( $max ) ) );
+			$this->error( sprintf( __( 'You can buy at most %s bullets at a time.', 'wp-maffia-game' ), Format::number( $max ) ) );
 			return;
 		}
 		if ( $c->timer_active( self::TIMER ) ) {
-			$this->error( __( 'De fabriek helpt je zo weer.', 'wp-maffia-game' ) );
+			$this->error( __( 'The factory will serve you again shortly.', 'wp-maffia-game' ) );
 			return;
 		}
 		$property = Property::get( self::TYPE, (int) $location['id'] );
@@ -178,13 +178,13 @@ final class BulletFactory extends Module {
 		// Reserve stock first so two buyers can not take the same bullets.
 		$reserved = DB::query( 'UPDATE {locations} SET bullet_stock = bullet_stock - %d WHERE id = %d AND bullet_stock >= %d', $qty, (int) $location['id'], $qty );
 		if ( ! $reserved ) {
-			$this->error( __( 'Zoveel kogels heeft de fabriek niet op voorraad.', 'wp-maffia-game' ) );
+			$this->error( __( 'The factory doesn\'t have that many bullets in stock.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $cost ) ) {
 			DB::query( 'UPDATE {locations} SET bullet_stock = bullet_stock + %d WHERE id = %d', $qty, (int) $location['id'] );
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Dat kost %s. Dat heb je niet contant.', 'wp-maffia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $cost ) ) );
 			return;
 		}
 		Locations::flush();
@@ -199,7 +199,7 @@ final class BulletFactory extends Module {
 		}
 		$c->log( 'bullets.buy', true, $qty );
 		/* translators: 1: bullets, 2: money */
-		$this->success( sprintf( __( 'Je kocht %1$s kogels voor %2$s.', 'wp-maffia-game' ), Format::number( $qty ), Format::money( $cost ) ) );
+		$this->success( sprintf( __( 'You bought %1$s bullets for %2$s.', 'wp-maffia-game' ), Format::number( $qty ), Format::money( $cost ) ) );
 	}
 }
 

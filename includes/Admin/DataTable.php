@@ -5,17 +5,17 @@
  * Definition format (returned by Module::admin_tables()):
  *
  *   'crimes' => [
- *       'label'      => 'Misdaden',
+ *       'label'      => 'Crimes',
  *       'table'      => 'crimes',            // short table name
  *       'order'      => 'id ASC',
  *       'can_create' => true,
  *       'can_delete' => true,
  *       'search'     => 'name',              // optional search column
  *       'columns'    => [
- *           'name'   => [ 'label' => 'Naam', 'type' => 'text', 'required' => true ],
- *           'money'  => [ 'label' => 'Geld', 'type' => 'int', 'list' => true ],
- *           'city'   => [ 'label' => 'Stad', 'type' => 'select', 'options' => callable|array ],
- *           'text'   => [ 'label' => 'Tekst', 'type' => 'textarea', 'list' => false ],
+ *           'name'   => [ 'label' => 'Name', 'type' => 'text', 'required' => true ],
+ *           'money'  => [ 'label' => 'Money', 'type' => 'int', 'list' => true ],
+ *           'city'   => [ 'label' => 'City', 'type' => 'select', 'options' => callable|array ],
+ *           'text'   => [ 'label' => 'Text', 'type' => 'textarea', 'list' => false ],
  *       ],
  *   ]
  *
@@ -117,7 +117,7 @@ final class DataTable {
 		<h2>
 			<?php echo esc_html( $def['label'] ); ?>
 			<?php if ( $def['can_create'] ) : ?>
-				<a class="page-title-action" href="<?php echo esc_url( self::base_url( $key, array( 'edit' => 'new' ) ) ); ?>"><?php esc_html_e( 'Nieuw toevoegen', 'wp-maffia-game' ); ?></a>
+				<a class="page-title-action" href="<?php echo esc_url( self::base_url( $key, array( 'edit' => 'new' ) ) ); ?>"><?php esc_html_e( 'Add new', 'wp-maffia-game' ); ?></a>
 			<?php endif; ?>
 		</h2>
 		<?php if ( $def['help'] ) : ?>
@@ -128,7 +128,7 @@ final class DataTable {
 				<input type="hidden" name="page" value="dfmg-data">
 				<input type="hidden" name="table" value="<?php echo esc_attr( $key ); ?>">
 				<input type="search" name="s" value="<?php echo esc_attr( $search ); ?>">
-				<button class="button"><?php esc_html_e( 'Zoeken', 'wp-maffia-game' ); ?></button>
+				<button class="button"><?php esc_html_e( 'Search', 'wp-maffia-game' ); ?></button>
 			</form>
 		<?php endif; ?>
 		<table class="widefat striped">
@@ -143,7 +143,7 @@ final class DataTable {
 			</thead>
 			<tbody>
 				<?php if ( ! $rows ) : ?>
-					<tr><td colspan="<?php echo count( $list_cols ) + 2; ?>"><?php esc_html_e( 'Nog niets toegevoegd.', 'wp-maffia-game' ); ?></td></tr>
+					<tr><td colspan="<?php echo count( $list_cols ) + 2; ?>"><?php esc_html_e( 'Nothing added yet.', 'wp-maffia-game' ); ?></td></tr>
 				<?php endif; ?>
 				<?php foreach ( $rows as $row ) : ?>
 					<tr>
@@ -152,9 +152,9 @@ final class DataTable {
 							<td><?php echo esc_html( self::display_value( $col, $row[ $name ] ?? '' ) ); ?></td>
 						<?php endforeach; ?>
 						<td class="dfmg-admin-actions">
-							<a href="<?php echo esc_url( self::base_url( $key, array( 'edit' => $row['id'] ) ) ); ?>"><?php esc_html_e( 'Bewerken', 'wp-maffia-game' ); ?></a>
+							<a href="<?php echo esc_url( self::base_url( $key, array( 'edit' => $row['id'] ) ) ); ?>"><?php esc_html_e( 'Edit', 'wp-maffia-game' ); ?></a>
 							<?php if ( $def['can_delete'] ) : ?>
-								| <a class="dfmg-delete" onclick="return confirm('<?php echo esc_js( __( 'Weet je het zeker?', 'wp-maffia-game' ) ); ?>');" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dfmg_data_delete&table=' . rawurlencode( $key ) . '&id=' . (int) $row['id'] ), 'dfmg_data_delete_' . $key . '_' . $row['id'] ) ); ?>"><?php esc_html_e( 'Verwijderen', 'wp-maffia-game' ); ?></a>
+								| <a class="dfmg-delete" onclick="return confirm('<?php echo esc_js( __( 'Are you sure?', 'wp-maffia-game' ) ); ?>');" href="<?php echo esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dfmg_data_delete&table=' . rawurlencode( $key ) . '&id=' . (int) $row['id'] ), 'dfmg_data_delete_' . $key . '_' . $row['id'] ) ); ?>"><?php esc_html_e( 'Delete', 'wp-maffia-game' ); ?></a>
 							<?php endif; ?>
 						</td>
 					</tr>
@@ -186,14 +186,14 @@ final class DataTable {
 		if ( 'new' !== $id ) {
 			$row = DB::row( 'SELECT * FROM {' . $def['table'] . '} WHERE id = %d', (int) $id ) ?: array();
 			if ( ! $row ) {
-				echo '<p>' . esc_html__( 'Niet gevonden.', 'wp-maffia-game' ) . '</p>';
+				echo '<p>' . esc_html__( 'Not found.', 'wp-maffia-game' ) . '</p>';
 				return;
 			}
 		} elseif ( ! $def['can_create'] ) {
 			return;
 		}
 		?>
-		<h2><?php echo esc_html( $def['label'] ); ?> &mdash; <?php echo 'new' === $id ? esc_html__( 'nieuw', 'wp-maffia-game' ) : '#' . (int) $id; ?></h2>
+		<h2><?php echo esc_html( $def['label'] ); ?> &mdash; <?php echo 'new' === $id ? esc_html__( 'new', 'wp-maffia-game' ) : '#' . (int) $id; ?></h2>
 		<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 			<input type="hidden" name="action" value="dfmg_data_save">
 			<input type="hidden" name="table" value="<?php echo esc_attr( $key ); ?>">
@@ -213,8 +213,8 @@ final class DataTable {
 					</tr>
 				<?php endforeach; ?>
 			</table>
-			<?php submit_button( __( 'Opslaan', 'wp-maffia-game' ) ); ?>
-			<a href="<?php echo esc_url( self::base_url( $key ) ); ?>">&larr; <?php esc_html_e( 'Terug naar overzicht', 'wp-maffia-game' ); ?></a>
+			<?php submit_button( __( 'Save', 'wp-maffia-game' ) ); ?>
+			<a href="<?php echo esc_url( self::base_url( $key ) ); ?>">&larr; <?php esc_html_e( 'Back to overview', 'wp-maffia-game' ); ?></a>
 		</form>
 		<?php
 	}

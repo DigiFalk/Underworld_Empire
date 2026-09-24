@@ -111,14 +111,14 @@ final class Character {
 	public static function validate_name( string $name ) {
 		$name = trim( $name );
 		if ( ! preg_match( '/^[A-Za-z0-9_\-]{3,20}$/', $name ) ) {
-			return new \WP_Error( 'name', __( 'Een naam bestaat uit 3 tot 20 letters, cijfers, - of _.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'name', __( 'A name consists of 3 to 20 letters, digits, - or _.', 'wp-maffia-game' ) );
 		}
 		if ( self::find_by_name( $name ) ) {
-			return new \WP_Error( 'name', __( 'Deze naam is al in gebruik.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'name', __( 'This name is already taken.', 'wp-maffia-game' ) );
 		}
 		$blocked = apply_filters( 'dfmg_blocked_names', array( 'admin', 'administrator', 'moderator', 'system', 'systeem' ) );
 		if ( in_array( strtolower( $name ), $blocked, true ) ) {
-			return new \WP_Error( 'name', __( 'Deze naam is niet toegestaan.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'name', __( 'This name is not allowed.', 'wp-maffia-game' ) );
 		}
 		return true;
 	}
@@ -135,7 +135,7 @@ final class Character {
 		}
 		$alive = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE user_id = %d AND status = %d', $user_id, self::ALIVE );
 		if ( $alive ) {
-			return new \WP_Error( 'alive', __( 'Je hebt al een levend personage.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'alive', __( 'You already have a living character.', 'wp-maffia-game' ) );
 		}
 
 		// Premium points belong to the player, not the character: carry them over.
@@ -173,7 +173,7 @@ final class Character {
 
 		$id = DB::insert( 'characters', $data );
 		if ( ! $id ) {
-			return new \WP_Error( 'db', __( 'Personage kon niet worden aangemaakt.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'db', __( 'Character could not be created.', 'wp-maffia-game' ) );
 		}
 		self::$current = false;
 		$character     = self::find( $id );
@@ -437,16 +437,16 @@ final class Character {
 			}
 			if ( (int) $next['bullet_reward'] ) {
 				/* translators: %s: number of bullets */
-				$rewards[] = sprintf( __( '%s kogels', 'wp-maffia-game' ), Format::number( $next['bullet_reward'] ) );
+				$rewards[] = sprintf( __( '%s bullets', 'wp-maffia-game' ), Format::number( $next['bullet_reward'] ) );
 			}
 			$message = sprintf(
 				/* translators: %s: rank name */
-				__( 'Gefeliciteerd! Je bent gepromoveerd tot %s.', 'wp-maffia-game' ),
+				__( 'Congratulations! You have been promoted to %s.', 'wp-maffia-game' ),
 				$next['name']
 			);
 			if ( $rewards ) {
 				/* translators: %s: list of rewards */
-				$message .= ' ' . sprintf( __( 'Beloning: %s.', 'wp-maffia-game' ), implode( ', ', $rewards ) );
+				$message .= ' ' . sprintf( __( 'Reward: %s.', 'wp-maffia-game' ), implode( ', ', $rewards ) );
 			}
 			$this->notify( $message );
 			$this->log( 'rank.up', true, (int) $next['id'] );
@@ -503,7 +503,7 @@ final class Character {
 	public function location(): array {
 		return Locations::get( (int) $this->row['location_id'] ) ?? array(
 			'id'   => 0,
-			'name' => __( 'Onbekend', 'wp-maffia-game' ),
+			'name' => __( 'Unknown', 'wp-maffia-game' ),
 		);
 	}
 
@@ -579,6 +579,6 @@ final class Character {
 
 	public static function link_by_id( int $id ): string {
 		$c = self::find( $id );
-		return $c ? $c->link() : '<em>' . esc_html__( 'Onbekend', 'wp-maffia-game' ) . '</em>';
+		return $c ? $c->link() : '<em>' . esc_html__( 'Unknown', 'wp-maffia-game' ) . '</em>';
 	}
 }

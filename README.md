@@ -1,80 +1,88 @@
-# WP Maffia Game
+# WP Mafia Game
 
-Een complete, modulaire maffia-browsergame (PBBG) als WordPress-plugin, door **DigiFalk**.
+A complete, modular mafia browser game (PBBG) as a WordPress plugin, by **DigiFalk**.
 
-Spelers loggen in met hun WordPress-account, kiezen een gangsternaam en werken zich
-omhoog van *Straatschoffie* tot *Peetvader*: misdaden plegen, auto's stelen, een familie
-opbouwen, bedrijven kopen, gokken in het casino en rivalen uit de weg ruimen.
+Players log in with their WordPress account, pick a gangster name and work their way up
+from *Street Rat* to *Godfather*: committing crimes, stealing cars, building a family,
+buying businesses, gambling at the casino and taking out rivals.
 
-## Installatie
+## Installation
 
-1. Upload de map naar `wp-content/plugins/` (of installeer de zip via *Plugins → Nieuwe plugin*).
-2. Activeer **WP Maffia Game**.
-3. Bij activatie worden de tabellen aangemaakt, startgegevens geladen en een pagina
-   **Maffia Game** aangemaakt met de shortcode `[maffia_game]`.
-4. Zet onder *Instellingen → Algemeen* "Iedereen kan zich registreren" aan als spelers zelf een account mogen maken.
-5. Beheer alles onder het menu **Maffia Game** in de WordPress-admin.
+1. Upload the folder to `wp-content/plugins/` (or install the zip via *Plugins → Add New*).
+2. Activate **WP Mafia Game**.
+3. On activation the tables are created, starting data is loaded and a page
+   **Mafia Game** is created containing the shortcode `[maffia_game]`.
+4. Enable *Settings → General → Anyone can register* if players may create their own account.
+5. Manage everything under the **Mafia Game** menu in the WordPress admin.
 
-Vereisten: WordPress 6.0+, PHP 7.4+, MySQL 5.7+/MariaDB 10.3+.
+Requirements: WordPress 6.0+, PHP 7.4+, MySQL 5.7+/MariaDB 10.3+.
 
-## Beheer
+> The plugin slug, text domain (`wp-maffia-game`), shortcode (`[maffia_game]`) and PHP namespace
+> (`DigiFalk\MaffiaGame`) keep the original project name so existing installs keep working.
 
-| Scherm | Wat |
+## Administration
+
+| Screen | Purpose |
 | --- | --- |
-| **Dashboard** | Cijfers, link naar de spelpagina en *Nieuwe ronde starten* (wist spelersdata, bewaart spelgegevens en premium punten). |
-| **Modules** | Modules in- en uitschakelen. Afhankelijkheden worden gecontroleerd. |
-| **Spelgegevens** | Bewerk spelers, rangen, rijkdomtitels, steden, items en de data van modules (misdaden, auto's, steelplekken, lidmaatschappen, forumcategorieën, families). |
-| **Instellingen** | Algemene instellingen plus de instellingen van elke actieve module. |
-| **Spelnieuws** | Nieuwsberichten (eigen berichttype) die in het spel en op de inlogpagina verschijnen. |
+| **Dashboard** | Numbers, link to the game page and *Start new round* (wipes player data, keeps game data and premium points). |
+| **Modules** | Enable and disable modules. Dependencies are checked. |
+| **Game data** | Edit players, ranks, wealth titles, cities, items and module data (crimes, cars, theft spots, memberships, forum boards, families). |
+| **Settings** | General settings plus the settings of every active module. |
+| **Game news** | News items (custom post type) shown in the game and on the login page. |
 
-## Meegeleverde modules
+## Bundled modules
 
-| Module | Id | Omschrijving |
+| Module | Id | Description |
 | --- | --- | --- |
-| Overzicht | `overview` | Startpagina met status, timers en meldingen (verplicht). |
-| Misdaden | `crimes` | Misdaden met groeiende slagingskans per speler. |
-| Auto stelen | `car-theft` | Auto's stelen op plekken met verschillende kansen (vereist `garage`). |
-| Garage | `garage` | Auto's verkopen, repareren, verschepen of persen tot kogels. |
-| Politieachtervolging | `police-chase` | Ontsnap aan de politie voor een beloning. |
-| Gevangenis | `jail` | Celstraf, uitbreken, borg en isoleercel. |
-| Ziekenhuis | `hospital` | Genezen tegen betaling en opnametijd. |
-| Reizen | `travel` | Vliegen tussen steden. |
-| Kogelfabriek | `bullet-factory` | Kogels kopen; fabriek is als bezit te kopen. Productie per uur via WP-Cron. |
-| Zwarte markt | `black-market` | Items kopen (vereist `inventory`). |
-| Inventaris | `inventory` | Uitrusten, gebruiken en verkopen van items. |
-| Bank | `bank` | Storten (met witwaskosten), opnemen, overmaken. |
-| Bezittingen | `properties` | Beheer van gekochte bedrijven; overname bij moord. |
-| Blackjack | `blackjack` | Blackjack; tafel is als bezit te kopen. |
-| Detectives | `detectives` | Spelers opsporen. |
-| Moord | `murder` | Spelers neerschieten (vereist `detectives`). |
-| Premies | `bounties` | Premies op spelers, uitbetaald aan de moordenaar. |
-| Families | `families` | Families met rollen, rechten, kas, uitnodigingen en logboek. |
-| Premium lidmaatschap | `membership` | Kortere wachttijden in ruil voor premium punten. |
-| Berichten | `messages` | Privéberichten. |
-| Meldingen | `notifications` | Gebeurtenissen rond je personage. |
-| Profiel | `profile` | Openbare profielen en eigen profieltekst. |
-| Spelers | `players` | Wie is online en zoeken. |
-| Ranglijsten | `leaderboards` | Top 25 per categorie. |
-| Statistieken | `statistics` | Cijfers over de spelwereld. |
-| Nieuws | `news` | Spelnieuws. |
-| Forum | `forum` | Forum met moderatie. |
+| Overview | `overview` | Home page with status, timers and notifications (required). |
+| Crimes | `crimes` | Crimes with a success chance that grows per player. |
+| Car Theft | `car-theft` | Steal cars at spots with different odds (requires `garage`). |
+| Garage | `garage` | Sell, repair, ship or crush cars into bullets. |
+| Police Chase | `police-chase` | Escape the police for a reward. |
+| Jail | `jail` | Jail time, breakouts, bail and solitary confinement. |
+| Hospital | `hospital` | Heal for money and time. |
+| Travel | `travel` | Fly between cities. |
+| Bullet Factory | `bullet-factory` | Buy bullets; the factory can be owned. Hourly production via WP-Cron. |
+| Black Market | `black-market` | Buy items (requires `inventory`). |
+| Inventory | `inventory` | Equip, use and sell items. |
+| Bank | `bank` | Deposit (with laundering fee), withdraw, transfer. |
+| Properties | `properties` | Manage owned businesses; taken over on murder. |
+| Blackjack | `blackjack` | Blackjack; the table can be owned. |
+| Detectives | `detectives` | Track down players. |
+| Murder | `murder` | Shoot players (requires `detectives`). |
+| Bounties | `bounties` | Bounties on players, paid to the killer. |
+| Families | `families` | Families with roles, permissions, vault, invitations and log. |
+| Premium Membership | `membership` | Shorter cooldowns in exchange for premium points. |
+| Messages | `messages` | Private messages. |
+| Notifications | `notifications` | Events around your character. |
+| Profile | `profile` | Public profiles and your own profile text. |
+| Players | `players` | Who's online and search. |
+| Leaderboards | `leaderboards` | Top 25 per category. |
+| Statistics | `statistics` | Numbers about the game world. |
+| News | `news` | Game news. |
+| Forum | `forum` | Forum with moderation. |
 
-## Eigen modules
+## Custom modules
 
-Het spel is volledig modulair. Een module is een map met een `module.php`. Plaats
-eigen modules in **`wp-content/maffia-modules/<module-id>/`**: die map blijft bij
-updates van de plugin bewaard. Schakel de module daarna in onder *Maffia Game → Modules*.
+The game is fully modular. A module is a folder containing a `module.php`. Put your own
+modules in **`wp-content/maffia-modules/<module-id>/`**: that folder survives plugin
+updates. Then enable the module under *Mafia Game → Modules*.
 
-Zie **[docs/MODULES.md](docs/MODULES.md)** voor de volledige handleiding en
-[`docs/example-module/slot-machine`](docs/example-module/slot-machine) voor een compleet voorbeeld.
+See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
+[`docs/example-module/slot-machine`](docs/example-module/slot-machine) for a complete example.
 
-## Uiterlijk aanpassen
+## Customising the look
 
-* Alle kleuren zijn CSS-variabelen op `.dfmg` (zie `assets/css/game.css`) en kunnen in je thema overschreven worden.
-* Elk template kan vanuit je thema overschreven worden:
-  * kern-templates: `<thema>/wp-maffia-game/layout.php`, `login.php`, `create-character.php`, `dead.php`, `closed.php`, `messages.php`
-  * module-templates: `<thema>/wp-maffia-game/<module-id>/<template>.php`
+* All colours are CSS custom properties on `.dfmg` (see `assets/css/game.css`) and can be overridden in your theme.
+* Every template can be overridden from your theme:
+  * core templates: `<theme>/wp-maffia-game/layout.php`, `login.php`, `create-character.php`, `dead.php`, `closed.php`, `messages.php`
+  * module templates: `<theme>/wp-maffia-game/<module-id>/<template>.php`
 
-## Licentie
+## Translations
 
-Copyright © DigiFalk. Zie [LICENSE.md](LICENSE.md).
+All strings use the text domain `wp-maffia-game` and can be translated with the usual
+WordPress tools (for example Loco Translate) into the `languages/` folder.
+
+## License
+
+Copyright © DigiFalk. See [LICENSE.md](LICENSE.md).

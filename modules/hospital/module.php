@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Ziekenhuis
- * Description: Laat je verwondingen behandelen. Hoe groter de schade, hoe duurder en langer de opname.
+ * Module Name: Hospital
+ * Description: Get your wounds treated. The bigger the damage, the more expensive and longer the stay.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 final class Hospital extends Module {
 
 	public function title(): string {
-		return __( 'Ziekenhuis', 'wp-maffia-game' );
+		return __( 'Hospital', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_hospital(): bool {
@@ -48,12 +48,12 @@ final class Hospital extends Module {
 	public function settings_fields(): array {
 		return array(
 			'hospital_full_cost' => array(
-				'label'   => __( 'Kosten volledige genezing', 'wp-maffia-game' ),
+				'label'   => __( 'Cost of a full recovery', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 25000,
 			),
 			'hospital_full_time' => array(
-				'label'   => __( 'Opnametijd volledige genezing (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Admission time for a full recovery (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 3600,
 			),
@@ -63,7 +63,7 @@ final class Hospital extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Ziekenhuis', 'wp-maffia-game' ),
+				'label' => __( 'Hospital', 'wp-maffia-game' ),
 				'group' => 'city',
 				'order' => 30,
 				'timer' => 'hospital',
@@ -100,23 +100,23 @@ final class Hospital extends Module {
 
 	public function action_admit( Character $c, array $input ): void {
 		if ( $c->is_hospitalized() ) {
-			$this->error( __( 'Je ligt al in het ziekenhuis.', 'wp-maffia-game' ) );
+			$this->error( __( 'You are already in hospital.', 'wp-maffia-game' ) );
 			return;
 		}
 		$quote = $this->quote( $c );
 		if ( ! (int) $c->damage ) {
-			$this->error( __( 'Je bent kerngezond.', 'wp-maffia-game' ) );
+			$this->error( __( 'You are perfectly healthy.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $quote['cost'] ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'De behandeling kost %s. Dat heb je niet contant.', 'wp-maffia-game' ), Format::money( $quote['cost'] ) ) );
+			$this->error( sprintf( __( 'The treatment costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $quote['cost'] ) ) );
 			return;
 		}
 		$c->set( 'damage', 0 );
 		$c->set_timer( 'hospital', time() + $quote['time'] );
 		$c->log( 'hospital', true, $quote['cost'] );
-		$this->success( __( 'Je bent opgenomen. De dokters doen hun werk.', 'wp-maffia-game' ) );
+		$this->success( __( 'You have been admitted. The doctors are doing their job.', 'wp-maffia-game' ) );
 	}
 }
 

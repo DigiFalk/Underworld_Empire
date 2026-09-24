@@ -13,17 +13,17 @@ use DigiFalk\MaffiaGame\Locations;
 defined( 'ABSPATH' ) || exit;
 
 if ( ! $cars ) {
-	echo UI::empty_state( __( 'Je garage is leeg. Tijd om een auto te stelen?', 'wp-maffia-game' ) ); // phpcs:ignore
+	echo UI::empty_state( __( 'Your garage is empty. Time to steal a car?', 'wp-maffia-game' ) ); // phpcs:ignore
 	return;
 }
 ?>
 <table class="dfmg-table">
 	<thead>
 		<tr>
-			<th><?php esc_html_e( 'Auto', 'wp-maffia-game' ); ?></th>
-			<th><?php esc_html_e( 'Schade', 'wp-maffia-game' ); ?></th>
-			<th><?php esc_html_e( 'Waarde', 'wp-maffia-game' ); ?></th>
-			<th><?php esc_html_e( 'Stad', 'wp-maffia-game' ); ?></th>
+			<th><?php esc_html_e( 'Car', 'wp-maffia-game' ); ?></th>
+			<th><?php esc_html_e( 'Damage', 'wp-maffia-game' ); ?></th>
+			<th><?php esc_html_e( 'Value', 'wp-maffia-game' ); ?></th>
+			<th><?php esc_html_e( 'City', 'wp-maffia-game' ); ?></th>
 			<th></th>
 		</tr>
 	</thead>
@@ -37,13 +37,13 @@ if ( ! $cars ) {
 				<td><?php echo esc_html( Locations::name( (int) $dfmg_car['location_id'] ) ); ?></td>
 				<td class="dfmg-actions">
 					<?php if ( $dfmg_here ) : ?>
-						<?php echo $this->button( 'sell', __( 'Verkopen', 'wp-maffia-game' ), array( 'car' => $dfmg_car['id'] ) ); // phpcs:ignore ?>
-						<?php echo $this->button( 'crush', sprintf( /* translators: %s: bullets */ __( 'Pers (%s kogels)', 'wp-maffia-game' ), Format::number( $dfmg_car['bullets'] ) ), array( 'car' => $dfmg_car['id'] ), 'dfmg-button dfmg-button--ghost' ); // phpcs:ignore ?>
+						<?php echo $this->button( 'sell', __( 'Sell', 'wp-maffia-game' ), array( 'car' => $dfmg_car['id'] ) ); // phpcs:ignore ?>
+						<?php echo $this->button( 'crush', sprintf( /* translators: %s: bullets */ __( 'Crush (%s bullets)', 'wp-maffia-game' ), Format::number( $dfmg_car['bullets'] ) ), array( 'car' => $dfmg_car['id'] ), 'dfmg-button dfmg-button--ghost' ); // phpcs:ignore ?>
 						<?php if ( $dfmg_car['damage'] ) : ?>
-							<?php echo $this->button( 'repair', sprintf( /* translators: %s: cost */ __( 'Repareren (%s)', 'wp-maffia-game' ), Format::money( $dfmg_car['repair_cost'] ) ), array( 'car' => $dfmg_car['id'] ), 'dfmg-button dfmg-button--ghost' ); // phpcs:ignore ?>
+							<?php echo $this->button( 'repair', sprintf( /* translators: %s: cost */ __( 'Repair (%s)', 'wp-maffia-game' ), Format::money( $dfmg_car['repair_cost'] ) ), array( 'car' => $dfmg_car['id'] ), 'dfmg-button dfmg-button--ghost' ); // phpcs:ignore ?>
 						<?php endif; ?>
 					<?php else : ?>
-						<?php echo $this->button( 'ship', sprintf( /* translators: %s: cost */ __( 'Hierheen verschepen (%s)', 'wp-maffia-game' ), Format::money( $dfmg_car['ship_cost'] ) ), array( 'car' => $dfmg_car['id'] ), 'dfmg-button dfmg-button--ghost' ); // phpcs:ignore ?>
+						<?php echo $this->button( 'ship', sprintf( /* translators: %s: cost */ __( 'Ship here (%s)', 'wp-maffia-game' ), Format::money( $dfmg_car['ship_cost'] ) ), array( 'car' => $dfmg_car['id'] ), 'dfmg-button dfmg-button--ghost' ); // phpcs:ignore ?>
 					<?php endif; ?>
 				</td>
 			</tr>

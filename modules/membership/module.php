@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Premium lidmaatschap
- * Description: Spelers kopen met premium punten een lidmaatschap dat wachttijden verkort. Punten ken je toe via Spelgegevens > Spelers (of koppel ze aan een webshop).
+ * Module Name: Premium Membership
+ * Description: Players spend premium points on a membership that shortens cooldowns. Award points via Game data > Players (or connect them to a web shop).
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -22,7 +22,7 @@ final class Membership extends Module {
 	const TIMER = 'membership';
 
 	public function title(): string {
-		return __( 'Premium lidmaatschap', 'wp-maffia-game' );
+		return __( 'Premium membership', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -45,7 +45,7 @@ final class Membership extends Module {
 	}
 
 	public function seed(): void {
-		foreach ( array( array( 'Week', 7, 50 ), array( 'Maand', 30, 175 ), array( 'Kwartaal', 90, 450 ) ) as $row ) {
+		foreach ( array( array( 'Week', 7, 50 ), array( 'Month', 30, 175 ), array( 'Quarter', 90, 450 ) ) as $row ) {
 			DB::insert(
 				'memberships',
 				array(
@@ -60,15 +60,15 @@ final class Membership extends Module {
 	public function settings_fields(): array {
 		return array(
 			'membership_reduction' => array(
-				'label'   => __( 'Verkorting wachttijden (%)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown reduction (%)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 25,
 			),
 			'membership_timers'    => array(
-				'label'       => __( 'Timers met verkorting', 'wp-maffia-game' ),
+				'label'       => __( 'Timers with reduction', 'wp-maffia-game' ),
 				'type'        => 'text',
 				'default'     => 'crime,theft,travel,chase',
-				'description' => __( 'Kommagescheiden timer-namen.', 'wp-maffia-game' ),
+				'description' => __( 'Comma separated timer names.', 'wp-maffia-game' ),
 			),
 		);
 	}
@@ -76,13 +76,13 @@ final class Membership extends Module {
 	public function admin_tables(): array {
 		return array(
 			'memberships' => array(
-				'label'   => __( 'Lidmaatschappen', 'wp-maffia-game' ),
+				'label'   => __( 'Memberships', 'wp-maffia-game' ),
 				'table'   => 'memberships',
 				'order'   => 'days ASC',
 				'columns' => array(
-					'name' => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'required' => true ),
-					'days' => array( 'label' => __( 'Dagen', 'wp-maffia-game' ), 'type' => 'int', 'default' => 7 ),
-					'cost' => array( 'label' => __( 'Kosten (punten)', 'wp-maffia-game' ), 'type' => 'int' ),
+					'name' => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
+					'days' => array( 'label' => __( 'Days', 'wp-maffia-game' ), 'type' => 'int', 'default' => 7 ),
+					'cost' => array( 'label' => __( 'Cost (points)', 'wp-maffia-game' ), 'type' => 'int' ),
 				),
 			),
 		);
@@ -94,7 +94,7 @@ final class Membership extends Module {
 			'dfmg_membership_benefits',
 			function ( $benefits ) {
 				/* translators: %d: percent */
-				$benefits[] = sprintf( __( '%d%% kortere wachttijden voor misdaden, auto stelen, reizen en achtervolgingen.', 'wp-maffia-game' ), (int) $this->setting( 'membership_reduction' ) );
+				$benefits[] = sprintf( __( '%d%% shorter cooldowns for crimes, car theft, travel and police chases.', 'wp-maffia-game' ), (int) $this->setting( 'membership_reduction' ) );
 				return $benefits;
 			}
 		);
@@ -118,7 +118,7 @@ final class Membership extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Lidmaatschap', 'wp-maffia-game' ),
+				'label' => __( 'Membership', 'wp-maffia-game' ),
 				'group' => 'premium',
 				'order' => 10,
 				'timer' => self::TIMER,
@@ -144,14 +144,14 @@ final class Membership extends Module {
 		}
 		if ( ! $c->spend( 'points', (int) $package['cost'] ) ) {
 			/* translators: %s: points */
-			$this->error( sprintf( __( 'Je hebt %s nodig.', 'wp-maffia-game' ), Format::points( (int) $package['cost'] ) ) );
+			$this->error( sprintf( __( 'You need %s.', 'wp-maffia-game' ), Format::points( (int) $package['cost'] ) ) );
 			return;
 		}
 		$from = max( time(), $c->timer( self::TIMER ) );
 		$c->set_timer( self::TIMER, $from + (int) $package['days'] * DAY_IN_SECONDS );
 		$c->log( 'membership.buy', true, (int) $package['cost'], (int) $package['id'] );
 		/* translators: %s: package */
-		$this->success( sprintf( __( 'Bedankt! Je lidmaatschap (%s) is actief.', 'wp-maffia-game' ), $package['name'] ) );
+		$this->success( sprintf( __( 'Thank you! Your membership (%s) is active.', 'wp-maffia-game' ), $package['name'] ) );
 	}
 }
 

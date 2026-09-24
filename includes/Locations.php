@@ -36,7 +36,7 @@ final class Locations {
 
 	public static function name( int $id ): string {
 		$row = self::get( $id );
-		return $row ? $row['name'] : __( 'Onbekend', 'wp-maffia-game' );
+		return $row ? $row['name'] : __( 'Unknown', 'wp-maffia-game' );
 	}
 
 	public static function first_id(): int {

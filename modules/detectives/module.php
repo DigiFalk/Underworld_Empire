@@ -1,7 +1,7 @@
 <?php
 /**
  * Module Name: Detectives
- * Description: Huur detectives in om uit te zoeken in welke stad een andere speler zich schuilhoudt.
+ * Description: Hire detectives to find out in which city another player is hiding.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -48,23 +48,23 @@ final class Detectives extends Module {
 	public function settings_fields(): array {
 		return array(
 			'detective_cost'         => array(
-				'label'   => __( 'Kosten per detective per uur', 'wp-maffia-game' ),
+				'label'   => __( 'Cost per detective per hour', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 25000,
 			),
 			'detective_hour_seconds' => array(
-				'label'       => __( 'Duur van een zoek-"uur" (sec)', 'wp-maffia-game' ),
+				'label'       => __( 'Length of a search "hour" (sec)', 'wp-maffia-game' ),
 				'type'        => 'int',
 				'default'     => 600,
-				'description' => __( 'Hoe lang een zoekuur in het echt duurt.', 'wp-maffia-game' ),
+				'description' => __( 'How long a search hour takes in real time.', 'wp-maffia-game' ),
 			),
 			'detective_valid'        => array(
-				'label'   => __( 'Rapport geldig na afronding (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Report valid after completion (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 900,
 			),
 			'detective_max'          => array(
-				'label'   => __( 'Max. detectives / uren', 'wp-maffia-game' ),
+				'label'   => __( 'Max. detectives / hours', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 5,
 			),
@@ -138,22 +138,22 @@ final class Detectives extends Module {
 		$count  = absint( $input['detectives'] ?? 0 );
 		$hours  = absint( $input['hours'] ?? 0 );
 		if ( ! $target || ! $target->is_alive() ) {
-			$this->error( __( 'Deze speler bestaat niet of leeft niet meer.', 'wp-maffia-game' ) );
+			$this->error( __( 'This player doesn\'t exist or is no longer alive.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( $target->id() === $c->id() ) {
-			$this->error( __( 'Je weet zelf toch wel waar je bent?', 'wp-maffia-game' ) );
+			$this->error( __( 'Surely you know where you are yourself?', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( $count < 1 || $count > $max || $hours < 1 || $hours > $max ) {
 			/* translators: %d: max */
-			$this->error( sprintf( __( 'Kies 1 tot %d detectives en 1 tot %d uur.', 'wp-maffia-game' ), $max, $max ) );
+			$this->error( sprintf( __( 'Choose 1 to %d detectives and 1 to %d hours.', 'wp-maffia-game' ), $max, $max ) );
 			return;
 		}
 		$cost = $count * $hours * (int) $this->setting( 'detective_cost' );
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Dat kost %s. Dat heb je niet contant.', 'wp-maffia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $cost ) ) );
 			return;
 		}
 		$chance  = (int) apply_filters( 'dfmg_detective_chance', min( 100, $count * $hours * 4 ), $c, $target, $count, $hours );
@@ -172,7 +172,7 @@ final class Detectives extends Module {
 		);
 		$c->log( 'detectives.hire', true, $cost, $target->id() );
 		/* translators: %s: player */
-		$this->success( sprintf( __( 'Je detectives gaan op zoek naar %s.', 'wp-maffia-game' ), $target->name ) );
+		$this->success( sprintf( __( 'Your detectives are searching for %s.', 'wp-maffia-game' ), $target->name ) );
 	}
 
 	public function action_remove( Character $c, array $input ): void {

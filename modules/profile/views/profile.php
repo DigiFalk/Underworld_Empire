@@ -33,11 +33,11 @@ defined( 'ABSPATH' ) || exit;
 </div>
 <?php if ( $own ) : ?>
 	<div class="dfmg-card">
-		<h3><?php esc_html_e( 'Profieltekst bewerken', 'wp-maffia-game' ); ?></h3>
+		<h3><?php esc_html_e( 'Edit profile text', 'wp-maffia-game' ); ?></h3>
 		<?php echo $this->form( 'bio', array(), 'dfmg-form dfmg-form--stacked' ); // phpcs:ignore ?>
 			<textarea name="bio" rows="6"><?php echo esc_textarea( (string) $target->bio ); ?></textarea>
-			<p class="dfmg-muted"><?php esc_html_e( 'Toegestaan: vet, cursief, links en lijstjes. Je profielfoto komt van Gravatar.', 'wp-maffia-game' ); ?></p>
-			<button type="submit" class="dfmg-button"><?php esc_html_e( 'Opslaan', 'wp-maffia-game' ); ?></button>
+			<p class="dfmg-muted"><?php esc_html_e( 'Allowed: bold, italic, links and lists. Your profile picture comes from Gravatar.', 'wp-maffia-game' ); ?></p>
+			<button type="submit" class="dfmg-button"><?php esc_html_e( 'Save', 'wp-maffia-game' ); ?></button>
 		</form>
 	</div>
 <?php endif; ?>

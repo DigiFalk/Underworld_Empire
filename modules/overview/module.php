@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Overzicht
- * Description: Startpagina van de speler met status, timers en laatste meldingen.
+ * Module Name: Overview
+ * Description: Player home page with status, timers and latest notifications.
  * Version: 1.0.0
  * Author: DigiFalk
  * Required: yes
@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 final class Overview extends Module {
 
 	public function title(): string {
-		return __( 'Overzicht', 'wp-maffia-game' );
+		return __( 'Overview', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -36,7 +36,7 @@ final class Overview extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Overzicht', 'wp-maffia-game' ),
+				'label' => __( 'Overview', 'wp-maffia-game' ),
 				'group' => 'general',
 				'order' => 1,
 			),

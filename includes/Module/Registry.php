@@ -215,18 +215,18 @@ final class Registry {
 	public function enable( string $id ) {
 		$info = $this->info( $id );
 		if ( ! $info ) {
-			return new \WP_Error( 'module', __( 'Module niet gevonden.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'module', __( 'Module not found.', 'wp-maffia-game' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $info['requires'] as $dep ) {
 			if ( ! in_array( $dep, $enabled, true ) ) {
 				/* translators: 1: module, 2: required module */
-				return new \WP_Error( 'module', sprintf( __( '%1$s heeft de module "%2$s" nodig. Schakel die eerst in.', 'wp-maffia-game' ), $info['name'], $dep ) );
+				return new \WP_Error( 'module', sprintf( __( '%1$s requires the module "%2$s". Enable that one first.', 'wp-maffia-game' ), $info['name'], $dep ) );
 			}
 		}
 		$module = $this->load( $id );
 		if ( ! $module ) {
-			return new \WP_Error( 'module', __( 'Module kon niet geladen worden.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'module', __( 'Module could not be loaded.', 'wp-maffia-game' ) );
 		}
 		$this->install( $module );
 		if ( ! in_array( $id, $enabled, true ) ) {
@@ -243,16 +243,16 @@ final class Registry {
 	public function disable( string $id ) {
 		$info = $this->info( $id );
 		if ( ! $info ) {
-			return new \WP_Error( 'module', __( 'Module niet gevonden.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'module', __( 'Module not found.', 'wp-maffia-game' ) );
 		}
 		if ( $info['required'] ) {
-			return new \WP_Error( 'module', __( 'Deze module is verplicht en kan niet uitgeschakeld worden.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'module', __( 'This module is required and can\'t be disabled.', 'wp-maffia-game' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $enabled as $other ) {
 			if ( in_array( $id, $this->info( $other )['requires'], true ) ) {
 				/* translators: %s: module name */
-				return new \WP_Error( 'module', sprintf( __( 'De module "%s" heeft deze module nodig. Schakel die eerst uit.', 'wp-maffia-game' ), $this->info( $other )['name'] ) );
+				return new \WP_Error( 'module', sprintf( __( 'The module "%s" requires this module. Disable that one first.', 'wp-maffia-game' ), $this->info( $other )['name'] ) );
 			}
 		}
 		update_option( self::OPTION_ENABLED, array_values( array_diff( $enabled, array( $id ) ) ) );

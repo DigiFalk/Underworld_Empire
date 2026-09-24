@@ -157,17 +157,17 @@ final class Installer {
 		if ( ! (int) DB::value( 'SELECT COUNT(*) FROM {ranks}' ) ) {
 			$ranks = array(
 				// name, exp, max players, cash, bullets, health.
-				array( 'Straatschoffie', 0, 0, 0, 0, 3000 ),
-				array( 'Loopjongen', 50, 0, 250, 25, 5000 ),
-				array( 'Zakkenroller', 150, 0, 750, 50, 8000 ),
-				array( 'Kruimeldief', 350, 0, 1500, 75, 12000 ),
-				array( 'Crimineel', 700, 0, 3000, 100, 17000 ),
+				array( 'Street Rat', 0, 0, 0, 0, 3000 ),
+				array( 'Errand Boy', 50, 0, 250, 25, 5000 ),
+				array( 'Pickpocket', 150, 0, 750, 50, 8000 ),
+				array( 'Petty Thief', 350, 0, 1500, 75, 12000 ),
+				array( 'Criminal', 700, 0, 3000, 100, 17000 ),
 				array( 'Gangster', 1200, 0, 6000, 150, 23000 ),
-				array( 'Huurmoordenaar', 2000, 0, 12000, 250, 30000 ),
+				array( 'Hitman', 2000, 0, 12000, 250, 30000 ),
 				array( 'Capo', 3500, 0, 25000, 400, 40000 ),
 				array( 'Consigliere', 6000, 0, 50000, 600, 55000 ),
-				array( 'Onderbaas', 10000, 0, 100000, 1000, 75000 ),
-				array( 'Peetvader', 16000, 10, 250000, 2000, 100000 ),
+				array( 'Underboss', 10000, 0, 100000, 1000, 75000 ),
+				array( 'Godfather', 16000, 10, 250000, 2000, 100000 ),
 			);
 			foreach ( $ranks as $r ) {
 				DB::insert(
@@ -186,12 +186,12 @@ final class Installer {
 
 		if ( ! (int) DB::value( 'SELECT COUNT(*) FROM {money_ranks}' ) ) {
 			$wealth = array(
-				array( 'Platzak', 0 ),
-				array( 'Arm', 10000 ),
-				array( 'Modaal', 100000 ),
-				array( 'Rijk', 1000000 ),
-				array( 'Steenrijk', 10000000 ),
-				array( 'Onbetaalbaar rijk', 100000000 ),
+				array( 'Broke', 0 ),
+				array( 'Poor', 10000 ),
+				array( 'Average', 100000 ),
+				array( 'Rich', 1000000 ),
+				array( 'Filthy Rich', 10000000 ),
+				array( 'Obscenely Rich', 100000000 ),
 			);
 			foreach ( $wealth as $w ) {
 				DB::insert(
@@ -209,9 +209,9 @@ final class Installer {
 				// name, travel cost, travel cooldown, bullet stock, bullet price.
 				array( 'Amsterdam', 250, 1800, 20000, 30 ),
 				array( 'Rotterdam', 200, 1800, 20000, 28 ),
-				array( 'Antwerpen', 300, 2400, 15000, 32 ),
+				array( 'Antwerp', 300, 2400, 15000, 32 ),
 				array( 'Marseille', 450, 3000, 15000, 35 ),
-				array( 'Napels', 500, 3600, 15000, 38 ),
+				array( 'Naples', 500, 3600, 15000, 38 ),
 				array( 'Palermo', 600, 3600, 10000, 40 ),
 			);
 			foreach ( $cities as $c ) {
@@ -230,16 +230,16 @@ final class Installer {
 
 		if ( ! (int) DB::value( 'SELECT COUNT(*) FROM {items}' ) ) {
 			$items = array(
-				array( 'Revolver', 'weapon', 7500, 'Oud maar betrouwbaar.', 'attack_pct=10' ),
-				array( 'Machinepistool', 'weapon', 40000, 'Veel kogels in korte tijd.', 'attack_pct=25' ),
-				array( 'Aanvalsgeweer', 'weapon', 150000, 'Voor wie geen genoegen neemt met half werk.', 'attack_pct=50' ),
-				array( 'Scherpschuttersgeweer', 'weapon', 500000, 'Eén schot, één probleem minder.', "attack_pct=80\nmax_health=-2000" ),
-				array( 'Leren jas', 'armor', 5000, 'Beter dan niets.', 'defense_pct=5' ),
-				array( 'Kogelwerend vest', 'armor', 50000, 'Standaard uitrusting van elke lijfwacht.', 'defense_pct=20' ),
-				array( 'Gepantserd pak', 'armor', 250000, 'Maatwerk van een discrete kleermaker.', "defense_pct=40\nmax_health=5000" ),
-				array( 'Verbanddoos', 'consumable', 3000, 'Herstelt een deel van je gezondheid.', 'heal_pct=25' ),
-				array( 'Dokter aan huis', 'consumable', 20000, 'Volledig herstel, geen vragen.', 'heal_pct=100' ),
-				array( 'Corrupte advocaat', 'consumable', 25000, 'Direct vrij uit de gevangenis.', 'reset_timer=jail' ),
+				array( 'Revolver', 'weapon', 7500, 'Old but reliable.', 'attack_pct=10' ),
+				array( 'Submachine Gun', 'weapon', 40000, 'Lots of bullets in no time.', 'attack_pct=25' ),
+				array( 'Assault Rifle', 'weapon', 150000, 'For those who never settle for half a job.', 'attack_pct=50' ),
+				array( 'Sniper Rifle', 'weapon', 500000, 'One shot, one less problem.', "attack_pct=80\nmax_health=-2000" ),
+				array( 'Leather Jacket', 'armor', 5000, 'Better than nothing.', 'defense_pct=5' ),
+				array( 'Bulletproof Vest', 'armor', 50000, 'Standard gear for every bodyguard.', 'defense_pct=20' ),
+				array( 'Armored Suit', 'armor', 250000, 'Tailored by a discreet tailor.', "defense_pct=40\nmax_health=5000" ),
+				array( 'First Aid Kit', 'consumable', 3000, 'Restores part of your health.', 'heal_pct=25' ),
+				array( 'House Call Doctor', 'consumable', 20000, 'Full recovery, no questions asked.', 'heal_pct=100' ),
+				array( 'Crooked Lawyer', 'consumable', 25000, 'Out of jail instantly.', 'reset_timer=jail' ),
 			);
 			foreach ( $items as $i ) {
 				DB::insert(
@@ -275,8 +275,8 @@ final class Installer {
 		}
 		$page_id = wp_insert_post(
 			array(
-				'post_title'   => __( 'Maffia Game', 'wp-maffia-game' ),
-				'post_name'    => 'maffia-game',
+				'post_title'   => __( 'Mafia Game', 'wp-maffia-game' ),
+				'post_name'    => 'mafia-game',
 				'post_content' => '[maffia_game]',
 				'post_status'  => 'publish',
 				'post_type'    => 'page',

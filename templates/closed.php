@@ -18,11 +18,11 @@ $dfmg_start = (string) Settings::get( 'round_start', '' );
 			<p>
 				<?php
 				/* translators: %s: date */
-				printf( esc_html__( 'De ronde start op %s.', 'wp-maffia-game' ), esc_html( mysql2date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $dfmg_start ) ) );
+				printf( esc_html__( 'The round starts on %s.', 'wp-maffia-game' ), esc_html( mysql2date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $dfmg_start ) ) );
 				?>
 			</p>
 		<?php else : ?>
-			<p><?php esc_html_e( 'Deze ronde is afgelopen. Houd de site in de gaten voor de volgende ronde!', 'wp-maffia-game' ); ?></p>
+			<p><?php esc_html_e( 'This round has ended. Keep an eye on the site for the next round!', 'wp-maffia-game' ); ?></p>
 		<?php endif; ?>
 	</div>
 </div>

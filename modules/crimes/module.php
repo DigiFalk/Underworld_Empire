@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Misdaden
- * Description: Kleine en grote misdaden plegen voor geld, kogels en ervaring. Hoe vaker je een misdaad pleegt, hoe beter je erin wordt.
+ * Module Name: Crimes
+ * Description: Commit small and big crimes for money, bullets and experience. The more often you commit a crime, the better you get at it.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -23,7 +23,7 @@ final class Crimes extends Module {
 	const TIMER = 'crime';
 
 	public function title(): string {
-		return __( 'Misdaden', 'wp-maffia-game' );
+		return __( 'Crimes', 'wp-maffia-game' );
 	}
 
 	public function schema(): array {
@@ -57,12 +57,12 @@ final class Crimes extends Module {
 	public function seed(): void {
 		$crimes = array(
 			// name, description, rank, cooldown, money min/max, bullets min/max, exp, start chance, jail.
-			array( 'Zakkenrollen op de markt', 'Een snelle greep in een volle tas.', 1, 30, 15, 60, 0, 2, 1, 40, 30 ),
-			array( 'Een nachtwinkel beroven', 'Kassa leeg, capuchon op.', 1, 60, 40, 150, 0, 5, 2, 30, 45 ),
-			array( 'Toeristen oplichten', 'Nep-horloges voor echte prijzen.', 2, 90, 100, 350, 0, 5, 3, 25, 60 ),
-			array( 'Een juwelier overvallen', 'Snel, luid en riskant.', 3, 150, 400, 1200, 5, 15, 5, 15, 90 ),
-			array( 'Een geldtransport overvallen', 'Goed plannen of lang zitten.', 5, 300, 2000, 6000, 10, 40, 10, 10, 180 ),
-			array( 'De casinokluis kraken', 'Het grote werk, alleen voor professionals.', 7, 600, 10000, 30000, 25, 100, 20, 5, 300 ),
+			array( 'Pickpocket at the market', 'A quick grab into a full bag.', 1, 30, 15, 60, 0, 2, 1, 40, 30 ),
+			array( 'Rob a corner shop', 'Empty the till, hood up.', 1, 60, 40, 150, 0, 5, 2, 30, 45 ),
+			array( 'Scam tourists', 'Fake watches for real prices.', 2, 90, 100, 350, 0, 5, 3, 25, 60 ),
+			array( 'Rob a jewellery store', 'Fast, loud and risky.', 3, 150, 400, 1200, 5, 15, 5, 15, 90 ),
+			array( 'Hit an armoured truck', 'Plan it well or do long time.', 5, 300, 2000, 6000, 10, 40, 10, 10, 180 ),
+			array( 'Crack the casino vault', 'The big job, professionals only.', 7, 600, 10000, 30000, 25, 100, 20, 5, 300 ),
 		);
 		foreach ( $crimes as $r ) {
 			DB::insert(
@@ -87,12 +87,12 @@ final class Crimes extends Module {
 	public function settings_fields(): array {
 		return array(
 			'crimes_jail_chance' => array(
-				'label'       => __( 'Kans op gevangenis bij mislukken (%)', 'wp-maffia-game' ),
+				'label'       => __( 'Chance of jail on failure (%)', 'wp-maffia-game' ),
 				'type'        => 'int',
 				'default'     => 33,
 			),
 			'crimes_max_skill'   => array(
-				'label'   => __( 'Maximale slagingskans (%)', 'wp-maffia-game' ),
+				'label'   => __( 'Maximum success chance (%)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 95,
 			),
@@ -102,21 +102,21 @@ final class Crimes extends Module {
 	public function admin_tables(): array {
 		return array(
 			'crimes' => array(
-				'label'   => __( 'Misdaden', 'wp-maffia-game' ),
+				'label'   => __( 'Crimes', 'wp-maffia-game' ),
 				'table'   => 'crimes',
 				'order'   => 'min_rank ASC, id ASC',
 				'columns' => array(
-					'name'         => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'required' => true ),
-					'description'  => array( 'label' => __( 'Omschrijving', 'wp-maffia-game' ), 'type' => 'textarea' ),
-					'min_rank'     => array( 'label' => __( 'Vanaf rang (niveau)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1 ),
-					'cooldown'     => array( 'label' => __( 'Wachttijd (sec)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 60 ),
-					'min_money'    => array( 'label' => __( 'Min. geld', 'wp-maffia-game' ), 'type' => 'int' ),
-					'max_money'    => array( 'label' => __( 'Max. geld', 'wp-maffia-game' ), 'type' => 'int' ),
-					'min_bullets'  => array( 'label' => __( 'Min. kogels', 'wp-maffia-game' ), 'type' => 'int', 'list' => false ),
-					'max_bullets'  => array( 'label' => __( 'Max. kogels', 'wp-maffia-game' ), 'type' => 'int', 'list' => false ),
-					'exp'          => array( 'label' => __( 'Ervaring', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1 ),
-					'start_chance' => array( 'label' => __( 'Startkans (%)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 20 ),
-					'jail_time'    => array( 'label' => __( 'Celstraf (sec)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 60 ),
+					'name'         => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
+					'description'  => array( 'label' => __( 'Description', 'wp-maffia-game' ), 'type' => 'textarea' ),
+					'min_rank'     => array( 'label' => __( 'From rank (level)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1 ),
+					'cooldown'     => array( 'label' => __( 'Cooldown (sec)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 60 ),
+					'min_money'    => array( 'label' => __( 'Min. money', 'wp-maffia-game' ), 'type' => 'int' ),
+					'max_money'    => array( 'label' => __( 'Max. money', 'wp-maffia-game' ), 'type' => 'int' ),
+					'min_bullets'  => array( 'label' => __( 'Min. bullets', 'wp-maffia-game' ), 'type' => 'int', 'list' => false ),
+					'max_bullets'  => array( 'label' => __( 'Max. bullets', 'wp-maffia-game' ), 'type' => 'int', 'list' => false ),
+					'exp'          => array( 'label' => __( 'Experience', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1 ),
+					'start_chance' => array( 'label' => __( 'Starting chance (%)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 20 ),
+					'jail_time'    => array( 'label' => __( 'Jail time (sec)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 60 ),
 				),
 			),
 		);
@@ -125,7 +125,7 @@ final class Crimes extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Misdaden', 'wp-maffia-game' ),
+				'label' => __( 'Crimes', 'wp-maffia-game' ),
 				'group' => 'crime',
 				'order' => 10,
 				'timer' => self::TIMER,
@@ -171,11 +171,11 @@ final class Crimes extends Module {
 			}
 		}
 		if ( ! $crime ) {
-			$this->error( __( 'Deze misdaad bestaat niet of is nog te zwaar voor jou.', 'wp-maffia-game' ) );
+			$this->error( __( 'This crime doesn\'t exist or is too hard for you yet.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $crime['cooldown'] ) ) {
-			$this->error( __( 'Je moet nog even wachten voor je volgende misdaad.', 'wp-maffia-game' ) );
+			$this->error( __( 'You have to wait a little before your next crime.', 'wp-maffia-game' ) );
 			return;
 		}
 
@@ -193,18 +193,18 @@ final class Crimes extends Module {
 			$loot = array( Format::money( $money ) );
 			if ( $bullets ) {
 				/* translators: %s: number of bullets */
-				$loot[] = sprintf( __( '%s kogels', 'wp-maffia-game' ), Format::number( $bullets ) );
+				$loot[] = sprintf( __( '%s bullets', 'wp-maffia-game' ), Format::number( $bullets ) );
 			}
 			/* translators: 1: crime, 2: loot */
-			$this->success( sprintf( __( 'Gelukt: "%1$s". Je buit: %2$s.', 'wp-maffia-game' ), $crime['name'], implode( ' ' . __( 'en', 'wp-maffia-game' ) . ' ', $loot ) ) );
+			$this->success( sprintf( __( 'Success: "%1$s". Your loot: %2$s.', 'wp-maffia-game' ), $crime['name'], implode( ' ' . __( 'and', 'wp-maffia-game' ) . ' ', $loot ) ) );
 			$c->log( 'crimes', true, $money, $id );
 		} else {
 			$gain = wp_rand( 1, 2 );
 			if ( wp_rand( 1, 100 ) <= (int) $this->setting( 'crimes_jail_chance' ) ) {
 				$c->jail( (int) $crime['jail_time'] );
-				$this->error( __( 'Mislukt! De politie was er sneller bij en je belandt in de cel.', 'wp-maffia-game' ) );
+				$this->error( __( 'Failed! The police were faster and you end up in a cell.', 'wp-maffia-game' ) );
 			} else {
-				$this->error( __( 'Mislukt, maar je wist ongezien weg te komen.', 'wp-maffia-game' ) );
+				$this->error( __( 'Failed, but you managed to get away unseen.', 'wp-maffia-game' ) );
 			}
 			$c->log( 'crimes', false, 0, $id );
 		}

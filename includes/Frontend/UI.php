@@ -59,17 +59,17 @@ final class UI {
 		$owner = $property->owner();
 		$html  = '<div class="dfmg-property">';
 		if ( $owner && $owner->id() === $c->id() ) {
-			$html .= '<span>' . esc_html__( 'Dit is jouw bezit.', 'wp-maffia-game' ) . '</span> ';
-			$html .= '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( Game::url( 'properties' ) ) . '">' . esc_html__( 'Beheren', 'wp-maffia-game' ) . '</a>';
-			$html .= ' <span class="dfmg-muted">' . esc_html__( 'Winst:', 'wp-maffia-game' ) . ' ' . esc_html( Format::money( $property->profit() ) ) . '</span>';
+			$html .= '<span>' . esc_html__( 'This is your property.', 'wp-maffia-game' ) . '</span> ';
+			$html .= '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( Game::url( 'properties' ) ) . '">' . esc_html__( 'Manage', 'wp-maffia-game' ) . '</a>';
+			$html .= ' <span class="dfmg-muted">' . esc_html__( 'Profit:', 'wp-maffia-game' ) . ' ' . esc_html( Format::money( $property->profit() ) ) . '</span>';
 		} elseif ( $owner ) {
 			/* translators: %s: player */
-			$html .= sprintf( esc_html__( 'Eigenaar: %s', 'wp-maffia-game' ), $owner->link() );
+			$html .= sprintf( esc_html__( 'Owner: %s', 'wp-maffia-game' ), $owner->link() );
 		} else {
-			$html .= '<span>' . esc_html__( 'Dit bezit heeft geen eigenaar.', 'wp-maffia-game' ) . '</span> ';
+			$html .= '<span>' . esc_html__( 'This property has no owner.', 'wp-maffia-game' ) . '</span> ';
 			$html .= Game::form_open( 'core', 'buy_property', array( 'type' => $property->type_key(), 'return' => $return_route ), 'dfmg-inline-form' );
 			/* translators: %s: price */
-			$html .= '<button type="submit" class="dfmg-button">' . esc_html( sprintf( __( 'Kopen voor %s', 'wp-maffia-game' ), Format::money( $property->buy_price() ) ) ) . '</button></form>';
+			$html .= '<button type="submit" class="dfmg-button">' . esc_html( sprintf( __( 'Buy for %s', 'wp-maffia-game' ), Format::money( $property->buy_price() ) ) ) . '</button></form>';
 		}
 		return $html . '</div>';
 	}

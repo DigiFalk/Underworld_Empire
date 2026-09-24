@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 echo $this->view( 'tabs', array( 'active' => $sent ? 'sent' : 'inbox' ) ); // phpcs:ignore
 
 if ( ! $rows ) {
-	echo UI::empty_state( __( 'Geen berichten.', 'wp-maffia-game' ) ); // phpcs:ignore
+	echo UI::empty_state( __( 'No messages.', 'wp-maffia-game' ) ); // phpcs:ignore
 	return;
 }
 ?>
@@ -27,9 +27,9 @@ if ( ! $rows ) {
 		<thead>
 			<tr>
 				<th class="dfmg-col-check"></th>
-				<th><?php echo $sent ? esc_html__( 'Aan', 'wp-maffia-game' ) : esc_html__( 'Van', 'wp-maffia-game' ); ?></th>
-				<th><?php esc_html_e( 'Onderwerp', 'wp-maffia-game' ); ?></th>
-				<th><?php esc_html_e( 'Datum', 'wp-maffia-game' ); ?></th>
+				<th><?php echo $sent ? esc_html__( 'To', 'wp-maffia-game' ) : esc_html__( 'From', 'wp-maffia-game' ); ?></th>
+				<th><?php esc_html_e( 'Subject', 'wp-maffia-game' ); ?></th>
+				<th><?php esc_html_e( 'Date', 'wp-maffia-game' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -43,10 +43,10 @@ if ( ! $rows ) {
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<button type="submit" class="dfmg-button dfmg-button--ghost dfmg-button--small"><?php esc_html_e( 'Geselecteerde verwijderen', 'wp-maffia-game' ); ?></button>
+	<button type="submit" class="dfmg-button dfmg-button--ghost dfmg-button--small"><?php esc_html_e( 'Delete selected', 'wp-maffia-game' ); ?></button>
 </form>
 <?php
 if ( ! $sent ) {
-	echo $this->button( 'read_all', __( 'Alles als gelezen markeren', 'wp-maffia-game' ), array(), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore
+	echo $this->button( 'read_all', __( 'Mark all as read', 'wp-maffia-game' ), array(), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore
 }
 echo UI::pager( $this->id(), $sent ? array( 'view' => 'sent' ) : array(), $paged, $pages ); // phpcs:ignore

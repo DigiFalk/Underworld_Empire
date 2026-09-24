@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Meldingen
- * Description: Overzicht van alle gebeurtenissen rond je personage: promoties, aanslagen, overboekingen en meer.
+ * Module Name: Notifications
+ * Description: Overview of everything that happens to your character: promotions, attacks, transfers and more.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -23,7 +23,7 @@ final class Notifications extends Module {
 	const PER_PAGE = 25;
 
 	public function title(): string {
-		return __( 'Meldingen', 'wp-maffia-game' );
+		return __( 'Notifications', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -38,7 +38,7 @@ final class Notifications extends Module {
 		$unread = (int) DB::value( 'SELECT COUNT(*) FROM {notifications} WHERE character_id = %d AND is_read = 0', $c->id() );
 		return array(
 			array(
-				'label' => __( 'Meldingen', 'wp-maffia-game' ),
+				'label' => __( 'Notifications', 'wp-maffia-game' ),
 				'group' => 'general',
 				'order' => 10,
 				'badge' => $unread ?: '',
@@ -58,7 +58,7 @@ final class Notifications extends Module {
 		DB::query( 'UPDATE {notifications} SET is_read = 1 WHERE character_id = %d AND is_read = 0', $c->id() );
 
 		if ( ! $rows ) {
-			return UI::empty_state( __( 'Je hebt geen meldingen.', 'wp-maffia-game' ) );
+			return UI::empty_state( __( 'You have no notifications.', 'wp-maffia-game' ) );
 		}
 		$html = '<ul class="dfmg-list dfmg-notifications">';
 		foreach ( $rows as $row ) {
@@ -67,7 +67,7 @@ final class Notifications extends Module {
 		}
 		$html .= '</ul>';
 		$html .= UI::pager( $this->id(), array(), $paged, (int) ceil( $total / self::PER_PAGE ) );
-		$html .= $this->button( 'clear', __( 'Alle meldingen verwijderen', 'wp-maffia-game' ), array(), 'dfmg-button dfmg-button--ghost dfmg-button--small' );
+		$html .= $this->button( 'clear', __( 'Delete all notifications', 'wp-maffia-game' ), array(), 'dfmg-button dfmg-button--ghost dfmg-button--small' );
 		return $html;
 	}
 

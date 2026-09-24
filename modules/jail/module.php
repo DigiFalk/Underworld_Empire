@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Gevangenis
- * Description: Wie gepakt wordt belandt in de cel. Breek medegevangenen uit, betaal borg of wacht je straf uit. Mislukte uitbraken in de cel leiden tot de isoleercel.
+ * Module Name: Jail
+ * Description: Whoever gets caught ends up in a cell. Break out fellow inmates, pay bail or sit out your time. Failed breakouts from inside lead to solitary confinement.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 final class Jail extends Module {
 
 	public function title(): string {
-		return __( 'Gevangenis', 'wp-maffia-game' );
+		return __( 'Jail', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -45,25 +45,25 @@ final class Jail extends Module {
 	public function settings_fields(): array {
 		return array(
 			'jail_fail_time'       => array(
-				'label'   => __( 'Straf bij mislukte uitbraak (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Penalty for a failed breakout (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 90,
 			),
 			'jail_bust_cooldown'   => array(
-				'label'   => __( 'Wachttijd tussen uitbraakpogingen (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown between breakout attempts (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 20,
 			),
 			'jail_bust_exp'        => array(
-				'label'   => __( 'Ervaring per geslaagde uitbraak', 'wp-maffia-game' ),
+				'label'   => __( 'Experience per successful breakout', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 2,
 			),
 			'jail_bail_per_second' => array(
-				'label'       => __( 'Borg per resterende seconde', 'wp-maffia-game' ),
+				'label'       => __( 'Bail per remaining second', 'wp-maffia-game' ),
 				'type'        => 'int',
 				'default'     => 40,
-				'description' => __( '0 = borg uitgeschakeld.', 'wp-maffia-game' ),
+				'description' => __( '0 = bail disabled.', 'wp-maffia-game' ),
 			),
 		);
 	}
@@ -78,7 +78,7 @@ final class Jail extends Module {
 		);
 		return array(
 			array(
-				'label' => __( 'Gevangenis', 'wp-maffia-game' ),
+				'label' => __( 'Jail', 'wp-maffia-game' ),
 				'group' => 'city',
 				'order' => 20,
 				'timer' => 'jail',
@@ -141,16 +141,16 @@ final class Jail extends Module {
 	public function action_bust( Character $c, array $input ): void {
 		$target = Character::find( absint( $input['target'] ?? 0 ) );
 		if ( ! $target || ! $target->is_alive() || ! $target->is_jailed() || (int) $target->location_id !== (int) $c->location_id ) {
-			$this->error( __( 'Deze persoon zit hier niet vast.', 'wp-maffia-game' ) );
+			$this->error( __( 'This person isn\'t locked up here.', 'wp-maffia-game' ) );
 			return;
 		}
 		$chance = $this->chance( $c, $target );
 		if ( ! $chance ) {
-			$this->error( __( 'Uit de isoleercel breekt niemand.', 'wp-maffia-game' ) );
+			$this->error( __( 'Nobody breaks out of solitary confinement.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( 'jail_bust', (int) $this->setting( 'jail_bust_cooldown' ) ) ) {
-			$this->error( __( 'Rustig aan, de bewakers letten op. Probeer het zo weer.', 'wp-maffia-game' ) );
+			$this->error( __( 'Easy, the guards are watching. Try again in a moment.', 'wp-maffia-game' ) );
 			return;
 		}
 		$self = $target->id() === $c->id();
@@ -161,11 +161,11 @@ final class Jail extends Module {
 			if ( ! $self ) {
 				$c->add( 'exp', (int) $this->setting( 'jail_bust_exp' ) );
 				/* translators: %s: player */
-				$target->notify( sprintf( __( '%s heeft je uit de gevangenis bevrijd!', 'wp-maffia-game' ), $c->link() ) );
+				$target->notify( sprintf( __( '%s broke you out of jail!', 'wp-maffia-game' ), $c->link() ) );
 				/* translators: %s: player */
-				$this->success( sprintf( __( 'Je hebt %s uit de gevangenis bevrijd.', 'wp-maffia-game' ), $target->name ) );
+				$this->success( sprintf( __( 'You broke %s out of jail.', 'wp-maffia-game' ), $target->name ) );
 			} else {
-				$this->success( __( 'Je bent ontsnapt!', 'wp-maffia-game' ) );
+				$this->success( __( 'You escaped!', 'wp-maffia-game' ) );
 			}
 			$c->log( 'jail.bust', true, $self ? 1 : 0, $target->id() );
 			return;
@@ -176,34 +176,34 @@ final class Jail extends Module {
 			$until = $c->timer( 'jail' ) + $penalty;
 			$c->set_timer( 'jail', $until );
 			$c->set_timer( 'supermax', $until );
-			$this->error( __( 'Mislukt! Je wordt overgeplaatst naar de isoleercel.', 'wp-maffia-game' ) );
+			$this->error( __( 'Failed! You\'re being moved to solitary confinement.', 'wp-maffia-game' ) );
 		} else {
 			$c->jail( $penalty );
 			/* translators: %s: player */
-			$this->error( sprintf( __( 'Mislukt! De bewakers zagen je bij %s en nu zit je zelf vast.', 'wp-maffia-game' ), $target->name ) );
+			$this->error( sprintf( __( 'Failed! The guards saw you at %s and now you\'re locked up yourself.', 'wp-maffia-game' ), $target->name ) );
 		}
 		$c->log( 'jail.bust', false, 0, $target->id() );
 	}
 
 	public function action_bail( Character $c, array $input ): void {
 		if ( ! $c->is_jailed() ) {
-			$this->error( __( 'Je zit niet vast.', 'wp-maffia-game' ) );
+			$this->error( __( 'You are not locked up.', 'wp-maffia-game' ) );
 			return;
 		}
 		$bail = $this->bail( $c );
 		if ( ! $bail ) {
-			$this->error( __( 'Voor jou is geen borg mogelijk.', 'wp-maffia-game' ) );
+			$this->error( __( 'Bail isn\'t possible for you.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $bail ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'De borg is %s. Dat heb je niet contant.', 'wp-maffia-game' ), Format::money( $bail ) ) );
+			$this->error( sprintf( __( 'Bail is %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $bail ) ) );
 			return;
 		}
 		$c->clear_timer( 'jail' );
 		$c->log( 'jail.bail', true, $bail );
 		/* translators: %s: money */
-		$this->success( sprintf( __( 'Je hebt %s borg betaald en bent vrij.', 'wp-maffia-game' ), Format::money( $bail ) ) );
+		$this->success( sprintf( __( 'You paid %s bail and you are free.', 'wp-maffia-game' ), Format::money( $bail ) ) );
 	}
 }
 

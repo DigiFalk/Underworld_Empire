@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name:       WP Maffia Game
+ * Plugin Name:       WP Mafia Game
  * Plugin URI:        https://github.com/DigiFalk/WP_Maffia_Game
- * Description:       Een complete, modulaire maffia browsergame (PBBG) voor WordPress. Misdaden, auto's stelen, families, casino, moorden en meer — alles als losse, uitbreidbare modules.
+ * Description:       A complete, modular mafia browser game (PBBG) for WordPress. Crimes, car theft, families, casino, murders and more — all as separate, extendable modules.
  * Version:           1.0.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            DigiFalk
  * Author URI:        https://github.com/DigiFalk
- * License:           DigiFalk License (zie LICENSE.md)
+ * License:           DigiFalk License (see LICENSE.md)
  * Text Domain:       wp-maffia-game
  * Domain Path:       /languages
  *

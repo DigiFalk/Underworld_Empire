@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Nieuws
- * Description: Spelnieuws als eigen berichttype in WordPress. Wordt getoond in het spel en op de inlogpagina.
+ * Module Name: News
+ * Description: Game news as a custom post type in WordPress. Shown in the game and on the login page.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -22,7 +22,7 @@ final class News extends Module {
 	const POST_TYPE = 'dfmg_news';
 
 	public function title(): string {
-		return __( 'Nieuws', 'wp-maffia-game' );
+		return __( 'News', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -43,10 +43,10 @@ final class News extends Module {
 			self::POST_TYPE,
 			array(
 				'labels'       => array(
-					'name'          => __( 'Spelnieuws', 'wp-maffia-game' ),
-					'singular_name' => __( 'Nieuwsbericht', 'wp-maffia-game' ),
-					'add_new_item'  => __( 'Nieuw nieuwsbericht', 'wp-maffia-game' ),
-					'edit_item'     => __( 'Nieuwsbericht bewerken', 'wp-maffia-game' ),
+					'name'          => __( 'Game news', 'wp-maffia-game' ),
+					'singular_name' => __( 'News item', 'wp-maffia-game' ),
+					'add_new_item'  => __( 'New news item', 'wp-maffia-game' ),
+					'edit_item'     => __( 'Edit news item', 'wp-maffia-game' ),
 				),
 				'public'       => false,
 				'show_ui'      => true,
@@ -61,7 +61,7 @@ final class News extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Nieuws', 'wp-maffia-game' ),
+				'label' => __( 'News', 'wp-maffia-game' ),
 				'group' => 'community',
 				'order' => 5,
 			),
@@ -80,7 +80,7 @@ final class News extends Module {
 
 	private function markup( array $posts, bool $full ): string {
 		if ( ! $posts ) {
-			return UI::empty_state( __( 'Nog geen nieuws.', 'wp-maffia-game' ) );
+			return UI::empty_state( __( 'No news yet.', 'wp-maffia-game' ) );
 		}
 		$html = '';
 		foreach ( $posts as $post ) {
@@ -92,7 +92,7 @@ final class News extends Module {
 	}
 
 	public function login_news(): void {
-		echo '<div class="dfmg-login-news"><h3>' . esc_html__( 'Laatste nieuws', 'wp-maffia-game' ) . '</h3>' . $this->markup( $this->posts( 3 ), false ) . '</div>'; // phpcs:ignore
+		echo '<div class="dfmg-login-news"><h3>' . esc_html__( 'Latest news', 'wp-maffia-game' ) . '</h3>' . $this->markup( $this->posts( 3 ), false ) . '</div>'; // phpcs:ignore
 	}
 
 	public function render( Character $c, array $query ): string {

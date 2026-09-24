@@ -15,7 +15,7 @@ use DigiFalk\MaffiaGame\Frontend\UI;
 defined( 'ABSPATH' ) || exit;
 
 if ( $c->timer_active( 'slots' ) ) {
-	echo UI::cooldown( __( 'Je kunt weer draaien over', 'wp-maffia-game' ), $c->timer( 'slots' ) ); // phpcs:ignore
+	echo UI::cooldown( __( 'You can spin again in', 'wp-maffia-game' ), $c->timer( 'slots' ) ); // phpcs:ignore
 }
 ?>
 <div class="dfmg-card">
@@ -26,6 +26,6 @@ if ( $c->timer_active( 'slots' ) ) {
 			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
-	<p><?php echo esc_html( sprintf( /* translators: %s: money */ __( 'Inzet: %s. Twee gelijk = 2x, drie gelijk = 20x.', 'wp-maffia-game' ), Format::money( $bet ) ) ); ?></p>
-	<?php echo $this->button( 'spin', __( 'Draaien!', 'wp-maffia-game' ) ); // phpcs:ignore ?>
+	<p><?php echo esc_html( sprintf( /* translators: %s: money */ __( 'Bet: %s. Two of a kind = 2x, three of a kind = 20x.', 'wp-maffia-game' ), Format::money( $bet ) ) ); ?></p>
+	<?php echo $this->button( 'spin', __( 'Spin!', 'wp-maffia-game' ) ); // phpcs:ignore ?>
 </div>

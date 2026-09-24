@@ -9,8 +9,8 @@ defined( 'ABSPATH' ) || exit;
 
 $dfmg_tabs = array(
 	'inbox'   => __( 'Inbox', 'wp-maffia-game' ),
-	'sent'    => __( 'Verzonden', 'wp-maffia-game' ),
-	'compose' => __( 'Nieuw bericht', 'wp-maffia-game' ),
+	'sent'    => __( 'Sent', 'wp-maffia-game' ),
+	'compose' => __( 'New message', 'wp-maffia-game' ),
 );
 ?>
 <nav class="dfmg-tabs">

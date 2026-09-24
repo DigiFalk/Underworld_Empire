@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Gokautomaat
- * Description: Voorbeeldmodule: een eenvoudige gokkast. Kopieer deze map naar wp-content/maffia-modules/ om hem te activeren.
+ * Module Name: Slot Machine
+ * Description: Example module: a simple slot machine. Copy this folder to wp-content/maffia-modules/ to activate it.
  * Version: 1.0.0
  * Author: DigiFalk
  * Default: yes
@@ -23,19 +23,19 @@ final class SlotMachine extends Module {
 	const SYMBOLS = array( '🍒', '🍋', '🔔', '💎', '7' );
 
 	public function title(): string {
-		return __( 'Gokautomaat', 'wp-maffia-game' );
+		return __( 'Slot machine', 'wp-maffia-game' );
 	}
 
-	/** Settings appear automatically under Maffia Game > Instellingen. */
+	/** Settings appear automatically under Mafia Game > Settings. */
 	public function settings_fields(): array {
 		return array(
 			'slots_bet'      => array(
-				'label'   => __( 'Inzet per draai', 'wp-maffia-game' ),
+				'label'   => __( 'Bet per spin', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 500,
 			),
 			'slots_cooldown' => array(
-				'label'   => __( 'Wachttijd (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 10,
 			),
@@ -46,7 +46,7 @@ final class SlotMachine extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Gokautomaat', 'wp-maffia-game' ),
+				'label' => __( 'Slot machine', 'wp-maffia-game' ),
 				'group' => 'casino',
 				'order' => 20,
 				'timer' => self::TIMER,
@@ -69,11 +69,11 @@ final class SlotMachine extends Module {
 	public function action_spin( Character $c, array $input ): void {
 		$bet = (int) $this->setting( 'slots_bet' );
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $this->setting( 'slots_cooldown' ) ) ) {
-			$this->error( __( 'De automaat draait nog.', 'wp-maffia-game' ) );
+			$this->error( __( 'The machine is still spinning.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $bet ) ) {
-			$this->error( __( 'Je hebt niet genoeg contant geld.', 'wp-maffia-game' ) );
+			$this->error( __( 'You don\'t have enough cash.', 'wp-maffia-game' ) );
 			return;
 		}
 		$reels = array();
@@ -87,9 +87,9 @@ final class SlotMachine extends Module {
 		if ( $win ) {
 			$c->add( 'money', $win );
 			/* translators: %s: money */
-			$this->success( sprintf( __( 'Winst! Je krijgt %s.', 'wp-maffia-game' ), Format::money( $win ) ) );
+			$this->success( sprintf( __( 'You win! You get %s.', 'wp-maffia-game' ), Format::money( $win ) ) );
 		} else {
-			$this->error( __( 'Helaas, niets gewonnen.', 'wp-maffia-game' ) );
+			$this->error( __( 'Too bad, nothing won.', 'wp-maffia-game' ) );
 		}
 		// Statistics and the dfmg_action hook.
 		$c->log( 'slots', $win > 0, $win - $bet );

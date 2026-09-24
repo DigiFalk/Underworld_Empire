@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Ranglijsten
- * Description: De top van de onderwereld: hoogste rang, rijkste spelers, meeste moorden en meeste misdaden.
+ * Module Name: Leaderboards
+ * Description: The top of the underworld: highest rank, richest players, most murders and most crimes.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 final class Leaderboards extends Module {
 
 	public function title(): string {
-		return __( 'Ranglijsten', 'wp-maffia-game' );
+		return __( 'Leaderboards', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -35,7 +35,7 @@ final class Leaderboards extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Ranglijsten', 'wp-maffia-game' ),
+				'label' => __( 'Leaderboards', 'wp-maffia-game' ),
 				'group' => 'community',
 				'order' => 30,
 			),
@@ -60,7 +60,7 @@ final class Leaderboards extends Module {
 			'dfmg_leaderboards',
 			array(
 				'rank'    => array(
-					'label'    => __( 'Rang', 'wp-maffia-game' ),
+					'label'    => __( 'Rank', 'wp-maffia-game' ),
 					'callback' => static function () {
 						$out = array();
 						foreach ( DB::column( 'SELECT id FROM {characters} WHERE status = 1 ORDER BY exp DESC LIMIT 25' ) as $id ) {
@@ -70,7 +70,7 @@ final class Leaderboards extends Module {
 					},
 				),
 				'wealth'  => array(
-					'label'    => __( 'Rijkdom', 'wp-maffia-game' ),
+					'label'    => __( 'Wealth', 'wp-maffia-game' ),
 					'callback' => static function () {
 						$out = array();
 						foreach ( DB::column( 'SELECT id FROM {characters} WHERE status = 1 ORDER BY (money + bank) DESC LIMIT 25' ) as $id ) {
@@ -80,15 +80,15 @@ final class Leaderboards extends Module {
 					},
 				),
 				'murders' => array(
-					'label'    => __( 'Moorden', 'wp-maffia-game' ),
+					'label'    => __( 'Murders', 'wp-maffia-game' ),
 					'callback' => $activity( 'murder' ),
 				),
 				'crimes'  => array(
-					'label'    => __( 'Misdaden', 'wp-maffia-game' ),
+					'label'    => __( 'Crimes', 'wp-maffia-game' ),
 					'callback' => $activity( 'crimes' ),
 				),
 				'busts'   => array(
-					'label'    => __( 'Uitbraken', 'wp-maffia-game' ),
+					'label'    => __( 'Breakouts', 'wp-maffia-game' ),
 					'callback' => $activity( 'jail.bust' ),
 				),
 			)
@@ -112,7 +112,7 @@ final class Leaderboards extends Module {
 			set_transient( $cache_key, $rows, 5 * MINUTE_IN_SECONDS );
 		}
 		if ( ! $rows ) {
-			return $html . UI::empty_state( __( 'Nog geen gegevens.', 'wp-maffia-game' ) );
+			return $html . UI::empty_state( __( 'No data yet.', 'wp-maffia-game' ) );
 		}
 		$html .= '<table class="dfmg-table dfmg-leaderboard"><tbody>';
 		$pos   = 0;
@@ -120,7 +120,7 @@ final class Leaderboards extends Module {
 			$html .= '<tr class="' . ( (int) $id === $c->id() ? 'is-me' : '' ) . '"><td class="dfmg-pos">' . ( ++$pos ) . '</td><td>' . Character::link_by_id( (int) $id ) . '</td><td>'
 				. esc_html( is_numeric( $value ) ? Format::number( $value ) : (string) $value ) . '</td></tr>';
 		}
-		return $html . '</tbody></table><p class="dfmg-muted">' . esc_html__( 'Wordt elke 5 minuten bijgewerkt.', 'wp-maffia-game' ) . '</p>';
+		return $html . '</tbody></table><p class="dfmg-muted">' . esc_html__( 'Updated every 5 minutes.', 'wp-maffia-game' ) . '</p>';
 	}
 }
 

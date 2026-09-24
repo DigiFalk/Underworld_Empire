@@ -1,7 +1,7 @@
 <?php
 /**
  * Module Name: Blackjack
- * Description: Speel blackjack in het casino van je stad. Het casino kan door een speler gekocht worden; die bepaalt de maximale inzet en moet winsten uitbetalen.
+ * Description: Play blackjack at your city's casino. The table can be bought by a player, who sets the maximum bet and has to pay out winnings.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -30,9 +30,9 @@ final class Blackjack extends Module {
 			'dfmg_property_types',
 			function ( $types ) {
 				$types[ self::TYPE ] = array(
-					'label'         => __( 'Blackjacktafel', 'wp-maffia-game' ),
+					'label'         => __( 'Blackjack table', 'wp-maffia-game' ),
 					'price'         => (int) $this->setting( 'blackjack_property_price' ),
-					'setting_label' => __( 'Maximale inzet', 'wp-maffia-game' ),
+					'setting_label' => __( 'Maximum bet', 'wp-maffia-game' ),
 					'setting_min'   => (int) $this->setting( 'blackjack_min_bet' ),
 					'setting_max'   => 0,
 					'route'         => $this->id(),
@@ -45,17 +45,17 @@ final class Blackjack extends Module {
 	public function settings_fields(): array {
 		return array(
 			'blackjack_min_bet'        => array(
-				'label'   => __( 'Minimale inzet', 'wp-maffia-game' ),
+				'label'   => __( 'Minimum bet', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 100,
 			),
 			'blackjack_max_bet'        => array(
-				'label'   => __( 'Standaard maximale inzet', 'wp-maffia-game' ),
+				'label'   => __( 'Default maximum bet', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 50000,
 			),
 			'blackjack_property_price' => array(
-				'label'   => __( 'Aankoopprijs blackjacktafel', 'wp-maffia-game' ),
+				'label'   => __( 'Blackjack table purchase price', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 1000000,
 			),
@@ -158,7 +158,7 @@ final class Blackjack extends Module {
 
 	public function action_bet( Character $c, array $input ): void {
 		if ( $this->game( $c ) ) {
-			$this->error( __( 'Speel eerst je huidige spel uit.', 'wp-maffia-game' ) );
+			$this->error( __( 'Finish your current game first.', 'wp-maffia-game' ) );
 			return;
 		}
 		$bet   = Format::parse_amount( $input['bet'] ?? 0 );
@@ -167,11 +167,11 @@ final class Blackjack extends Module {
 		$max   = $this->max_bet( $table );
 		if ( $bet < $min || $bet > $max ) {
 			/* translators: 1: min, 2: max */
-			$this->error( sprintf( __( 'Je inzet moet tussen %1$s en %2$s liggen.', 'wp-maffia-game' ), Format::money( $min ), Format::money( $max ) ) );
+			$this->error( sprintf( __( 'Your bet must be between %1$s and %2$s.', 'wp-maffia-game' ), Format::money( $min ), Format::money( $max ) ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $bet ) ) {
-			$this->error( __( 'Zoveel contant geld heb je niet.', 'wp-maffia-game' ) );
+			$this->error( __( 'You don\'t have that much cash.', 'wp-maffia-game' ) );
 			return;
 		}
 		$owner = $table->owner();
@@ -230,21 +230,21 @@ final class Blackjack extends Module {
 
 		if ( $player > 21 ) {
 			/* translators: %s: money */
-			$result = sprintf( __( 'Dood! Je verliest je inzet van %s.', 'wp-maffia-game' ), Format::money( $bet ) );
+			$result = sprintf( __( 'Bust! You lose your bet of %s.', 'wp-maffia-game' ), Format::money( $bet ) );
 		} elseif ( self::is_blackjack( $game['player'] ) && ! self::is_blackjack( $game['dealer'] ) ) {
 			$payout = (int) floor( $bet * 2.5 );
 			/* translators: %s: money */
-			$result = sprintf( __( 'Blackjack! Je wint %s.', 'wp-maffia-game' ), Format::money( $payout - $bet ) );
+			$result = sprintf( __( 'Blackjack! You win %s.', 'wp-maffia-game' ), Format::money( $payout - $bet ) );
 		} elseif ( $dealer > 21 || $player > $dealer ) {
 			$payout = $bet * 2;
 			/* translators: %s: money */
-			$result = sprintf( __( 'Gewonnen! Je wint %s.', 'wp-maffia-game' ), Format::money( $bet ) );
+			$result = sprintf( __( 'You won! You win %s.', 'wp-maffia-game' ), Format::money( $bet ) );
 		} elseif ( $player === $dealer ) {
 			$payout = $bet;
-			$result = __( 'Gelijkspel. Je krijgt je inzet terug.', 'wp-maffia-game' );
+			$result = __( 'Push. You get your bet back.', 'wp-maffia-game' );
 		} else {
 			/* translators: %s: money */
-			$result = sprintf( __( 'De bank wint. Je verliest %s.', 'wp-maffia-game' ), Format::money( $bet ) );
+			$result = sprintf( __( 'The house wins. You lose %s.', 'wp-maffia-game' ), Format::money( $bet ) );
 		}
 
 		if ( $payout ) {
@@ -278,8 +278,8 @@ final class Blackjack extends Module {
 			} else {
 				$table->transfer( $c->id() );
 				/* translators: %s: player */
-				$owner->notify( sprintf( __( 'Je kon een blackjackwinst niet uitbetalen. %s heeft je tafel overgenomen!', 'wp-maffia-game' ), $c->link() ) );
-				$this->notice( __( 'De eigenaar kon niet betalen. De blackjacktafel is nu van jou!', 'wp-maffia-game' ) );
+				$owner->notify( sprintf( __( 'You couldn\'t pay out a blackjack win. %s took over your table!', 'wp-maffia-game' ), $c->link() ) );
+				$this->notice( __( 'The owner couldn\'t pay. The blackjack table is now yours!', 'wp-maffia-game' ) );
 			}
 		}
 		$c->add( 'money', $amount );

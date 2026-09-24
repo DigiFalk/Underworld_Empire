@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Reizen
- * Description: Vlieg naar andere steden. Elke stad heeft eigen gevangenen, bezittingen en families.
+ * Module Name: Travel
+ * Description: Fly to other cities. Every city has its own inmates, properties and families.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -22,13 +22,13 @@ final class Travel extends Module {
 	const TIMER = 'travel';
 
 	public function title(): string {
-		return __( 'Luchthaven', 'wp-maffia-game' );
+		return __( 'Airport', 'wp-maffia-game' );
 	}
 
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Reizen', 'wp-maffia-game' ),
+				'label' => __( 'Travel', 'wp-maffia-game' ),
 				'group' => 'city',
 				'order' => 10,
 				'timer' => self::TIMER,
@@ -67,16 +67,16 @@ final class Travel extends Module {
 			}
 		}
 		if ( ! $dest ) {
-			$this->error( __( 'Daar gaan geen vluchten heen.', 'wp-maffia-game' ) );
+			$this->error( __( 'There are no flights to that destination.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( $c->timer_active( self::TIMER ) ) {
-			$this->error( __( 'Je bent net geland. Wacht tot je weer mag vliegen.', 'wp-maffia-game' ) );
+			$this->error( __( 'You just landed. Wait until you\'re allowed to fly again.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', (int) $dest['travel_cost'] ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Een ticket kost %s. Dat heb je niet contant.', 'wp-maffia-game' ), Format::money( $dest['travel_cost'] ) ) );
+			$this->error( sprintf( __( 'A ticket costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $dest['travel_cost'] ) ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) Locations::get( $id )['travel_time'] ) ) {
@@ -87,7 +87,7 @@ final class Travel extends Module {
 		$c->log( 'travel', true, (int) $dest['travel_cost'], $id );
 		do_action( 'dfmg_travelled', $c, $id );
 		/* translators: %s: city */
-		$this->success( sprintf( __( 'Welkom in %s!', 'wp-maffia-game' ), $dest['name'] ) );
+		$this->success( sprintf( __( 'Welcome to %s!', 'wp-maffia-game' ), $dest['name'] ) );
 	}
 }
 

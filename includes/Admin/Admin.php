@@ -45,7 +45,7 @@ final class Admin {
 	}
 
 	public static function plugin_links( array $links ): array {
-		array_unshift( $links, '<a href="' . esc_url( admin_url( 'admin.php?page=dfmg' ) ) . '">' . esc_html__( 'Beheer', 'wp-maffia-game' ) . '</a>' );
+		array_unshift( $links, '<a href="' . esc_url( admin_url( 'admin.php?page=dfmg' ) ) . '">' . esc_html__( 'Manage', 'wp-maffia-game' ) . '</a>' );
 		return $links;
 	}
 
@@ -57,11 +57,11 @@ final class Admin {
 
 	public static function menu(): void {
 		$cap = self::cap();
-		add_menu_page( __( 'Maffia Game', 'wp-maffia-game' ), __( 'Maffia Game', 'wp-maffia-game' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ), 'dashicons-shield-alt', 58 );
+		add_menu_page( __( 'Mafia Game', 'wp-maffia-game' ), __( 'Mafia Game', 'wp-maffia-game' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ), 'dashicons-shield-alt', 58 );
 		add_submenu_page( 'dfmg', __( 'Dashboard', 'wp-maffia-game' ), __( 'Dashboard', 'wp-maffia-game' ), $cap, 'dfmg', array( __CLASS__, 'page_dashboard' ) );
 		add_submenu_page( 'dfmg', __( 'Modules', 'wp-maffia-game' ), __( 'Modules', 'wp-maffia-game' ), $cap, 'dfmg-modules', array( __CLASS__, 'page_modules' ) );
-		add_submenu_page( 'dfmg', __( 'Spelgegevens', 'wp-maffia-game' ), __( 'Spelgegevens', 'wp-maffia-game' ), $cap, 'dfmg-data', array( __CLASS__, 'page_data' ) );
-		add_submenu_page( 'dfmg', __( 'Instellingen', 'wp-maffia-game' ), __( 'Instellingen', 'wp-maffia-game' ), $cap, 'dfmg-settings', array( __CLASS__, 'page_settings' ) );
+		add_submenu_page( 'dfmg', __( 'Game data', 'wp-maffia-game' ), __( 'Game data', 'wp-maffia-game' ), $cap, 'dfmg-data', array( __CLASS__, 'page_data' ) );
+		add_submenu_page( 'dfmg', __( 'Settings', 'wp-maffia-game' ), __( 'Settings', 'wp-maffia-game' ), $cap, 'dfmg-settings', array( __CLASS__, 'page_settings' ) );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -74,64 +74,64 @@ final class Admin {
 	public static function tables(): array {
 		$tables = array(
 			'characters'  => array(
-				'label'      => __( 'Spelers', 'wp-maffia-game' ),
+				'label'      => __( 'Players', 'wp-maffia-game' ),
 				'table'      => 'characters',
 				'order'      => 'id DESC',
 				'can_create' => false,
 				'search'     => 'name',
-				'help'       => __( 'Personages van spelers. Hier kun je o.a. premium punten toekennen.', 'wp-maffia-game' ),
+				'help'       => __( 'Player characters. Here you can, among other things, award premium points.', 'wp-maffia-game' ),
 				'columns'    => array(
-					'name'        => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'type' => 'text', 'required' => true ),
+					'name'        => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'type' => 'text', 'required' => true ),
 					'status'      => array(
 						'label'   => __( 'Status', 'wp-maffia-game' ),
 						'type'    => 'select',
 						'options' => array(
-							1 => __( 'Levend', 'wp-maffia-game' ),
-							0 => __( 'Dood', 'wp-maffia-game' ),
+							1 => __( 'Alive', 'wp-maffia-game' ),
+							0 => __( 'Dead', 'wp-maffia-game' ),
 						),
 					),
-					'money'       => array( 'label' => __( 'Contant', 'wp-maffia-game' ), 'type' => 'int' ),
+					'money'       => array( 'label' => __( 'Cash', 'wp-maffia-game' ), 'type' => 'int' ),
 					'bank'        => array( 'label' => __( 'Bank', 'wp-maffia-game' ), 'type' => 'int' ),
-					'bullets'     => array( 'label' => __( 'Kogels', 'wp-maffia-game' ), 'type' => 'int' ),
-					'exp'         => array( 'label' => __( 'Ervaring', 'wp-maffia-game' ), 'type' => 'int' ),
-					'points'      => array( 'label' => __( 'Punten', 'wp-maffia-game' ), 'type' => 'int' ),
-					'damage'      => array( 'label' => __( 'Schade', 'wp-maffia-game' ), 'type' => 'int', 'list' => false ),
-					'rank_id'     => array( 'label' => __( 'Rang', 'wp-maffia-game' ), 'type' => 'select', 'options' => array( Ranks::class, 'options' ) ),
-					'location_id' => array( 'label' => __( 'Stad', 'wp-maffia-game' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),
-					'bio'         => array( 'label' => __( 'Profieltekst', 'wp-maffia-game' ), 'type' => 'textarea' ),
+					'bullets'     => array( 'label' => __( 'Bullets', 'wp-maffia-game' ), 'type' => 'int' ),
+					'exp'         => array( 'label' => __( 'Experience', 'wp-maffia-game' ), 'type' => 'int' ),
+					'points'      => array( 'label' => __( 'Points', 'wp-maffia-game' ), 'type' => 'int' ),
+					'damage'      => array( 'label' => __( 'Damage', 'wp-maffia-game' ), 'type' => 'int', 'list' => false ),
+					'rank_id'     => array( 'label' => __( 'Rank', 'wp-maffia-game' ), 'type' => 'select', 'options' => array( Ranks::class, 'options' ) ),
+					'location_id' => array( 'label' => __( 'City', 'wp-maffia-game' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),
+					'bio'         => array( 'label' => __( 'Profile text', 'wp-maffia-game' ), 'type' => 'textarea' ),
 				),
 			),
 			'ranks'       => array(
-				'label'   => __( 'Rangen', 'wp-maffia-game' ),
+				'label'   => __( 'Ranks', 'wp-maffia-game' ),
 				'table'   => 'ranks',
 				'order'   => 'exp_required ASC',
 				'columns' => array(
-					'name'          => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'required' => true ),
-					'exp_required'  => array( 'label' => __( 'Benodigde ervaring', 'wp-maffia-game' ), 'type' => 'int' ),
-					'max_players'   => array( 'label' => __( 'Max. spelers (0 = onbeperkt)', 'wp-maffia-game' ), 'type' => 'int' ),
-					'cash_reward'   => array( 'label' => __( 'Geldbeloning', 'wp-maffia-game' ), 'type' => 'int' ),
-					'bullet_reward' => array( 'label' => __( 'Kogelbeloning', 'wp-maffia-game' ), 'type' => 'int' ),
-					'max_health'    => array( 'label' => __( 'Gezondheid', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1000 ),
+					'name'          => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
+					'exp_required'  => array( 'label' => __( 'Required experience', 'wp-maffia-game' ), 'type' => 'int' ),
+					'max_players'   => array( 'label' => __( 'Max. players (0 = unlimited)', 'wp-maffia-game' ), 'type' => 'int' ),
+					'cash_reward'   => array( 'label' => __( 'Cash reward', 'wp-maffia-game' ), 'type' => 'int' ),
+					'bullet_reward' => array( 'label' => __( 'Bullet reward', 'wp-maffia-game' ), 'type' => 'int' ),
+					'max_health'    => array( 'label' => __( 'Health', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1000 ),
 				),
 			),
 			'money_ranks' => array(
-				'label'   => __( 'Rijkdomtitels', 'wp-maffia-game' ),
+				'label'   => __( 'Wealth titles', 'wp-maffia-game' ),
 				'table'   => 'money_ranks',
 				'order'   => 'min_money ASC',
 				'columns' => array(
-					'name'      => array( 'label' => __( 'Titel', 'wp-maffia-game' ), 'required' => true ),
-					'min_money' => array( 'label' => __( 'Vanaf bedrag', 'wp-maffia-game' ), 'type' => 'int' ),
+					'name'      => array( 'label' => __( 'Title', 'wp-maffia-game' ), 'required' => true ),
+					'min_money' => array( 'label' => __( 'From amount', 'wp-maffia-game' ), 'type' => 'int' ),
 				),
 			),
 			'locations'   => array(
-				'label'   => __( 'Steden', 'wp-maffia-game' ),
+				'label'   => __( 'Cities', 'wp-maffia-game' ),
 				'table'   => 'locations',
 				'columns' => array(
-					'name'         => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'required' => true ),
-					'travel_cost'  => array( 'label' => __( 'Reiskosten', 'wp-maffia-game' ), 'type' => 'int' ),
-					'travel_time'  => array( 'label' => __( 'Wachttijd na reis (sec)', 'wp-maffia-game' ), 'type' => 'int' ),
-					'bullet_stock' => array( 'label' => __( 'Kogelvoorraad', 'wp-maffia-game' ), 'type' => 'int' ),
-					'bullet_price' => array( 'label' => __( 'Standaard kogelprijs', 'wp-maffia-game' ), 'type' => 'int' ),
+					'name'         => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
+					'travel_cost'  => array( 'label' => __( 'Travel cost', 'wp-maffia-game' ), 'type' => 'int' ),
+					'travel_time'  => array( 'label' => __( 'Cooldown after travelling (sec)', 'wp-maffia-game' ), 'type' => 'int' ),
+					'bullet_stock' => array( 'label' => __( 'Bullet stock', 'wp-maffia-game' ), 'type' => 'int' ),
+					'bullet_price' => array( 'label' => __( 'Default bullet price', 'wp-maffia-game' ), 'type' => 'int' ),
 				),
 			),
 			'items'       => array(
@@ -139,13 +139,13 @@ final class Admin {
 				'table'   => 'items',
 				'search'  => 'name',
 				'columns' => array(
-					'name'        => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'required' => true ),
-					'type'        => array( 'label' => __( 'Soort', 'wp-maffia-game' ), 'type' => 'select', 'options' => array( Items::class, 'type_options' ) ),
-					'price'       => array( 'label' => __( 'Prijs', 'wp-maffia-game' ), 'type' => 'int' ),
-					'buyable'     => array( 'label' => __( 'Te koop op zwarte markt', 'wp-maffia-game' ), 'type' => 'checkbox', 'default' => 1 ),
-					'description' => array( 'label' => __( 'Omschrijving', 'wp-maffia-game' ), 'type' => 'textarea' ),
+					'name'        => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
+					'type'        => array( 'label' => __( 'Type', 'wp-maffia-game' ), 'type' => 'select', 'options' => array( Items::class, 'type_options' ) ),
+					'price'       => array( 'label' => __( 'Price', 'wp-maffia-game' ), 'type' => 'int' ),
+					'buyable'     => array( 'label' => __( 'For sale on the black market', 'wp-maffia-game' ), 'type' => 'checkbox', 'default' => 1 ),
+					'description' => array( 'label' => __( 'Description', 'wp-maffia-game' ), 'type' => 'textarea' ),
 					'effects'     => array(
-						'label'       => __( 'Effecten', 'wp-maffia-game' ),
+						'label'       => __( 'Effects', 'wp-maffia-game' ),
 						'type'        => 'textarea',
 						'description' => self::effects_help(),
 					),
@@ -166,7 +166,7 @@ final class Admin {
 		foreach ( Items::effects() as $key => $effect ) {
 			$lines[] = '<code>' . esc_html( $key ) . '=…</code> ' . esc_html( $effect['label'] );
 		}
-		return __( 'Eén effect per regel.', 'wp-maffia-game' ) . '<br>' . implode( '<br>', $lines );
+		return __( 'One effect per line.', 'wp-maffia-game' ) . '<br>' . implode( '<br>', $lines );
 	}
 
 	public static function page_data(): void {
@@ -179,12 +179,12 @@ final class Admin {
 			$current = (string) key( $tables );
 		}
 		$edit = sanitize_text_field( wp_unslash( $_GET['edit'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		echo '<div class="wrap dfmg-admin"><h1>' . esc_html__( 'Spelgegevens', 'wp-maffia-game' ) . '</h1>';
+		echo '<div class="wrap dfmg-admin"><h1>' . esc_html__( 'Game data', 'wp-maffia-game' ) . '</h1>';
 		self::notices();
 		echo '<div class="dfmg-admin-data"><ul class="dfmg-admin-tabs">';
 		$group = null;
 		foreach ( $tables as $key => $def ) {
-			$g = $def['module'] ?? __( 'Kern', 'wp-maffia-game' );
+			$g = $def['module'] ?? __( 'Core', 'wp-maffia-game' );
 			if ( $g !== $group ) {
 				echo '<li class="dfmg-admin-tabs__group">' . esc_html( $g ) . '</li>';
 				$group = $g;
@@ -204,7 +204,7 @@ final class Admin {
 		$key    = sanitize_key( wp_unslash( $_POST['table'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		$tables = self::tables();
 		if ( ! self::can() || ! isset( $tables[ $key ] ) ) {
-			wp_die( esc_html__( 'Geen toegang.', 'wp-maffia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'wp-maffia-game' ) );
 		}
 		check_admin_referer( 'dfmg_data_save_' . $key );
 		DataTable::save( $key, $tables[ $key ] );
@@ -216,7 +216,7 @@ final class Admin {
 		$id     = absint( $_GET['id'] ?? 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$tables = self::tables();
 		if ( ! self::can() || ! isset( $tables[ $key ] ) ) {
-			wp_die( esc_html__( 'Geen toegang.', 'wp-maffia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'wp-maffia-game' ) );
 		}
 		check_admin_referer( 'dfmg_data_delete_' . $key . '_' . $id );
 		DataTable::delete( $key, $tables[ $key ], $id );
@@ -238,30 +238,30 @@ final class Admin {
 		$actions = (int) DB::value( 'SELECT COUNT(*) FROM {activity} WHERE created_at > %d', time() - DAY_IN_SECONDS );
 		?>
 		<div class="wrap dfmg-admin">
-			<h1><?php esc_html_e( 'Maffia Game', 'wp-maffia-game' ); ?></h1>
+			<h1><?php esc_html_e( 'Mafia Game', 'wp-maffia-game' ); ?></h1>
 			<?php self::notices(); ?>
 			<div class="dfmg-admin-cards">
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $alive ) ); ?></strong><span><?php esc_html_e( 'Levende spelers', 'wp-maffia-game' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $online ) ); ?></strong><span><?php esc_html_e( 'Nu online', 'wp-maffia-game' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $dead ) ); ?></strong><span><?php esc_html_e( 'Vermoord', 'wp-maffia-game' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::money( $money ) ); ?></strong><span><?php esc_html_e( 'Geld in omloop', 'wp-maffia-game' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $actions ) ); ?></strong><span><?php esc_html_e( 'Acties (24 uur)', 'wp-maffia-game' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $alive ) ); ?></strong><span><?php esc_html_e( 'Living players', 'wp-maffia-game' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $online ) ); ?></strong><span><?php esc_html_e( 'Online now', 'wp-maffia-game' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $dead ) ); ?></strong><span><?php esc_html_e( 'Murdered', 'wp-maffia-game' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::money( $money ) ); ?></strong><span><?php esc_html_e( 'Money in circulation', 'wp-maffia-game' ); ?></span></div>
+				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $actions ) ); ?></strong><span><?php esc_html_e( 'Actions (24 hours)', 'wp-maffia-game' ); ?></span></div>
 			</div>
 
-			<h2><?php esc_html_e( 'Spelpagina', 'wp-maffia-game' ); ?></h2>
+			<h2><?php esc_html_e( 'Game page', 'wp-maffia-game' ); ?></h2>
 			<p>
-				<?php esc_html_e( 'Het spel draait op de pagina met de shortcode', 'wp-maffia-game' ); ?> <code>[maffia_game]</code>:
+				<?php esc_html_e( 'The game runs on the page with the shortcode', 'wp-maffia-game' ); ?> <code>[maffia_game]</code>:
 				<a href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank"><?php echo esc_html( Game::page_url() ); ?></a>
 			</p>
 
-			<h2><?php esc_html_e( 'Nieuwe ronde', 'wp-maffia-game' ); ?></h2>
-			<p><?php esc_html_e( 'Wist alle personages en spelersdata (geld, auto\'s, families, berichten, ...). Spelgegevens zoals misdaden, steden en items blijven bewaard.', 'wp-maffia-game' ); ?></p>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'Alle spelersdata wordt gewist. Doorgaan?', 'wp-maffia-game' ) ); ?>');">
+			<h2><?php esc_html_e( 'New round', 'wp-maffia-game' ); ?></h2>
+			<p><?php esc_html_e( 'Erases all characters and player data (money, cars, families, messages, ...). Game data like crimes, cities and items is kept.', 'wp-maffia-game' ); ?></p>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'All player data will be erased. Continue?', 'wp-maffia-game' ) ); ?>');">
 				<input type="hidden" name="action" value="dfmg_new_round">
 				<?php wp_nonce_field( 'dfmg_new_round' ); ?>
-				<p><label><?php esc_html_e( 'Naam nieuwe ronde', 'wp-maffia-game' ); ?> <input type="text" name="round_name" value="<?php echo esc_attr( (string) Settings::get( 'round_name' ) ); ?>"></label></p>
-				<p><label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'Ik begrijp dat dit niet ongedaan kan worden', 'wp-maffia-game' ); ?></label></p>
-				<?php submit_button( __( 'Start nieuwe ronde', 'wp-maffia-game' ), 'delete' ); ?>
+				<p><label><?php esc_html_e( 'New round name', 'wp-maffia-game' ); ?> <input type="text" name="round_name" value="<?php echo esc_attr( (string) Settings::get( 'round_name' ) ); ?>"></label></p>
+				<p><label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'I understand this can\'t be undone', 'wp-maffia-game' ); ?></label></p>
+				<?php submit_button( __( 'Start new round', 'wp-maffia-game' ), 'delete' ); ?>
 			</form>
 		</div>
 		<?php
@@ -269,7 +269,7 @@ final class Admin {
 
 	public static function handle_new_round(): void {
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Geen toegang.', 'wp-maffia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'wp-maffia-game' ) );
 		}
 		check_admin_referer( 'dfmg_new_round' );
 		if ( empty( $_POST['confirm'] ) ) {
@@ -293,9 +293,9 @@ final class Admin {
 		}
 		$registry = Plugin::instance()->modules;
 		$sources  = array(
-			'bundled' => __( 'Meegeleverd', 'wp-maffia-game' ),
-			'custom'  => __( 'Eigen module', 'wp-maffia-game' ),
-			'plugin'  => __( 'Andere plugin', 'wp-maffia-game' ),
+			'bundled' => __( 'Bundled', 'wp-maffia-game' ),
+			'custom'  => __( 'Custom module', 'wp-maffia-game' ),
+			'plugin'  => __( 'Other plugin', 'wp-maffia-game' ),
 		);
 		?>
 		<div class="wrap dfmg-admin">
@@ -305,7 +305,7 @@ final class Admin {
 				<?php
 				printf(
 					/* translators: %s: directory */
-					esc_html__( 'Eigen modules plaats je in %s (één map per module met een module.php). Zie docs/MODULES.md in de plugin.', 'wp-maffia-game' ),
+					esc_html__( 'Place custom modules in %s (one folder per module containing a module.php). See docs/MODULES.md in the plugin.', 'wp-maffia-game' ),
 					'<code>' . esc_html( str_replace( ABSPATH, '', DFMG_CUSTOM_MODULES_DIR ) ) . '</code>'
 				);
 				?>
@@ -314,9 +314,9 @@ final class Admin {
 				<thead>
 					<tr>
 						<th><?php esc_html_e( 'Module', 'wp-maffia-game' ); ?></th>
-						<th><?php esc_html_e( 'Omschrijving', 'wp-maffia-game' ); ?></th>
-						<th><?php esc_html_e( 'Vereist', 'wp-maffia-game' ); ?></th>
-						<th><?php esc_html_e( 'Bron', 'wp-maffia-game' ); ?></th>
+						<th><?php esc_html_e( 'Description', 'wp-maffia-game' ); ?></th>
+						<th><?php esc_html_e( 'Requires', 'wp-maffia-game' ); ?></th>
+						<th><?php esc_html_e( 'Source', 'wp-maffia-game' ); ?></th>
 						<th></th>
 					</tr>
 				</thead>
@@ -330,14 +330,14 @@ final class Admin {
 							<td><?php echo esc_html( $sources[ $info['source'] ] ?? $info['source'] ); ?></td>
 							<td>
 								<?php if ( $info['required'] ) : ?>
-									<em><?php esc_html_e( 'Verplicht', 'wp-maffia-game' ); ?></em>
+									<em><?php esc_html_e( 'Required', 'wp-maffia-game' ); ?></em>
 								<?php else : ?>
 									<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 										<input type="hidden" name="action" value="dfmg_module">
 										<input type="hidden" name="module" value="<?php echo esc_attr( $id ); ?>">
 										<input type="hidden" name="state" value="<?php echo $on ? 'off' : 'on'; ?>">
 										<?php wp_nonce_field( 'dfmg_module_' . $id ); ?>
-										<button class="button <?php echo $on ? '' : 'button-primary'; ?>"><?php echo $on ? esc_html__( 'Uitschakelen', 'wp-maffia-game' ) : esc_html__( 'Inschakelen', 'wp-maffia-game' ); ?></button>
+										<button class="button <?php echo $on ? '' : 'button-primary'; ?>"><?php echo $on ? esc_html__( 'Disable', 'wp-maffia-game' ) : esc_html__( 'Enable', 'wp-maffia-game' ); ?></button>
 									</form>
 								<?php endif; ?>
 							</td>
@@ -352,7 +352,7 @@ final class Admin {
 	public static function handle_module(): void {
 		$id = sanitize_key( wp_unslash( $_POST['module'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Geen toegang.', 'wp-maffia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'wp-maffia-game' ) );
 		}
 		check_admin_referer( 'dfmg_module_' . $id );
 		$registry = Plugin::instance()->modules;
@@ -371,7 +371,7 @@ final class Admin {
 	private static function settings_sections(): array {
 		$sections = array(
 			'core' => array(
-				'label'  => __( 'Algemeen', 'wp-maffia-game' ),
+				'label'  => __( 'General', 'wp-maffia-game' ),
 				'fields' => Settings::core_fields(),
 			),
 		);
@@ -393,7 +393,7 @@ final class Admin {
 		}
 		?>
 		<div class="wrap dfmg-admin">
-			<h1><?php esc_html_e( 'Instellingen', 'wp-maffia-game' ); ?></h1>
+			<h1><?php esc_html_e( 'Settings', 'wp-maffia-game' ); ?></h1>
 			<?php self::notices(); ?>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="dfmg_settings">
@@ -415,7 +415,7 @@ final class Admin {
 						<?php endforeach; ?>
 					</table>
 				<?php endforeach; ?>
-				<?php submit_button( __( 'Instellingen opslaan', 'wp-maffia-game' ) ); ?>
+				<?php submit_button( __( 'Save settings', 'wp-maffia-game' ) ); ?>
 			</form>
 		</div>
 		<?php
@@ -423,7 +423,7 @@ final class Admin {
 
 	public static function handle_settings(): void {
 		if ( ! self::can() ) {
-			wp_die( esc_html__( 'Geen toegang.', 'wp-maffia-game' ) );
+			wp_die( esc_html__( 'Access denied.', 'wp-maffia-game' ) );
 		}
 		check_admin_referer( 'dfmg_settings' );
 		$input  = (array) wp_unslash( $_POST['settings'] ?? array() ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
@@ -448,9 +448,9 @@ final class Admin {
 		}
 		$notice   = sanitize_key( wp_unslash( $_GET['dfmg_notice'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$messages = array(
-			'saved'   => __( 'Opgeslagen.', 'wp-maffia-game' ),
-			'deleted' => __( 'Verwijderd.', 'wp-maffia-game' ),
-			'round'   => __( 'Een nieuwe ronde is gestart.', 'wp-maffia-game' ),
+			'saved'   => __( 'Saved.', 'wp-maffia-game' ),
+			'deleted' => __( 'Deleted.', 'wp-maffia-game' ),
+			'round'   => __( 'A new round has started.', 'wp-maffia-game' ),
 		);
 		if ( isset( $messages[ $notice ] ) ) {
 			echo '<div class="notice notice-success is-dismissible"><p>' . esc_html( $messages[ $notice ] ) . '</p></div>';

@@ -1,7 +1,7 @@
 <?php
 /**
  * Module Name: Forum
- * Description: Een forum voor spelers met categorieën, topics, vastgezette en gesloten topics. Moderatie door beheerders.
+ * Description: A player forum with boards, topics, pinned and locked topics. Moderated by administrators.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -67,10 +67,10 @@ final class Forum extends Module {
 
 	public function seed(): void {
 		$boards = array(
-			array( 'Algemeen', 'Alles over het spel.', 1, 0 ),
-			array( 'Handel', 'Kopen, verkopen en ruilen.', 2, 0 ),
-			array( 'Families', 'Rekruteren en oorlog voeren.', 3, 0 ),
-			array( 'Aankondigingen', 'Mededelingen van de leiding.', 0, 1 ),
+			array( 'General', 'Everything about the game.', 1, 0 ),
+			array( 'Trade', 'Buying, selling and swapping.', 2, 0 ),
+			array( 'Families', 'Recruiting and waging war.', 3, 0 ),
+			array( 'Announcements', 'News from the staff.', 0, 1 ),
 		);
 		foreach ( $boards as $b ) {
 			DB::insert(
@@ -89,12 +89,12 @@ final class Forum extends Module {
 	public function settings_fields(): array {
 		return array(
 			'forum_cooldown'     => array(
-				'label'   => __( 'Wachttijd tussen posts (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown between posts (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 15,
 			),
 			'forum_round_reset' => array(
-				'label'       => __( 'Forum leegmaken bij nieuwe ronde', 'wp-maffia-game' ),
+				'label'       => __( 'Clear forum when a new round starts', 'wp-maffia-game' ),
 				'type'        => 'checkbox',
 				'default'     => 0,
 			),
@@ -108,15 +108,15 @@ final class Forum extends Module {
 	public function admin_tables(): array {
 		return array(
 			'forum_boards' => array(
-				'label'   => __( 'Forumcategorieën', 'wp-maffia-game' ),
+				'label'   => __( 'Forum boards', 'wp-maffia-game' ),
 				'table'   => 'forum_boards',
 				'order'   => 'sort ASC',
 				'columns' => array(
-					'name'        => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'required' => true ),
-					'description' => array( 'label' => __( 'Omschrijving', 'wp-maffia-game' ) ),
-					'sort'        => array( 'label' => __( 'Volgorde', 'wp-maffia-game' ), 'type' => 'int' ),
-					'min_rank'    => array( 'label' => __( 'Vanaf rang (niveau)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1 ),
-					'staff_only'  => array( 'label' => __( 'Alleen beheerders mogen posten', 'wp-maffia-game' ), 'type' => 'checkbox' ),
+					'name'        => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
+					'description' => array( 'label' => __( 'Description', 'wp-maffia-game' ) ),
+					'sort'        => array( 'label' => __( 'Order', 'wp-maffia-game' ), 'type' => 'int' ),
+					'min_rank'    => array( 'label' => __( 'From rank (level)', 'wp-maffia-game' ), 'type' => 'int', 'default' => 1 ),
+					'staff_only'  => array( 'label' => __( 'Only administrators may post', 'wp-maffia-game' ), 'type' => 'checkbox' ),
 				),
 			),
 		);
@@ -228,16 +228,16 @@ final class Forum extends Module {
 		$title = mb_substr( trim( sanitize_text_field( $input['title'] ?? '' ) ), 0, 150 );
 		$body  = $this->clean_body( (string) ( $input['body'] ?? '' ) );
 		if ( ! $board || ! $this->can_post( $board ) ) {
-			$this->error( __( 'Je kunt hier geen topic starten.', 'wp-maffia-game' ) );
+			$this->error( __( 'You can\'t start a topic here.', 'wp-maffia-game' ) );
 			return;
 		}
 		$back = array( 'board' => $board['id'] );
 		if ( mb_strlen( $title ) < 3 || '' === $body ) {
-			$this->error( __( 'Vul een titel (min. 3 tekens) en een bericht in.', 'wp-maffia-game' ) );
+			$this->error( __( 'Enter a title (min. 3 characters) and a message.', 'wp-maffia-game' ) );
 			return $back;
 		}
 		if ( ! $c->claim_cooldown( 'forum', (int) $this->setting( 'forum_cooldown' ) ) ) {
-			$this->error( __( 'Je post te snel. Wacht even.', 'wp-maffia-game' ) );
+			$this->error( __( 'You\'re posting too fast. Wait a moment.', 'wp-maffia-game' ) );
 			return $back;
 		}
 		$topic = DB::insert(
@@ -272,16 +272,16 @@ final class Forum extends Module {
 		}
 		$back = array( 'topic' => $topic['id'] );
 		if ( (int) $topic['locked'] && ! self::is_staff() ) {
-			$this->error( __( 'Dit topic is gesloten.', 'wp-maffia-game' ) );
+			$this->error( __( 'This topic is locked.', 'wp-maffia-game' ) );
 			return $back;
 		}
 		$body = $this->clean_body( (string) ( $input['body'] ?? '' ) );
 		if ( '' === $body ) {
-			$this->error( __( 'Je bericht is leeg.', 'wp-maffia-game' ) );
+			$this->error( __( 'Your message is empty.', 'wp-maffia-game' ) );
 			return $back;
 		}
 		if ( ! $c->claim_cooldown( 'forum', (int) $this->setting( 'forum_cooldown' ) ) ) {
-			$this->error( __( 'Je post te snel. Wacht even.', 'wp-maffia-game' ) );
+			$this->error( __( 'You\'re posting too fast. Wait a moment.', 'wp-maffia-game' ) );
 			return $back;
 		}
 		DB::insert(

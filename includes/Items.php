@@ -39,15 +39,15 @@ final class Items {
 			'dfmg_item_types',
 			array(
 				'weapon'     => array(
-					'label' => __( 'Wapen', 'wp-maffia-game' ),
+					'label' => __( 'Weapon', 'wp-maffia-game' ),
 					'usage' => 'equip',
 				),
 				'armor'      => array(
-					'label' => __( 'Bescherming', 'wp-maffia-game' ),
+					'label' => __( 'Armor', 'wp-maffia-game' ),
 					'usage' => 'equip',
 				),
 				'consumable' => array(
-					'label' => __( 'Verbruiksartikel', 'wp-maffia-game' ),
+					'label' => __( 'Consumable', 'wp-maffia-game' ),
 					'usage' => 'use',
 				),
 			)
@@ -63,11 +63,11 @@ final class Items {
 			'dfmg_equip_slots',
 			array(
 				'weapon' => array(
-					'label' => __( 'Wapen', 'wp-maffia-game' ),
+					'label' => __( 'Weapon', 'wp-maffia-game' ),
 					'types' => array( 'weapon' ),
 				),
 				'armor'  => array(
-					'label' => __( 'Bescherming', 'wp-maffia-game' ),
+					'label' => __( 'Armor', 'wp-maffia-game' ),
 					'types' => array( 'armor' ),
 				),
 			)
@@ -79,7 +79,7 @@ final class Items {
 			'dfmg_item_effects',
 			array(
 				'attack_pct'   => array(
-					'label'  => __( 'Aanvalskracht +%', 'wp-maffia-game' ),
+					'label'  => __( 'Attack power +%', 'wp-maffia-game' ),
 					'usage'  => 'equip',
 					'filter' => 'dfmg_attack_power',
 					'apply'  => static function ( $current, $value ) {
@@ -87,7 +87,7 @@ final class Items {
 					},
 				),
 				'defense_pct'  => array(
-					'label'  => __( 'Verdediging +%', 'wp-maffia-game' ),
+					'label'  => __( 'Defense +%', 'wp-maffia-game' ),
 					'usage'  => 'equip',
 					'filter' => 'dfmg_defense_power',
 					'apply'  => static function ( $current, $value ) {
@@ -95,7 +95,7 @@ final class Items {
 					},
 				),
 				'max_health'   => array(
-					'label'  => __( 'Maximale gezondheid +', 'wp-maffia-game' ),
+					'label'  => __( 'Maximum health +', 'wp-maffia-game' ),
 					'usage'  => 'equip',
 					'filter' => 'dfmg_max_health',
 					'apply'  => static function ( $current, $value ) {
@@ -103,7 +103,7 @@ final class Items {
 					},
 				),
 				'heal_pct'     => array(
-					'label' => __( 'Geneest % gezondheid', 'wp-maffia-game' ),
+					'label' => __( 'Heals % health', 'wp-maffia-game' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$heal = (int) round( $c->max_health() * (float) $value / 100 );
@@ -111,28 +111,28 @@ final class Items {
 					},
 				),
 				'reset_timer'  => array(
-					'label' => __( 'Zet timer op nul (bijv. jail)', 'wp-maffia-game' ),
+					'label' => __( 'Reset timer (e.g. jail)', 'wp-maffia-game' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$c->clear_timer( sanitize_key( $value ) );
 					},
 				),
 				'give_money'   => array(
-					'label' => __( 'Geeft geld', 'wp-maffia-game' ),
+					'label' => __( 'Gives money', 'wp-maffia-game' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$c->add( 'money', (int) $value );
 					},
 				),
 				'give_bullets' => array(
-					'label' => __( 'Geeft kogels', 'wp-maffia-game' ),
+					'label' => __( 'Gives bullets', 'wp-maffia-game' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$c->add( 'bullets', (int) $value );
 					},
 				),
 				'give_exp'     => array(
-					'label' => __( 'Geeft ervaring', 'wp-maffia-game' ),
+					'label' => __( 'Gives experience', 'wp-maffia-game' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$c->add( 'exp', (int) $value );
@@ -233,17 +233,17 @@ final class Items {
 		$slots = self::slots();
 		$item  = self::get( $item_id );
 		if ( ! $item || ! isset( $slots[ $slot ] ) ) {
-			return new \WP_Error( 'item', __( 'Dit item of vak bestaat niet.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'item', __( 'This item or slot doesn\'t exist.', 'wp-maffia-game' ) );
 		}
 		if ( ! in_array( $item['type'], (array) $slots[ $slot ]['types'], true ) ) {
-			return new \WP_Error( 'item', __( 'Dit item past niet in dit vak.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'item', __( 'This item doesn\'t fit in this slot.', 'wp-maffia-game' ) );
 		}
 		$check = apply_filters( 'dfmg_can_equip', true, $c, $item, $slot );
 		if ( is_wp_error( $check ) ) {
 			return $check;
 		}
 		if ( ! self::take( $c, $item_id ) ) {
-			return new \WP_Error( 'item', __( 'Je hebt dit item niet.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'item', __( 'You don\'t have this item.', 'wp-maffia-game' ) );
 		}
 		self::unequip( $c, $slot );
 		DB::query(
@@ -282,10 +282,10 @@ final class Items {
 	public static function consume( Character $c, int $item_id ) {
 		$item = self::get( $item_id );
 		if ( ! $item || 'use' !== self::usage( $item ) ) {
-			return new \WP_Error( 'item', __( 'Dit item kan niet gebruikt worden.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'item', __( 'This item can\'t be used.', 'wp-maffia-game' ) );
 		}
 		if ( ! self::take( $c, $item_id ) ) {
-			return new \WP_Error( 'item', __( 'Je hebt dit item niet.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'item', __( 'You don\'t have this item.', 'wp-maffia-game' ) );
 		}
 		$effects = self::effects();
 		foreach ( self::parse_effects( (string) $item['effects'] ) as $key => $value ) {

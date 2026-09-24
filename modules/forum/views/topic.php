@@ -26,9 +26,9 @@ defined( 'ABSPATH' ) || exit;
 
 <?php if ( $staff ) : ?>
 	<div class="dfmg-actions dfmg-moderation">
-		<?php echo $this->button( 'moderate', $topic['locked'] ? __( 'Openen', 'wp-maffia-game' ) : __( 'Sluiten', 'wp-maffia-game' ), array( 'topic' => $topic['id'], 'task' => 'lock' ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
-		<?php echo $this->button( 'moderate', $topic['sticky'] ? __( 'Losmaken', 'wp-maffia-game' ) : __( 'Vastzetten', 'wp-maffia-game' ), array( 'topic' => $topic['id'], 'task' => 'sticky' ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
-		<?php echo $this->button( 'moderate', __( 'Topic verwijderen', 'wp-maffia-game' ), array( 'topic' => $topic['id'], 'task' => 'delete_topic' ), 'dfmg-button dfmg-button--danger dfmg-button--small' ); // phpcs:ignore ?>
+		<?php echo $this->button( 'moderate', $topic['locked'] ? __( 'Unlock', 'wp-maffia-game' ) : __( 'Lock', 'wp-maffia-game' ), array( 'topic' => $topic['id'], 'task' => 'lock' ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
+		<?php echo $this->button( 'moderate', $topic['sticky'] ? __( 'Unpin', 'wp-maffia-game' ) : __( 'Pin', 'wp-maffia-game' ), array( 'topic' => $topic['id'], 'task' => 'sticky' ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
+		<?php echo $this->button( 'moderate', __( 'Delete topic', 'wp-maffia-game' ), array( 'topic' => $topic['id'], 'task' => 'delete_topic' ), 'dfmg-button dfmg-button--danger dfmg-button--small' ); // phpcs:ignore ?>
 	</div>
 <?php endif; ?>
 
@@ -42,7 +42,7 @@ defined( 'ABSPATH' ) || exit;
 		</header>
 		<div class="dfmg-usertext"><?php echo wp_kses_post( wpautop( make_clickable( esc_html( $dfmg_p['body'] ) ) ) ); ?></div>
 		<?php if ( $staff ) : ?>
-			<?php echo $this->button( 'moderate', __( 'Verwijder post', 'wp-maffia-game' ), array( 'topic' => $topic['id'], 'task' => 'delete_post', 'post' => $dfmg_p['id'] ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
+			<?php echo $this->button( 'moderate', __( 'Delete post', 'wp-maffia-game' ), array( 'topic' => $topic['id'], 'task' => 'delete_post', 'post' => $dfmg_p['id'] ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
 		<?php endif; ?>
 	</article>
 <?php endforeach; ?>
@@ -52,10 +52,10 @@ defined( 'ABSPATH' ) || exit;
 <?php if ( $can_post ) : ?>
 	<div class="dfmg-card">
 		<?php echo $this->form( 'reply', array( 'topic' => $topic['id'] ), 'dfmg-form dfmg-form--stacked' ); // phpcs:ignore ?>
-			<textarea name="body" rows="5" placeholder="<?php esc_attr_e( 'Jouw reactie…', 'wp-maffia-game' ); ?>" required></textarea>
-			<button type="submit" class="dfmg-button"><?php esc_html_e( 'Reageren', 'wp-maffia-game' ); ?></button>
+			<textarea name="body" rows="5" placeholder="<?php esc_attr_e( 'Your reply…', 'wp-maffia-game' ); ?>" required></textarea>
+			<button type="submit" class="dfmg-button"><?php esc_html_e( 'Reply', 'wp-maffia-game' ); ?></button>
 		</form>
 	</div>
 <?php else : ?>
-	<p class="dfmg-muted"><?php esc_html_e( 'Dit topic is gesloten.', 'wp-maffia-game' ); ?></p>
+	<p class="dfmg-muted"><?php esc_html_e( 'This topic is locked.', 'wp-maffia-game' ); ?></p>
 <?php endif; ?>

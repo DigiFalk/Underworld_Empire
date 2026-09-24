@@ -18,22 +18,22 @@ defined( 'ABSPATH' ) || exit;
 	<section class="dfmg-card">
 		<h3><?php echo esc_html( $c->name ); ?></h3>
 		<table class="dfmg-table dfmg-table--keyvalue">
-			<tr><th><?php esc_html_e( 'Rang', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( $c->rank_name() ); ?></td></tr>
-			<tr><th><?php esc_html_e( 'Voortgang', 'wp-maffia-game' ); ?></th><td><?php echo UI::bar( $c->rank_progress(), $next ? $c->rank_progress() . '% → ' . $next['name'] : __( 'Hoogste rang', 'wp-maffia-game' ) ); // phpcs:ignore ?></td></tr>
-			<tr><th><?php esc_html_e( 'Gezondheid', 'wp-maffia-game' ); ?></th><td><?php echo UI::bar( $c->health_percent() ); // phpcs:ignore ?></td></tr>
-			<tr><th><?php esc_html_e( 'Rijkdom', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( $c->wealth_title() ); ?></td></tr>
-			<tr><th><?php esc_html_e( 'Contant / bank', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( Format::money( $c->money ) . ' / ' . Format::money( $c->bank ) ); ?></td></tr>
-			<tr><th><?php esc_html_e( 'Kogels', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( Format::number( $c->bullets ) ); ?></td></tr>
-			<tr><th><?php esc_html_e( 'Aanval / verdediging', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( round( $c->attack_power() ) . ' / ' . round( $c->defense_power() ) ); ?></td></tr>
-			<tr><th><?php esc_html_e( 'Stad', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( $c->location_name() ); ?></td></tr>
-			<tr><th><?php esc_html_e( 'In het spel sinds', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( Format::date( (int) $c->created_at ) ); ?></td></tr>
+			<tr><th><?php esc_html_e( 'Rank', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( $c->rank_name() ); ?></td></tr>
+			<tr><th><?php esc_html_e( 'Progress', 'wp-maffia-game' ); ?></th><td><?php echo UI::bar( $c->rank_progress(), $next ? $c->rank_progress() . '% → ' . $next['name'] : __( 'Highest rank', 'wp-maffia-game' ) ); // phpcs:ignore ?></td></tr>
+			<tr><th><?php esc_html_e( 'Health', 'wp-maffia-game' ); ?></th><td><?php echo UI::bar( $c->health_percent() ); // phpcs:ignore ?></td></tr>
+			<tr><th><?php esc_html_e( 'Wealth', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( $c->wealth_title() ); ?></td></tr>
+			<tr><th><?php esc_html_e( 'Cash / bank', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( Format::money( $c->money ) . ' / ' . Format::money( $c->bank ) ); ?></td></tr>
+			<tr><th><?php esc_html_e( 'Bullets', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( Format::number( $c->bullets ) ); ?></td></tr>
+			<tr><th><?php esc_html_e( 'Attack / defense', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( round( $c->attack_power() ) . ' / ' . round( $c->defense_power() ) ); ?></td></tr>
+			<tr><th><?php esc_html_e( 'City', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( $c->location_name() ); ?></td></tr>
+			<tr><th><?php esc_html_e( 'Playing since', 'wp-maffia-game' ); ?></th><td><?php echo esc_html( Format::date( (int) $c->created_at ) ); ?></td></tr>
 		</table>
 	</section>
 
 	<section class="dfmg-card">
 		<h3><?php esc_html_e( 'Timers', 'wp-maffia-game' ); ?></h3>
 		<?php if ( ! $timers ) : ?>
-			<?php echo UI::empty_state( __( 'Geen timers.', 'wp-maffia-game' ) ); // phpcs:ignore ?>
+			<?php echo UI::empty_state( __( 'No timers.', 'wp-maffia-game' ) ); // phpcs:ignore ?>
 		<?php else : ?>
 			<table class="dfmg-table">
 				<?php foreach ( $timers as $dfmg_timer ) : ?>
@@ -45,9 +45,9 @@ defined( 'ABSPATH' ) || exit;
 			</table>
 		<?php endif; ?>
 
-		<h3><?php esc_html_e( 'Laatste meldingen', 'wp-maffia-game' ); ?></h3>
+		<h3><?php esc_html_e( 'Latest notifications', 'wp-maffia-game' ); ?></h3>
 		<?php if ( ! $notifications ) : ?>
-			<?php echo UI::empty_state( __( 'Nog geen meldingen.', 'wp-maffia-game' ) ); // phpcs:ignore ?>
+			<?php echo UI::empty_state( __( 'No notifications yet.', 'wp-maffia-game' ) ); // phpcs:ignore ?>
 		<?php else : ?>
 			<ul class="dfmg-list">
 				<?php foreach ( $notifications as $dfmg_n ) : ?>

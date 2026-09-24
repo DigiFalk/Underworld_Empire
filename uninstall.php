@@ -1,7 +1,7 @@
 <?php
 /**
  * Runs when the plugin is deleted from the WordPress admin.
- * Data is only removed when "Verwijder alle speldata bij verwijderen plugin" is enabled.
+ * Data is only removed when "Delete all game data when the plugin is deleted" is enabled.
  *
  * @package DigiFalk\MaffiaGame
  */

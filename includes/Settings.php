@@ -70,57 +70,57 @@ final class Settings {
 	public static function core_fields(): array {
 		return array(
 			'currency_symbol'    => array(
-				'label'   => __( 'Valutateken', 'wp-maffia-game' ),
+				'label'   => __( 'Currency symbol', 'wp-maffia-game' ),
 				'type'    => 'text',
-				'default' => '€',
+				'default' => '$',
 			),
 			'points_name'        => array(
-				'label'   => __( 'Naam van premium punten', 'wp-maffia-game' ),
+				'label'   => __( 'Name of premium points', 'wp-maffia-game' ),
 				'type'    => 'text',
-				'default' => __( 'Punten', 'wp-maffia-game' ),
+				'default' => __( 'Points', 'wp-maffia-game' ),
 			),
 			'start_money'        => array(
-				'label'   => __( 'Startgeld nieuw personage', 'wp-maffia-game' ),
+				'label'   => __( 'Starting money for new characters', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 250,
 			),
 			'start_bullets'      => array(
-				'label'   => __( 'Startkogels nieuw personage', 'wp-maffia-game' ),
+				'label'   => __( 'Starting bullets for new characters', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 100,
 			),
 			'round_name'         => array(
-				'label'   => __( 'Naam huidige ronde', 'wp-maffia-game' ),
+				'label'   => __( 'Current round name', 'wp-maffia-game' ),
 				'type'    => 'text',
-				'default' => __( 'Ronde 1', 'wp-maffia-game' ),
+				'default' => __( 'Round 1', 'wp-maffia-game' ),
 			),
 			'round_start'        => array(
-				'label'       => __( 'Start ronde', 'wp-maffia-game' ),
+				'label'       => __( 'Round start', 'wp-maffia-game' ),
 				'type'        => 'datetime',
 				'default'     => '',
-				'description' => __( 'Leeg laten = direct open.', 'wp-maffia-game' ),
+				'description' => __( 'Leave empty = open immediately.', 'wp-maffia-game' ),
 			),
 			'round_end'          => array(
-				'label'       => __( 'Einde ronde', 'wp-maffia-game' ),
+				'label'       => __( 'Round end', 'wp-maffia-game' ),
 				'type'        => 'datetime',
 				'default'     => '',
-				'description' => __( 'Leeg laten = geen einddatum.', 'wp-maffia-game' ),
+				'description' => __( 'Leave empty = no end date.', 'wp-maffia-game' ),
 			),
 			'online_minutes'     => array(
-				'label'   => __( 'Minuten dat een speler als online telt', 'wp-maffia-game' ),
+				'label'   => __( 'Minutes a player counts as online', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 15,
 			),
 			'hide_admin_bar'     => array(
-				'label'   => __( 'Verberg de WordPress admin-balk voor spelers', 'wp-maffia-game' ),
+				'label'   => __( 'Hide the WordPress admin bar for players', 'wp-maffia-game' ),
 				'type'    => 'checkbox',
 				'default' => 1,
 			),
 			'delete_on_uninstall' => array(
-				'label'       => __( 'Verwijder alle speldata bij verwijderen plugin', 'wp-maffia-game' ),
+				'label'       => __( 'Delete all game data when the plugin is deleted', 'wp-maffia-game' ),
 				'type'        => 'checkbox',
 				'default'     => 0,
-				'description' => __( 'Let op: alle tabellen en instellingen worden gewist.', 'wp-maffia-game' ),
+				'description' => __( 'Warning: all tables and settings will be erased.', 'wp-maffia-game' ),
 			),
 		);
 	}

@@ -19,12 +19,12 @@ defined( 'ABSPATH' ) || exit;
 $dfmg_stats = apply_filters(
 	'dfmg_header_stats',
 	array(
-		'rank'     => array( __( 'Rang', 'wp-maffia-game' ), esc_html( $character->rank_name() ) ),
-		'money'    => array( __( 'Contant', 'wp-maffia-game' ), esc_html( Format::money( $character->money ) ) ),
+		'rank'     => array( __( 'Rank', 'wp-maffia-game' ), esc_html( $character->rank_name() ) ),
+		'money'    => array( __( 'Cash', 'wp-maffia-game' ), esc_html( Format::money( $character->money ) ) ),
 		'bank'     => array( __( 'Bank', 'wp-maffia-game' ), esc_html( Format::money( $character->bank ) ) ),
-		'bullets'  => array( __( 'Kogels', 'wp-maffia-game' ), esc_html( Format::number( $character->bullets ) ) ),
-		'health'   => array( __( 'Gezondheid', 'wp-maffia-game' ), esc_html( $character->health_percent() . '%' ) ),
-		'location' => array( __( 'Stad', 'wp-maffia-game' ), esc_html( $character->location_name() ) ),
+		'bullets'  => array( __( 'Bullets', 'wp-maffia-game' ), esc_html( Format::number( $character->bullets ) ) ),
+		'health'   => array( __( 'Health', 'wp-maffia-game' ), esc_html( $character->health_percent() . '%' ) ),
+		'location' => array( __( 'City', 'wp-maffia-game' ), esc_html( $character->location_name() ) ),
 		'points'   => array( esc_html( (string) \DigiFalk\MaffiaGame\Settings::get( 'points_name' ) ), esc_html( Format::number( $character->points ) ) ),
 	),
 	$character
@@ -34,7 +34,7 @@ $dfmg_stats = apply_filters(
 	<header class="dfmg-header">
 		<div class="dfmg-header__who">
 			<a class="dfmg-header__name" href="<?php echo esc_url( Game::url() ); ?>"><?php echo esc_html( $character->name ); ?></a>
-			<div class="dfmg-progress" title="<?php echo esc_attr( sprintf( /* translators: %s: percent */ __( '%s%% naar volgende rang', 'wp-maffia-game' ), $character->rank_progress() ) ); ?>">
+			<div class="dfmg-progress" title="<?php echo esc_attr( sprintf( /* translators: %s: percent */ __( '%s%% to next rank', 'wp-maffia-game' ), $character->rank_progress() ) ); ?>">
 				<span style="width:<?php echo esc_attr( (string) $character->rank_progress() ); ?>%"></span>
 			</div>
 		</div>
@@ -73,7 +73,7 @@ $dfmg_stats = apply_filters(
 			<?php endforeach; ?>
 			<div class="dfmg-nav__group">
 				<ul>
-					<li><a href="<?php echo esc_url( wp_logout_url( Game::page_url() ) ); ?>"><?php esc_html_e( 'Uitloggen', 'wp-maffia-game' ); ?></a></li>
+					<li><a href="<?php echo esc_url( wp_logout_url( Game::page_url() ) ); ?>"><?php esc_html_e( 'Log out', 'wp-maffia-game' ); ?></a></li>
 				</ul>
 			</div>
 		</nav>
@@ -85,6 +85,6 @@ $dfmg_stats = apply_filters(
 		</main>
 	</div>
 	<footer class="dfmg-footer">
-		<?php echo esc_html( (string) \DigiFalk\MaffiaGame\Settings::get( 'round_name' ) ); ?> &middot; WP Maffia Game &copy; DigiFalk
+		<?php echo esc_html( (string) \DigiFalk\MaffiaGame\Settings::get( 'round_name' ) ); ?> &middot; WP Mafia Game &copy; DigiFalk
 	</footer>
 </div>

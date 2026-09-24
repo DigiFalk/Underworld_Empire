@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Berichten
- * Description: Privéberichten tussen spelers met inbox, verzonden items en antwoorden.
+ * Module Name: Messages
+ * Description: Private messages between players with inbox, sent items and replies.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -21,7 +21,7 @@ final class Messages extends Module {
 	const PER_PAGE = 20;
 
 	public function title(): string {
-		return __( 'Berichten', 'wp-maffia-game' );
+		return __( 'Messages', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -58,7 +58,7 @@ final class Messages extends Module {
 	public function settings_fields(): array {
 		return array(
 			'messages_cooldown' => array(
-				'label'   => __( 'Wachttijd tussen berichten (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown between messages (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 10,
 			),
@@ -69,7 +69,7 @@ final class Messages extends Module {
 		add_filter(
 			'dfmg_profile_actions',
 			function ( $actions, Character $target ) {
-				$actions[] = '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( $this->url( array( 'view' => 'compose', 'to' => $target->name ) ) ) . '">' . esc_html__( 'Bericht sturen', 'wp-maffia-game' ) . '</a>';
+				$actions[] = '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( $this->url( array( 'view' => 'compose', 'to' => $target->name ) ) ) . '">' . esc_html__( 'Send message', 'wp-maffia-game' ) . '</a>';
 				return $actions;
 			},
 			10,
@@ -84,7 +84,7 @@ final class Messages extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Berichten', 'wp-maffia-game' ),
+				'label' => __( 'Messages', 'wp-maffia-game' ),
 				'group' => 'general',
 				'order' => 20,
 				'badge' => self::unread( $c ) ?: '',
@@ -163,15 +163,15 @@ final class Messages extends Module {
 			'to'   => $input['to'] ?? '',
 		);
 		if ( ! $to || ! $to->is_alive() ) {
-			$this->error( __( 'Deze speler bestaat niet (meer).', 'wp-maffia-game' ) );
+			$this->error( __( 'This player doesn\'t exist (anymore).', 'wp-maffia-game' ) );
 			return $back;
 		}
 		if ( '' === $body ) {
-			$this->error( __( 'Je bericht is leeg.', 'wp-maffia-game' ) );
+			$this->error( __( 'Your message is empty.', 'wp-maffia-game' ) );
 			return $back;
 		}
 		if ( ! $c->claim_cooldown( 'message', (int) $this->setting( 'messages_cooldown' ) ) ) {
-			$this->error( __( 'Je stuurt te snel berichten. Wacht even.', 'wp-maffia-game' ) );
+			$this->error( __( 'You\'re sending messages too fast. Wait a moment.', 'wp-maffia-game' ) );
 			return $back;
 		}
 		DB::insert(
@@ -179,7 +179,7 @@ final class Messages extends Module {
 			array(
 				'sender_id'    => $c->id(),
 				'recipient_id' => $to->id(),
-				'subject'      => $subject ?: __( '(geen onderwerp)', 'wp-maffia-game' ),
+				'subject'      => $subject ?: __( '(no subject)', 'wp-maffia-game' ),
 				'body'         => mb_substr( $body, 0, 10000 ),
 				'parent_id'    => absint( $input['reply'] ?? 0 ),
 				'created_at'   => time(),
@@ -187,7 +187,7 @@ final class Messages extends Module {
 		);
 		do_action( 'dfmg_message_sent', $c, $to );
 		/* translators: %s: player */
-		$this->success( sprintf( __( 'Bericht verstuurd naar %s.', 'wp-maffia-game' ), $to->name ) );
+		$this->success( sprintf( __( 'Message sent to %s.', 'wp-maffia-game' ), $to->name ) );
 		return array( 'view' => 'sent' );
 	}
 

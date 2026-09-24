@@ -15,10 +15,10 @@ final class Format {
 	 * @param int|float $amount
 	 */
 	public static function money( $amount ): string {
-		$symbol = (string) Settings::get( 'currency_symbol', '€' );
+		$symbol = (string) Settings::get( 'currency_symbol', '$' );
 		$amount = (float) $amount;
 		$sign   = $amount < 0 ? '-' : '';
-		return $sign . $symbol . ' ' . number_format_i18n( abs( $amount ) );
+		return $sign . $symbol . number_format_i18n( abs( $amount ) );
 	}
 
 	/**
@@ -29,11 +29,11 @@ final class Format {
 	}
 
 	public static function points( int $n ): string {
-		return self::number( $n ) . ' ' . Settings::get( 'points_name', __( 'Punten', 'wp-maffia-game' ) );
+		return self::number( $n ) . ' ' . Settings::get( 'points_name', __( 'Points', 'wp-maffia-game' ) );
 	}
 
 	/**
-	 * Human readable duration: "1u 04m 09s".
+	 * Human readable duration: "1h 04m 09s".
 	 */
 	public static function duration( int $seconds ): string {
 		$seconds = max( 0, $seconds );
@@ -46,7 +46,7 @@ final class Format {
 			$parts[] = $d . 'd';
 		}
 		if ( $h || $d ) {
-			$parts[] = $h . 'u';
+			$parts[] = $h . 'h';
 		}
 		if ( $m || $h || $d ) {
 			$parts[] = sprintf( '%02dm', $m );
@@ -61,12 +61,12 @@ final class Format {
 	public static function countdown( int $expires, string $done_text = '' ): string {
 		$left = $expires - time();
 		if ( $left <= 0 ) {
-			return '<span class="dfmg-ready">' . esc_html( $done_text ?: __( 'Klaar', 'wp-maffia-game' ) ) . '</span>';
+			return '<span class="dfmg-ready">' . esc_html( $done_text ?: __( 'Ready', 'wp-maffia-game' ) ) . '</span>';
 		}
 		return sprintf(
 			'<span class="dfmg-countdown" data-expires="%1$d" data-done="%2$s">%3$s</span>',
 			$expires,
-			esc_attr( $done_text ?: __( 'Klaar', 'wp-maffia-game' ) ),
+			esc_attr( $done_text ?: __( 'Ready', 'wp-maffia-game' ) ),
 			esc_html( self::duration( $left ) )
 		);
 	}
@@ -77,11 +77,11 @@ final class Format {
 
 	public static function ago( int $timestamp ): string {
 		/* translators: %s: human time difference */
-		return sprintf( __( '%s geleden', 'wp-maffia-game' ), human_time_diff( $timestamp, time() ) );
+		return sprintf( __( '%s ago', 'wp-maffia-game' ), human_time_diff( $timestamp, time() ) );
 	}
 
 	/**
-	 * Parse user input like "1.000", "€ 2,500" or "1000" into a positive integer.
+	 * Parse user input like "1.000", "$ 2,500" or "1000" into a positive integer.
 	 *
 	 * @param mixed $value
 	 */

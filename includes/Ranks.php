@@ -36,7 +36,7 @@ final class Ranks {
 		$all = self::all();
 		return $all ? $all[0] : array(
 			'id'            => 0,
-			'name'          => __( 'Onbekend', 'wp-maffia-game' ),
+			'name'          => __( 'Unknown', 'wp-maffia-game' ),
 			'exp_required'  => 0,
 			'max_players'   => 0,
 			'cash_reward'   => 0,

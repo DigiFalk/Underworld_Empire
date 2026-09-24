@@ -12,16 +12,16 @@ use DigiFalk\MaffiaGame\Frontend\UI;
 defined( 'ABSPATH' ) || exit;
 
 if ( ! $boards ) {
-	echo UI::empty_state( __( 'Er zijn nog geen forumcategorieën.', 'wp-maffia-game' ) ); // phpcs:ignore
+	echo UI::empty_state( __( 'There are no forum boards yet.', 'wp-maffia-game' ) ); // phpcs:ignore
 	return;
 }
 ?>
 <table class="dfmg-table dfmg-forum">
 	<thead>
 		<tr>
-			<th><?php esc_html_e( 'Categorie', 'wp-maffia-game' ); ?></th>
+			<th><?php esc_html_e( 'Board', 'wp-maffia-game' ); ?></th>
 			<th><?php esc_html_e( 'Topics', 'wp-maffia-game' ); ?></th>
-			<th><?php esc_html_e( 'Laatste activiteit', 'wp-maffia-game' ); ?></th>
+			<th><?php esc_html_e( 'Last activity', 'wp-maffia-game' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>

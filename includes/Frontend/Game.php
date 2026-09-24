@@ -150,10 +150,10 @@ final class Game {
 		$module   = $registry->get( $route ) ?: $registry->get( self::DEFAULT_ROUTE );
 
 		if ( ! $module ) {
-			return self::wrap( '<p>' . esc_html__( 'Er zijn geen modules actief.', 'wp-maffia-game' ) . '</p>' );
+			return self::wrap( '<p>' . esc_html__( 'No modules are active.', 'wp-maffia-game' ) . '</p>' );
 		}
 		if ( $module->id() !== $route ) {
-			Flash::error( __( 'Deze pagina bestaat niet.', 'wp-maffia-game' ) );
+			Flash::error( __( 'This page doesn\'t exist.', 'wp-maffia-game' ) );
 		}
 
 		$module  = self::resolve( $c, $module );
@@ -185,13 +185,13 @@ final class Game {
 		$groups = apply_filters(
 			'dfmg_menu_groups',
 			array(
-				'general'   => __( 'Algemeen', 'wp-maffia-game' ),
-				'crime'     => __( 'Misdaad', 'wp-maffia-game' ),
-				'city'      => __( 'Stad', 'wp-maffia-game' ),
+				'general'   => __( 'General', 'wp-maffia-game' ),
+				'crime'     => __( 'Crime', 'wp-maffia-game' ),
+				'city'      => __( 'City', 'wp-maffia-game' ),
 				'casino'    => __( 'Casino', 'wp-maffia-game' ),
-				'murder'    => __( 'Moord', 'wp-maffia-game' ),
-				'family'    => __( 'Familie', 'wp-maffia-game' ),
-				'money'     => __( 'Bezit', 'wp-maffia-game' ),
+				'murder'    => __( 'Murder', 'wp-maffia-game' ),
+				'family'    => __( 'Family', 'wp-maffia-game' ),
+				'money'     => __( 'Assets', 'wp-maffia-game' ),
 				'premium'   => __( 'Premium', 'wp-maffia-game' ),
 				'community' => __( 'Community', 'wp-maffia-game' ),
 			)
@@ -256,7 +256,7 @@ final class Game {
 		// phpcs:enable
 
 		if ( ! wp_verify_nonce( sanitize_text_field( $input['_dfmg_nonce'] ?? '' ), self::nonce_action( $module_id, $action ) ) ) {
-			Flash::error( __( 'Je sessie is verlopen, probeer het opnieuw.', 'wp-maffia-game' ) );
+			Flash::error( __( 'Your session has expired, please try again.', 'wp-maffia-game' ) );
 			self::redirect( 'core' === $module_id ? '' : $module_id );
 		}
 
@@ -280,13 +280,13 @@ final class Game {
 		$module   = $registry->get( $module_id );
 		$method   = 'action_' . str_replace( '-', '_', $action );
 		if ( ! $module || ! is_callable( array( $module, $method ) ) ) {
-			Flash::error( __( 'Onbekende actie.', 'wp-maffia-game' ) );
+			Flash::error( __( 'Unknown action.', 'wp-maffia-game' ) );
 			self::redirect( '' );
 		}
 
 		$resolved = self::resolve( $c, $module );
 		if ( $resolved->id() !== $module->id() ) {
-			Flash::error( __( 'Dat kan nu niet.', 'wp-maffia-game' ) );
+			Flash::error( __( 'You can\'t do that right now.', 'wp-maffia-game' ) );
 			self::redirect( $resolved->id() );
 		}
 
@@ -309,7 +309,7 @@ final class Game {
 				Flash::error( $result->get_error_message() );
 			} else {
 				/* translators: %s: character name */
-				Flash::success( sprintf( __( 'Welkom in de onderwereld, %s.', 'wp-maffia-game' ), $result->name ) );
+				Flash::success( sprintf( __( 'Welcome to the underworld, %s.', 'wp-maffia-game' ), $result->name ) );
 			}
 		}
 		self::redirect( '' );
@@ -323,24 +323,24 @@ final class Game {
 		$config = Property::type( $type );
 		$route  = sanitize_key( $input['return'] ?? '' );
 		if ( ! $config ) {
-			Flash::error( __( 'Dit bezit bestaat niet.', 'wp-maffia-game' ) );
+			Flash::error( __( 'This property doesn\'t exist.', 'wp-maffia-game' ) );
 			self::redirect( $route );
 		}
 		$property = Property::get( $type, (int) $c->location_id );
 		if ( $property->is_owned() ) {
-			Flash::error( __( 'Dit bezit heeft al een eigenaar.', 'wp-maffia-game' ) );
+			Flash::error( __( 'This property already has an owner.', 'wp-maffia-game' ) );
 			self::redirect( $route );
 		}
 		$price = $property->buy_price();
 		if ( ! $c->spend( 'money', $price ) ) {
 			/* translators: %s: money */
-			Flash::error( sprintf( __( 'Je hebt %s contant nodig.', 'wp-maffia-game' ), Format::money( $price ) ) );
+			Flash::error( sprintf( __( 'You need %s in cash.', 'wp-maffia-game' ), Format::money( $price ) ) );
 			self::redirect( $route );
 		}
 		$property->transfer( $c->id() );
 		$c->log( 'property.buy', true, $price, $property->location_id() );
 		/* translators: 1: property, 2: city */
-		Flash::success( sprintf( __( 'Gefeliciteerd, %1$s in %2$s is nu van jou.', 'wp-maffia-game' ), $property->label(), $c->location_name() ) );
+		Flash::success( sprintf( __( 'Congratulations, the %1$s in %2$s is now yours.', 'wp-maffia-game' ), $property->label(), $c->location_name() ) );
 		self::redirect( $route );
 	}
 

@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Moord
- * Description: Schiet andere spelers neer. Je hebt een geldig detectiverapport nodig en moet in dezelfde stad zijn. Wapens en bescherming beïnvloeden de schade.
+ * Module Name: Murder
+ * Description: Shoot other players. You need a valid detective report and have to be in the same city. Weapons and armor affect the damage.
  * Version: 1.0.0
  * Author: DigiFalk
  * Requires: detectives
@@ -22,24 +22,24 @@ final class Murder extends Module {
 	const TIMER = 'murder';
 
 	public function title(): string {
-		return __( 'Moord', 'wp-maffia-game' );
+		return __( 'Murder', 'wp-maffia-game' );
 	}
 
 	public function settings_fields(): array {
 		return array(
 			'murder_protection_hours' => array(
-				'label'       => __( 'Bescherming nieuwe spelers (uren)', 'wp-maffia-game' ),
+				'label'       => __( 'New player protection (hours)', 'wp-maffia-game' ),
 				'type'        => 'int',
 				'default'     => 24,
-				'description' => __( 'Nieuwe personages kunnen zo lang niet worden aangevallen en ook zelf niet aanvallen.', 'wp-maffia-game' ),
+				'description' => __( 'New characters can\'t be attacked for this long and can\'t attack either.', 'wp-maffia-game' ),
 			),
 			'murder_cooldown'         => array(
-				'label'   => __( 'Wachttijd tussen aanslagen (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown between attacks (sec)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 120,
 			),
 			'murder_exp'              => array(
-				'label'   => __( 'Ervaring voor een geslaagde moord', 'wp-maffia-game' ),
+				'label'   => __( 'Experience for a successful murder', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 50,
 			),
@@ -49,7 +49,7 @@ final class Murder extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Moord', 'wp-maffia-game' ),
+				'label' => __( 'Murder', 'wp-maffia-game' ),
 				'group' => 'murder',
 				'order' => 20,
 				'timer' => self::TIMER,
@@ -90,29 +90,29 @@ final class Murder extends Module {
 			}
 		}
 		if ( ! $report ) {
-			$this->error( __( 'Je hebt geen geldig detectiverapport voor dit doelwit.', 'wp-maffia-game' ) );
+			$this->error( __( 'You don\'t have a valid detective report for this target.', 'wp-maffia-game' ) );
 			return;
 		}
 		$target = Character::find( (int) $report['target_id'] );
 		if ( ! $target || ! $target->is_alive() ) {
-			$this->error( __( 'Je doelwit leeft niet meer.', 'wp-maffia-game' ) );
+			$this->error( __( 'Your target is no longer alive.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( $this->protected_until( $c ) > time() ) {
-			$this->error( __( 'Je staat nog onder bescherming voor nieuwe spelers en kunt nog niemand aanvallen.', 'wp-maffia-game' ) );
+			$this->error( __( 'You are still under new player protection and can\'t attack anyone yet.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( $this->protected_until( $target ) > time() ) {
-			$this->error( __( 'Deze speler is nieuw en staat nog onder bescherming.', 'wp-maffia-game' ) );
+			$this->error( __( 'This player is new and still protected.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( (int) $target->location_id !== (int) $c->location_id ) {
 			/* translators: %s: player */
-			$this->error( sprintf( __( '%s is niet in jouw stad. Reis eerst naar de stad uit het rapport.', 'wp-maffia-game' ), $target->name ) );
+			$this->error( sprintf( __( '%s is not in your city. Travel to the city from the report first.', 'wp-maffia-game' ), $target->name ) );
 			return;
 		}
 		if ( $bullets < 1 ) {
-			$this->error( __( 'Met hoeveel kogels wil je schieten?', 'wp-maffia-game' ) );
+			$this->error( __( 'How many bullets do you want to shoot?', 'wp-maffia-game' ) );
 			return;
 		}
 		$allowed = apply_filters( 'dfmg_can_attack', true, $c, $target );
@@ -121,12 +121,12 @@ final class Murder extends Module {
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $this->setting( 'murder_cooldown' ) ) ) {
-			$this->error( __( 'Je moet nog even wachten voor je volgende aanslag.', 'wp-maffia-game' ) );
+			$this->error( __( 'You have to wait a little before your next attack.', 'wp-maffia-game' ) );
 			return;
 		}
 		if ( ! $c->spend( 'bullets', $bullets ) ) {
 			$c->clear_timer( self::TIMER );
-			$this->error( __( 'Zoveel kogels heb je niet.', 'wp-maffia-game' ) );
+			$this->error( __( 'You don\'t have that many bullets.', 'wp-maffia-game' ) );
 			return;
 		}
 
@@ -140,15 +140,15 @@ final class Murder extends Module {
 			$c->add( 'exp', (int) $this->setting( 'murder_exp' ) );
 			$c->log( 'murder', true, $bullets, $target->id() );
 			/* translators: %s: player */
-			$this->success( sprintf( __( 'Je hebt %s vermoord. De stad zal het weten.', 'wp-maffia-game' ), $target->name ) );
+			$this->success( sprintf( __( 'You murdered %s. The city will know.', 'wp-maffia-game' ), $target->name ) );
 			return;
 		}
 
 		/* translators: %s: player */
-		$target->notify( sprintf( __( '%s heeft op je geschoten! Je bent gewond geraakt.', 'wp-maffia-game' ), $c->link() ) );
+		$target->notify( sprintf( __( '%s shot at you! You were wounded.', 'wp-maffia-game' ), $c->link() ) );
 		$c->log( 'murder', false, $bullets, $target->id() );
 		/* translators: 1: player, 2: health percent */
-		$this->error( sprintf( __( '%1$s overleefde je aanslag met %2$s%% gezondheid.', 'wp-maffia-game' ), $target->name, $target->health_percent() ) );
+		$this->error( sprintf( __( '%1$s survived your attack with %2$s%% health.', 'wp-maffia-game' ), $target->name, $target->health_percent() ) );
 	}
 }
 

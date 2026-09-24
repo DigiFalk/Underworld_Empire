@@ -1,7 +1,7 @@
 <?php
 /**
- * Module Name: Profiel
- * Description: Openbare profielen van spelers en het bewerken van je eigen profieltekst.
+ * Module Name: Profile
+ * Description: Public player profiles and editing your own profile text.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 final class Profile extends Module {
 
 	public function title(): string {
-		return __( 'Profiel', 'wp-maffia-game' );
+		return __( 'Profile', 'wp-maffia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -33,7 +33,7 @@ final class Profile extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Mijn profiel', 'wp-maffia-game' ),
+				'label' => __( 'My profile', 'wp-maffia-game' ),
 				'group' => 'general',
 				'order' => 30,
 			),
@@ -43,20 +43,20 @@ final class Profile extends Module {
 	public function render( Character $c, array $query ): string {
 		$target = isset( $query['name'] ) ? Character::find_by_name( $query['name'] ) : $c;
 		if ( ! $target ) {
-			$this->error( __( 'Deze speler bestaat niet.', 'wp-maffia-game' ) );
+			$this->error( __( 'This player doesn\'t exist.', 'wp-maffia-game' ) );
 			$target = $c;
 		}
 		$fields = array(
-			__( 'Rang', 'wp-maffia-game' )    => esc_html( $target->rank_name() ),
-			__( 'Rijkdom', 'wp-maffia-game' ) => esc_html( $target->wealth_title() ),
+			__( 'Rank', 'wp-maffia-game' )    => esc_html( $target->rank_name() ),
+			__( 'Wealth', 'wp-maffia-game' ) => esc_html( $target->wealth_title() ),
 			__( 'Status', 'wp-maffia-game' )  => $target->is_alive()
-				? ( $target->is_online() ? '<span class="dfmg-online">' . esc_html__( 'Online', 'wp-maffia-game' ) . '</span>' : esc_html__( 'Levend', 'wp-maffia-game' ) )
-				: '<span class="dfmg-dead">' . esc_html__( 'Vermoord', 'wp-maffia-game' ) . '</span>',
-			__( 'Moorden', 'wp-maffia-game' ) => (int) DB::value( "SELECT COUNT(*) FROM {activity} WHERE character_id = %d AND action = 'murder' AND success = 1", $target->id() ),
-			__( 'Gestart', 'wp-maffia-game' ) => esc_html( \DigiFalk\MaffiaGame\Format::date( (int) $target->created_at ) ),
+				? ( $target->is_online() ? '<span class="dfmg-online">' . esc_html__( 'Online', 'wp-maffia-game' ) . '</span>' : esc_html__( 'Alive', 'wp-maffia-game' ) )
+				: '<span class="dfmg-dead">' . esc_html__( 'Murdered', 'wp-maffia-game' ) . '</span>',
+			__( 'Murders', 'wp-maffia-game' ) => (int) DB::value( "SELECT COUNT(*) FROM {activity} WHERE character_id = %d AND action = 'murder' AND success = 1", $target->id() ),
+			__( 'Started', 'wp-maffia-game' ) => esc_html( \DigiFalk\MaffiaGame\Format::date( (int) $target->created_at ) ),
 		);
 		if ( ! $target->is_alive() && $target->shot_by ) {
-			$fields[ __( 'Vermoord door', 'wp-maffia-game' ) ] = Character::link_by_id( (int) $target->shot_by );
+			$fields[ __( 'Murdered by', 'wp-maffia-game' ) ] = Character::link_by_id( (int) $target->shot_by );
 		}
 		$own = $target->id() === $c->id();
 		return $this->view(
@@ -74,7 +74,7 @@ final class Profile extends Module {
 
 	public function action_bio( Character $c, array $input ): void {
 		$c->set( 'bio', wp_kses_post( mb_substr( (string) ( $input['bio'] ?? '' ), 0, 5000 ) ) );
-		$this->success( __( 'Profiel opgeslagen.', 'wp-maffia-game' ) );
+		$this->success( __( 'Profile saved.', 'wp-maffia-game' ) );
 	}
 }
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * Module Name: Garage
- * Description: Beheer je auto's: verkopen, laten repareren, verschepen naar je huidige stad of in de pers gooien voor kogels.
+ * Description: Manage your cars: sell, repair, ship to your current city or crush them for bullets.
  * Version: 1.0.0
  * Author: DigiFalk
  *
@@ -54,7 +54,7 @@ final class Garage extends Module {
 			array( 'Volkswagen Golf', 2500, 250 ),
 			array( 'Audi A4', 6000, 150 ),
 			array( 'BMW M3', 18000, 80 ),
-			array( 'Mercedes S-Klasse', 40000, 40 ),
+			array( 'Mercedes S-Class', 40000, 40 ),
 			array( 'Porsche 911', 85000, 15 ),
 			array( 'Lamborghini Huracán', 220000, 4 ),
 		);
@@ -73,17 +73,17 @@ final class Garage extends Module {
 	public function settings_fields(): array {
 		return array(
 			'garage_crush_rate'    => array(
-				'label'       => __( 'Autopers: waarde per kogel', 'wp-maffia-game' ),
+				'label'       => __( 'Car crusher: value per bullet', 'wp-maffia-game' ),
 				'type'        => 'int',
 				'default'     => 15,
 			),
 			'garage_repair_factor' => array(
-				'label'   => __( 'Reparatiekosten (% van schadewaarde)', 'wp-maffia-game' ),
+				'label'   => __( 'Repair cost (% of damage value)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 80,
 			),
 			'garage_ship_percent'  => array(
-				'label'   => __( 'Verschepen kost (% van autowaarde)', 'wp-maffia-game' ),
+				'label'   => __( 'Shipping cost (% of car value)', 'wp-maffia-game' ),
 				'type'    => 'int',
 				'default' => 10,
 			),
@@ -97,13 +97,13 @@ final class Garage extends Module {
 				'table'   => 'cars',
 				'order'   => 'value ASC',
 				'columns' => array(
-					'name'   => array( 'label' => __( 'Naam', 'wp-maffia-game' ), 'required' => true ),
-					'value'  => array( 'label' => __( 'Waarde', 'wp-maffia-game' ), 'type' => 'int' ),
+					'name'   => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
+					'value'  => array( 'label' => __( 'Value', 'wp-maffia-game' ), 'type' => 'int' ),
 					'rarity' => array(
-						'label'       => __( 'Voorkomen (gewicht)', 'wp-maffia-game' ),
+						'label'       => __( 'Rarity (weight)', 'wp-maffia-game' ),
 						'type'        => 'int',
 						'default'     => 100,
-						'description' => __( 'Hoe hoger, hoe vaker deze auto gestolen wordt.', 'wp-maffia-game' ),
+						'description' => __( 'The higher, the more often this car gets stolen.', 'wp-maffia-game' ),
 					),
 				),
 			),
@@ -152,14 +152,14 @@ final class Garage extends Module {
 			$c->id()
 		);
 		if ( ! $row ) {
-			$this->error( __( 'Deze auto staat niet in jouw garage.', 'wp-maffia-game' ) );
+			$this->error( __( 'This car is not in your garage.', 'wp-maffia-game' ) );
 		}
 		return $row;
 	}
 
 	private function here( Character $c, array $row ): bool {
 		if ( (int) $row['location_id'] !== (int) $c->location_id ) {
-			$this->error( __( 'Deze auto staat in een andere stad. Verscheep hem eerst hierheen.', 'wp-maffia-game' ) );
+			$this->error( __( 'This car is in another city. Ship it here first.', 'wp-maffia-game' ) );
 			return false;
 		}
 		return true;
@@ -210,7 +210,7 @@ final class Garage extends Module {
 			$c->add( 'money', $worth );
 			$c->log( 'garage.sell', true, $worth, (int) $row['car_id'] );
 			/* translators: 1: car, 2: money */
-			$this->success( sprintf( __( 'Je verkocht je %1$s voor %2$s.', 'wp-maffia-game' ), $row['name'], Format::money( $worth ) ) );
+			$this->success( sprintf( __( 'You sold your %1$s for %2$s.', 'wp-maffia-game' ), $row['name'], Format::money( $worth ) ) );
 		}
 	}
 
@@ -224,7 +224,7 @@ final class Garage extends Module {
 			$c->add( 'bullets', $bullets );
 			$c->log( 'garage.crush', true, $bullets, (int) $row['car_id'] );
 			/* translators: 1: car, 2: bullets */
-			$this->success( sprintf( __( 'Je %1$s ging de pers in. Je kreeg %2$s kogels.', 'wp-maffia-game' ), $row['name'], Format::number( $bullets ) ) );
+			$this->success( sprintf( __( 'Your %1$s went into the crusher. You got %2$s bullets.', 'wp-maffia-game' ), $row['name'], Format::number( $bullets ) ) );
 		}
 	}
 
@@ -234,18 +234,18 @@ final class Garage extends Module {
 			return;
 		}
 		if ( ! (int) $row['damage'] ) {
-			$this->error( __( 'Deze auto heeft geen schade.', 'wp-maffia-game' ) );
+			$this->error( __( 'This car has no damage.', 'wp-maffia-game' ) );
 			return;
 		}
 		$cost = $this->repair_cost( $row );
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'De reparatie kost %s. Dat heb je niet contant.', 'wp-maffia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'The repair costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $cost ) ) );
 			return;
 		}
 		DB::update( 'garage', array( 'damage' => 0 ), array( 'id' => $row['id'] ) );
 		/* translators: 1: car, 2: money */
-		$this->success( sprintf( __( 'Je %1$s is weer als nieuw. Kosten: %2$s.', 'wp-maffia-game' ), $row['name'], Format::money( $cost ) ) );
+		$this->success( sprintf( __( 'Your %1$s is as good as new. Cost: %2$s.', 'wp-maffia-game' ), $row['name'], Format::money( $cost ) ) );
 	}
 
 	public function action_ship( Character $c, array $input ): void {
@@ -254,18 +254,18 @@ final class Garage extends Module {
 			return;
 		}
 		if ( (int) $row['location_id'] === (int) $c->location_id ) {
-			$this->error( __( 'Deze auto staat al in deze stad.', 'wp-maffia-game' ) );
+			$this->error( __( 'This car is already in this city.', 'wp-maffia-game' ) );
 			return;
 		}
 		$cost = $this->ship_cost( $row );
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Verschepen kost %s. Dat heb je niet contant.', 'wp-maffia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'Shipping costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $cost ) ) );
 			return;
 		}
 		DB::update( 'garage', array( 'location_id' => (int) $c->location_id ), array( 'id' => $row['id'] ) );
 		/* translators: 1: car, 2: city */
-		$this->success( sprintf( __( 'Je %1$s staat nu in %2$s.', 'wp-maffia-game' ), $row['name'], $c->location_name() ) );
+		$this->success( sprintf( __( 'Your %1$s is now in %2$s.', 'wp-maffia-game' ), $row['name'], $c->location_name() ) );
 	}
 }
 
