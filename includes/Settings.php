@@ -77,7 +77,7 @@ final class Settings {
 					'theme' => __( 'Follow the colours and font of the WordPress theme', 'underworld-empire' ),
 					'dark'  => __( 'Built-in dark look', 'underworld-empire' ),
 				),
-				'description' => __( 'Tip: activate the bundled "Underworld Empire" theme under Appearance → Themes for a matching website.', 'underworld-empire' ),
+				'description' => __( 'Tip: activate the bundled "Underworld Empire" theme under Appearance → Themes for a matching website. With "Follow the theme" the game also switches along with the light/dark mode of that theme; the built-in dark look always stays dark.', 'underworld-empire' ),
 			),
 			'currency_symbol'    => array(
 				'label'   => __( 'Currency symbol', 'underworld-empire' ),

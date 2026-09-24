@@ -45,39 +45,36 @@ const UET_MOBILE = 767;
 /**
  * CSS custom properties for the current settings, with tablet and mobile overrides.
  */
-function uet_dynamic_css( string $scope = ':root' ): string {
-	$c    = uet_colors();
-	$vars = array(
-		'--uet-base'              => $c['base'],
-		'--uet-surface'           => $c['surface'],
-		'--uet-surface-2'         => $c['surface_2'],
-		'--uet-border'            => $c['border'],
-		'--uet-text'              => $c['text'],
-		'--uet-muted'             => $c['muted'],
-		'--uet-heading'           => $c['heading'],
-		'--uet-accent'            => $c['accent'],
-		'--uet-link-hover'        => $c['link_hover'],
-		'--uet-button-bg'         => $c['button_bg'],
-		'--uet-button-text'       => $c['button_text'],
-		'--uet-header-bg'         => $c['header_bg'],
-		'--uet-header-text'       => $c['header_text'],
-		'--uet-footer-bg'         => $c['footer_bg'],
-		'--uet-footer-text'       => $c['footer_text'],
-		'--uet-hrow-above-bg'     => (string) uet_opt( 'hrow_above_bg' ) ?: $c['surface_2'],
-		'--uet-hrow-primary-bg'   => (string) uet_opt( 'hrow_primary_bg' ) ?: 'transparent',
-		'--uet-hrow-below-bg'     => (string) uet_opt( 'hrow_below_bg' ) ?: 'transparent',
-		'--uet-frow-above-bg'     => (string) uet_opt( 'frow_above_bg' ) ?: 'transparent',
-		'--uet-frow-primary-bg'   => (string) uet_opt( 'frow_primary_bg' ) ?: 'transparent',
-		'--uet-frow-below-bg'     => (string) uet_opt( 'frow_below_bg' ) ?: 'transparent',
-		'--uet-font-body'         => uet_font_stack( (string) uet_opt( 'body_font' ) ),
-		'--uet-font-heading'      => uet_font_stack( (string) uet_opt( 'heading_font' ) ),
-		'--uet-line-height'       => ( absint( uet_opt( 'body_line_height' ) ) / 10 ),
-		'--uet-heading-weight'    => (string) uet_opt( 'heading_weight' ),
-		'--uet-heading-transform' => (string) uet_opt( 'heading_transform' ),
-		'--uet-container'         => absint( uet_opt( 'container_width' ) ) . 'px',
-		'--uet-narrow'            => absint( uet_opt( 'narrow_width' ) ) . 'px',
-		'--uet-radius'            => absint( uet_opt( 'button_radius' ) ) . 'px',
-		'--uet-sidebar'           => absint( uet_opt( 'sidebar_width' ) ) . '%',
+/**
+ * Colour variables for one colour set, also written to the WordPress presets.
+ */
+function uet_color_vars( array $c, bool $light_set = false ): array {
+	$row = static function ( string $key, string $fallback ) use ( $light_set ) {
+		return ( $light_set ? '' : (string) uet_opt( $key ) ) ?: $fallback;
+	};
+	return array(
+		'color-scheme'                     => uet_is_light_color( $c['base'] ) ? 'light' : 'dark',
+		'--uet-base'                       => $c['base'],
+		'--uet-surface'                    => $c['surface'],
+		'--uet-surface-2'                  => $c['surface_2'],
+		'--uet-border'                     => $c['border'],
+		'--uet-text'                       => $c['text'],
+		'--uet-muted'                      => $c['muted'],
+		'--uet-heading'                    => $c['heading'],
+		'--uet-accent'                     => $c['accent'],
+		'--uet-link-hover'                 => $c['link_hover'],
+		'--uet-button-bg'                  => $c['button_bg'],
+		'--uet-button-text'                => $c['button_text'],
+		'--uet-header-bg'                  => $c['header_bg'],
+		'--uet-header-text'                => $c['header_text'],
+		'--uet-footer-bg'                  => $c['footer_bg'],
+		'--uet-footer-text'                => $c['footer_text'],
+		'--uet-hrow-above-bg'              => $row( 'hrow_above_bg', $c['surface_2'] ),
+		'--uet-hrow-primary-bg'            => $row( 'hrow_primary_bg', 'transparent' ),
+		'--uet-hrow-below-bg'              => $row( 'hrow_below_bg', 'transparent' ),
+		'--uet-frow-above-bg'              => $row( 'frow_above_bg', 'transparent' ),
+		'--uet-frow-primary-bg'            => $row( 'frow_primary_bg', 'transparent' ),
+		'--uet-frow-below-bg'              => $row( 'frow_below_bg', 'transparent' ),
 		// WordPress presets, used by blocks and by the Underworld Empire game.
 		'--wp--preset--color--base'        => $c['base'],
 		'--wp--preset--color--surface'     => $c['surface'],
@@ -89,6 +86,41 @@ function uet_dynamic_css( string $scope = ':root' ): string {
 		'--wp--preset--color--accent'      => $c['accent'],
 		'--wp--preset--color--button'      => $c['button_bg'],
 		'--wp--preset--color--button-text' => $c['button_text'],
+	);
+}
+
+function uet_is_light_color( string $hex ): bool {
+	$hex = ltrim( $hex, '#' );
+	if ( 3 === strlen( $hex ) ) {
+		$hex = $hex[0] . $hex[0] . $hex[1] . $hex[1] . $hex[2] . $hex[2];
+	}
+	if ( 6 !== strlen( $hex ) ) {
+		return false;
+	}
+	list( $r, $g, $b ) = array_map( 'hexdec', str_split( $hex, 2 ) );
+	return ( 0.299 * $r + 0.587 * $g + 0.114 * $b ) > 150;
+}
+
+/**
+ * CSS custom properties for the current settings, with tablet and mobile overrides
+ * and the light / dark mode colours.
+ */
+function uet_dynamic_css( string $scope = ':root' ): string {
+	$mode    = ':root' === $scope ? uet_color_mode() : 'single';
+	$default = uet_colors( 'toggle_light' === $mode ? 'light' : 'main' );
+	$vars    = array_merge(
+		uet_color_vars( $default, 'toggle_light' === $mode ),
+		array(
+			'--uet-font-body'         => uet_font_stack( (string) uet_opt( 'body_font' ) ),
+			'--uet-font-heading'      => uet_font_stack( (string) uet_opt( 'heading_font' ) ),
+			'--uet-line-height'       => ( absint( uet_opt( 'body_line_height' ) ) / 10 ),
+			'--uet-heading-weight'    => (string) uet_opt( 'heading_weight' ),
+			'--uet-heading-transform' => (string) uet_opt( 'heading_transform' ),
+			'--uet-container'         => absint( uet_opt( 'container_width' ) ) . 'px',
+			'--uet-narrow'            => absint( uet_opt( 'narrow_width' ) ) . 'px',
+			'--uet-radius'            => absint( uet_opt( 'button_radius' ) ) . 'px',
+			'--uet-sidebar'           => absint( uet_opt( 'sidebar_width' ) ) . '%',
+		)
 	);
 
 	// Values per device: css variable => option.
@@ -125,6 +157,21 @@ function uet_dynamic_css( string $scope = ':root' ): string {
 	$out .= '@media (max-width:' . UET_TABLET . 'px){' . $block( $tablet ) . '}';
 	$out .= '@media (max-width:' . UET_MOBILE . 'px){' . $block( $mobile ) . '}';
 
+	// The other colour mode, switched with data-uet-mode on <html> (see uet_color_mode_script()).
+	if ( 'single' !== $mode ) {
+		$alt      = 'toggle_light' === $mode ? 'dark' : 'light';
+		$alt_vars = uet_color_vars( uet_colors( 'light' === $alt ? 'light' : 'main' ), 'light' === $alt );
+		$list     = '';
+		foreach ( $alt_vars as $name => $value ) {
+			$list .= $name . ':' . $value . ';';
+		}
+		$out .= ':root[data-uet-mode="' . $alt . '"],:root[data-uet-mode="' . $alt . '"] body{' . $list . '}';
+		if ( 'auto' === $mode ) {
+			// Without JavaScript: follow the device.
+			$out .= '@media (prefers-color-scheme: light){:root:not([data-uet-mode]),:root:not([data-uet-mode]) body{' . $list . '}}';
+		}
+	}
+
 	if ( ':root' === $scope ) {
 		// Desktop or mobile header. A media query can't use a CSS variable.
 		$bp   = max( 320, absint( uet_opt( 'mobile_breakpoint' ) ) );
@@ -133,6 +180,31 @@ function uet_dynamic_css( string $scope = ':root' ): string {
 	}
 	return $out;
 }
+
+/**
+ * Sets data-uet-mode on <html> before the page is painted: the visitor's choice,
+ * the device preference (auto) or the default mode. No flash of the wrong colours.
+ */
+function uet_color_mode_script(): string {
+	$mode = uet_color_mode();
+	if ( 'single' === $mode ) {
+		return '';
+	}
+	$default = 'toggle_light' === $mode ? 'light' : 'dark';
+	$auto    = 'auto' === $mode ? 'true' : 'false';
+	return "(function(d){var m=null;try{m=localStorage.getItem('uet-mode')}catch(e){}if(m!=='light'&&m!=='dark'){m=" . $auto . "&&window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches?'light':'" . $default . "'}d.documentElement.setAttribute('data-uet-mode',m)})(document);";
+}
+
+add_action(
+	'wp_head',
+	static function () {
+		$script = uet_color_mode_script();
+		if ( $script ) {
+			wp_print_inline_script_tag( $script, array( 'id' => 'uet-color-mode' ) );
+		}
+	},
+	0
+);
 
 /**
  * Print the dynamic CSS in its own element so the Customizer can replace it live.

@@ -59,3 +59,13 @@ function dfmg_money( $amount ) {
 function dfmg_url( $route = '', $args = array() ) {
 	return \DigiFalk\UnderworldEmpire\Frontend\Game::url( $route, $args );
 }
+
+/**
+ * URL of the avatar a player uploaded in the game ('' when none).
+ *
+ * @param int $user_id WordPress user id.
+ * @return string
+ */
+function dfmg_avatar_url( $user_id ) {
+	return \DigiFalk\UnderworldEmpire\Avatar::url( (int) $user_id );
+}

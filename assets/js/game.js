@@ -128,6 +128,18 @@
 	}
 	labelTables( document );
 
+	// Check the size of an avatar before uploading (too large files never reach the server).
+	document.addEventListener( 'change', function ( e ) {
+		var input = e.target;
+		if ( ! input.matches || ! input.matches( 'input[type="file"][data-max-kb]' ) ) {
+			return;
+		}
+		var max = parseInt( input.getAttribute( 'data-max-kb' ), 10 ) * 1024;
+		var file = input.files && input.files[ 0 ];
+		input.setCustomValidity( file && max && file.size > max ? ( input.closest( 'form' ).querySelector( '.dfmg-muted' ) || {} ).textContent || 'Too large' : '' );
+		input.reportValidity();
+	} );
+
 	// Prevent accidental double submits.
 	document.addEventListener( 'submit', function ( e ) {
 		var form = e.target;

@@ -3,6 +3,21 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.7.0
+
+- **Light and dark mode** (theme 3.2.0, *Customize → Global → Light & dark mode*): one
+  colour scheme, or a switch for visitors that starts dark, starts light or follows the
+  device. Light mode has its own palette (Daylight by default) and custom colours with live
+  preview. The visitor's choice is remembered and applied before the page is drawn. New
+  *Light/dark switch* element for the header and footer builders, the game layout, the
+  widget and the `[ue_hud]` shortcode. The game switches along.
+- **Player avatars**: upload a picture on *My profile*. It is cropped to a square, saved as
+  WebP and becomes the user's WordPress avatar on the whole site (instead of Gravatar). It
+  is shown in the game header, on profiles and in the theme's player account element.
+  Settings for uploads on/off, maximum size and avatar size under Profile → Configure.
+- Game elements can be kept out of the theme builders with `'theme' => false`.
+- Fixed: stacked game forms no longer split into two columns on phones.
+
 ## 1.6.0
 
 - **Game layout builder** (*Appearance → Customize → Game layout*): drag & drop game

@@ -102,8 +102,8 @@ final class Game {
 		return 'dfmg_' . $module . '_' . $action;
 	}
 
-	public static function form_open( string $module, string $action, array $hidden = array(), string $class = 'dfmg-form' ): string {
-		$html  = '<form method="post" class="' . esc_attr( $class ) . '" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
+	public static function form_open( string $module, string $action, array $hidden = array(), string $class = 'dfmg-form', bool $upload = false ): string {
+		$html  = '<form method="post" class="' . esc_attr( $class ) . '" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '"' . ( $upload ? ' enctype="multipart/form-data"' : '' ) . '>';
 		$html .= '<input type="hidden" name="action" value="dfmg">';
 		$html .= '<input type="hidden" name="module" value="' . esc_attr( $module ) . '">';
 		$html .= '<input type="hidden" name="do" value="' . esc_attr( $action ) . '">';

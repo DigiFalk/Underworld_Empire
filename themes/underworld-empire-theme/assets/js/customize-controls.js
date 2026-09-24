@@ -16,15 +16,16 @@
 	var colorKeys = [ 'base', 'surface', 'surface_2', 'border', 'text', 'muted', 'heading', 'accent', 'link_hover', 'button_bg', 'button_text' ];
 	var applyingPalette = false;
 
-	function bindPalettes() {
-		api( 'uet_palette', function ( palette ) {
+	// A palette select fills its colour settings; changing a colour switches it to "custom".
+	function bindPalette( paletteId, prefix ) {
+		api( paletteId, function ( palette ) {
 			palette.bind( function ( value ) {
 				if ( ! cfg.palettes[ value ] ) {
 					return;
 				}
 				applyingPalette = true;
 				colorKeys.forEach( function ( key ) {
-					api( 'uet_color_' + key, function ( color ) {
+					api( prefix + key, function ( color ) {
 						color.set( cfg.palettes[ value ][ key ] );
 					} );
 				} );
@@ -32,14 +33,19 @@
 			} );
 		} );
 		colorKeys.forEach( function ( key ) {
-			api( 'uet_color_' + key, function ( color ) {
+			api( prefix + key, function ( color ) {
 				color.bind( function () {
-					if ( ! applyingPalette && 'custom' !== api( 'uet_palette' ).get() ) {
-						api( 'uet_palette' ).set( 'custom' );
+					if ( ! applyingPalette && 'custom' !== api( paletteId ).get() ) {
+						api( paletteId ).set( 'custom' );
 					}
 				} );
 			} );
 		} );
+	}
+
+	function bindPalettes() {
+		bindPalette( 'uet_palette', 'uet_color_' );
+		bindPalette( 'uet_light_palette', 'uet_light_color_' );
 	}
 
 	/* Responsive values --------------------------------------------------------- */

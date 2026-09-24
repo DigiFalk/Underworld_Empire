@@ -60,7 +60,38 @@
 		return !! panel && ! panel.hidden;
 	}
 
+	/* Light / dark mode: the choice is stored in the browser (see uet_color_mode_script()). */
+	function currentMode() {
+		return doc.documentElement.getAttribute( 'data-uet-mode' ) || 'dark';
+	}
+	function syncModeButtons() {
+		var mode = currentMode();
+		doc.querySelectorAll( '.uet-mode-toggle' ).forEach( function ( btn ) {
+			btn.setAttribute( 'aria-pressed', 'light' === mode ? 'true' : 'false' );
+			btn.setAttribute( 'title', btn.getAttribute( 'data-label-' + mode ) || '' );
+		} );
+	}
+	function setMode( mode ) {
+		var root = doc.documentElement;
+		root.classList.add( 'uet-mode-changing' );
+		root.setAttribute( 'data-uet-mode', mode );
+		try {
+			window.localStorage.setItem( 'uet-mode', mode );
+		} catch ( err ) {}
+		syncModeButtons();
+		window.setTimeout( function () {
+			root.classList.remove( 'uet-mode-changing' );
+		}, 300 );
+	}
+	syncModeButtons();
+
 	doc.addEventListener( 'click', function ( e ) {
+		var modeBtn = e.target.closest( '.uet-mode-toggle' );
+		if ( modeBtn ) {
+			e.preventDefault();
+			setMode( 'light' === currentMode() ? 'dark' : 'light' );
+			return;
+		}
 		var toggle = e.target.closest( '.uet-menu-toggle' );
 		if ( toggle ) {
 			e.preventDefault();

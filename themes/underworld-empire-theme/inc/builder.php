@@ -30,6 +30,7 @@ function uet_header_elements(): array {
 			'html'           => __( 'HTML / text', 'underworld-empire-theme' ),
 			'social'         => __( 'Social icons', 'underworld-empire-theme' ),
 			'account'        => __( 'Player account', 'underworld-empire-theme' ),
+			'mode'           => __( 'Light/dark switch', 'underworld-empire-theme' ),
 			'toggle'         => __( 'Menu toggle', 'underworld-empire-theme' ),
 		)
 	);
@@ -44,6 +45,7 @@ function uet_footer_elements(): array {
 			'social'      => __( 'Social icons', 'underworld-empire-theme' ),
 			'html'        => __( 'HTML / text', 'underworld-empire-theme' ),
 			'logo'        => __( 'Logo & site title', 'underworld-empire-theme' ),
+			'mode'        => __( 'Light/dark switch', 'underworld-empire-theme' ),
 			'widget-1'    => __( 'Widgets: Footer 1', 'underworld-empire-theme' ),
 			'widget-2'    => __( 'Widgets: Footer 2', 'underworld-empire-theme' ),
 			'widget-3'    => __( 'Widgets: Footer 3', 'underworld-empire-theme' ),
@@ -95,6 +97,8 @@ function uet_default_header_builder(): array {
 		);
 	}
 	$actions = 'logo-right' === $layout ? 'left' : 'right';
+	// The light/dark switch only shows when it is enabled (Global → Light & dark mode).
+	$desktop['primary'][ $actions ][] = 'mode';
 	if ( get_theme_mod( 'uet_header_search' ) ) {
 		$desktop['primary'][ $actions ][] = 'search';
 	}
@@ -115,7 +119,7 @@ function uet_default_header_builder(): array {
 			'primary' => array(
 				'left'   => array( 'logo' ),
 				'center' => array(),
-				'right'  => array( 'toggle' ),
+				'right'  => array( 'mode', 'toggle' ),
 			),
 			'below'   => uet_empty_header_row(),
 			'popup'   => array( 'menu-primary', 'search', 'button' ),
@@ -285,7 +289,11 @@ function uet_account_link(): string {
 	if ( function_exists( 'dfmg_character' ) && function_exists( 'dfmg_url' ) ) {
 		$character = is_user_logged_in() ? dfmg_character() : null;
 		if ( $character && $character->is_alive() ) {
-			return '<a class="uet-account" href="' . esc_url( dfmg_url( 'profile' ) ) . '"><span class="uet-account__avatar" aria-hidden="true">' . esc_html( mb_strtoupper( mb_substr( $character->name, 0, 1 ) ) ) . '</span><span class="uet-account__name">' . esc_html( $character->name ) . '</span></a>';
+			$avatar = function_exists( 'dfmg_avatar_url' ) ? dfmg_avatar_url( (int) $character->user_id ) : '';
+			$avatar = $avatar
+				? '<img class="uet-account__avatar" src="' . esc_url( $avatar ) . '" alt="" width="28" height="28">'
+				: '<span class="uet-account__avatar" aria-hidden="true">' . esc_html( mb_strtoupper( mb_substr( $character->name, 0, 1 ) ) ) . '</span>';
+			return '<a class="uet-account" href="' . esc_url( dfmg_url( 'profile' ) ) . '">' . $avatar . '<span class="uet-account__name">' . esc_html( $character->name ) . '</span></a>';
 		}
 		$label = is_user_logged_in() ? __( 'Play', 'underworld-empire-theme' ) : __( 'Log in', 'underworld-empire-theme' );
 		return '<a class="uet-account" href="' . esc_url( dfmg_url() ) . '"><span class="uet-account__avatar" aria-hidden="true">&#9679;</span><span class="uet-account__name">' . esc_html( $label ) . '</span></a>';
@@ -295,6 +303,41 @@ function uet_account_link(): string {
 	}
 	return '<a class="uet-account" href="' . esc_url( wp_login_url() ) . '">' . esc_html__( 'Log in', 'underworld-empire-theme' ) . '</a>';
 }
+
+/**
+ * Light/dark switch (only when the visitor may switch, see Global → Light & dark mode).
+ */
+function uet_mode_toggle( bool $with_label = false ): string {
+	if ( 'single' === uet_color_mode() ) {
+		return '';
+	}
+	$sun  = '<svg class="uet-mode-toggle__sun" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
+	$moon = '<svg class="uet-mode-toggle__moon" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 14.6A8.5 8.5 0 0 1 9.4 3.3a8.5 8.5 0 1 0 11.3 11.3z"/></svg>';
+	$html = '<button type="button" class="uet-mode-toggle' . ( $with_label ? ' uet-mode-toggle--label' : '' ) . '" aria-pressed="false" data-label-light="' . esc_attr__( 'Switch to dark mode', 'underworld-empire-theme' ) . '" data-label-dark="' . esc_attr__( 'Switch to light mode', 'underworld-empire-theme' ) . '" aria-label="' . esc_attr__( 'Switch between light and dark mode', 'underworld-empire-theme' ) . '">' . $sun . $moon;
+	if ( $with_label ) {
+		$html .= '<span class="uet-mode-toggle__text uet-mode-toggle__text--dark">' . esc_html__( 'Light mode', 'underworld-empire-theme' ) . '</span><span class="uet-mode-toggle__text uet-mode-toggle__text--light">' . esc_html__( 'Dark mode', 'underworld-empire-theme' ) . '</span>';
+	}
+	return $html . '</button>';
+}
+
+/**
+ * The switch can also be placed in the game (Customize → Game layout, widget, shortcode).
+ */
+add_filter(
+	'dfmg_hud_elements',
+	static function ( $elements ) {
+		if ( 'single' !== uet_color_mode() ) {
+			$elements['mode-toggle'] = array(
+				'label'  => __( 'Light/dark switch', 'underworld-empire-theme' ),
+				'theme'  => false,
+				'render' => static function ( $character, $context ) {
+					return uet_mode_toggle( 'stack' === $context );
+				},
+			);
+		}
+		return $elements;
+	}
+);
 
 /**
  * One header element. $context: desktop, mobile or popup.
@@ -332,6 +375,8 @@ function uet_header_element( string $element, string $context ): string {
 			return uet_social_links();
 		case 'account':
 			return uet_account_link();
+		case 'mode':
+			return uet_mode_toggle( 'popup' === $context );
 		case 'toggle':
 			return '<button class="uet-menu-toggle" type="button" aria-controls="uet-mobile-popup" aria-expanded="false"><span class="uet-menu-toggle__icon" aria-hidden="true"></span><span class="uet-menu-toggle__label">' . esc_html( (string) uet_opt( 'mobile_menu_label' ) ) . '</span></button>';
 	}
@@ -387,6 +432,8 @@ function uet_render_header(): void {
 
 function uet_footer_element( string $element ): string {
 	switch ( $element ) {
+		case 'mode':
+			return uet_mode_toggle();
 		case 'copyright':
 			return '<div class="uet-copyright">' . uet_copyright() . '</div>';
 		case 'menu-footer':

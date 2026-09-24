@@ -68,6 +68,17 @@ updates. Then enable the module under *Underworld Empire → Modules*.
 See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
 [`docs/example-module/slot-machine`](docs/example-module/slot-machine) for a complete example.
 
+## Player avatars
+
+On *My profile* players can upload a picture (JPG, PNG, GIF or WebP). It is cropped to a
+square, scaled down and saved as **.webp** in `wp-content/uploads/underworld-avatars/`, and
+it replaces Gravatar as the **WordPress avatar** of that user everywhere on the site: game,
+comments, admin bar, author boxes and the user's WordPress profile. Players can remove it
+again. Settings in *Modules → Profile → Configure*: switch uploads on/off, maximum file size
+and avatar size. Requires WebP support in GD or Imagick (standard on current PHP versions).
+`dfmg_avatar_url( $user_id )` returns the URL; the `dfmg_avatar_updated` action fires after
+an upload.
+
 ## Customising the look
 
 ### Game layout and game elements (drag & drop)
@@ -97,6 +108,14 @@ online* are always shown. Modules and themes can add their own elements with the
 `dfmg_hud_elements` filter (see `docs/MODULES.md`).
 
 ### Colours and theme
+
+* **Light and dark mode** (bundled theme, *Customize → Global → Light & dark mode*): keep one
+  colour scheme, or let visitors switch between dark and light with the *Light/dark switch*
+  element (header builder, footer builder, game layout or `[ue_hud element="mode-toggle"]`).
+  Start dark, start light, or follow the visitor's device. The choice is remembered in the
+  browser and applied before the page is drawn, so there is no flash of the wrong colours.
+  The *Colours* section holds the dark mode colours; light mode has its own palette and
+  colours. The game follows the mode (with *Appearance: follow the theme*).
 
 * **Appearance** (Underworld Empire → Settings): by default the game follows the colours and
   font of your WordPress theme, in light and dark themes alike. Choose *Built-in dark look* for

@@ -10,6 +10,7 @@
  *
  * Add your own elements with the dfmg_hud_elements filter:
  *   $elements['my-el'] = [ 'label' => 'My element', 'render' => fn( ?Character $c, string $context ) => '<span>…</span>' ];
+ * Add 'theme' => false to keep an element out of the theme header/footer builders.
  *
  * @package DigiFalk\UnderworldEmpire
  */
@@ -258,6 +259,9 @@ final class Hud {
 	 */
 	public static function theme_elements( array $elements ): array {
 		foreach ( self::labels() as $key => $label ) {
+			if ( isset( self::elements()[ $key ]['theme'] ) && ! self::elements()[ $key ]['theme'] ) {
+				continue;
+			}
 			/* translators: %s: element */
 			$elements[ 'game-' . $key ] = sprintf( __( 'Game: %s', 'underworld-empire' ), $label );
 		}
@@ -310,8 +314,19 @@ final class Hud {
 		}
 		$profile = self::active( 'profile' );
 		return '<a class="dfmg-hud-player" href="' . esc_url( $profile ? Game::url( 'profile' ) : Game::url() ) . '" title="' . esc_attr( $profile ? __( 'My profile', 'underworld-empire' ) : __( 'Overview', 'underworld-empire' ) ) . '">'
-			. '<span class="dfmg-hud-player__avatar" aria-hidden="true">' . esc_html( mb_strtoupper( mb_substr( $c->name, 0, 1 ) ) ) . '</span>'
+			. self::avatar( $c )
 			. '<span class="dfmg-hud-player__name">' . esc_html( $c->name ) . '</span></a>';
+	}
+
+	/**
+	 * Uploaded avatar, or the first letter of the name.
+	 */
+	public static function avatar( Character $c ): string {
+		$url = \DigiFalk\UnderworldEmpire\Avatar::url( (int) $c->user_id );
+		if ( $url ) {
+			return '<img class="dfmg-hud-player__avatar dfmg-hud-player__avatar--img" src="' . esc_url( $url ) . '" alt="" width="30" height="30" loading="lazy">';
+		}
+		return '<span class="dfmg-hud-player__avatar" aria-hidden="true">' . esc_html( mb_strtoupper( mb_substr( $c->name, 0, 1 ) ) ) . '</span>';
 	}
 
 	public static function render_timers( ?Character $c, string $context ): string {

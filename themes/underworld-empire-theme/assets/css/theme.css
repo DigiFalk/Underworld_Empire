@@ -156,6 +156,7 @@ textarea { width: 100%; }
 .uet-account { display: inline-flex; align-items: center; gap: 8px; padding: 4px 12px 4px 4px; border: 1px solid var(--uet-border); border-radius: 999px; font-weight: 600; white-space: nowrap; max-width: 100%; }
 .uet-account:hover { border-color: var(--uet-accent); text-decoration: none; }
 .uet-account__avatar { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border-radius: 50%; background: var(--uet-button-bg); color: var(--uet-button-text); font-size: .8em; flex: none; }
+img.uet-account__avatar { display: block; object-fit: cover; padding: 0; }
 .uet-account__name { overflow: hidden; text-overflow: ellipsis; }
 
 .uet-menu-toggle, .uet-menu-toggle:hover, .uet-menu-toggle:focus {
@@ -370,4 +371,18 @@ body.uet-no-scroll { overflow: hidden; }
 .admin-bar .uet-popup--offcanvas { top: 32px; }
 @media (max-width: 782px) {
 	.admin-bar .uet-popup--offcanvas { top: 46px; }
+}
+
+/* Light/dark switch ------------------------------------------------------- */
+.uet-mode-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-width: 40px; height: 40px; padding: 0 10px; border: 1px solid var(--uet-border); border-radius: 999px; background: transparent; color: inherit; cursor: pointer; font: inherit; line-height: 1; transition: border-color .15s ease, color .15s ease; }
+.uet-mode-toggle:hover, .uet-mode-toggle:focus-visible { border-color: var(--uet-accent); color: var(--uet-accent); background: transparent; }
+.uet-mode-toggle svg { display: block; flex: none; }
+.uet-mode-toggle .uet-mode-toggle__moon, .uet-mode-toggle .uet-mode-toggle__text--light { display: none; }
+:root[data-uet-mode="light"] .uet-mode-toggle .uet-mode-toggle__moon { display: block; }
+:root[data-uet-mode="light"] .uet-mode-toggle .uet-mode-toggle__text--light { display: inline; }
+:root[data-uet-mode="light"] .uet-mode-toggle .uet-mode-toggle__sun, :root[data-uet-mode="light"] .uet-mode-toggle .uet-mode-toggle__text--dark { display: none; }
+.uet-mode-toggle--label { width: 100%; justify-content: flex-start; border-radius: var(--uet-radius); padding: 0 14px; }
+.dfmg-hud .uet-mode-toggle { border-color: var(--dfmg-border); }
+@media (prefers-reduced-motion: no-preference) {
+	.uet-mode-changing, .uet-mode-changing * { transition: background-color .25s ease, color .25s ease, border-color .25s ease !important; }
 }

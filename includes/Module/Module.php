@@ -192,8 +192,8 @@ abstract class Module {
 	 * Opening <form> tag posting to one of this module's action_* methods.
 	 * Close it with </form>.
 	 */
-	public function form( string $action, array $hidden = array(), string $class = 'dfmg-form' ): string {
-		return Game::form_open( $this->id, $action, $hidden, $class );
+	public function form( string $action, array $hidden = array(), string $class = 'dfmg-form', bool $upload = false ): string {
+		return Game::form_open( $this->id, $action, $hidden, $class, $upload );
 	}
 
 	/**

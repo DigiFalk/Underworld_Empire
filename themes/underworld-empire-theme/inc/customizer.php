@@ -24,7 +24,7 @@ function uet_preview_mode( string $key, array $opt ): string {
 	if ( 0 === strpos( $key, 'social_' ) ) {
 		return 'both';
 	}
-	if ( 'color' === $opt['type'] || 'responsive' === $opt['type'] || 'palette' === $key
+	if ( 'color' === $opt['type'] || 'responsive' === $opt['type'] || in_array( $key, array( 'palette', 'light_palette' ), true )
 		|| in_array( $key, array( 'body_line_height', 'heading_weight', 'heading_transform', 'container_width', 'narrow_width', 'button_radius', 'sidebar_width', 'mobile_breakpoint' ), true ) ) {
 		return 'css';
 	}
@@ -53,6 +53,7 @@ function uet_customize_register( WP_Customize_Manager $wp_customize ): void {
 
 	$sections = array(
 		'uet_colors'         => array( 'uet_global', __( 'Colours', 'underworld-empire-theme' ) ),
+		'uet_color_modes'    => array( 'uet_global', __( 'Light & dark mode', 'underworld-empire-theme' ) ),
 		'uet_typography'     => array( 'uet_global', __( 'Typography', 'underworld-empire-theme' ) ),
 		'uet_layout'         => array( 'uet_global', __( 'Container & buttons', 'underworld-empire-theme' ) ),
 		'uet_sidebar'        => array( 'uet_global', __( 'Sidebar', 'underworld-empire-theme' ) ),

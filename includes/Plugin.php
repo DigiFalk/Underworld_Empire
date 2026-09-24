@@ -45,6 +45,7 @@ final class Plugin {
 		}
 
 		Updater::init();
+		Avatar::init();
 		Items::boot();
 		$this->modules->boot_enabled();
 		Migrations::run();

@@ -208,6 +208,7 @@ add_filter( 'dfmg_item_effects', function ( $effects ) {
 | `dfmg_round_open` | `bool` |
 | `dfmg_view_vars` | `array $vars, string $module, string $template` |
 | `dfmg_admin_tables`, `dfmg_admin_save_data` | administration |
+| `dfmg_avatar_updated` (action) | `int $user_id, string $url` – after a player uploaded a new avatar. |
 
 ## Game elements
 
@@ -215,6 +216,7 @@ Game elements can be placed anywhere by the site owner (game layout, theme heade
 widgets, shortcode). Add your own with `dfmg_hud_elements`. The render callback gets the
 alive character of the visitor (or `null` for guests) and the context: `bar` (horizontal),
 `stack` (vertical: sidebar, widgets) or `inline` (shortcode). Return `''` to hide the element.
+Add `'theme' => false` to keep an element out of the theme header/footer builders.
 
 ```php
 add_filter( 'dfmg_hud_elements', function ( array $elements ) {

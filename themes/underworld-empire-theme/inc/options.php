@@ -118,7 +118,8 @@ function uet_options(): array {
 		'right'   => __( 'Right sidebar', 'underworld-empire-theme' ),
 		'left'    => __( 'Left sidebar', 'underworld-empire-theme' ),
 	);
-	$dark = uet_palettes()['dark']['colors'];
+	$dark  = uet_palettes()['dark']['colors'];
+	$light = uet_palettes()['light']['colors'];
 
 	$o = array(
 		/* Colours ----------------------------------------------------------- */
@@ -134,6 +135,25 @@ function uet_options(): array {
 		'color_link_hover'       => array( $dark['link_hover'], 'uet_colors', 'color', __( 'Link hover', 'underworld-empire-theme' ) ),
 		'color_button_bg'        => array( $dark['button_bg'], 'uet_colors', 'color', __( 'Button background', 'underworld-empire-theme' ) ),
 		'color_button_text'      => array( $dark['button_text'], 'uet_colors', 'color', __( 'Button text', 'underworld-empire-theme' ) ),
+		/* Light & dark mode ------------------------------------------------- */
+		'color_mode'             => array( 'single', 'uet_color_modes', 'select', __( 'Light and dark mode', 'underworld-empire-theme' ), array(
+			'single'       => __( 'One colour scheme (only the colours above)', 'underworld-empire-theme' ),
+			'toggle'       => __( 'Dark by default, visitors can switch to light', 'underworld-empire-theme' ),
+			'toggle_light' => __( 'Light by default, visitors can switch to dark', 'underworld-empire-theme' ),
+			'auto'         => __( 'Follow the visitor\'s device, visitors can switch', 'underworld-empire-theme' ),
+		), __( 'With a switch, the Colours section holds the dark mode colours and the colours below are used in light mode. Place the "Light/dark switch" element in the header or footer builder (or the game layout). The choice of the visitor is remembered in their browser.', 'underworld-empire-theme' ) ),
+		'light_palette'          => array( 'light', 'uet_color_modes', 'select', __( 'Light mode palette', 'underworld-empire-theme' ), $palette_choices, __( 'Choosing a palette fills in the light mode colours below.', 'underworld-empire-theme' ) ),
+		'light_color_base' => array( $light['base'], 'uet_color_modes', 'color', __( 'Background', 'underworld-empire-theme' ) ),
+		'light_color_surface' => array( $light['surface'], 'uet_color_modes', 'color', __( 'Surface (boxes, header)', 'underworld-empire-theme' ) ),
+		'light_color_surface_2' => array( $light['surface_2'], 'uet_color_modes', 'color', __( 'Surface 2 (highlights)', 'underworld-empire-theme' ) ),
+		'light_color_border' => array( $light['border'], 'uet_color_modes', 'color', __( 'Borders', 'underworld-empire-theme' ) ),
+		'light_color_text' => array( $light['text'], 'uet_color_modes', 'color', __( 'Text', 'underworld-empire-theme' ) ),
+		'light_color_muted' => array( $light['muted'], 'uet_color_modes', 'color', __( 'Muted text', 'underworld-empire-theme' ) ),
+		'light_color_heading' => array( $light['heading'], 'uet_color_modes', 'color', __( 'Headings', 'underworld-empire-theme' ) ),
+		'light_color_accent' => array( $light['accent'], 'uet_color_modes', 'color', __( 'Accent / links', 'underworld-empire-theme' ) ),
+		'light_color_link_hover' => array( $light['link_hover'], 'uet_color_modes', 'color', __( 'Link hover', 'underworld-empire-theme' ) ),
+		'light_color_button_bg' => array( $light['button_bg'], 'uet_color_modes', 'color', __( 'Button background', 'underworld-empire-theme' ) ),
+		'light_color_button_text' => array( $light['button_text'], 'uet_color_modes', 'color', __( 'Button text', 'underworld-empire-theme' ) ),
 
 		/* Typography -------------------------------------------------------- */
 		'body_font'              => array( 'system', 'uet_typography', 'select', __( 'Body font', 'underworld-empire-theme' ), $font_choices ),
@@ -273,19 +293,33 @@ function uet_opt_r( string $key ): array {
 
 /**
  * Resolved colours: palette values, or the individual colour settings for "custom".
+ *
+ * @param string $set main (the Colours section) or light (light mode colours).
  */
-function uet_colors(): array {
-	$palette  = (string) uet_opt( 'palette' );
+function uet_colors( string $set = 'main' ): array {
+	$light    = 'light' === $set;
+	$palette  = (string) uet_opt( $light ? 'light_palette' : 'palette' );
+	$prefix   = $light ? 'light_color_' : 'color_';
 	$palettes = uet_palettes();
+	$fallback = $palettes[ $light ? 'light' : 'dark' ]['colors'];
 	$colors   = array();
-	foreach ( $palettes['dark']['colors'] as $key => $default ) {
+	foreach ( $fallback as $key => $default ) {
 		$colors[ $key ] = isset( $palettes[ $palette ] )
 			? $palettes[ $palette ]['colors'][ $key ]
-			: ( (string) uet_opt( 'color_' . $key ) ?: $default );
+			: ( (string) uet_opt( $prefix . $key ) ?: $default );
 	}
-	$colors['header_bg']   = (string) uet_opt( 'color_header_bg' ) ?: $colors['surface'];
-	$colors['header_text'] = (string) uet_opt( 'color_header_text' ) ?: $colors['text'];
-	$colors['footer_bg']   = (string) uet_opt( 'color_footer_bg' ) ?: $colors['surface'];
-	$colors['footer_text'] = (string) uet_opt( 'color_footer_text' ) ?: $colors['muted'];
+	// Header and footer colour overrides belong to the main colours.
+	$colors['header_bg']   = ( $light ? '' : (string) uet_opt( 'color_header_bg' ) ) ?: $colors['surface'];
+	$colors['header_text'] = ( $light ? '' : (string) uet_opt( 'color_header_text' ) ) ?: $colors['text'];
+	$colors['footer_bg']   = ( $light ? '' : (string) uet_opt( 'color_footer_bg' ) ) ?: $colors['surface'];
+	$colors['footer_text'] = ( $light ? '' : (string) uet_opt( 'color_footer_text' ) ) ?: $colors['muted'];
 	return $colors;
+}
+
+/**
+ * Light / dark mode setting: single, toggle, toggle_light or auto.
+ */
+function uet_color_mode(): string {
+	$mode = (string) uet_opt( 'color_mode' );
+	return in_array( $mode, array( 'toggle', 'toggle_light', 'auto' ), true ) ? $mode : 'single';
 }
