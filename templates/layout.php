@@ -1,0 +1,90 @@
+<?php
+/**
+ * Game layout.
+ *
+ * @var \DigiFalk\MaffiaGame\Character     $character
+ * @var \DigiFalk\MaffiaGame\Module\Module $module
+ * @var array                              $menu
+ * @var array                              $messages
+ * @var string                             $content
+ *
+ * @package DigiFalk\MaffiaGame
+ */
+
+use DigiFalk\MaffiaGame\Format;
+use DigiFalk\MaffiaGame\Frontend\Game;
+
+defined( 'ABSPATH' ) || exit;
+
+$dfmg_stats = apply_filters(
+	'dfmg_header_stats',
+	array(
+		'rank'     => array( __( 'Rang', 'wp-maffia-game' ), esc_html( $character->rank_name() ) ),
+		'money'    => array( __( 'Contant', 'wp-maffia-game' ), esc_html( Format::money( $character->money ) ) ),
+		'bank'     => array( __( 'Bank', 'wp-maffia-game' ), esc_html( Format::money( $character->bank ) ) ),
+		'bullets'  => array( __( 'Kogels', 'wp-maffia-game' ), esc_html( Format::number( $character->bullets ) ) ),
+		'health'   => array( __( 'Gezondheid', 'wp-maffia-game' ), esc_html( $character->health_percent() . '%' ) ),
+		'location' => array( __( 'Stad', 'wp-maffia-game' ), esc_html( $character->location_name() ) ),
+		'points'   => array( esc_html( (string) \DigiFalk\MaffiaGame\Settings::get( 'points_name' ) ), esc_html( Format::number( $character->points ) ) ),
+	),
+	$character
+);
+?>
+<div class="dfmg-shell">
+	<header class="dfmg-header">
+		<div class="dfmg-header__who">
+			<a class="dfmg-header__name" href="<?php echo esc_url( Game::url() ); ?>"><?php echo esc_html( $character->name ); ?></a>
+			<div class="dfmg-progress" title="<?php echo esc_attr( sprintf( /* translators: %s: percent */ __( '%s%% naar volgende rang', 'wp-maffia-game' ), $character->rank_progress() ) ); ?>">
+				<span style="width:<?php echo esc_attr( (string) $character->rank_progress() ); ?>%"></span>
+			</div>
+		</div>
+		<dl class="dfmg-stats">
+			<?php foreach ( $dfmg_stats as $dfmg_key => $dfmg_stat ) : ?>
+				<div class="dfmg-stat dfmg-stat--<?php echo esc_attr( $dfmg_key ); ?>">
+					<dt><?php echo esc_html( $dfmg_stat[0] ); ?></dt>
+					<dd><?php echo $dfmg_stat[1]; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped above. ?></dd>
+				</div>
+			<?php endforeach; ?>
+		</dl>
+		<button type="button" class="dfmg-menu-toggle" aria-controls="dfmg-nav" aria-expanded="false"><?php esc_html_e( 'Menu', 'wp-maffia-game' ); ?></button>
+	</header>
+
+	<div class="dfmg-body">
+		<nav class="dfmg-nav" id="dfmg-nav">
+			<?php foreach ( $menu as $dfmg_group ) : ?>
+				<div class="dfmg-nav__group">
+					<h4><?php echo esc_html( $dfmg_group['label'] ); ?></h4>
+					<ul>
+						<?php foreach ( $dfmg_group['items'] as $dfmg_item ) : ?>
+							<li class="<?php echo $dfmg_item['route'] === $module->id() ? 'is-active' : ''; ?>">
+								<a href="<?php echo esc_url( $dfmg_item['url'] ); ?>">
+									<span><?php echo esc_html( $dfmg_item['label'] ); ?></span>
+									<?php if ( ! empty( $dfmg_item['badge'] ) ) : ?>
+										<em class="dfmg-badge"><?php echo esc_html( (string) $dfmg_item['badge'] ); ?></em>
+									<?php endif; ?>
+									<?php if ( ! empty( $dfmg_item['timer'] ) && $character->timer_active( $dfmg_item['timer'] ) ) : ?>
+										<small class="dfmg-nav__timer"><?php echo Format::countdown( $character->timer( $dfmg_item['timer'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></small>
+									<?php endif; ?>
+								</a>
+							</li>
+						<?php endforeach; ?>
+					</ul>
+				</div>
+			<?php endforeach; ?>
+			<div class="dfmg-nav__group">
+				<ul>
+					<li><a href="<?php echo esc_url( wp_logout_url( Game::page_url() ) ); ?>"><?php esc_html_e( 'Uitloggen', 'wp-maffia-game' ); ?></a></li>
+				</ul>
+			</div>
+		</nav>
+
+		<main class="dfmg-main">
+			<h2 class="dfmg-title"><?php echo esc_html( $module->title() ); ?></h2>
+			<?php echo Game::template( 'messages', array( 'messages' => $messages ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- modules escape their own output. ?>
+		</main>
+	</div>
+	<footer class="dfmg-footer">
+		<?php echo esc_html( (string) \DigiFalk\MaffiaGame\Settings::get( 'round_name' ) ); ?> &middot; WP Maffia Game &copy; DigiFalk
+	</footer>
+</div>

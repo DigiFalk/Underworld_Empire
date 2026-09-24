@@ -1,0 +1,355 @@
+<?php
+/**
+ * Front end: the [maffia_game] shortcode, routing and action handling.
+ *
+ * Pages:   <game page>?mg=<module id>&...
+ * Actions: POST to admin-post.php with action=dfmg, module=<id>, do=<action>, nonce.
+ *          The module method action_<do>( Character $c, array $input ) is called,
+ *          after which the player is redirected back (Post/Redirect/Get).
+ *
+ * @package DigiFalk\MaffiaGame
+ */
+
+namespace DigiFalk\MaffiaGame\Frontend;
+
+use DigiFalk\MaffiaGame\Character;
+use DigiFalk\MaffiaGame\Flash;
+use DigiFalk\MaffiaGame\Format;
+use DigiFalk\MaffiaGame\Module\Module;
+use DigiFalk\MaffiaGame\Plugin;
+use DigiFalk\MaffiaGame\Property;
+use DigiFalk\MaffiaGame\Settings;
+
+defined( 'ABSPATH' ) || exit;
+
+final class Game {
+
+	const DEFAULT_ROUTE = 'overview';
+
+	public static function init(): void {
+		add_shortcode( 'maffia_game', array( __CLASS__, 'shortcode' ) );
+		add_action( 'admin_post_dfmg', array( __CLASS__, 'handle_action' ) );
+		add_action( 'admin_post_nopriv_dfmg', array( __CLASS__, 'handle_guest_action' ) );
+		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_assets' ) );
+	}
+
+	public static function register_assets(): void {
+		wp_register_style( 'dfmg-game', DFMG_URL . 'assets/css/game.css', array(), DFMG_VERSION );
+		wp_register_script( 'dfmg-game', DFMG_URL . 'assets/js/game.js', array(), DFMG_VERSION, true );
+		if ( is_singular() && has_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ), 'maffia_game' ) ) {
+			wp_enqueue_style( 'dfmg-game' );
+			wp_enqueue_script( 'dfmg-game' );
+		}
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* URLs and forms                                                       */
+	/* ------------------------------------------------------------------ */
+
+	public static function page_url(): string {
+		$page_id = (int) get_option( 'dfmg_page_id' );
+		$url     = $page_id ? get_permalink( $page_id ) : '';
+		return $url ?: home_url( '/' );
+	}
+
+	public static function url( string $route = '', array $args = array() ): string {
+		if ( $route && self::DEFAULT_ROUTE !== $route ) {
+			$args = array_merge( array( 'mg' => $route ), $args );
+		}
+		return $args ? add_query_arg( array_map( 'rawurlencode', $args ), self::page_url() ) : self::page_url();
+	}
+
+	public static function nonce_action( string $module, string $action ): string {
+		return 'dfmg_' . $module . '_' . $action;
+	}
+
+	public static function form_open( string $module, string $action, array $hidden = array(), string $class = 'dfmg-form' ): string {
+		$html  = '<form method="post" class="' . esc_attr( $class ) . '" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">';
+		$html .= '<input type="hidden" name="action" value="dfmg">';
+		$html .= '<input type="hidden" name="module" value="' . esc_attr( $module ) . '">';
+		$html .= '<input type="hidden" name="do" value="' . esc_attr( $action ) . '">';
+		$html .= wp_nonce_field( self::nonce_action( $module, $action ), '_dfmg_nonce', false, false );
+		foreach ( $hidden as $name => $value ) {
+			$html .= '<input type="hidden" name="' . esc_attr( $name ) . '" value="' . esc_attr( (string) $value ) . '">';
+		}
+		return $html;
+	}
+
+	/**
+	 * Render a core template (overridable in <theme>/wp-maffia-game/<name>.php).
+	 */
+	public static function template( string $name, array $vars = array() ): string {
+		$file = locate_template( 'wp-maffia-game/' . $name . '.php' );
+		if ( ! $file ) {
+			$file = DFMG_DIR . 'templates/' . $name . '.php';
+		}
+		ob_start();
+		// phpcs:ignore WordPress.PHP.DontExtract.extract_extract
+		extract( $vars, EXTR_SKIP );
+		include $file;
+		return (string) ob_get_clean();
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Routing                                                              */
+	/* ------------------------------------------------------------------ */
+
+	/**
+	 * Apply restrictions (jail, hospital, ...) to the requested module.
+	 */
+	public static function resolve( Character $c, Module $module ): Module {
+		$route    = (string) apply_filters( 'dfmg_route', $module->id(), $c, $module );
+		$resolved = Plugin::instance()->modules->get( $route );
+		return $resolved ?: $module;
+	}
+
+	private static function query(): array {
+		$query = array();
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		foreach ( wp_unslash( $_GET ) as $key => $value ) {
+			if ( is_scalar( $value ) ) {
+				$query[ sanitize_key( $key ) ] = sanitize_text_field( (string) $value );
+			}
+		}
+		return $query;
+	}
+
+	public static function shortcode(): string {
+		wp_enqueue_style( 'dfmg-game' );
+		wp_enqueue_script( 'dfmg-game' );
+
+		if ( ! is_user_logged_in() ) {
+			return self::wrap( self::template( 'login' ) );
+		}
+
+		$c = Character::current();
+		if ( ! $c ) {
+			return self::wrap( self::template( 'create-character', array( 'messages' => Flash::pull() ) ) );
+		}
+		if ( ! $c->is_alive() ) {
+			return self::wrap(
+				self::template(
+					'dead',
+					array(
+						'character' => $c,
+						'killer'    => Character::find( (int) $c->shot_by ),
+						'messages'  => Flash::pull(),
+					)
+				)
+			);
+		}
+		if ( ! Plugin::round_open() && ! current_user_can( 'dfmg_manage' ) ) {
+			return self::wrap( self::template( 'closed' ) );
+		}
+
+		$c->touch();
+		$c->check_rank();
+		$registry = Plugin::instance()->modules;
+		$query    = self::query();
+		$route    = $query['mg'] ?? self::DEFAULT_ROUTE;
+		$module   = $registry->get( $route ) ?: $registry->get( self::DEFAULT_ROUTE );
+
+		if ( ! $module ) {
+			return self::wrap( '<p>' . esc_html__( 'Er zijn geen modules actief.', 'wp-maffia-game' ) . '</p>' );
+		}
+		if ( $module->id() !== $route ) {
+			Flash::error( __( 'Deze pagina bestaat niet.', 'wp-maffia-game' ) );
+		}
+
+		$module  = self::resolve( $c, $module );
+		$content = $module->render( $c, $query );
+		$c->refresh();
+
+		return self::wrap(
+			self::template(
+				'layout',
+				array(
+					'character' => $c,
+					'module'    => $module,
+					'menu'      => self::menu( $c ),
+					'messages'  => Flash::pull(),
+					'content'   => $content,
+				)
+			)
+		);
+	}
+
+	private static function wrap( string $html ): string {
+		return '<div class="dfmg" data-now="' . esc_attr( (string) time() ) . '">' . $html . '</div>';
+	}
+
+	/**
+	 * Menu grouped by section.
+	 */
+	public static function menu( Character $c ): array {
+		$groups = apply_filters(
+			'dfmg_menu_groups',
+			array(
+				'general'   => __( 'Algemeen', 'wp-maffia-game' ),
+				'crime'     => __( 'Misdaad', 'wp-maffia-game' ),
+				'city'      => __( 'Stad', 'wp-maffia-game' ),
+				'casino'    => __( 'Casino', 'wp-maffia-game' ),
+				'murder'    => __( 'Moord', 'wp-maffia-game' ),
+				'family'    => __( 'Familie', 'wp-maffia-game' ),
+				'money'     => __( 'Bezit', 'wp-maffia-game' ),
+				'premium'   => __( 'Premium', 'wp-maffia-game' ),
+				'community' => __( 'Community', 'wp-maffia-game' ),
+			)
+		);
+
+		$items = array();
+		foreach ( Plugin::instance()->modules->active() as $module ) {
+			foreach ( $module->menu( $c ) as $item ) {
+				$item['route'] = $item['route'] ?? $module->id();
+				$items[]       = $item;
+			}
+		}
+		$items = apply_filters( 'dfmg_menu_items', $items, $c );
+
+		$out = array();
+		foreach ( $groups as $key => $label ) {
+			$out[ $key ] = array(
+				'label' => $label,
+				'items' => array(),
+			);
+		}
+		foreach ( $items as $item ) {
+			$group = $item['group'] ?? 'general';
+			if ( ! isset( $out[ $group ] ) ) {
+				$out[ $group ] = array(
+					'label' => ucfirst( $group ),
+					'items' => array(),
+				);
+			}
+			$item['url']              = self::url( $item['route'], $item['args'] ?? array() );
+			$out[ $group ]['items'][] = $item;
+		}
+		foreach ( $out as $key => $group ) {
+			if ( ! $group['items'] ) {
+				unset( $out[ $key ] );
+				continue;
+			}
+			usort(
+				$out[ $key ]['items'],
+				static function ( $a, $b ) {
+					return ( $a['order'] ?? 50 ) <=> ( $b['order'] ?? 50 );
+				}
+			);
+		}
+		return $out;
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Actions                                                              */
+	/* ------------------------------------------------------------------ */
+
+	public static function handle_guest_action(): void {
+		wp_safe_redirect( wp_login_url( self::page_url() ) );
+		exit;
+	}
+
+	public static function handle_action(): void {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- verified below.
+		$module_id = sanitize_key( wp_unslash( $_POST['module'] ?? '' ) );
+		$action    = sanitize_key( wp_unslash( $_POST['do'] ?? '' ) );
+		$input     = wp_unslash( $_POST );
+		// phpcs:enable
+
+		if ( ! wp_verify_nonce( sanitize_text_field( $input['_dfmg_nonce'] ?? '' ), self::nonce_action( $module_id, $action ) ) ) {
+			Flash::error( __( 'Je sessie is verlopen, probeer het opnieuw.', 'wp-maffia-game' ) );
+			self::redirect( 'core' === $module_id ? '' : $module_id );
+		}
+
+		if ( 'core' === $module_id && 'create_character' === $action ) {
+			self::core_action( $action, $input );
+		}
+
+		$c = Character::current();
+		if ( ! $c || ! $c->is_alive() ) {
+			self::redirect( '' );
+		}
+		if ( ! Plugin::round_open() && ! current_user_can( 'dfmg_manage' ) ) {
+			self::redirect( '' );
+		}
+
+		if ( 'core' === $module_id && 'buy_property' === $action ) {
+			self::buy_property( $c, $input );
+		}
+
+		$registry = Plugin::instance()->modules;
+		$module   = $registry->get( $module_id );
+		$method   = 'action_' . str_replace( '-', '_', $action );
+		if ( ! $module || ! is_callable( array( $module, $method ) ) ) {
+			Flash::error( __( 'Onbekende actie.', 'wp-maffia-game' ) );
+			self::redirect( '' );
+		}
+
+		$resolved = self::resolve( $c, $module );
+		if ( $resolved->id() !== $module->id() ) {
+			Flash::error( __( 'Dat kan nu niet.', 'wp-maffia-game' ) );
+			self::redirect( $resolved->id() );
+		}
+
+		$args = $module->{$method}( $c, $input );
+		do_action( 'dfmg_after_action', $c, $module_id, $action );
+
+		$args  = is_array( $args ) ? $args : array();
+		$route = $args['mg'] ?? $module_id;
+		unset( $args['mg'] );
+		self::redirect( $route, $args );
+	}
+
+	/**
+	 * Actions that do not require an alive character.
+	 */
+	private static function core_action( string $action, array $input ): void {
+		if ( 'create_character' === $action ) {
+			$result = Character::create( get_current_user_id(), sanitize_text_field( $input['name'] ?? '' ) );
+			if ( is_wp_error( $result ) ) {
+				Flash::error( $result->get_error_message() );
+			} else {
+				/* translators: %s: character name */
+				Flash::success( sprintf( __( 'Welkom in de onderwereld, %s.', 'wp-maffia-game' ), $result->name ) );
+			}
+		}
+		self::redirect( '' );
+	}
+
+	/**
+	 * Buy an unowned property in the current city.
+	 */
+	private static function buy_property( Character $c, array $input ): void {
+		$type   = sanitize_key( $input['type'] ?? '' );
+		$config = Property::type( $type );
+		$route  = sanitize_key( $input['return'] ?? '' );
+		if ( ! $config ) {
+			Flash::error( __( 'Dit bezit bestaat niet.', 'wp-maffia-game' ) );
+			self::redirect( $route );
+		}
+		$property = Property::get( $type, (int) $c->location_id );
+		if ( $property->is_owned() ) {
+			Flash::error( __( 'Dit bezit heeft al een eigenaar.', 'wp-maffia-game' ) );
+			self::redirect( $route );
+		}
+		$price = $property->buy_price();
+		if ( ! $c->spend( 'money', $price ) ) {
+			/* translators: %s: money */
+			Flash::error( sprintf( __( 'Je hebt %s contant nodig.', 'wp-maffia-game' ), Format::money( $price ) ) );
+			self::redirect( $route );
+		}
+		$property->transfer( $c->id() );
+		$c->log( 'property.buy', true, $price, $property->location_id() );
+		/* translators: 1: property, 2: city */
+		Flash::success( sprintf( __( 'Gefeliciteerd, %1$s in %2$s is nu van jou.', 'wp-maffia-game' ), $property->label(), $c->location_name() ) );
+		self::redirect( $route );
+	}
+
+	/**
+	 * @return never
+	 */
+	public static function redirect( string $route, array $args = array() ): void {
+		Flash::persist();
+		wp_safe_redirect( self::url( $route, $args ) );
+		exit;
+	}
+}
