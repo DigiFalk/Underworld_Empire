@@ -1,16 +1,16 @@
 <?php
 /**
- * @var \DigiFalk\MaffiaGame\Character $c
- * @var \DigiFalk\MaffiaGame\Character $target
+ * @var \DigiFalk\MafiaGame\Character $c
+ * @var \DigiFalk\MafiaGame\Character $target
  * @var bool                           $own
  * @var array                          $fields  Label => HTML.
  * @var array                          $actions HTML buttons.
  * @var string                         $avatar
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-use DigiFalk\MaffiaGame\Format;
+use DigiFalk\MafiaGame\Format;
 
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -33,11 +33,11 @@ defined( 'ABSPATH' ) || exit;
 </div>
 <?php if ( $own ) : ?>
 	<div class="dfmg-card">
-		<h3><?php esc_html_e( 'Edit profile text', 'wp-maffia-game' ); ?></h3>
+		<h3><?php esc_html_e( 'Edit profile text', 'wp-mafia-game' ); ?></h3>
 		<?php echo $this->form( 'bio', array(), 'dfmg-form dfmg-form--stacked' ); // phpcs:ignore ?>
 			<textarea name="bio" rows="6"><?php echo esc_textarea( (string) $target->bio ); ?></textarea>
-			<p class="dfmg-muted"><?php esc_html_e( 'Allowed: bold, italic, links and lists. Your profile picture comes from Gravatar.', 'wp-maffia-game' ); ?></p>
-			<button type="submit" class="dfmg-button"><?php esc_html_e( 'Save', 'wp-maffia-game' ); ?></button>
+			<p class="dfmg-muted"><?php esc_html_e( 'Allowed: bold, italic, links and lists. Your profile picture comes from Gravatar.', 'wp-mafia-game' ); ?></p>
+			<button type="submit" class="dfmg-button"><?php esc_html_e( 'Save', 'wp-mafia-game' ); ?></button>
 		</form>
 	</div>
 <?php endif; ?>

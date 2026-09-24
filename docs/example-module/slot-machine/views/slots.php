@@ -1,21 +1,21 @@
 <?php
 /**
- * Themes can override this file with <theme>/wp-maffia-game/slot-machine/slots.php
+ * Themes can override this file with <theme>/wp-mafia-game/slot-machine/slots.php
  *
- * @var \DigiFalk\MaffiaGame\Character $c
+ * @var \DigiFalk\MafiaGame\Character $c
  * @var int                            $bet
  * @var array|false                    $last
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Frontend\UI;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Frontend\UI;
 
 defined( 'ABSPATH' ) || exit;
 
 if ( $c->timer_active( 'slots' ) ) {
-	echo UI::cooldown( __( 'You can spin again in', 'wp-maffia-game' ), $c->timer( 'slots' ) ); // phpcs:ignore
+	echo UI::cooldown( __( 'You can spin again in', 'wp-mafia-game' ), $c->timer( 'slots' ) ); // phpcs:ignore
 }
 ?>
 <div class="dfmg-card">
@@ -26,6 +26,6 @@ if ( $c->timer_active( 'slots' ) ) {
 			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
-	<p><?php echo esc_html( sprintf( /* translators: %s: money */ __( 'Bet: %s. Two of a kind = 2x, three of a kind = 20x.', 'wp-maffia-game' ), Format::money( $bet ) ) ); ?></p>
-	<?php echo $this->button( 'spin', __( 'Spin!', 'wp-maffia-game' ) ); // phpcs:ignore ?>
+	<p><?php echo esc_html( sprintf( /* translators: %s: money */ __( 'Bet: %s. Two of a kind = 2x, three of a kind = 20x.', 'wp-mafia-game' ), Format::money( $bet ) ) ); ?></p>
+	<?php echo $this->button( 'spin', __( 'Spin!', 'wp-mafia-game' ) ); // phpcs:ignore ?>
 </div>

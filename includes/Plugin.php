@@ -2,14 +2,14 @@
 /**
  * Plugin bootstrap.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame;
+namespace DigiFalk\MafiaGame;
 
-use DigiFalk\MaffiaGame\Admin\Admin;
-use DigiFalk\MaffiaGame\Frontend\Game;
-use DigiFalk\MaffiaGame\Module\Registry;
+use DigiFalk\MafiaGame\Admin\Admin;
+use DigiFalk\MafiaGame\Frontend\Game;
+use DigiFalk\MafiaGame\Module\Registry;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -34,7 +34,7 @@ final class Plugin {
 	}
 
 	private function boot(): void {
-		load_plugin_textdomain( 'wp-maffia-game', false, dirname( plugin_basename( DFMG_FILE ) ) . '/languages' );
+		load_plugin_textdomain( 'wp-mafia-game', false, dirname( plugin_basename( DFMG_FILE ) ) . '/languages' );
 
 		Installer::maybe_upgrade();
 
@@ -42,6 +42,7 @@ final class Plugin {
 			Settings::register_default( $key, $field['default'] );
 		}
 
+		Updater::init();
 		Items::boot();
 		$this->modules->boot_enabled();
 

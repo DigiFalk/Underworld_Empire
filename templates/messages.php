@@ -4,7 +4,7 @@
  *
  * @var array $messages
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
 defined( 'ABSPATH' ) || exit;

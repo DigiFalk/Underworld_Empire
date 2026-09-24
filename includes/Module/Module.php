@@ -13,19 +13,19 @@
  *    * Author: DigiFalk
  *    * Requires: bank, garage
  *    * /
- *   return new class extends \DigiFalk\MaffiaGame\Module\Module { ... };
+ *   return new class extends \DigiFalk\MafiaGame\Module\Module { ... };
  *
  * See docs/MODULES.md for the full guide.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Module;
+namespace DigiFalk\MafiaGame\Module;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\Flash;
-use DigiFalk\MaffiaGame\Frontend\Game;
-use DigiFalk\MaffiaGame\Settings;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\Flash;
+use DigiFalk\MafiaGame\Frontend\Game;
+use DigiFalk\MafiaGame\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -206,10 +206,10 @@ abstract class Module {
 
 	/**
 	 * Render a template from views/ in the module directory. Themes can override it
-	 * by placing a file in <theme>/wp-maffia-game/<module-id>/<template>.php.
+	 * by placing a file in <theme>/wp-mafia-game/<module-id>/<template>.php.
 	 */
 	public function view( string $template, array $vars = array() ): string {
-		$file = locate_template( 'wp-maffia-game/' . $this->id . '/' . $template . '.php' );
+		$file = locate_template( 'wp-mafia-game/' . $this->id . '/' . $template . '.php' );
 		if ( ! $file ) {
 			$file = $this->dir . 'views/' . $template . '.php';
 		}

@@ -6,29 +6,29 @@
  * Author: DigiFalk
  * Requires: inventory
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Modules;
+namespace DigiFalk\MafiaGame\Modules;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\DB;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Items;
-use DigiFalk\MaffiaGame\Module\Module;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\DB;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Items;
+use DigiFalk\MafiaGame\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 final class BlackMarket extends Module {
 
 	public function title(): string {
-		return __( 'Black market', 'wp-maffia-game' );
+		return __( 'Black market', 'wp-mafia-game' );
 	}
 
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Black market', 'wp-maffia-game' ),
+				'label' => __( 'Black market', 'wp-mafia-game' ),
 				'group' => 'city',
 				'order' => 50,
 			),
@@ -55,7 +55,7 @@ final class BlackMarket extends Module {
 		$item = Items::get( absint( $input['item'] ?? 0 ) );
 		$qty  = max( 1, min( 100, absint( $input['qty'] ?? 1 ) ) );
 		if ( ! $item || ! (int) $item['buyable'] ) {
-			$this->error( __( 'This item isn\'t sold here.', 'wp-maffia-game' ) );
+			$this->error( __( 'This item isn\'t sold here.', 'wp-mafia-game' ) );
 			return;
 		}
 		$check = apply_filters( 'dfmg_can_buy_item', true, $c, $item, $qty );
@@ -66,13 +66,13 @@ final class BlackMarket extends Module {
 		$cost = (int) $item['price'] * $qty;
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'wp-mafia-game' ), Format::money( $cost ) ) );
 			return;
 		}
 		Items::give( $c, (int) $item['id'], $qty );
 		$c->log( 'black-market.buy', true, $cost, (int) $item['id'] );
 		/* translators: 1: quantity, 2: item, 3: money */
-		$this->success( sprintf( __( 'You bought %1$dx %2$s for %3$s. You\'ll find it in your inventory.', 'wp-maffia-game' ), $qty, $item['name'], Format::money( $cost ) ) );
+		$this->success( sprintf( __( 'You bought %1$dx %2$s for %3$s. You\'ll find it in your inventory.', 'wp-mafia-game' ), $qty, $item['name'], Format::money( $cost ) ) );
 	}
 }
 

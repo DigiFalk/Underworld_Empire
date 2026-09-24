@@ -5,15 +5,15 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Modules;
+namespace DigiFalk\MafiaGame\Modules;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Locations;
-use DigiFalk\MaffiaGame\Module\Module;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Locations;
+use DigiFalk\MafiaGame\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,13 +22,13 @@ final class Travel extends Module {
 	const TIMER = 'travel';
 
 	public function title(): string {
-		return __( 'Airport', 'wp-maffia-game' );
+		return __( 'Airport', 'wp-mafia-game' );
 	}
 
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Travel', 'wp-maffia-game' ),
+				'label' => __( 'Travel', 'wp-mafia-game' ),
 				'group' => 'city',
 				'order' => 10,
 				'timer' => self::TIMER,
@@ -67,16 +67,16 @@ final class Travel extends Module {
 			}
 		}
 		if ( ! $dest ) {
-			$this->error( __( 'There are no flights to that destination.', 'wp-maffia-game' ) );
+			$this->error( __( 'There are no flights to that destination.', 'wp-mafia-game' ) );
 			return;
 		}
 		if ( $c->timer_active( self::TIMER ) ) {
-			$this->error( __( 'You just landed. Wait until you\'re allowed to fly again.', 'wp-maffia-game' ) );
+			$this->error( __( 'You just landed. Wait until you\'re allowed to fly again.', 'wp-mafia-game' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', (int) $dest['travel_cost'] ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'A ticket costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $dest['travel_cost'] ) ) );
+			$this->error( sprintf( __( 'A ticket costs %s. You don\'t have that in cash.', 'wp-mafia-game' ), Format::money( $dest['travel_cost'] ) ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) Locations::get( $id )['travel_time'] ) ) {
@@ -87,7 +87,7 @@ final class Travel extends Module {
 		$c->log( 'travel', true, (int) $dest['travel_cost'], $id );
 		do_action( 'dfmg_travelled', $c, $id );
 		/* translators: %s: city */
-		$this->success( sprintf( __( 'Welcome to %s!', 'wp-maffia-game' ), $dest['name'] ) );
+		$this->success( sprintf( __( 'Welcome to %s!', 'wp-mafia-game' ), $dest['name'] ) );
 	}
 }
 

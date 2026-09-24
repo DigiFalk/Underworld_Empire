@@ -2,10 +2,10 @@
 /**
  * Rank (experience) and wealth titles.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame;
+namespace DigiFalk\MafiaGame;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -36,7 +36,7 @@ final class Ranks {
 		$all = self::all();
 		return $all ? $all[0] : array(
 			'id'            => 0,
-			'name'          => __( 'Unknown', 'wp-maffia-game' ),
+			'name'          => __( 'Unknown', 'wp-mafia-game' ),
 			'exp_required'  => 0,
 			'max_players'   => 0,
 			'cash_reward'   => 0,

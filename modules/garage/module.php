@@ -5,22 +5,22 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Modules;
+namespace DigiFalk\MafiaGame\Modules;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\DB;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Module\Module;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\DB;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Garage extends Module {
 
 	public function title(): string {
-		return __( 'Garage', 'wp-maffia-game' );
+		return __( 'Garage', 'wp-mafia-game' );
 	}
 
 	public function schema(): array {
@@ -73,17 +73,17 @@ final class Garage extends Module {
 	public function settings_fields(): array {
 		return array(
 			'garage_crush_rate'    => array(
-				'label'       => __( 'Car crusher: value per bullet', 'wp-maffia-game' ),
+				'label'       => __( 'Car crusher: value per bullet', 'wp-mafia-game' ),
 				'type'        => 'int',
 				'default'     => 15,
 			),
 			'garage_repair_factor' => array(
-				'label'   => __( 'Repair cost (% of damage value)', 'wp-maffia-game' ),
+				'label'   => __( 'Repair cost (% of damage value)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 80,
 			),
 			'garage_ship_percent'  => array(
-				'label'   => __( 'Shipping cost (% of car value)', 'wp-maffia-game' ),
+				'label'   => __( 'Shipping cost (% of car value)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 10,
 			),
@@ -93,17 +93,17 @@ final class Garage extends Module {
 	public function admin_tables(): array {
 		return array(
 			'cars' => array(
-				'label'   => __( "Auto's", 'wp-maffia-game' ),
+				'label'   => __( "Auto's", 'wp-mafia-game' ),
 				'table'   => 'cars',
 				'order'   => 'value ASC',
 				'columns' => array(
-					'name'   => array( 'label' => __( 'Name', 'wp-maffia-game' ), 'required' => true ),
-					'value'  => array( 'label' => __( 'Value', 'wp-maffia-game' ), 'type' => 'int' ),
+					'name'   => array( 'label' => __( 'Name', 'wp-mafia-game' ), 'required' => true ),
+					'value'  => array( 'label' => __( 'Value', 'wp-mafia-game' ), 'type' => 'int' ),
 					'rarity' => array(
-						'label'       => __( 'Rarity (weight)', 'wp-maffia-game' ),
+						'label'       => __( 'Rarity (weight)', 'wp-mafia-game' ),
 						'type'        => 'int',
 						'default'     => 100,
-						'description' => __( 'The higher, the more often this car gets stolen.', 'wp-maffia-game' ),
+						'description' => __( 'The higher, the more often this car gets stolen.', 'wp-mafia-game' ),
 					),
 				),
 			),
@@ -114,7 +114,7 @@ final class Garage extends Module {
 		$count = (int) DB::value( 'SELECT COUNT(*) FROM {garage} WHERE character_id = %d', $c->id() );
 		return array(
 			array(
-				'label' => __( 'Garage', 'wp-maffia-game' ),
+				'label' => __( 'Garage', 'wp-mafia-game' ),
 				'group' => 'money',
 				'order' => 30,
 				'badge' => $count ?: '',
@@ -152,14 +152,14 @@ final class Garage extends Module {
 			$c->id()
 		);
 		if ( ! $row ) {
-			$this->error( __( 'This car is not in your garage.', 'wp-maffia-game' ) );
+			$this->error( __( 'This car is not in your garage.', 'wp-mafia-game' ) );
 		}
 		return $row;
 	}
 
 	private function here( Character $c, array $row ): bool {
 		if ( (int) $row['location_id'] !== (int) $c->location_id ) {
-			$this->error( __( 'This car is in another city. Ship it here first.', 'wp-maffia-game' ) );
+			$this->error( __( 'This car is in another city. Ship it here first.', 'wp-mafia-game' ) );
 			return false;
 		}
 		return true;
@@ -210,7 +210,7 @@ final class Garage extends Module {
 			$c->add( 'money', $worth );
 			$c->log( 'garage.sell', true, $worth, (int) $row['car_id'] );
 			/* translators: 1: car, 2: money */
-			$this->success( sprintf( __( 'You sold your %1$s for %2$s.', 'wp-maffia-game' ), $row['name'], Format::money( $worth ) ) );
+			$this->success( sprintf( __( 'You sold your %1$s for %2$s.', 'wp-mafia-game' ), $row['name'], Format::money( $worth ) ) );
 		}
 	}
 
@@ -224,7 +224,7 @@ final class Garage extends Module {
 			$c->add( 'bullets', $bullets );
 			$c->log( 'garage.crush', true, $bullets, (int) $row['car_id'] );
 			/* translators: 1: car, 2: bullets */
-			$this->success( sprintf( __( 'Your %1$s went into the crusher. You got %2$s bullets.', 'wp-maffia-game' ), $row['name'], Format::number( $bullets ) ) );
+			$this->success( sprintf( __( 'Your %1$s went into the crusher. You got %2$s bullets.', 'wp-mafia-game' ), $row['name'], Format::number( $bullets ) ) );
 		}
 	}
 
@@ -234,18 +234,18 @@ final class Garage extends Module {
 			return;
 		}
 		if ( ! (int) $row['damage'] ) {
-			$this->error( __( 'This car has no damage.', 'wp-maffia-game' ) );
+			$this->error( __( 'This car has no damage.', 'wp-mafia-game' ) );
 			return;
 		}
 		$cost = $this->repair_cost( $row );
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'The repair costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'The repair costs %s. You don\'t have that in cash.', 'wp-mafia-game' ), Format::money( $cost ) ) );
 			return;
 		}
 		DB::update( 'garage', array( 'damage' => 0 ), array( 'id' => $row['id'] ) );
 		/* translators: 1: car, 2: money */
-		$this->success( sprintf( __( 'Your %1$s is as good as new. Cost: %2$s.', 'wp-maffia-game' ), $row['name'], Format::money( $cost ) ) );
+		$this->success( sprintf( __( 'Your %1$s is as good as new. Cost: %2$s.', 'wp-mafia-game' ), $row['name'], Format::money( $cost ) ) );
 	}
 
 	public function action_ship( Character $c, array $input ): void {
@@ -254,18 +254,18 @@ final class Garage extends Module {
 			return;
 		}
 		if ( (int) $row['location_id'] === (int) $c->location_id ) {
-			$this->error( __( 'This car is already in this city.', 'wp-maffia-game' ) );
+			$this->error( __( 'This car is already in this city.', 'wp-mafia-game' ) );
 			return;
 		}
 		$cost = $this->ship_cost( $row );
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Shipping costs %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'Shipping costs %s. You don\'t have that in cash.', 'wp-mafia-game' ), Format::money( $cost ) ) );
 			return;
 		}
 		DB::update( 'garage', array( 'location_id' => (int) $c->location_id ), array( 'id' => $row['id'] ) );
 		/* translators: 1: car, 2: city */
-		$this->success( sprintf( __( 'Your %1$s is now in %2$s.', 'wp-maffia-game' ), $row['name'], $c->location_name() ) );
+		$this->success( sprintf( __( 'Your %1$s is now in %2$s.', 'wp-mafia-game' ), $row['name'], $c->location_name() ) );
 	}
 }
 

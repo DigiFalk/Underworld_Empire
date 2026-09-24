@@ -2,15 +2,15 @@
 /**
  * @var string $active
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
 defined( 'ABSPATH' ) || exit;
 
 $dfmg_tabs = array(
-	'inbox'   => __( 'Inbox', 'wp-maffia-game' ),
-	'sent'    => __( 'Sent', 'wp-maffia-game' ),
-	'compose' => __( 'New message', 'wp-maffia-game' ),
+	'inbox'   => __( 'Inbox', 'wp-mafia-game' ),
+	'sent'    => __( 'Sent', 'wp-mafia-game' ),
+	'compose' => __( 'New message', 'wp-mafia-game' ),
 );
 ?>
 <nav class="dfmg-tabs">

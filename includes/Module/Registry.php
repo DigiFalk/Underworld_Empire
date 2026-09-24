@@ -4,16 +4,16 @@
  *
  * Modules are found in:
  *  1. <plugin>/modules/<id>/module.php            (bundled)
- *  2. wp-content/maffia-modules/<id>/module.php   (your own, survives updates; overrides bundled modules with the same id)
+ *  2. wp-content/mafia-modules/<id>/module.php   (your own, survives updates; overrides bundled modules with the same id)
  *  3. Other plugins: add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( '/path/to/module.php' ) );
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Module;
+namespace DigiFalk\MafiaGame\Module;
 
-use DigiFalk\MaffiaGame\DB;
-use DigiFalk\MaffiaGame\Settings;
+use DigiFalk\MafiaGame\DB;
+use DigiFalk\MafiaGame\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -215,18 +215,18 @@ final class Registry {
 	public function enable( string $id ) {
 		$info = $this->info( $id );
 		if ( ! $info ) {
-			return new \WP_Error( 'module', __( 'Module not found.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'module', __( 'Module not found.', 'wp-mafia-game' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $info['requires'] as $dep ) {
 			if ( ! in_array( $dep, $enabled, true ) ) {
 				/* translators: 1: module, 2: required module */
-				return new \WP_Error( 'module', sprintf( __( '%1$s requires the module "%2$s". Enable that one first.', 'wp-maffia-game' ), $info['name'], $dep ) );
+				return new \WP_Error( 'module', sprintf( __( '%1$s requires the module "%2$s". Enable that one first.', 'wp-mafia-game' ), $info['name'], $dep ) );
 			}
 		}
 		$module = $this->load( $id );
 		if ( ! $module ) {
-			return new \WP_Error( 'module', __( 'Module could not be loaded.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'module', __( 'Module could not be loaded.', 'wp-mafia-game' ) );
 		}
 		$this->install( $module );
 		if ( ! in_array( $id, $enabled, true ) ) {
@@ -243,16 +243,16 @@ final class Registry {
 	public function disable( string $id ) {
 		$info = $this->info( $id );
 		if ( ! $info ) {
-			return new \WP_Error( 'module', __( 'Module not found.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'module', __( 'Module not found.', 'wp-mafia-game' ) );
 		}
 		if ( $info['required'] ) {
-			return new \WP_Error( 'module', __( 'This module is required and can\'t be disabled.', 'wp-maffia-game' ) );
+			return new \WP_Error( 'module', __( 'This module is required and can\'t be disabled.', 'wp-mafia-game' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $enabled as $other ) {
 			if ( in_array( $id, $this->info( $other )['requires'], true ) ) {
 				/* translators: %s: module name */
-				return new \WP_Error( 'module', sprintf( __( 'The module "%s" requires this module. Disable that one first.', 'wp-maffia-game' ), $this->info( $other )['name'] ) );
+				return new \WP_Error( 'module', sprintf( __( 'The module "%s" requires this module. Disable that one first.', 'wp-mafia-game' ), $this->info( $other )['name'] ) );
 			}
 		}
 		update_option( self::OPTION_ENABLED, array_values( array_diff( $enabled, array( $id ) ) ) );

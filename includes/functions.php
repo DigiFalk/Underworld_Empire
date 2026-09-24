@@ -2,13 +2,13 @@
 /**
  * Public helper functions, handy for themes and custom modules.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Plugin;
-use DigiFalk\MaffiaGame\Settings;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Plugin;
+use DigiFalk\MafiaGame\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -57,5 +57,5 @@ function dfmg_money( $amount ) {
  * @return string
  */
 function dfmg_url( $route = '', $args = array() ) {
-	return \DigiFalk\MaffiaGame\Frontend\Game::url( $route, $args );
+	return \DigiFalk\MafiaGame\Frontend\Game::url( $route, $args );
 }

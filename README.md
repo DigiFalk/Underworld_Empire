@@ -11,14 +11,11 @@ buying businesses, gambling at the casino and taking out rivals.
 1. Upload the folder to `wp-content/plugins/` (or install the zip via *Plugins → Add New*).
 2. Activate **WP Mafia Game**.
 3. On activation the tables are created, starting data is loaded and a page
-   **Mafia Game** is created containing the shortcode `[maffia_game]`.
+   **Mafia Game** is created containing the shortcode `[mafia_game]`.
 4. Enable *Settings → General → Anyone can register* if players may create their own account.
 5. Manage everything under the **Mafia Game** menu in the WordPress admin.
 
 Requirements: WordPress 6.0+, PHP 7.4+, MySQL 5.7+/MariaDB 10.3+.
-
-> The plugin slug, text domain (`wp-maffia-game`), shortcode (`[maffia_game]`) and PHP namespace
-> (`DigiFalk\MaffiaGame`) keep the original project name so existing installs keep working.
 
 ## Administration
 
@@ -65,7 +62,7 @@ Requirements: WordPress 6.0+, PHP 7.4+, MySQL 5.7+/MariaDB 10.3+.
 ## Custom modules
 
 The game is fully modular. A module is a folder containing a `module.php`. Put your own
-modules in **`wp-content/maffia-modules/<module-id>/`**: that folder survives plugin
+modules in **`wp-content/mafia-modules/<module-id>/`**: that folder survives plugin
 updates. Then enable the module under *Mafia Game → Modules*.
 
 See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
@@ -75,12 +72,36 @@ See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
 
 * All colours are CSS custom properties on `.dfmg` (see `assets/css/game.css`) and can be overridden in your theme.
 * Every template can be overridden from your theme:
-  * core templates: `<theme>/wp-maffia-game/layout.php`, `login.php`, `create-character.php`, `dead.php`, `closed.php`, `messages.php`
-  * module templates: `<theme>/wp-maffia-game/<module-id>/<template>.php`
+  * core templates: `<theme>/wp-mafia-game/layout.php`, `login.php`, `create-character.php`, `dead.php`, `closed.php`, `messages.php`
+  * module templates: `<theme>/wp-mafia-game/<module-id>/<template>.php`
+
+## Updates
+
+The plugin updates itself through the normal WordPress update screen. It checks the
+[GitHub releases](https://github.com/DigiFalk/WP_Maffia_Game/releases) of this repository
+(every 12 hours, or immediately via the *Check for updates* link on the Plugins screen)
+and installs the `wp-mafia-game.zip` asset of the newest release.
+
+Optional settings in `wp-config.php`:
+
+```php
+define( 'DFMG_UPDATE_REPO', 'DigiFalk/WP_Maffia_Game' ); // repository to take releases from
+define( 'DFMG_GITHUB_TOKEN', 'ghp_...' );                // only needed for a private repository
+```
+
+### Publishing a release
+
+Every version is released automatically by the GitHub Actions workflow
+`.github/workflows/release.yml`:
+
+1. Raise the version in **both** the `Version:` header and `DFMG_VERSION` in `wp-mafia-game.php`.
+2. Add a `## x.y.z` section to `CHANGELOG.md` (used as the release notes).
+3. Push to the default branch. The workflow builds `wp-mafia-game.zip`, tags `vx.y.z` and
+   publishes the release. Pushes without a version change don't create a release.
 
 ## Translations
 
-All strings use the text domain `wp-maffia-game` and can be translated with the usual
+All strings use the text domain `wp-mafia-game` and can be translated with the usual
 WordPress tools (for example Loco Translate) into the `languages/` folder.
 
 ## License

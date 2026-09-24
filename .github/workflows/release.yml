@@ -1,0 +1,70 @@
+name: Release
+
+# Publishes a GitHub release for every new plugin version pushed to the default branch.
+# Raise "Version:" and DFMG_VERSION in wp-mafia-game.php and add a CHANGELOG.md section.
+
+on:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    if: github.ref_name == github.event.repository.default_branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read version
+        id: version
+        run: |
+          header=$(grep -m1 -E '^\s*\*\s*Version:' wp-mafia-game.php | sed -E 's/.*Version:\s*//' | tr -d '[:space:]')
+          constant=$(grep -m1 "define( 'DFMG_VERSION'" wp-mafia-game.php | sed -E "s/.*'DFMG_VERSION', '([^']+)'.*/\1/")
+          if [ "$header" != "$constant" ]; then
+            echo "::error::Version header ($header) and DFMG_VERSION ($constant) differ."
+            exit 1
+          fi
+          echo "version=$header" >> "$GITHUB_OUTPUT"
+          if git ls-remote --exit-code --tags origin "refs/tags/v$header" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Check PHP syntax
+        if: steps.version.outputs.exists == 'false'
+        run: find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l > /dev/null
+
+      - name: Build zip
+        if: steps.version.outputs.exists == 'false'
+        run: |
+          mkdir -p build/wp-mafia-game
+          rsync -a --exclude '.git' --exclude '.github' --exclude 'build' --exclude '.gitattributes' --exclude '.gitignore' ./ build/wp-mafia-game/
+          cd build && zip -rq wp-mafia-game.zip wp-mafia-game
+
+      - name: Release notes
+        if: steps.version.outputs.exists == 'false'
+        run: |
+          awk -v v="${{ steps.version.outputs.version }}" '
+            $0 ~ "^## " v "([^0-9.]|$)" { found = 1; next }
+            found && /^## / { exit }
+            found { print }
+          ' CHANGELOG.md > build/notes.md
+          [ -s build/notes.md ] || echo "Release ${{ steps.version.outputs.version }}" > build/notes.md
+
+      - name: Publish release
+        if: steps.version.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "v${{ steps.version.outputs.version }}" build/wp-mafia-game.zip \
+            --target "$GITHUB_SHA" \
+            --title "WP Mafia Game ${{ steps.version.outputs.version }}" \
+            --notes-file build/notes.md \
+            --latest

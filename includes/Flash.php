@@ -2,10 +2,10 @@
 /**
  * One-time messages shown after a redirect.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame;
+namespace DigiFalk\MafiaGame;
 
 defined( 'ABSPATH' ) || exit;
 

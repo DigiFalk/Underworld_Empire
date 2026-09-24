@@ -2,10 +2,10 @@
 /**
  * Game settings, stored in a single option.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame;
+namespace DigiFalk\MafiaGame;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -70,57 +70,57 @@ final class Settings {
 	public static function core_fields(): array {
 		return array(
 			'currency_symbol'    => array(
-				'label'   => __( 'Currency symbol', 'wp-maffia-game' ),
+				'label'   => __( 'Currency symbol', 'wp-mafia-game' ),
 				'type'    => 'text',
 				'default' => '$',
 			),
 			'points_name'        => array(
-				'label'   => __( 'Name of premium points', 'wp-maffia-game' ),
+				'label'   => __( 'Name of premium points', 'wp-mafia-game' ),
 				'type'    => 'text',
-				'default' => __( 'Points', 'wp-maffia-game' ),
+				'default' => __( 'Points', 'wp-mafia-game' ),
 			),
 			'start_money'        => array(
-				'label'   => __( 'Starting money for new characters', 'wp-maffia-game' ),
+				'label'   => __( 'Starting money for new characters', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 250,
 			),
 			'start_bullets'      => array(
-				'label'   => __( 'Starting bullets for new characters', 'wp-maffia-game' ),
+				'label'   => __( 'Starting bullets for new characters', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 100,
 			),
 			'round_name'         => array(
-				'label'   => __( 'Current round name', 'wp-maffia-game' ),
+				'label'   => __( 'Current round name', 'wp-mafia-game' ),
 				'type'    => 'text',
-				'default' => __( 'Round 1', 'wp-maffia-game' ),
+				'default' => __( 'Round 1', 'wp-mafia-game' ),
 			),
 			'round_start'        => array(
-				'label'       => __( 'Round start', 'wp-maffia-game' ),
+				'label'       => __( 'Round start', 'wp-mafia-game' ),
 				'type'        => 'datetime',
 				'default'     => '',
-				'description' => __( 'Leave empty = open immediately.', 'wp-maffia-game' ),
+				'description' => __( 'Leave empty = open immediately.', 'wp-mafia-game' ),
 			),
 			'round_end'          => array(
-				'label'       => __( 'Round end', 'wp-maffia-game' ),
+				'label'       => __( 'Round end', 'wp-mafia-game' ),
 				'type'        => 'datetime',
 				'default'     => '',
-				'description' => __( 'Leave empty = no end date.', 'wp-maffia-game' ),
+				'description' => __( 'Leave empty = no end date.', 'wp-mafia-game' ),
 			),
 			'online_minutes'     => array(
-				'label'   => __( 'Minutes a player counts as online', 'wp-maffia-game' ),
+				'label'   => __( 'Minutes a player counts as online', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 15,
 			),
 			'hide_admin_bar'     => array(
-				'label'   => __( 'Hide the WordPress admin bar for players', 'wp-maffia-game' ),
+				'label'   => __( 'Hide the WordPress admin bar for players', 'wp-mafia-game' ),
 				'type'    => 'checkbox',
 				'default' => 1,
 			),
 			'delete_on_uninstall' => array(
-				'label'       => __( 'Delete all game data when the plugin is deleted', 'wp-maffia-game' ),
+				'label'       => __( 'Delete all game data when the plugin is deleted', 'wp-mafia-game' ),
 				'type'        => 'checkbox',
 				'default'     => 0,
-				'description' => __( 'Warning: all tables and settings will be erased.', 'wp-maffia-game' ),
+				'description' => __( 'Warning: all tables and settings will be erased.', 'wp-mafia-game' ),
 			),
 		);
 	}

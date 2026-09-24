@@ -5,22 +5,22 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Modules;
+namespace DigiFalk\MafiaGame\Modules;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Items;
-use DigiFalk\MaffiaGame\Module\Module;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Items;
+use DigiFalk\MafiaGame\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Inventory extends Module {
 
 	public function title(): string {
-		return __( 'Inventory', 'wp-maffia-game' );
+		return __( 'Inventory', 'wp-mafia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -34,7 +34,7 @@ final class Inventory extends Module {
 	public function settings_fields(): array {
 		return array(
 			'inventory_sell_percent' => array(
-				'label'   => __( 'Item resale value (% of price)', 'wp-maffia-game' ),
+				'label'   => __( 'Item resale value (% of price)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 40,
 			),
@@ -44,7 +44,7 @@ final class Inventory extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Inventory', 'wp-maffia-game' ),
+				'label' => __( 'Inventory', 'wp-mafia-game' ),
 				'group' => 'money',
 				'order' => 20,
 			),
@@ -76,18 +76,18 @@ final class Inventory extends Module {
 				break;
 			}
 		}
-		$result = $slot ? Items::equip( $c, (int) $item['id'], $slot ) : new \WP_Error( 'slot', __( 'You can\'t equip this item.', 'wp-maffia-game' ) );
+		$result = $slot ? Items::equip( $c, (int) $item['id'], $slot ) : new \WP_Error( 'slot', __( 'You can\'t equip this item.', 'wp-mafia-game' ) );
 		if ( is_wp_error( $result ) ) {
 			$this->error( $result->get_error_message() );
 			return;
 		}
 		/* translators: %s: item */
-		$this->success( sprintf( __( 'You equipped %s.', 'wp-maffia-game' ), $item['name'] ) );
+		$this->success( sprintf( __( 'You equipped %s.', 'wp-mafia-game' ), $item['name'] ) );
 	}
 
 	public function action_unequip( Character $c, array $input ): void {
 		if ( Items::unequip( $c, sanitize_key( $input['slot'] ?? '' ) ) ) {
-			$this->success( __( 'Item returned to your inventory.', 'wp-maffia-game' ) );
+			$this->success( __( 'Item returned to your inventory.', 'wp-mafia-game' ) );
 		}
 	}
 
@@ -98,20 +98,20 @@ final class Inventory extends Module {
 			$this->error( $result->get_error_message() );
 		} elseif ( $result ) {
 			/* translators: %s: item */
-			$this->success( sprintf( __( 'You used %s.', 'wp-maffia-game' ), $item['name'] ) );
+			$this->success( sprintf( __( 'You used %s.', 'wp-mafia-game' ), $item['name'] ) );
 		}
 	}
 
 	public function action_sell( Character $c, array $input ): void {
 		$item = Items::get( absint( $input['item'] ?? 0 ) );
 		if ( ! $item || ! Items::take( $c, (int) $item['id'] ) ) {
-			$this->error( __( 'You don\'t have this item.', 'wp-maffia-game' ) );
+			$this->error( __( 'You don\'t have this item.', 'wp-mafia-game' ) );
 			return;
 		}
 		$value = (int) floor( (int) $item['price'] * (int) $this->setting( 'inventory_sell_percent' ) / 100 );
 		$c->add( 'money', $value );
 		/* translators: 1: item, 2: money */
-		$this->success( sprintf( __( 'You sold %1$s for %2$s.', 'wp-maffia-game' ), $item['name'], Format::money( $value ) ) );
+		$this->success( sprintf( __( 'You sold %1$s for %2$s.', 'wp-mafia-game' ), $item['name'], Format::money( $value ) ) );
 	}
 }
 

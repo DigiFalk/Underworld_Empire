@@ -5,15 +5,15 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Modules;
+namespace DigiFalk\MafiaGame\Modules;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Frontend\UI;
-use DigiFalk\MaffiaGame\Module\Module;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Frontend\UI;
+use DigiFalk\MafiaGame\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +22,7 @@ final class News extends Module {
 	const POST_TYPE = 'dfmg_news';
 
 	public function title(): string {
-		return __( 'News', 'wp-maffia-game' );
+		return __( 'News', 'wp-mafia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -43,10 +43,10 @@ final class News extends Module {
 			self::POST_TYPE,
 			array(
 				'labels'       => array(
-					'name'          => __( 'Game news', 'wp-maffia-game' ),
-					'singular_name' => __( 'News item', 'wp-maffia-game' ),
-					'add_new_item'  => __( 'New news item', 'wp-maffia-game' ),
-					'edit_item'     => __( 'Edit news item', 'wp-maffia-game' ),
+					'name'          => __( 'Game news', 'wp-mafia-game' ),
+					'singular_name' => __( 'News item', 'wp-mafia-game' ),
+					'add_new_item'  => __( 'New news item', 'wp-mafia-game' ),
+					'edit_item'     => __( 'Edit news item', 'wp-mafia-game' ),
 				),
 				'public'       => false,
 				'show_ui'      => true,
@@ -61,7 +61,7 @@ final class News extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'News', 'wp-maffia-game' ),
+				'label' => __( 'News', 'wp-mafia-game' ),
 				'group' => 'community',
 				'order' => 5,
 			),
@@ -80,7 +80,7 @@ final class News extends Module {
 
 	private function markup( array $posts, bool $full ): string {
 		if ( ! $posts ) {
-			return UI::empty_state( __( 'No news yet.', 'wp-maffia-game' ) );
+			return UI::empty_state( __( 'No news yet.', 'wp-mafia-game' ) );
 		}
 		$html = '';
 		foreach ( $posts as $post ) {
@@ -92,7 +92,7 @@ final class News extends Module {
 	}
 
 	public function login_news(): void {
-		echo '<div class="dfmg-login-news"><h3>' . esc_html__( 'Latest news', 'wp-maffia-game' ) . '</h3>' . $this->markup( $this->posts( 3 ), false ) . '</div>'; // phpcs:ignore
+		echo '<div class="dfmg-login-news"><h3>' . esc_html__( 'Latest news', 'wp-mafia-game' ) . '</h3>' . $this->markup( $this->posts( 3 ), false ) . '</div>'; // phpcs:ignore
 	}
 
 	public function render( Character $c, array $query ): string {

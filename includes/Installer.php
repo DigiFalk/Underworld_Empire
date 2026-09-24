@@ -2,10 +2,10 @@
 /**
  * Core tables, starting data and activation logic.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame;
+namespace DigiFalk\MafiaGame;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -266,7 +266,7 @@ final class Installer {
 	}
 
 	/**
-	 * Create the page that hosts the game (shortcode [maffia_game]).
+	 * Create the page that hosts the game (shortcode [mafia_game]).
 	 */
 	public static function create_game_page(): void {
 		$page_id = (int) get_option( 'dfmg_page_id' );
@@ -275,9 +275,9 @@ final class Installer {
 		}
 		$page_id = wp_insert_post(
 			array(
-				'post_title'   => __( 'Mafia Game', 'wp-maffia-game' ),
+				'post_title'   => __( 'Mafia Game', 'wp-mafia-game' ),
 				'post_name'    => 'mafia-game',
-				'post_content' => '[maffia_game]',
+				'post_content' => '[mafia_game]',
 				'post_status'  => 'publish',
 				'post_type'    => 'page',
 			)

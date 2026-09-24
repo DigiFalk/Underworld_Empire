@@ -2,14 +2,14 @@
 /**
  * Small reusable pieces of markup for module views.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Frontend;
+namespace DigiFalk\MafiaGame\Frontend;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Property;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Property;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -59,17 +59,17 @@ final class UI {
 		$owner = $property->owner();
 		$html  = '<div class="dfmg-property">';
 		if ( $owner && $owner->id() === $c->id() ) {
-			$html .= '<span>' . esc_html__( 'This is your property.', 'wp-maffia-game' ) . '</span> ';
-			$html .= '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( Game::url( 'properties' ) ) . '">' . esc_html__( 'Manage', 'wp-maffia-game' ) . '</a>';
-			$html .= ' <span class="dfmg-muted">' . esc_html__( 'Profit:', 'wp-maffia-game' ) . ' ' . esc_html( Format::money( $property->profit() ) ) . '</span>';
+			$html .= '<span>' . esc_html__( 'This is your property.', 'wp-mafia-game' ) . '</span> ';
+			$html .= '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( Game::url( 'properties' ) ) . '">' . esc_html__( 'Manage', 'wp-mafia-game' ) . '</a>';
+			$html .= ' <span class="dfmg-muted">' . esc_html__( 'Profit:', 'wp-mafia-game' ) . ' ' . esc_html( Format::money( $property->profit() ) ) . '</span>';
 		} elseif ( $owner ) {
 			/* translators: %s: player */
-			$html .= sprintf( esc_html__( 'Owner: %s', 'wp-maffia-game' ), $owner->link() );
+			$html .= sprintf( esc_html__( 'Owner: %s', 'wp-mafia-game' ), $owner->link() );
 		} else {
-			$html .= '<span>' . esc_html__( 'This property has no owner.', 'wp-maffia-game' ) . '</span> ';
+			$html .= '<span>' . esc_html__( 'This property has no owner.', 'wp-mafia-game' ) . '</span> ';
 			$html .= Game::form_open( 'core', 'buy_property', array( 'type' => $property->type_key(), 'return' => $return_route ), 'dfmg-inline-form' );
 			/* translators: %s: price */
-			$html .= '<button type="submit" class="dfmg-button">' . esc_html( sprintf( __( 'Buy for %s', 'wp-maffia-game' ), Format::money( $property->buy_price() ) ) ) . '</button></form>';
+			$html .= '<button type="submit" class="dfmg-button">' . esc_html( sprintf( __( 'Buy for %s', 'wp-mafia-game' ), Format::money( $property->buy_price() ) ) ) . '</button></form>';
 		}
 		return $html . '</div>';
 	}

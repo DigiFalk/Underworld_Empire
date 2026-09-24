@@ -6,10 +6,10 @@
  *   'my-type' => [ 'label' => 'Name', 'price' => 1000000, 'setting_label' => 'Max bet',
  *                  'setting_min' => 100, 'setting_max' => 0, 'route' => 'my-module' ]
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame;
+namespace DigiFalk\MafiaGame;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -5,15 +5,15 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Modules;
+namespace DigiFalk\MafiaGame\Modules;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Module\Module;
-use DigiFalk\MaffiaGame\Ranks;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Module\Module;
+use DigiFalk\MafiaGame\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,43 +22,43 @@ final class PoliceChase extends Module {
 	const TIMER = 'chase';
 
 	public function title(): string {
-		return __( 'Police chase', 'wp-maffia-game' );
+		return __( 'Police chase', 'wp-mafia-game' );
 	}
 
 	public function settings_fields(): array {
 		return array(
 			'chase_cooldown'     => array(
-				'label'   => __( 'Cooldown afterwards (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown afterwards (sec)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 300,
 			),
 			'chase_escape'       => array(
-				'label'   => __( 'Chance of escaping per move (%)', 'wp-maffia-game' ),
+				'label'   => __( 'Chance of escaping per move (%)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 25,
 			),
 			'chase_caught'       => array(
-				'label'   => __( 'Chance of getting caught per move (%)', 'wp-maffia-game' ),
+				'label'   => __( 'Chance of getting caught per move (%)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 25,
 			),
 			'chase_jail'         => array(
-				'label'   => __( 'Jail time (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Jail time (sec)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 150,
 			),
 			'chase_reward_min'   => array(
-				'label'   => __( 'Min. reward per rank level', 'wp-maffia-game' ),
+				'label'   => __( 'Min. reward per rank level', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 150,
 			),
 			'chase_reward_max'   => array(
-				'label'   => __( 'Max. reward per rank level', 'wp-maffia-game' ),
+				'label'   => __( 'Max. reward per rank level', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 850,
 			),
 			'chase_exp'          => array(
-				'label'   => __( 'Experience for escaping', 'wp-maffia-game' ),
+				'label'   => __( 'Experience for escaping', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 3,
 			),
@@ -68,7 +68,7 @@ final class PoliceChase extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Police chase', 'wp-maffia-game' ),
+				'label' => __( 'Police chase', 'wp-mafia-game' ),
 				'group' => 'crime',
 				'order' => 30,
 				'timer' => self::TIMER,
@@ -78,10 +78,10 @@ final class PoliceChase extends Module {
 
 	public static function routes(): array {
 		return array(
-			'alley'   => __( 'Left, into the alley', 'wp-maffia-game' ),
-			'highway' => __( 'Straight ahead, onto the highway', 'wp-maffia-game' ),
-			'harbour' => __( 'Right, towards the harbour', 'wp-maffia-game' ),
-			'tunnel'  => __( 'Through the tunnel', 'wp-maffia-game' ),
+			'alley'   => __( 'Left, into the alley', 'wp-mafia-game' ),
+			'highway' => __( 'Straight ahead, onto the highway', 'wp-mafia-game' ),
+			'harbour' => __( 'Right, towards the harbour', 'wp-mafia-game' ),
+			'tunnel'  => __( 'Through the tunnel', 'wp-mafia-game' ),
 		);
 	}
 
@@ -101,7 +101,7 @@ final class PoliceChase extends Module {
 			return;
 		}
 		if ( $c->timer_active( self::TIMER ) ) {
-			$this->error( __( 'The police are still looking for you. Wait a while before hitting the streets again.', 'wp-maffia-game' ) );
+			$this->error( __( 'The police are still looking for you. Wait a while before hitting the streets again.', 'wp-mafia-game' ) );
 			return;
 		}
 		$roll   = wp_rand( 1, 100 );
@@ -118,16 +118,16 @@ final class PoliceChase extends Module {
 			$c->add( 'exp', (int) $this->setting( 'chase_exp' ) );
 			$c->log( 'police-chase', true, $reward );
 			/* translators: %s: money */
-			$this->success( sprintf( __( 'You escaped! On the way you found %s in the glove box.', 'wp-maffia-game' ), Format::money( $reward ) ) );
+			$this->success( sprintf( __( 'You escaped! On the way you found %s in the glove box.', 'wp-mafia-game' ), Format::money( $reward ) ) );
 		} elseif ( $roll <= $escape + $caught ) {
 			if ( ! $c->claim_cooldown( self::TIMER, (int) $this->setting( 'chase_cooldown' ) ) ) {
 				return;
 			}
 			$c->jail( (int) $this->setting( 'chase_jail' ) );
 			$c->log( 'police-chase', false );
-			$this->error( __( 'Roadblock! You got caught and you\'re going to jail.', 'wp-maffia-game' ) );
+			$this->error( __( 'Roadblock! You got caught and you\'re going to jail.', 'wp-mafia-game' ) );
 		} else {
-			$this->notice( __( 'The sirens are still on your tail... pick your next turn!', 'wp-maffia-game' ) );
+			$this->notice( __( 'The sirens are still on your tail... pick your next turn!', 'wp-mafia-game' ) );
 		}
 	}
 }

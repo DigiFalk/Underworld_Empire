@@ -5,23 +5,23 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame\Modules;
+namespace DigiFalk\MafiaGame\Modules;
 
-use DigiFalk\MaffiaGame\Character;
-use DigiFalk\MaffiaGame\DB;
-use DigiFalk\MaffiaGame\Format;
-use DigiFalk\MaffiaGame\Module\Module;
-use DigiFalk\MaffiaGame\Ranks;
+use DigiFalk\MafiaGame\Character;
+use DigiFalk\MafiaGame\DB;
+use DigiFalk\MafiaGame\Format;
+use DigiFalk\MafiaGame\Module\Module;
+use DigiFalk\MafiaGame\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Jail extends Module {
 
 	public function title(): string {
-		return __( 'Jail', 'wp-maffia-game' );
+		return __( 'Jail', 'wp-mafia-game' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -45,25 +45,25 @@ final class Jail extends Module {
 	public function settings_fields(): array {
 		return array(
 			'jail_fail_time'       => array(
-				'label'   => __( 'Penalty for a failed breakout (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Penalty for a failed breakout (sec)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 90,
 			),
 			'jail_bust_cooldown'   => array(
-				'label'   => __( 'Cooldown between breakout attempts (sec)', 'wp-maffia-game' ),
+				'label'   => __( 'Cooldown between breakout attempts (sec)', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 20,
 			),
 			'jail_bust_exp'        => array(
-				'label'   => __( 'Experience per successful breakout', 'wp-maffia-game' ),
+				'label'   => __( 'Experience per successful breakout', 'wp-mafia-game' ),
 				'type'    => 'int',
 				'default' => 2,
 			),
 			'jail_bail_per_second' => array(
-				'label'       => __( 'Bail per remaining second', 'wp-maffia-game' ),
+				'label'       => __( 'Bail per remaining second', 'wp-mafia-game' ),
 				'type'        => 'int',
 				'default'     => 40,
-				'description' => __( '0 = bail disabled.', 'wp-maffia-game' ),
+				'description' => __( '0 = bail disabled.', 'wp-mafia-game' ),
 			),
 		);
 	}
@@ -78,7 +78,7 @@ final class Jail extends Module {
 		);
 		return array(
 			array(
-				'label' => __( 'Jail', 'wp-maffia-game' ),
+				'label' => __( 'Jail', 'wp-mafia-game' ),
 				'group' => 'city',
 				'order' => 20,
 				'timer' => 'jail',
@@ -141,16 +141,16 @@ final class Jail extends Module {
 	public function action_bust( Character $c, array $input ): void {
 		$target = Character::find( absint( $input['target'] ?? 0 ) );
 		if ( ! $target || ! $target->is_alive() || ! $target->is_jailed() || (int) $target->location_id !== (int) $c->location_id ) {
-			$this->error( __( 'This person isn\'t locked up here.', 'wp-maffia-game' ) );
+			$this->error( __( 'This person isn\'t locked up here.', 'wp-mafia-game' ) );
 			return;
 		}
 		$chance = $this->chance( $c, $target );
 		if ( ! $chance ) {
-			$this->error( __( 'Nobody breaks out of solitary confinement.', 'wp-maffia-game' ) );
+			$this->error( __( 'Nobody breaks out of solitary confinement.', 'wp-mafia-game' ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( 'jail_bust', (int) $this->setting( 'jail_bust_cooldown' ) ) ) {
-			$this->error( __( 'Easy, the guards are watching. Try again in a moment.', 'wp-maffia-game' ) );
+			$this->error( __( 'Easy, the guards are watching. Try again in a moment.', 'wp-mafia-game' ) );
 			return;
 		}
 		$self = $target->id() === $c->id();
@@ -161,11 +161,11 @@ final class Jail extends Module {
 			if ( ! $self ) {
 				$c->add( 'exp', (int) $this->setting( 'jail_bust_exp' ) );
 				/* translators: %s: player */
-				$target->notify( sprintf( __( '%s broke you out of jail!', 'wp-maffia-game' ), $c->link() ) );
+				$target->notify( sprintf( __( '%s broke you out of jail!', 'wp-mafia-game' ), $c->link() ) );
 				/* translators: %s: player */
-				$this->success( sprintf( __( 'You broke %s out of jail.', 'wp-maffia-game' ), $target->name ) );
+				$this->success( sprintf( __( 'You broke %s out of jail.', 'wp-mafia-game' ), $target->name ) );
 			} else {
-				$this->success( __( 'You escaped!', 'wp-maffia-game' ) );
+				$this->success( __( 'You escaped!', 'wp-mafia-game' ) );
 			}
 			$c->log( 'jail.bust', true, $self ? 1 : 0, $target->id() );
 			return;
@@ -176,34 +176,34 @@ final class Jail extends Module {
 			$until = $c->timer( 'jail' ) + $penalty;
 			$c->set_timer( 'jail', $until );
 			$c->set_timer( 'supermax', $until );
-			$this->error( __( 'Failed! You\'re being moved to solitary confinement.', 'wp-maffia-game' ) );
+			$this->error( __( 'Failed! You\'re being moved to solitary confinement.', 'wp-mafia-game' ) );
 		} else {
 			$c->jail( $penalty );
 			/* translators: %s: player */
-			$this->error( sprintf( __( 'Failed! The guards saw you at %s and now you\'re locked up yourself.', 'wp-maffia-game' ), $target->name ) );
+			$this->error( sprintf( __( 'Failed! The guards saw you at %s and now you\'re locked up yourself.', 'wp-mafia-game' ), $target->name ) );
 		}
 		$c->log( 'jail.bust', false, 0, $target->id() );
 	}
 
 	public function action_bail( Character $c, array $input ): void {
 		if ( ! $c->is_jailed() ) {
-			$this->error( __( 'You are not locked up.', 'wp-maffia-game' ) );
+			$this->error( __( 'You are not locked up.', 'wp-mafia-game' ) );
 			return;
 		}
 		$bail = $this->bail( $c );
 		if ( ! $bail ) {
-			$this->error( __( 'Bail isn\'t possible for you.', 'wp-maffia-game' ) );
+			$this->error( __( 'Bail isn\'t possible for you.', 'wp-mafia-game' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $bail ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Bail is %s. You don\'t have that in cash.', 'wp-maffia-game' ), Format::money( $bail ) ) );
+			$this->error( sprintf( __( 'Bail is %s. You don\'t have that in cash.', 'wp-mafia-game' ), Format::money( $bail ) ) );
 			return;
 		}
 		$c->clear_timer( 'jail' );
 		$c->log( 'jail.bail', true, $bail );
 		/* translators: %s: money */
-		$this->success( sprintf( __( 'You paid %s bail and you are free.', 'wp-maffia-game' ), Format::money( $bail ) ) );
+		$this->success( sprintf( __( 'You paid %s bail and you are free.', 'wp-mafia-game' ), Format::money( $bail ) ) );
 	}
 }
 

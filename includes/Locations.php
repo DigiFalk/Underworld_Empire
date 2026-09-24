@@ -2,10 +2,10 @@
 /**
  * Cities in the game world.
  *
- * @package DigiFalk\MaffiaGame
+ * @package DigiFalk\MafiaGame
  */
 
-namespace DigiFalk\MaffiaGame;
+namespace DigiFalk\MafiaGame;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -36,7 +36,7 @@ final class Locations {
 
 	public static function name( int $id ): string {
 		$row = self::get( $id );
-		return $row ? $row['name'] : __( 'Unknown', 'wp-maffia-game' );
+		return $row ? $row['name'] : __( 'Unknown', 'wp-mafia-game' );
 	}
 
 	public static function first_id(): int {
