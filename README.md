@@ -70,6 +70,34 @@ See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
 
 ## Customising the look
 
+### Game layout and game elements (drag & drop)
+
+The game is made of small live **game elements**: player (name & avatar), rank, rank
+progress bar, cash, bank, bullets, health, premium points, city, wealth title,
+notifications and messages (with counters), active timers, the game menu (all pages or one
+group such as *Crime*), players online, round name & end, a play / log in button and a log
+out link. Place them anywhere:
+
+* **Game layout** (*Appearance → Customize → Game layout*, works with any theme): drag
+  elements into the game header (left, center, right), the sidebar, above or below the page
+  content, or the game footer (left, center, right). The preview opens the game and updates
+  immediately. With an empty sidebar the game uses the full width; the game menu can then go
+  in the header as a dropdown (a bottom sheet on phones).
+* **Theme header and footer**: with the bundled theme every game element is also available
+  in the header and footer builders (*Game: Cash*, *Game: Game menu*, ...), on desktop,
+  mobile and in the mobile menu panel – for example the player's money in the top bar of
+  every page of the site.
+* **Widgets**: the *Underworld Empire: game element* widget shows one element in any widget
+  area.
+* **Shortcode**: `[ue_hud element="cash"]`, several at once with
+  `[ue_hud element="cash,bank,bullets"]`, and `layout="bar|stack|inline"`.
+
+Elements that need a character are hidden for visitors; *Play / log in* and *Players
+online* are always shown. Modules and themes can add their own elements with the
+`dfmg_hud_elements` filter (see `docs/MODULES.md`).
+
+### Colours and theme
+
 * **Appearance** (Underworld Empire → Settings): by default the game follows the colours and
   font of your WordPress theme, in light and dark themes alike. Choose *Built-in dark look* for
   the original dark style regardless of the theme.
@@ -103,7 +131,7 @@ See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
   * The palette is shared with WordPress blocks and with the game (in *Follow the theme* mode).
 * Block themes can fine-tune the game with these optional palette slugs in `theme.json`:
   `accent`, `surface`, `surface-2`, `border`, `muted`, `button`, `button-text`.
-* All styles are CSS custom properties on `.dfmg` (see `assets/css/game.css`) and can be overridden in your theme.
+* All styles are CSS custom properties on `.dfmg` and `.dfmg-hud` (see `assets/css/game.css`) and can be overridden in your theme.
 * Every template can be overridden from your theme:
   * core templates: `<theme>/underworld-empire/layout.php`, `login.php`, `create-character.php`, `dead.php`, `closed.php`, `messages.php`
   * module templates: `<theme>/underworld-empire/<module-id>/<template>.php`

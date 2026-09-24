@@ -196,7 +196,7 @@ add_filter( 'dfmg_item_effects', function ( $effects ) {
 | `dfmg_can_buy_item`, `dfmg_can_equip` | `true\|WP_Error` |
 | `dfmg_module_data` | `array $rows, string $module, Character $c` – alter crimes, theft spots, destinations or market items. |
 | `dfmg_menu_groups`, `dfmg_menu_items` | menu |
-| `dfmg_header_stats` | stats in the header bar |
+| `dfmg_hud_elements` | `array $elements` – game elements for the game layout, theme builders, widget and `[ue_hud]` shortcode (replaces `dfmg_header_stats`). |
 | `dfmg_overview_panels`, `dfmg_overview_timers` | extra blocks on the overview |
 | `dfmg_profile_fields`, `dfmg_profile_actions` | profile page |
 | `dfmg_property_types` | business types |
@@ -208,6 +208,32 @@ add_filter( 'dfmg_item_effects', function ( $effects ) {
 | `dfmg_round_open` | `bool` |
 | `dfmg_view_vars` | `array $vars, string $module, string $template` |
 | `dfmg_admin_tables`, `dfmg_admin_save_data` | administration |
+
+## Game elements
+
+Game elements can be placed anywhere by the site owner (game layout, theme header/footer,
+widgets, shortcode). Add your own with `dfmg_hud_elements`. The render callback gets the
+alive character of the visitor (or `null` for guests) and the context: `bar` (horizontal),
+`stack` (vertical: sidebar, widgets) or `inline` (shortcode). Return `''` to hide the element.
+
+```php
+add_filter( 'dfmg_hud_elements', function ( array $elements ) {
+	$elements['heat'] = array(
+		'label'  => __( 'Police heat', 'my-module' ),
+		'render' => function ( ?\DigiFalk\UnderworldEmpire\Character $c, string $context ) {
+			if ( ! $c ) {
+				return '';
+			}
+			return '<div class="dfmg-hud-stat"><span class="dfmg-hud-stat__label">Heat</span>'
+				. '<span class="dfmg-hud-stat__value">' . esc_html( my_heat( $c ) ) . '</span></div>';
+		},
+	);
+	return $elements;
+} );
+```
+
+`\DigiFalk\UnderworldEmpire\Frontend\Hud::render( 'cash', 'bar', 'theme' )` returns the HTML of
+an element, for use in your own templates.
 
 ## Connecting premium points to a web shop
 

@@ -3,6 +3,25 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.6.0
+
+- **Game layout builder** (*Appearance → Customize → Game layout*): drag & drop game
+  elements into the game header (left/center/right), sidebar, above or below the content
+  and the game footer (left/center/right). Changes show instantly in the preview, which
+  opens the game automatically. Works with any theme.
+- New **game elements**: player, rank, rank progress, cash, bank, bullets, health, premium
+  points, city, wealth title, notifications and messages with counters, active timers, the
+  game menu (complete or per group), players online, round, play / log in button, log out.
+- Game elements in the **theme header and footer builders** (theme 3.1.0), in a new
+  **widget** and with the **`[ue_hud]` shortcode**, so the player's money, timers or the game
+  menu can be shown on every page of the site.
+- Game menu as a **dropdown** when placed in a header or footer, shown as a bottom sheet on
+  phones. Without a sidebar the game uses the full width.
+- Live countdowns now also run in game elements outside the game.
+- Developers: `dfmg_hud_elements` filter for custom elements. It replaces
+  `dfmg_header_stats`; the header is now built from game elements.
+- Theme 3.1.0: fixed the size of the "+" buttons in the header and footer builders.
+
 ## 1.5.0
 
 - Theme 3.0.0: **drag & drop header builder** (three rows × left/center/right, separate

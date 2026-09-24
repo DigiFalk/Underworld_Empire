@@ -50,8 +50,8 @@
 .uet-bzone-wrap:hover { border-color: #2271b1; }
 .uet-bzone-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #646970; }
 .uet-bzone { display: flex; flex-wrap: wrap; gap: 4px; min-height: 30px; margin: 0; padding: 0; list-style: none; }
-.uet-bzone-add { position: absolute; top: 4px; right: 4px; width: 26px; min-height: 22px; height: 22px; padding: 0 2px; font-size: 14px; line-height: 1; border-radius: 3px; appearance: none; background: #fff; text-align: center; cursor: pointer; }
-.uet-bzone-add:disabled { opacity: .4; cursor: default; }
+.uet-builder-panel .uet-bzone-add { position: absolute; top: 4px; right: 4px; width: 26px; min-height: 22px; height: 22px; padding: 0 2px; font-size: 14px; line-height: 1; border-radius: 3px; appearance: none; -webkit-appearance: none; background: #fff none; text-align: center; cursor: pointer; }
+.uet-builder-panel .uet-bzone-add:disabled { opacity: .4; cursor: default; }
 .uet-chip { display: inline-flex; align-items: center; gap: 2px; margin: 0; padding: 3px 4px 3px 8px; background: #fff; border: 1px solid #c3c4c7; border-radius: 3px; cursor: grab; box-shadow: 0 1px 1px rgba(0, 0, 0, .04); }
 .uet-chip:focus { outline: 2px solid #2271b1; }
 .uet-chip.ui-sortable-helper { cursor: grabbing; box-shadow: 0 6px 16px rgba(0, 0, 0, .18); }

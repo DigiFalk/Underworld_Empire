@@ -39,10 +39,37 @@ final class Game {
 	public static function register_assets(): void {
 		wp_register_style( 'dfmg-game', DFMG_URL . 'assets/css/game.css', array(), DFMG_VERSION );
 		wp_register_script( 'dfmg-game', DFMG_URL . 'assets/js/game.js', array(), DFMG_VERSION, true );
-		if ( is_singular() && self::has_game_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ) ) ) {
+		if ( self::is_game_page() || self::uses_hud() ) {
 			wp_enqueue_style( 'dfmg-game' );
 			wp_enqueue_script( 'dfmg-game' );
 		}
+	}
+
+	/**
+	 * Is the current request the game page (or a page with the game shortcode)?
+	 */
+	public static function is_game_page(): bool {
+		if ( ! is_singular() ) {
+			return false;
+		}
+		$id = get_queried_object_id();
+		return ( $id && (int) get_option( 'dfmg_page_id' ) === $id ) || self::has_game_shortcode( (string) get_post_field( 'post_content', $id ) );
+	}
+
+	/**
+	 * Game elements outside the game (theme header/footer, widgets, shortcode) need the
+	 * styles in the head. Anything missed here is still enqueued late by Hud::render().
+	 */
+	private static function uses_hud(): bool {
+		if ( is_customize_preview() || is_active_widget( false, false, 'dfmg_hud' ) ) {
+			return true;
+		}
+		foreach ( array( 'uet_header_builder', 'uet_footer_builder' ) as $mod ) {
+			if ( false !== strpos( (string) get_theme_mod( $mod, '' ), '"game-' ) ) {
+				return true;
+			}
+		}
+		return is_singular() && has_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ), 'ue_hud' );
 	}
 
 	private static function has_game_shortcode( string $content ): bool {
@@ -168,8 +195,9 @@ final class Game {
 			Flash::error( __( 'This page doesn\'t exist.', 'underworld-empire' ) );
 		}
 
-		$module  = self::resolve( $c, $module );
-		$content = $module->render( $c, $query );
+		$module    = self::resolve( $c, $module );
+		Hud::$route = $module->id();
+		$content   = $module->render( $c, $query );
 		$c->refresh();
 
 		return self::wrap(

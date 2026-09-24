@@ -9,6 +9,8 @@ namespace DigiFalk\UnderworldEmpire;
 
 use DigiFalk\UnderworldEmpire\Admin\Admin;
 use DigiFalk\UnderworldEmpire\Frontend\Game;
+use DigiFalk\UnderworldEmpire\Frontend\Hud;
+use DigiFalk\UnderworldEmpire\Frontend\Layout;
 use DigiFalk\UnderworldEmpire\Module\Registry;
 
 defined( 'ABSPATH' ) || exit;
@@ -48,6 +50,8 @@ final class Plugin {
 		Migrations::run();
 
 		Game::init();
+		Hud::init();
+		Layout::init();
 		if ( is_admin() ) {
 			Admin::init();
 		}
