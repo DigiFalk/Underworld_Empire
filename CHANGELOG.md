@@ -3,6 +3,11 @@
 All notable changes to WP Mafia Game. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.1.1
+
+- Updates now also appear when the server can't reach WordPress.org (WordPress only asks
+  the GitHub updater after a successful WordPress.org check, so a fallback was added).
+
 ## 1.1.0
 
 - Whole plugin translated to English: game, admin, starting data and documentation.

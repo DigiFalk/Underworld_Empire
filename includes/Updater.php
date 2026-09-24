@@ -21,6 +21,8 @@ final class Updater {
 
 	public static function init(): void {
 		add_filter( 'update_plugins_github.com', array( __CLASS__, 'check' ), 10, 4 );
+		// Fallback: WordPress skips the hook above when WordPress.org can't be reached.
+		add_filter( 'site_transient_update_plugins', array( __CLASS__, 'inject' ) );
 		add_filter( 'plugins_api', array( __CLASS__, 'info' ), 20, 3 );
 		add_filter( 'upgrader_source_selection', array( __CLASS__, 'fix_folder' ), 10, 4 );
 		add_filter( 'http_request_args', array( __CLASS__, 'auth_download' ), 10, 2 );
@@ -117,6 +119,33 @@ final class Updater {
 			'requires'     => '6.0',
 			'requires_php' => '7.4',
 		);
+	}
+
+	/**
+	 * Make sure a newer release always shows up in the update data, also when
+	 * WordPress.org was unreachable during the regular check.
+	 *
+	 * @param mixed $transient
+	 * @return mixed
+	 */
+	public static function inject( $transient ) {
+		$file = plugin_basename( DFMG_FILE );
+		if ( ! is_object( $transient ) ) {
+			$transient = new \stdClass();
+		}
+		if ( isset( $transient->response[ $file ] ) ) {
+			return $transient;
+		}
+		$update = self::check( false, array(), $file, array() );
+		if ( ! $update || ! version_compare( $update['version'], DFMG_VERSION, '>' ) ) {
+			return $transient;
+		}
+		if ( ! isset( $transient->response ) || ! is_array( $transient->response ) ) {
+			$transient->response = array();
+		}
+		$transient->response[ $file ] = (object) $update;
+		unset( $transient->no_update[ $file ] );
+		return $transient;
 	}
 
 	/**
