@@ -56,6 +56,22 @@ return new class() extends Module {
 ```
 
 The file must return an object that extends `DigiFalk\UnderworldEmpire\Module\Module`.
+
+### Icons
+
+Every menu item, page title and module card gets a line icon by the module id. Unknown ids
+get a small dot. Give your module its own icon with the `dfmg_icons` filter (a path `d`
+attribute on a 24×24 grid, or raw SVG markup starting with `<`), or set `'icon' => 'crimes'`
+on a menu item to reuse an existing one:
+
+```php
+add_filter( 'dfmg_icons', function ( array $icons ) {
+	$icons['hello'] = 'M12 3v18M3 12h18';
+	return $icons;
+} );
+```
+
+`\DigiFalk\UnderworldEmpire\Icons::svg( 'cash', 18 )` prints an icon in your own views.
 A named class works too (use your own namespace to avoid collisions).
 
 ### Header fields
@@ -208,6 +224,8 @@ add_filter( 'dfmg_item_effects', function ( $effects ) {
 | `dfmg_round_open` | `bool` |
 | `dfmg_view_vars` | `array $vars, string $module, string $template` |
 | `dfmg_admin_tables`, `dfmg_admin_save_data` | administration |
+| `dfmg_icons` | `array $icons` – line icons by name (module ids, stats, interface). |
+| `dfmg_activity_labels` | `array $labels` – readable names of activity log actions in the admin live feed. |
 | `dfmg_avatar_updated` (action) | `int $user_id, string $url` – after a player uploaded a new avatar. |
 
 ## Game elements

@@ -11,8 +11,9 @@ use DigiFalk\UnderworldEmpire\Frontend\Game;
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="dfmg-welcome">
+<div class="dfmg-welcome dfmg-welcome--create-character">
 	<div class="dfmg-card">
+		<span class="dfmg-emblem"><?php echo \DigiFalk\UnderworldEmpire\Icons::svg( 'profile', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 		<?php echo Game::template( 'messages', array( 'messages' => $messages ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<h2><?php esc_html_e( 'Choose your gangster name', 'underworld-empire' ); ?></h2>
 		<p><?php esc_html_e( 'The city will know you by this name. Choose well: it can\'t be changed.', 'underworld-empire' ); ?></p>

@@ -52,6 +52,7 @@ final class Overview extends Module {
 						'label'   => $item['label'],
 						'url'     => $item['url'],
 						'expires' => $c->timer( $item['timer'] ),
+						'icon'    => $item['icon'] ?? 'timer',
 					);
 				}
 			}

@@ -50,7 +50,10 @@ $dfmg_zone_html = static function ( string $zone ) use ( $dfmg_z ): string {
 
 		<main class="dfmg-main">
 			<?php echo $dfmg_zone_html( 'top' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
-			<h2 class="dfmg-title"><?php echo esc_html( $module->title() ); ?></h2>
+			<div class="dfmg-page-head">
+				<span class="dfmg-page-head__icon"><?php echo \DigiFalk\UnderworldEmpire\Icons::svg( \DigiFalk\UnderworldEmpire\Icons::has( $module->id() ) ? $module->id() : 'dot', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+				<h2 class="dfmg-title"><?php echo esc_html( $module->title() ); ?></h2>
+			</div>
 			<?php echo Game::template( 'messages', array( 'messages' => $messages ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<?php echo $content; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- modules escape their own output. ?>
 			<?php echo $dfmg_zone_html( 'bottom' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

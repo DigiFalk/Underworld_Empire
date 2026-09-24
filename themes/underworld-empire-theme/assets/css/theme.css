@@ -324,7 +324,7 @@ body.uet-no-scroll { overflow: hidden; }
 
 /* Responsive ------------------------------------------------------------------ */
 .uet-entry__content { overflow-wrap: break-word; }
-.uet-entry__content table { display: block; overflow-x: auto; }
+.uet-entry__content table:not([class*="dfmg"]) { display: block; overflow-x: auto; }
 @media (max-width: 1024px) {
 	.uet-blog-grid-3 .uet-posts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 	.uet-frow__inner.uet-cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -386,3 +386,134 @@ body.uet-no-scroll { overflow: hidden; }
 @media (prefers-reduced-motion: no-preference) {
 	.uet-mode-changing, .uet-mode-changing * { transition: background-color .25s ease, color .25s ease, border-color .25s ease !important; }
 }
+
+/* ==========================================================================
+   Design layer: depth, glass, motion and detail. Built on the Customizer
+   colour variables, so it works with every palette and in light/dark mode.
+   ========================================================================== */
+:root {
+	--uet-accent-soft: color-mix(in srgb, var(--uet-accent) 14%, transparent);
+	--uet-accent-line: color-mix(in srgb, var(--uet-accent) 38%, transparent);
+	--uet-shadow-sm: 0 1px 2px rgb(0 0 0 / .1), 0 1px 1px rgb(0 0 0 / .05);
+	--uet-shadow: 0 14px 34px -16px rgb(0 0 0 / .4), 0 3px 8px -4px rgb(0 0 0 / .15);
+	--uet-shadow-lg: 0 34px 80px -30px rgb(0 0 0 / .55);
+	--uet-sheen: linear-gradient(180deg, color-mix(in srgb, #fff 5%, transparent), transparent 60%);
+	--uet-ease: cubic-bezier(.2, .8, .2, 1);
+}
+::selection { background: color-mix(in srgb, var(--uet-accent) 35%, transparent); color: var(--uet-heading); }
+html { scrollbar-color: color-mix(in srgb, var(--uet-text) 25%, transparent) transparent; }
+body { text-rendering: optimizeLegibility; font-feature-settings: "kern", "liga"; }
+h1, h2 { letter-spacing: -.015em; }
+h1 { line-height: 1.12; }
+a { transition: color .15s ease; }
+:focus-visible { outline: 2px solid var(--uet-accent); outline-offset: 3px; border-radius: 4px; }
+
+/* Buttons: subtle gradient, inner highlight and lift. */
+.uet-button, button, input[type="submit"], .wp-block-button__link, .wp-element-button {
+	border-color: color-mix(in srgb, var(--uet-button-bg) 78%, #000);
+	background: linear-gradient(180deg, color-mix(in srgb, var(--uet-button-bg) 86%, #fff), var(--uet-button-bg));
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / .2), 0 2px 8px -3px rgb(0 0 0 / .45);
+	transition: transform .15s var(--uet-ease), box-shadow .2s ease, filter .15s ease;
+}
+.uet-button:hover, button:hover, input[type="submit"]:hover, .wp-block-button__link:hover, .wp-element-button:hover {
+	transform: translateY(-1px);
+	box-shadow: inset 0 1px 0 rgb(255 255 255 / .22), 0 12px 24px -10px color-mix(in srgb, var(--uet-button-bg) 75%, transparent);
+}
+.uet-button:active, button:active, input[type="submit"]:active { transform: none; filter: brightness(.95); }
+.uet-button--outline, .uet-header .uet-button--outline, .is-style-outline .wp-block-button__link { background: transparent; box-shadow: none; }
+.uet-menu-toggle, .uet-menu-toggle:hover, .uet-subtoggle, .uet-subtoggle:hover, .uet-popup__close, .uet-popup__close:hover, .uet-mode-toggle, .uet-mode-toggle:hover { transform: none; box-shadow: none; background: transparent; }
+input[type="text"], input[type="email"], input[type="url"], input[type="password"], input[type="search"], input[type="number"], input[type="tel"], textarea, select {
+	transition: border-color .15s ease, box-shadow .15s ease;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--uet-accent); box-shadow: 0 0 0 3px var(--uet-accent-soft); }
+
+/* Header: glass when scrolling, animated menu underline. */
+.uet-header { transition: box-shadow .25s ease, background-color .25s ease; }
+.uet-sticky-header .uet-header.is-scrolled {
+	background: color-mix(in srgb, var(--uet-header-bg) 80%, transparent);
+	-webkit-backdrop-filter: saturate(1.4) blur(14px);
+	backdrop-filter: saturate(1.4) blur(14px);
+	box-shadow: 0 1px 0 var(--uet-border), 0 14px 30px -18px rgb(0 0 0 / .5);
+}
+.uet-sticky-header .uet-header.is-scrolled .uet-hrow { background-color: transparent; }
+.uet-nav--desktop > .uet-menu > li > a { position: relative; }
+.uet-nav--desktop > .uet-menu > li > a::before {
+	content: ""; position: absolute; left: 12px; right: 12px; bottom: 3px; height: 2px; border-radius: 2px;
+	background: var(--uet-accent); transform: scaleX(0); transform-origin: left; transition: transform .25s var(--uet-ease);
+}
+.uet-nav--desktop > .uet-menu > li > a:hover::before, .uet-nav--desktop > .uet-menu > .current-menu-item > a::before, .uet-nav--desktop > .uet-menu > .current-menu-ancestor > a::before { transform: scaleX(1); }
+.uet-nav--desktop .sub-menu { border-radius: 12px; box-shadow: var(--uet-shadow); background: var(--uet-sheen), var(--uet-surface); animation: uet-pop .18s var(--uet-ease); }
+.uet-nav--desktop .sub-menu a:hover { background: var(--uet-accent-soft); }
+.uet-header-search__panel { border-radius: 12px; box-shadow: var(--uet-shadow); animation: uet-pop .18s var(--uet-ease); }
+.uet-site-title { letter-spacing: -.01em; }
+.uet-account { background: var(--uet-sheen), var(--uet-surface); box-shadow: var(--uet-shadow-sm); transition: border-color .15s ease, transform .15s var(--uet-ease); }
+.uet-account:hover { transform: translateY(-1px); }
+.uet-social a { transition: color .15s ease, border-color .15s ease, transform .15s var(--uet-ease), background-color .15s ease; }
+.uet-social a:hover { transform: translateY(-2px); background: var(--uet-accent-soft); }
+.uet-popup--offcanvas .uet-popup__panel { background: var(--uet-sheen), var(--uet-surface); }
+.uet-popup__backdrop { -webkit-backdrop-filter: blur(3px); backdrop-filter: blur(3px); }
+
+/* Page header band with a soft accent glow. */
+.uet-page-header { position: relative; }
+.uet-page-title { letter-spacing: -.02em; }
+.uet-page-header::after { content: ""; display: block; width: 56px; height: 3px; margin-top: 14px; border-radius: 3px; background: linear-gradient(90deg, var(--uet-accent), transparent); }
+.uet-main-wrap { background: radial-gradient(60% 40% at 50% 0%, color-mix(in srgb, var(--uet-accent) 7%, transparent), transparent 70%) no-repeat; }
+.uet-game-page .uet-main-wrap, .uet-content-full-width .uet-main-wrap { background: none; }
+
+/* Cards, blog grid and widgets. */
+.uet-site-content-boxed .uet-card, .uet-site-content-boxed .uet-sidebar .widget, .uet-author-box, .post-navigation a {
+	background: var(--uet-sheen), var(--uet-surface); border-radius: calc(var(--uet-radius) + 6px); box-shadow: var(--uet-shadow-sm);
+}
+.uet-blog-grid-2 .uet-entry, .uet-blog-grid-3 .uet-entry {
+	border-radius: calc(var(--uet-radius) + 8px); background: var(--uet-sheen), var(--uet-surface); box-shadow: var(--uet-shadow-sm);
+	transition: transform .25s var(--uet-ease), box-shadow .25s ease, border-color .25s ease;
+}
+.uet-blog-grid-2 .uet-entry:hover, .uet-blog-grid-3 .uet-entry:hover { transform: translateY(-4px); box-shadow: var(--uet-shadow); border-color: var(--uet-accent-line); }
+.uet-featured { overflow: hidden; border-radius: calc(var(--uet-radius) + 4px); }
+.uet-featured img { transition: transform .6s var(--uet-ease); }
+a.uet-featured:hover img, .uet-entry:hover a.uet-featured img { transform: scale(1.04); }
+.uet-blog-grid-2 .uet-featured, .uet-blog-grid-3 .uet-featured { border-radius: 0; }
+.uet-read-more { display: inline-flex; align-items: center; gap: 6px; }
+.uet-read-more::after { content: "→"; transition: transform .2s var(--uet-ease); }
+.uet-read-more:hover { text-decoration: none; }
+.uet-read-more:hover::after { transform: translateX(4px); }
+.post-navigation a { transition: border-color .2s ease, transform .2s var(--uet-ease); }
+.post-navigation a:hover { border-color: var(--uet-accent-line); transform: translateY(-2px); text-decoration: none; }
+.page-numbers { transition: border-color .15s ease, background-color .15s ease; }
+a.page-numbers:hover { border-color: var(--uet-accent); background: var(--uet-accent-soft); text-decoration: none; }
+.widget-title { display: flex; align-items: center; gap: 10px; }
+.widget-title::before { content: ""; width: 14px; height: 2px; border-radius: 2px; background: var(--uet-accent); }
+.uet-entry__tags a { transition: border-color .15s ease, color .15s ease; }
+.uet-entry__tags a:hover { border-color: var(--uet-accent); color: var(--uet-accent); text-decoration: none; }
+blockquote { border-radius: 0 12px 12px 0; background: var(--uet-accent-soft); padding: 1em 1.4em; color: var(--uet-text); }
+
+/* Footer: hairline accent and softer rows. */
+.uet-footer { position: relative; border-top: 0; }
+.uet-footer::before { content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--uet-accent-line), transparent); }
+.uet-footer .uet-social a { background: color-mix(in srgb, var(--uet-footer-text) 6%, transparent); }
+
+/* Scroll to top and the game page. */
+.uet-scroll-top { border-radius: 50%; box-shadow: var(--uet-shadow); background: linear-gradient(180deg, color-mix(in srgb, var(--uet-button-bg) 86%, #fff), var(--uet-button-bg)); }
+.uet-scroll-top:hover { transform: translateY(-2px); }
+.uet-site-boxed .uet-site { border-radius: calc(var(--uet-radius) + 10px); box-shadow: 0 0 0 1px var(--uet-border), var(--uet-shadow-lg); }
+
+@keyframes uet-pop { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+	html { scroll-behavior: auto; }
+	*, *::before, *::after { animation: none !important; transition: none !important; }
+}
+
+/* Boxed layout: clip instead of hidden, so the sticky header keeps working. */
+.uet-site-boxed .uet-site { overflow: clip; }
+
+/* Comments. */
+.uet-comment-list .comment-body { margin-bottom: 14px; padding: 18px 20px; border: 1px solid var(--uet-border); border-radius: calc(var(--uet-radius) + 6px); background: var(--uet-sheen), var(--uet-surface); box-shadow: var(--uet-shadow-sm); }
+.uet-comment-list .comment-author { display: flex; align-items: center; gap: 4px; }
+.uet-comment-list .comment-author img { width: 40px; height: 40px; object-fit: cover; box-shadow: 0 0 0 2px var(--uet-accent-line); }
+.uet-comment-list .reply a { display: inline-flex; padding: 3px 12px; border: 1px solid var(--uet-border); border-radius: 999px; font-size: .85em; font-weight: 600; }
+.uet-comment-list .reply a:hover { border-color: var(--uet-accent); text-decoration: none; }
+.comment-reply-title, .uet-comments-title { letter-spacing: -.01em; }
+
+/* Block widgets use the same heading style as classic widgets. */
+.widget .wp-block-heading, .widget .wp-block-group__inner-container > h2 { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: 1em; text-transform: uppercase; letter-spacing: .08em; }
+.widget .wp-block-heading::before, .widget .wp-block-group__inner-container > h2::before { content: ""; width: 14px; height: 2px; border-radius: 2px; background: var(--uet-accent); }

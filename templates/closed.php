@@ -11,8 +11,9 @@ defined( 'ABSPATH' ) || exit;
 
 $dfmg_start = (string) Settings::get( 'round_start', '' );
 ?>
-<div class="dfmg-welcome">
+<div class="dfmg-welcome dfmg-welcome--closed">
 	<div class="dfmg-card">
+		<span class="dfmg-emblem"><?php echo \DigiFalk\UnderworldEmpire\Icons::svg( 'timer', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 		<h2><?php echo esc_html( (string) Settings::get( 'round_name' ) ); ?></h2>
 		<?php if ( $dfmg_start && strtotime( $dfmg_start ) > current_time( 'timestamp' ) ) : // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested ?>
 			<p>

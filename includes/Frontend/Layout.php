@@ -37,13 +37,13 @@ final class Layout {
 	}
 
 	/**
-	 * The classic layout: player and stats in the header, menu on the left.
+	 * The classic layout: player (with rank ring) and stats in the header, menu on the left.
 	 */
 	public static function defaults(): array {
 		return array(
-			'header-left'   => array( 'player', 'rank-progress' ),
+			'header-left'   => array( 'player' ),
 			'header-center' => array(),
-			'header-right'  => array( 'rank', 'cash', 'bank', 'bullets', 'health', 'city', 'points' ),
+			'header-right'  => array( 'cash', 'bank', 'bullets', 'health', 'city', 'points' ),
 			'sidebar'       => array( 'menu' ),
 			'top'           => array(),
 			'bottom'        => array(),

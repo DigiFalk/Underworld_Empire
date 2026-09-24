@@ -20,6 +20,7 @@ namespace DigiFalk\UnderworldEmpire\Frontend;
 use DigiFalk\UnderworldEmpire\Character;
 use DigiFalk\UnderworldEmpire\DB;
 use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Icons;
 use DigiFalk\UnderworldEmpire\Plugin;
 use DigiFalk\UnderworldEmpire\Settings;
 
@@ -83,8 +84,8 @@ final class Hud {
 				if ( ! $c ) {
 					return '';
 				}
-				return '<div class="dfmg-hud-stat">' . ( $icon ? '<span class="dfmg-hud-stat__icon" aria-hidden="true">' . $icon . '</span>' : '' )
-					. '<span class="dfmg-hud-stat__label">' . esc_html( $label ) . '</span><span class="dfmg-hud-stat__value">' . $value( $c ) . '</span></div>';
+				return '<div class="dfmg-hud-stat" title="' . esc_attr( $label ) . '">' . ( $icon ? '<span class="dfmg-hud-stat__icon">' . Icons::svg( $icon, 16 ) . '</span>' : '' )
+					. '<span class="dfmg-hud-stat__text"><span class="dfmg-hud-stat__label">' . esc_html( $label ) . '</span><span class="dfmg-hud-stat__value">' . $value( $c ) . '</span></span></div>';
 			};
 		};
 
@@ -97,7 +98,7 @@ final class Hud {
 				'label'  => __( 'Rank', 'underworld-empire' ),
 				'render' => $stat( __( 'Rank', 'underworld-empire' ), static function ( Character $c ) {
 					return esc_html( $c->rank_name() );
-				}, '★' ),
+				}, 'rank' ),
 			),
 			'rank-progress' => array(
 				'label'  => __( 'Rank progress bar', 'underworld-empire' ),
@@ -113,44 +114,44 @@ final class Hud {
 				'label'  => __( 'Cash', 'underworld-empire' ),
 				'render' => $stat( __( 'Cash', 'underworld-empire' ), static function ( Character $c ) {
 					return esc_html( Format::money( $c->money ) );
-				}, '$' ),
+				}, 'cash' ),
 			),
 			'bank'          => array(
 				'label'  => __( 'Bank', 'underworld-empire' ),
 				'render' => $stat( __( 'Bank', 'underworld-empire' ), static function ( Character $c ) {
 					return esc_html( Format::money( $c->bank ) );
-				}, '⌂' ),
+				}, 'bank' ),
 			),
 			'bullets'       => array(
 				'label'  => __( 'Bullets', 'underworld-empire' ),
 				'render' => $stat( __( 'Bullets', 'underworld-empire' ), static function ( Character $c ) {
 					return esc_html( Format::number( $c->bullets ) );
-				}, '•' ),
+				}, 'bullets' ),
 			),
 			'health'        => array(
 				'label'  => __( 'Health', 'underworld-empire' ),
 				'render' => $stat( __( 'Health', 'underworld-empire' ), static function ( Character $c ) {
 					$pct = $c->health_percent();
 					return '<span class="dfmg-hud-health" style="--dfmg-hp:' . esc_attr( (string) $pct ) . '%">' . esc_html( $pct . '%' ) . '</span>';
-				}, '♥' ),
+				}, 'health' ),
 			),
 			'points'        => array(
 				'label'  => __( 'Premium points', 'underworld-empire' ),
 				'render' => $stat( (string) Settings::get( 'points_name', __( 'Points', 'underworld-empire' ) ), static function ( Character $c ) {
 					return esc_html( Format::number( $c->points ) );
-				}, '◆' ),
+				}, 'points' ),
 			),
 			'city'          => array(
 				'label'  => __( 'City', 'underworld-empire' ),
 				'render' => $stat( __( 'City', 'underworld-empire' ), static function ( Character $c ) {
 					return esc_html( $c->location_name() );
-				}, '⌖' ),
+				}, 'city' ),
 			),
 			'wealth'        => array(
 				'label'  => __( 'Wealth title', 'underworld-empire' ),
 				'render' => $stat( __( 'Wealth', 'underworld-empire' ), static function ( Character $c ) {
 					return esc_html( $c->wealth_title() );
-				} ),
+				}, 'wealth' ),
 			),
 			'notifications' => array(
 				'label'  => __( 'Notifications (with counter)', 'underworld-empire' ),
@@ -159,7 +160,7 @@ final class Hud {
 						return '';
 					}
 					$n = (int) DB::value( 'SELECT COUNT(*) FROM {notifications} WHERE character_id = %d AND is_read = 0', $c->id() );
-					return self::icon_link( Game::url( 'notifications' ), __( 'Notifications', 'underworld-empire' ), '<path fill="currentColor" d="M12 22a2.5 2.5 0 0 0 2.4-2h-4.8a2.5 2.5 0 0 0 2.4 2zm7-6V11a7 7 0 0 0-5.5-6.8V3a1.5 1.5 0 0 0-3 0v1.2A7 7 0 0 0 5 11v5l-2 2v1h18v-1l-2-2z"/>', $n );
+					return self::icon_link( Game::url( 'notifications' ), __( 'Notifications', 'underworld-empire' ), 'notifications', $n );
 				},
 			),
 			'messages'      => array(
@@ -169,7 +170,7 @@ final class Hud {
 						return '';
 					}
 					$n = (int) DB::value( 'SELECT COUNT(*) FROM {messages} WHERE recipient_id = %d AND is_read = 0 AND recipient_deleted = 0', $c->id() );
-					return self::icon_link( Game::url( 'messages' ), __( 'Messages', 'underworld-empire' ), '<path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/>', $n );
+					return self::icon_link( Game::url( 'messages' ), __( 'Messages', 'underworld-empire' ), 'messages', $n );
 				},
 			),
 			'timers'        => array(
@@ -192,7 +193,7 @@ final class Hud {
 				'label'  => __( 'Round name & end', 'underworld-empire' ),
 				'render' => static function () {
 					$end  = (string) Settings::get( 'round_end', '' );
-					$html = '<span class="dfmg-hud-round">' . esc_html( (string) Settings::get( 'round_name' ) );
+					$html = '<span class="dfmg-hud-round">' . Icons::svg( 'round', 15 ) . '<span>' . esc_html( (string) Settings::get( 'round_name' ) ) . '</span>';
 					if ( $end && strtotime( $end ) ) {
 						$ts    = strtotime( get_gmt_from_date( $end ) . ' UTC' );
 						$html .= ' &middot; <small>' . esc_html__( 'ends in', 'underworld-empire' ) . ' ' . Format::countdown( (int) $ts ) . '</small>';
@@ -204,16 +205,16 @@ final class Hud {
 				'label'  => __( 'Play / log in button', 'underworld-empire' ),
 				'render' => static function ( ?Character $c ) {
 					if ( $c ) {
-						return '<a class="dfmg-button dfmg-hud-play" href="' . esc_url( Game::url() ) . '">' . esc_html__( 'Play', 'underworld-empire' ) . '</a>';
+						return '<a class="dfmg-button dfmg-hud-play" href="' . esc_url( Game::url() ) . '">' . Icons::svg( 'play', 14 ) . esc_html__( 'Play', 'underworld-empire' ) . '</a>';
 					}
 					$label = is_user_logged_in() ? __( 'Start playing', 'underworld-empire' ) : __( 'Log in to play', 'underworld-empire' );
-					return '<a class="dfmg-button dfmg-hud-play" href="' . esc_url( Game::url() ) . '">' . esc_html( $label ) . '</a>';
+					return '<a class="dfmg-button dfmg-hud-play" href="' . esc_url( Game::url() ) . '">' . Icons::svg( 'play', 14 ) . esc_html( $label ) . '</a>';
 				},
 			),
 			'logout'        => array(
 				'label'  => __( 'Log out link', 'underworld-empire' ),
 				'render' => static function () {
-					return is_user_logged_in() ? '<a class="dfmg-hud-logout" href="' . esc_url( wp_logout_url( Game::page_url() ) ) . '">' . esc_html__( 'Log out', 'underworld-empire' ) . '</a>' : '';
+					return is_user_logged_in() ? '<a class="dfmg-hud-logout" href="' . esc_url( wp_logout_url( Game::page_url() ) ) . '">' . Icons::svg( 'logout', 15 ) . '<span>' . esc_html__( 'Log out', 'underworld-empire' ) . '</span></a>' : '';
 				},
 			),
 		);
@@ -301,11 +302,11 @@ final class Hud {
 		return '<div class="' . esc_attr( $class ) . '" data-dfmg-now="' . esc_attr( (string) time() ) . '">' . $html . '</div>';
 	}
 
-	private static function icon_link( string $url, string $label, string $path, int $count ): string {
+	private static function icon_link( string $url, string $label, string $icon, int $count ): string {
 		$badge = $count ? '<span class="dfmg-hud-badge">' . esc_html( $count > 99 ? '99+' : (string) $count ) . '</span>' : '';
 		/* translators: 1: label, 2: count */
 		$aria = $count ? sprintf( __( '%1$s (%2$d new)', 'underworld-empire' ), $label, $count ) : $label;
-		return '<a class="dfmg-hud-icon" href="' . esc_url( $url ) . '" aria-label="' . esc_attr( $aria ) . '" title="' . esc_attr( $label ) . '"><svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true">' . $path . '</svg>' . $badge . '</a>';
+		return '<a class="dfmg-hud-icon" href="' . esc_url( $url ) . '" aria-label="' . esc_attr( $aria ) . '" title="' . esc_attr( $label ) . '">' . Icons::svg( $icon, 19 ) . $badge . '</a>';
 	}
 
 	public static function render_player( ?Character $c ): string {
@@ -314,17 +315,26 @@ final class Hud {
 		}
 		$profile = self::active( 'profile' );
 		return '<a class="dfmg-hud-player" href="' . esc_url( $profile ? Game::url( 'profile' ) : Game::url() ) . '" title="' . esc_attr( $profile ? __( 'My profile', 'underworld-empire' ) : __( 'Overview', 'underworld-empire' ) ) . '">'
-			. self::avatar( $c )
-			. '<span class="dfmg-hud-player__name">' . esc_html( $c->name ) . '</span></a>';
+			. self::avatar_ring( $c, 30 )
+			. '<span class="dfmg-hud-player__text"><span class="dfmg-hud-player__name">' . esc_html( $c->name ) . '</span><span class="dfmg-hud-player__rank">' . esc_html( $c->rank_name() ) . '</span></span></a>';
+	}
+
+	/**
+	 * Avatar inside a ring that shows the progress to the next rank.
+	 */
+	public static function avatar_ring( Character $c, int $size = 30 ): string {
+		/* translators: %s: percent */
+		$title = sprintf( __( '%s%% to next rank', 'underworld-empire' ), $c->rank_progress() );
+		return '<span class="dfmg-ring" style="--dfmg-p:' . esc_attr( (string) $c->rank_progress() ) . '%;--dfmg-ring-size:' . (int) $size . 'px" title="' . esc_attr( $title ) . '">' . self::avatar( $c, $size ) . '</span>';
 	}
 
 	/**
 	 * Uploaded avatar, or the first letter of the name.
 	 */
-	public static function avatar( Character $c ): string {
+	public static function avatar( Character $c, int $size = 30 ): string {
 		$url = \DigiFalk\UnderworldEmpire\Avatar::url( (int) $c->user_id );
 		if ( $url ) {
-			return '<img class="dfmg-hud-player__avatar dfmg-hud-player__avatar--img" src="' . esc_url( $url ) . '" alt="" width="30" height="30" loading="lazy">';
+			return '<img class="dfmg-hud-player__avatar dfmg-hud-player__avatar--img" src="' . esc_url( $url ) . '" alt="" width="' . $size . '" height="' . $size . '" loading="lazy">';
 		}
 		return '<span class="dfmg-hud-player__avatar" aria-hidden="true">' . esc_html( mb_strtoupper( mb_substr( $c->name, 0, 1 ) ) ) . '</span>';
 	}
@@ -337,7 +347,7 @@ final class Hud {
 		foreach ( Game::menu( $c ) as $group ) {
 			foreach ( $group['items'] as $item ) {
 				if ( ! empty( $item['timer'] ) && $c->timer_active( $item['timer'] ) ) {
-					$items .= '<li><a href="' . esc_url( $item['url'] ) . '"><span>' . esc_html( $item['label'] ) . '</span> ' . Format::countdown( $c->timer( $item['timer'] ) ) . '</a></li>';
+					$items .= '<li><a href="' . esc_url( $item['url'] ) . '">' . Icons::svg( $item['icon'] ?? 'timer', 15 ) . '<span>' . esc_html( $item['label'] ) . '</span> ' . Format::countdown( $c->timer( $item['timer'] ) ) . '</a></li>';
 				}
 			}
 		}
@@ -366,7 +376,7 @@ final class Hud {
 		foreach ( $groups as $group ) {
 			$html .= '<div class="dfmg-nav__group">' . ( $only_group && 'bar' === $context ? '' : '<h4>' . esc_html( $group['label'] ) . '</h4>' ) . '<ul>';
 			foreach ( $group['items'] as $item ) {
-				$html .= '<li class="' . ( $item['route'] === $current && ( null !== self::$route || Game::is_game_page() ) ? 'is-active' : '' ) . '"><a href="' . esc_url( $item['url'] ) . '"><span>' . esc_html( $item['label'] ) . '</span>';
+				$html .= '<li class="' . ( $item['route'] === $current && ( null !== self::$route || Game::is_game_page() ) ? 'is-active' : '' ) . '"><a href="' . esc_url( $item['url'] ) . '"' . ( $item['route'] === $current && ( null !== self::$route || Game::is_game_page() ) ? ' aria-current="page"' : '' ) . '>' . Icons::svg( $item['icon'] ?? 'dot', 18, 'dfmg-nav__icon' ) . '<span>' . esc_html( $item['label'] ) . '</span>';
 				if ( ! empty( $item['badge'] ) ) {
 					$html .= '<em class="dfmg-badge">' . esc_html( (string) $item['badge'] ) . '</em>';
 				}

@@ -9,6 +9,7 @@ namespace DigiFalk\UnderworldEmpire\Admin;
 
 use DigiFalk\UnderworldEmpire\DB;
 use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\UnderworldEmpire\Icons;
 use DigiFalk\UnderworldEmpire\Frontend\Game;
 use DigiFalk\UnderworldEmpire\Items;
 use DigiFalk\UnderworldEmpire\Locations;
@@ -60,6 +61,7 @@ final class Admin {
 	public static function assets( string $hook ): void {
 		if ( false !== strpos( $hook, 'dfmg' ) ) {
 			wp_enqueue_style( 'dfmg-admin', DFMG_URL . 'assets/css/admin.css', array(), DFMG_VERSION );
+			wp_enqueue_script( 'dfmg-admin', DFMG_URL . 'assets/js/admin.js', array(), DFMG_VERSION, true );
 		}
 	}
 
@@ -190,9 +192,8 @@ final class Admin {
 				return empty( $def['module_id'] );
 			}
 		);
-		echo '<div class="wrap dfmg-admin"><h1>' . esc_html__( 'Game data', 'underworld-empire' ) . '</h1>';
-		self::notices();
-		echo '<p class="description">' . esc_html__( 'Core game data. The data of each module is managed on its own page: Modules → Configure.', 'underworld-empire' ) . '</p>';
+		echo '<div class="wrap dfmg-admin">';
+		self::header( __( 'Game data', 'underworld-empire' ), __( 'Core game data. The data of each module is managed on its own page: Modules → Configure.', 'underworld-empire' ), 'dfmg-data' );
 		self::render_tables( $tables, array( 'page' => 'dfmg-data' ) );
 		echo '</div></div></div>';
 	}
@@ -270,6 +271,60 @@ final class Admin {
 	}
 
 	/* ------------------------------------------------------------------ */
+	/* Branded page header                                                  */
+	/* ------------------------------------------------------------------ */
+
+	/**
+	 * Header shown on every Underworld Empire admin screen: brand, page title,
+	 * quick actions and the section navigation.
+	 */
+	private static function header( string $title, string $subtitle = '', string $current = '' ): void {
+		$nav = array(
+			'dfmg'          => array( __( 'Dashboard', 'underworld-empire' ), 'overview' ),
+			'dfmg-modules'  => array( __( 'Modules', 'underworld-empire' ), 'module' ),
+			'dfmg-data'     => array( __( 'Game data', 'underworld-empire' ), 'data' ),
+			'dfmg-settings' => array( __( 'Settings', 'underworld-empire' ), 'settings' ),
+		);
+		$layout = add_query_arg(
+			array(
+				'autofocus[section]' => 'dfmg_game_layout',
+				'url'                => rawurlencode( Game::page_url() ),
+			),
+			admin_url( 'customize.php' )
+		);
+		?>
+		<header class="dfmg-admin-hero">
+			<div class="dfmg-admin-hero__top">
+				<div class="dfmg-admin-brand">
+					<span class="dfmg-admin-brand__mark"><?php echo Icons::svg( 'shield', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+					<span class="dfmg-admin-brand__text">
+						<strong>Underworld Empire</strong>
+						<span><?php echo esc_html( 'v' . DFMG_VERSION . ' · ' . (string) Settings::get( 'round_name' ) ); ?></span>
+					</span>
+				</div>
+				<div class="dfmg-admin-hero__actions">
+					<a class="dfmg-admin-btn dfmg-admin-btn--glass" href="<?php echo esc_url( $layout ); ?>"><?php echo Icons::svg( 'layout', 16 ); // phpcs:ignore ?> <?php esc_html_e( 'Game layout', 'underworld-empire' ); ?></a>
+					<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Open the game', 'underworld-empire' ); ?> <?php echo Icons::svg( 'external', 15 ); // phpcs:ignore ?></a>
+				</div>
+			</div>
+			<div class="dfmg-admin-hero__title">
+				<h1><?php echo esc_html( $title ); ?></h1>
+				<?php if ( $subtitle ) : ?>
+					<p><?php echo wp_kses_post( $subtitle ); ?></p>
+				<?php endif; ?>
+			</div>
+			<nav class="dfmg-admin-nav" aria-label="<?php esc_attr_e( 'Underworld Empire', 'underworld-empire' ); ?>">
+				<?php foreach ( $nav as $page => $item ) : ?>
+					<a class="<?php echo $page === $current ? 'is-active' : ''; ?>" href="<?php echo esc_url( admin_url( 'admin.php?page=' . $page ) ); ?>"<?php echo $page === $current ? ' aria-current="page"' : ''; ?>><?php echo Icons::svg( $item[1], 16 ); // phpcs:ignore ?> <?php echo esc_html( $item[0] ); ?></a>
+				<?php endforeach; ?>
+			</nav>
+		</header>
+		<hr class="wp-header-end">
+		<?php
+		self::notices();
+	}
+
+	/* ------------------------------------------------------------------ */
 	/* Dashboard                                                            */
 	/* ------------------------------------------------------------------ */
 
@@ -282,35 +337,198 @@ final class Admin {
 		$online  = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1 AND last_active > %d', time() - 60 * Settings::int( 'online_minutes', 15 ) );
 		$money   = (int) DB::value( 'SELECT COALESCE(SUM(money + bank), 0) FROM {characters} WHERE status = 1' );
 		$actions = (int) DB::value( 'SELECT COUNT(*) FROM {activity} WHERE created_at > %d', time() - DAY_IN_SECONDS );
+		$top     = DB::results( 'SELECT name, user_id, exp, rank_id, money + bank AS wealth FROM {characters} WHERE status = 1 ORDER BY exp DESC, id ASC LIMIT 5' );
+		$feed    = DB::results( 'SELECT a.action, a.success, a.created_at, c.name FROM {activity} a LEFT JOIN {characters} c ON c.id = a.character_id ORDER BY a.id DESC LIMIT 8' );
+		$stats   = array(
+			array( 'players', __( 'Living players', 'underworld-empire' ), Format::number( $alive ) ),
+			array( 'activity', __( 'Online now', 'underworld-empire' ), Format::number( $online ) ),
+			array( 'murder', __( 'Murdered', 'underworld-empire' ), Format::number( $dead ) ),
+			array( 'cash', __( 'Money in circulation', 'underworld-empire' ), Format::money( $money ) ),
+			array( 'crimes', __( 'Actions (24 hours)', 'underworld-empire' ), Format::number( $actions ) ),
+		);
+		$customize = admin_url( 'customize.php?url=' . rawurlencode( Game::page_url() ) );
+		$links     = array(
+			array( 'layout', __( 'Game layout', 'underworld-empire' ), __( 'Drag game elements into place', 'underworld-empire' ), add_query_arg( 'autofocus[section]', 'dfmg_game_layout', $customize ) ),
+			array( 'palette', __( 'Theme & colours', 'underworld-empire' ), __( 'Header, footer, light & dark mode', 'underworld-empire' ), $customize ),
+			array( 'module', __( 'Modules', 'underworld-empire' ), __( 'Switch game features on or off', 'underworld-empire' ), admin_url( 'admin.php?page=dfmg-modules' ) ),
+			array( 'data', __( 'Game data', 'underworld-empire' ), __( 'Players, ranks, cities and items', 'underworld-empire' ), admin_url( 'admin.php?page=dfmg-data' ) ),
+			array( 'settings', __( 'Settings', 'underworld-empire' ), __( 'Round, money and appearance', 'underworld-empire' ), admin_url( 'admin.php?page=dfmg-settings' ) ),
+			array( 'book', __( 'Documentation', 'underworld-empire' ), __( 'Build your own modules', 'underworld-empire' ), 'https://github.com/DigiFalk/Underworld_Empire/blob/main/docs/MODULES.md' ),
+		);
 		?>
 		<div class="wrap dfmg-admin">
-			<h1><?php esc_html_e( 'Underworld Empire', 'underworld-empire' ); ?></h1>
-			<?php self::notices(); ?>
-			<div class="dfmg-admin-cards">
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $alive ) ); ?></strong><span><?php esc_html_e( 'Living players', 'underworld-empire' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $online ) ); ?></strong><span><?php esc_html_e( 'Online now', 'underworld-empire' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $dead ) ); ?></strong><span><?php esc_html_e( 'Murdered', 'underworld-empire' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::money( $money ) ); ?></strong><span><?php esc_html_e( 'Money in circulation', 'underworld-empire' ); ?></span></div>
-				<div class="dfmg-admin-card"><strong><?php echo esc_html( Format::number( $actions ) ); ?></strong><span><?php esc_html_e( 'Actions (24 hours)', 'underworld-empire' ); ?></span></div>
+			<?php self::header( __( 'Dashboard', 'underworld-empire' ), __( 'How your underworld is doing right now.', 'underworld-empire' ), 'dfmg' ); ?>
+
+			<div class="dfmg-admin-stats">
+				<?php foreach ( $stats as $stat ) : ?>
+					<div class="dfmg-admin-stat">
+						<span class="dfmg-admin-stat__icon"><?php echo Icons::svg( $stat[0], 20 ); // phpcs:ignore ?></span>
+						<span class="dfmg-admin-stat__label"><?php echo esc_html( $stat[1] ); ?></span>
+						<strong class="dfmg-admin-stat__value"><?php echo esc_html( $stat[2] ); ?></strong>
+					</div>
+				<?php endforeach; ?>
 			</div>
 
-			<h2><?php esc_html_e( 'Game page', 'underworld-empire' ); ?></h2>
-			<p>
-				<?php esc_html_e( 'The game runs on the page with the shortcode', 'underworld-empire' ); ?> <code>[underworld_empire]</code>:
-				<a href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank"><?php echo esc_html( Game::page_url() ); ?></a>
-			</p>
+			<div class="dfmg-admin-grid dfmg-admin-grid--wide">
+				<section class="dfmg-admin-panel">
+					<h2 class="dfmg-admin-panel__title"><?php echo Icons::svg( 'statistics', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Player actions, last 7 days', 'underworld-empire' ); ?></h2>
+					<?php self::activity_chart(); ?>
+				</section>
+				<section class="dfmg-admin-panel">
+					<h2 class="dfmg-admin-panel__title"><?php echo Icons::svg( 'leaderboards', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Top players', 'underworld-empire' ); ?></h2>
+					<?php if ( ! $top ) : ?>
+						<p class="dfmg-admin-empty"><?php esc_html_e( 'No players yet. Share the game page to get started.', 'underworld-empire' ); ?></p>
+					<?php else : ?>
+						<ol class="dfmg-admin-top">
+							<?php foreach ( $top as $row ) : ?>
+								<li>
+									<?php $avatar = \DigiFalk\UnderworldEmpire\Avatar::url( (int) $row['user_id'] ); ?>
+									<?php if ( $avatar ) : ?>
+										<img class="dfmg-admin-top__avatar" src="<?php echo esc_url( $avatar ); ?>" alt="" width="34" height="34">
+									<?php else : ?>
+										<span class="dfmg-admin-top__avatar" aria-hidden="true"><?php echo esc_html( mb_strtoupper( mb_substr( (string) $row['name'], 0, 1 ) ) ); ?></span>
+									<?php endif; ?>
+									<span class="dfmg-admin-top__who"><strong><?php echo esc_html( (string) $row['name'] ); ?></strong><small><?php echo esc_html( (string) ( Ranks::get( (int) $row['rank_id'] )['name'] ?? '' ) ); ?></small></span>
+									<span class="dfmg-admin-top__num"><?php echo esc_html( Format::money( (int) $row['wealth'] ) ); ?><small><?php /* translators: %s: experience */ echo esc_html( sprintf( __( '%s XP', 'underworld-empire' ), Format::number( (int) $row['exp'] ) ) ); ?></small></span>
+								</li>
+							<?php endforeach; ?>
+						</ol>
+					<?php endif; ?>
+				</section>
+			</div>
 
-			<h2><?php esc_html_e( 'New round', 'underworld-empire' ); ?></h2>
-			<p><?php esc_html_e( 'Erases all characters and player data (money, cars, families, messages, ...). Game data like crimes, cities and items is kept.', 'underworld-empire' ); ?></p>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'All player data will be erased. Continue?', 'underworld-empire' ) ); ?>');">
-				<input type="hidden" name="action" value="dfmg_new_round">
-				<?php wp_nonce_field( 'dfmg_new_round' ); ?>
-				<p><label><?php esc_html_e( 'New round name', 'underworld-empire' ); ?> <input type="text" name="round_name" value="<?php echo esc_attr( (string) Settings::get( 'round_name' ) ); ?>"></label></p>
-				<p><label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'I understand this can\'t be undone', 'underworld-empire' ); ?></label></p>
-				<?php submit_button( __( 'Start new round', 'underworld-empire' ), 'delete' ); ?>
-			</form>
+			<div class="dfmg-admin-grid">
+				<section class="dfmg-admin-panel">
+					<h2 class="dfmg-admin-panel__title"><?php echo Icons::svg( 'activity', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Live feed', 'underworld-empire' ); ?></h2>
+					<?php if ( ! $feed ) : ?>
+						<p class="dfmg-admin-empty"><?php esc_html_e( 'Nothing has happened yet.', 'underworld-empire' ); ?></p>
+					<?php else : ?>
+						<ul class="dfmg-admin-feed">
+							<?php foreach ( $feed as $row ) : ?>
+								<li class="<?php echo $row['success'] ? 'is-success' : 'is-fail'; ?>">
+									<span class="dfmg-admin-feed__dot" aria-hidden="true"></span>
+									<span class="dfmg-admin-feed__text"><strong><?php echo esc_html( (string) ( $row['name'] ?: __( 'Unknown player', 'underworld-empire' ) ) ); ?></strong> <?php echo esc_html( self::activity_label( (string) $row['action'] ) ); ?> <em><?php echo $row['success'] ? esc_html__( 'succeeded', 'underworld-empire' ) : esc_html__( 'failed', 'underworld-empire' ); ?></em></span>
+									<time><?php echo esc_html( Format::ago( (int) $row['created_at'] ) ); ?></time>
+								</li>
+							<?php endforeach; ?>
+						</ul>
+					<?php endif; ?>
+				</section>
+				<section class="dfmg-admin-panel">
+					<h2 class="dfmg-admin-panel__title"><?php echo Icons::svg( 'module', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Quick links', 'underworld-empire' ); ?></h2>
+					<div class="dfmg-admin-links">
+						<?php foreach ( $links as $link ) : ?>
+							<a class="dfmg-admin-link" href="<?php echo esc_url( $link[3] ); ?>"<?php echo 0 === strpos( $link[3], 'http' ) && false === strpos( $link[3], admin_url() ) ? ' target="_blank" rel="noopener"' : ''; ?>>
+								<span class="dfmg-admin-link__icon"><?php echo Icons::svg( $link[0], 18 ); // phpcs:ignore ?></span>
+								<span><strong><?php echo esc_html( $link[1] ); ?></strong><small><?php echo esc_html( $link[2] ); ?></small></span>
+							</a>
+						<?php endforeach; ?>
+					</div>
+					<p class="dfmg-admin-shortcode">
+						<?php esc_html_e( 'Game page', 'underworld-empire' ); ?>:
+						<a href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank" rel="noopener"><?php echo esc_html( Game::page_url() ); ?></a>
+						<code>[underworld_empire]</code>
+					</p>
+				</section>
+			</div>
+
+			<details class="dfmg-admin-panel dfmg-admin-danger">
+				<summary><?php echo Icons::svg( 'alert', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Start a new round', 'underworld-empire' ); ?> <small><?php esc_html_e( 'Erases all characters and player data', 'underworld-empire' ); ?></small></summary>
+				<p><?php esc_html_e( 'Erases all characters and player data (money, cars, families, messages, ...). Game data like crimes, cities and items is kept.', 'underworld-empire' ); ?></p>
+				<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'All player data will be erased. Continue?', 'underworld-empire' ) ); ?>');">
+					<input type="hidden" name="action" value="dfmg_new_round">
+					<?php wp_nonce_field( 'dfmg_new_round' ); ?>
+					<p><label><?php esc_html_e( 'New round name', 'underworld-empire' ); ?> <input type="text" name="round_name" value="<?php echo esc_attr( (string) Settings::get( 'round_name' ) ); ?>"></label></p>
+					<p><label><input type="checkbox" name="confirm" value="1" required> <?php esc_html_e( 'I understand this can\'t be undone', 'underworld-empire' ); ?></label></p>
+					<?php submit_button( __( 'Start new round', 'underworld-empire' ), 'delete' ); ?>
+				</form>
+			</details>
 		</div>
 		<?php
+	}
+
+	/**
+	 * Readable name of an activity log action ("car_theft" → "Car theft").
+	 */
+	private static function activity_label( string $action ): string {
+		$labels = apply_filters( 'dfmg_activity_labels', array() );
+		return (string) ( $labels[ $action ] ?? ucfirst( str_replace( array( '_', '-' ), ' ', $action ) ) );
+	}
+
+	/**
+	 * Column chart of player actions per day (last 7 days, site time zone).
+	 * One series: the panel title names it, so there is no legend. Each column
+	 * has a hover tooltip and the numbers are also in a screen reader table.
+	 */
+	private static function activity_chart(): void {
+		$tz    = wp_timezone();
+		$start = ( new \DateTimeImmutable( 'today', $tz ) )->modify( '-6 days' )->getTimestamp();
+		$rows  = DB::results( 'SELECT FLOOR((created_at - %d) / 86400) AS d, COUNT(*) AS n FROM {activity} WHERE created_at >= %d GROUP BY d', $start, $start );
+		$days  = array_fill( 0, 7, 0 );
+		foreach ( $rows as $row ) {
+			$d = (int) $row['d'];
+			if ( $d >= 0 && $d < 7 ) {
+				$days[ $d ] = (int) $row['n'];
+			}
+		}
+		$max  = max( $days );
+		// Four gridlines at clean numbers (1, 2, 5, 10, 20, …).
+		$step = max( 1, (int) ceil( $max / 4 ) );
+		$mag  = 10 ** max( 0, (int) floor( log10( $step ) ) );
+		$step = (int) ( ceil( $step / $mag ) * $mag );
+		$top  = $step * 4;
+
+		$w      = 760;
+		$h      = 230;
+		$left   = 40;
+		$bottom = 28;
+		$plot_h = $h - $bottom - 12;
+		$slot   = ( $w - $left - 8 ) / 7;
+		$bar_w  = min( 24, $slot * .5 );
+		$labels = array();
+		for ( $i = 0; $i < 7; $i++ ) {
+			$labels[] = wp_date( 'D j', $start + $i * DAY_IN_SECONDS + 3600, $tz );
+		}
+		echo '<figure class="dfmg-admin-chart">';
+		echo '<svg viewBox="0 0 ' . $w . ' ' . $h . '" role="img" aria-label="' . esc_attr__( 'Player actions per day', 'underworld-empire' ) . '">';
+		for ( $g = 0; $g <= 4; $g++ ) {
+			$y = 12 + $plot_h - ( $plot_h * $g / 4 );
+			echo '<line class="dfmg-admin-chart__grid" x1="' . $left . '" x2="' . ( $w - 4 ) . '" y1="' . $y . '" y2="' . $y . '"/>';
+			echo '<text class="dfmg-admin-chart__tick" x="' . ( $left - 8 ) . '" y="' . ( $y + 4 ) . '" text-anchor="end">' . esc_html( Format::number( $step * $g ) ) . '</text>';
+		}
+		foreach ( $days as $i => $n ) {
+			$x   = $left + $slot * $i + ( $slot - $bar_w ) / 2;
+			$bh  = $top ? $plot_h * $n / $top : 0;
+			$y   = 12 + $plot_h - $bh;
+			$r   = min( 4, $bh );
+			$cx  = $x + $bar_w / 2;
+			echo '<g class="dfmg-admin-chart__col' . ( $n === $max && $max > 0 ? ' is-max' : '' ) . '" tabindex="0">';
+			echo '<title>' . esc_html( $labels[ $i ] . ': ' . Format::number( $n ) ) . '</title>';
+			echo '<rect class="dfmg-admin-chart__hit" x="' . ( $left + $slot * $i ) . '" y="12" width="' . $slot . '" height="' . $plot_h . '"/>';
+			if ( $bh > 0 ) {
+				// Rounded data end, square at the baseline.
+				$path = sprintf(
+					'M%1$.1f %2$.1fV%3$.1fQ%1$.1f %4$.1f %5$.1f %4$.1fH%6$.1fQ%7$.1f %4$.1f %7$.1f %3$.1fV%2$.1fZ',
+					$x, 12 + $plot_h, $y + $r, $y, $x + $r, $x + $bar_w - $r, $x + $bar_w
+				);
+				echo '<path class="dfmg-admin-chart__bar" d="' . esc_attr( $path ) . '"/>';
+			}
+			if ( $n === $max && $max > 0 ) {
+				echo '<text class="dfmg-admin-chart__value" x="' . $cx . '" y="' . ( $y - 7 ) . '" text-anchor="middle">' . esc_html( Format::number( $n ) ) . '</text>';
+			}
+			echo '<text class="dfmg-admin-chart__day" x="' . $cx . '" y="' . ( $h - 8 ) . '" text-anchor="middle">' . esc_html( $labels[ $i ] ) . '</text>';
+			echo '</g>';
+		}
+		echo '<line class="dfmg-admin-chart__base" x1="' . $left . '" x2="' . ( $w - 4 ) . '" y1="' . ( 12 + $plot_h ) . '" y2="' . ( 12 + $plot_h ) . '"/>';
+		echo '</svg>';
+		echo '<table class="screen-reader-text"><caption>' . esc_html__( 'Player actions per day', 'underworld-empire' ) . '</caption><tbody>';
+		foreach ( $days as $i => $n ) {
+			echo '<tr><th scope="row">' . esc_html( $labels[ $i ] ) . '</th><td>' . esc_html( Format::number( $n ) ) . '</td></tr>';
+		}
+		echo '</tbody></table>';
+		/* translators: %s: number of actions */
+		echo '<figcaption>' . esc_html( sprintf( __( '%s actions this week', 'underworld-empire' ), Format::number( array_sum( $days ) ) ) ) . '</figcaption>';
+		echo '</figure>';
 	}
 
 	public static function handle_new_round(): void {
@@ -337,64 +555,84 @@ final class Admin {
 		if ( ! self::can() ) {
 			return;
 		}
-		$registry = Plugin::instance()->modules;
-		$sources  = array(
+		$registry  = Plugin::instance()->modules;
+		$available = $registry->available();
+		$active    = 0;
+		foreach ( $available as $id => $info ) {
+			$active += $registry->is_enabled( $id ) ? 1 : 0;
+		}
+		$sources = array(
 			'bundled' => __( 'Bundled', 'underworld-empire' ),
 			'custom'  => __( 'Custom module', 'underworld-empire' ),
 			'plugin'  => __( 'Other plugin', 'underworld-empire' ),
 		);
+		$subtitle = sprintf(
+			/* translators: %s: directory */
+			esc_html__( 'Switch game features on or off. Place custom modules in %s (one folder per module containing a module.php).', 'underworld-empire' ),
+			'<code>' . esc_html( str_replace( ABSPATH, '', DFMG_CUSTOM_MODULES_DIR ) ) . '</code>'
+		);
 		?>
 		<div class="wrap dfmg-admin">
-			<h1><?php esc_html_e( 'Modules', 'underworld-empire' ); ?></h1>
-			<?php self::notices(); ?>
-			<p>
-				<?php
-				printf(
-					/* translators: %s: directory */
-					esc_html__( 'Place custom modules in %s (one folder per module containing a module.php). See docs/MODULES.md in the plugin.', 'underworld-empire' ),
-					'<code>' . esc_html( str_replace( ABSPATH, '', DFMG_CUSTOM_MODULES_DIR ) ) . '</code>'
-				);
-				?>
-			</p>
-			<table class="widefat striped dfmg-modules">
-				<thead>
-					<tr>
-						<th><?php esc_html_e( 'Module', 'underworld-empire' ); ?></th>
-						<th><?php esc_html_e( 'Description', 'underworld-empire' ); ?></th>
-						<th><?php esc_html_e( 'Requires', 'underworld-empire' ); ?></th>
-						<th><?php esc_html_e( 'Source', 'underworld-empire' ); ?></th>
-						<th></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php foreach ( $registry->available() as $id => $info ) : ?>
-						<?php $on = $registry->is_enabled( $id ); ?>
-						<tr class="<?php echo $on ? 'is-active' : ''; ?>">
-							<td><strong><?php echo esc_html( $info['name'] ); ?></strong><br><small><?php echo esc_html( $id . ' · v' . $info['version'] . ' · ' . $info['author'] ); ?></small></td>
-							<td><?php echo esc_html( $info['description'] ); ?></td>
-							<td><?php echo esc_html( implode( ', ', $info['requires'] ) ); ?></td>
-							<td><?php echo esc_html( $sources[ $info['source'] ] ?? $info['source'] ); ?></td>
-							<td>
-								<?php $module = $registry->get( $id ); ?>
-								<?php if ( $module && ( $module->settings_fields() || $module->admin_tables() ) ) : ?>
-									<a class="button button-secondary dfmg-configure" href="<?php echo esc_url( self::module_url( $id ) ); ?>"><?php esc_html_e( 'Configure', 'underworld-empire' ); ?></a>
-								<?php endif; ?>
-								<?php if ( $info['required'] ) : ?>
-									<em><?php esc_html_e( 'Required', 'underworld-empire' ); ?></em>
-								<?php else : ?>
-									<form method="post" class="dfmg-inline" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
-										<input type="hidden" name="action" value="dfmg_module">
-										<input type="hidden" name="module" value="<?php echo esc_attr( $id ); ?>">
-										<input type="hidden" name="state" value="<?php echo $on ? 'off' : 'on'; ?>">
-										<?php wp_nonce_field( 'dfmg_module_' . $id ); ?>
-										<button class="button <?php echo $on ? '' : 'button-primary'; ?>"><?php echo $on ? esc_html__( 'Disable', 'underworld-empire' ) : esc_html__( 'Enable', 'underworld-empire' ); ?></button>
-									</form>
-								<?php endif; ?>
-							</td>
-						</tr>
-					<?php endforeach; ?>
-				</tbody>
-			</table>
+			<?php self::header( __( 'Modules', 'underworld-empire' ), $subtitle, 'dfmg-modules' ); ?>
+
+			<div class="dfmg-admin-toolbar" data-dfmg-modules-toolbar>
+				<div class="dfmg-admin-segment" role="group" aria-label="<?php esc_attr_e( 'Filter modules', 'underworld-empire' ); ?>">
+					<button type="button" class="is-active" data-filter="all"><?php esc_html_e( 'All', 'underworld-empire' ); ?> <span><?php echo (int) count( $available ); ?></span></button>
+					<button type="button" data-filter="on"><?php esc_html_e( 'Active', 'underworld-empire' ); ?> <span><?php echo (int) $active; ?></span></button>
+					<button type="button" data-filter="off"><?php esc_html_e( 'Inactive', 'underworld-empire' ); ?> <span><?php echo (int) ( count( $available ) - $active ); ?></span></button>
+				</div>
+				<label class="dfmg-admin-search-field">
+					<?php echo Icons::svg( 'detectives', 16 ); // phpcs:ignore ?>
+					<span class="screen-reader-text"><?php esc_html_e( 'Search modules', 'underworld-empire' ); ?></span>
+					<input type="search" placeholder="<?php esc_attr_e( 'Search modules…', 'underworld-empire' ); ?>" data-dfmg-module-search>
+				</label>
+			</div>
+
+			<div class="dfmg-admin-modules">
+				<?php foreach ( $available as $id => $info ) : ?>
+					<?php
+					$on     = $registry->is_enabled( $id );
+					$module = $registry->get( $id );
+					$search = strtolower( $info['name'] . ' ' . $id . ' ' . $info['description'] );
+					?>
+					<article class="dfmg-admin-module <?php echo $on ? 'is-on' : 'is-off'; ?>" data-state="<?php echo $on ? 'on' : 'off'; ?>" data-search="<?php echo esc_attr( $search ); ?>">
+						<header class="dfmg-admin-module__head">
+							<span class="dfmg-admin-module__icon"><?php echo Icons::svg( Icons::has( $id ) ? $id : 'module', 22 ); // phpcs:ignore ?></span>
+							<div class="dfmg-admin-module__name">
+								<h2><?php echo esc_html( $info['name'] ); ?></h2>
+								<span><?php echo esc_html( 'v' . $info['version'] . ' · ' . ( $sources[ $info['source'] ] ?? $info['source'] ) . ( $info['author'] ? ' · ' . $info['author'] : '' ) ); ?></span>
+							</div>
+							<?php if ( $info['required'] ) : ?>
+								<span class="dfmg-admin-badge"><?php esc_html_e( 'Required', 'underworld-empire' ); ?></span>
+							<?php else : ?>
+								<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+									<input type="hidden" name="action" value="dfmg_module">
+									<input type="hidden" name="module" value="<?php echo esc_attr( $id ); ?>">
+									<input type="hidden" name="state" value="<?php echo $on ? 'off' : 'on'; ?>">
+									<?php wp_nonce_field( 'dfmg_module_' . $id ); ?>
+									<button type="submit" class="dfmg-admin-switch" role="switch" aria-checked="<?php echo $on ? 'true' : 'false'; ?>" title="<?php echo $on ? esc_attr__( 'Disable', 'underworld-empire' ) : esc_attr__( 'Enable', 'underworld-empire' ); ?>">
+										<span class="screen-reader-text"><?php echo esc_html( ( $on ? __( 'Disable', 'underworld-empire' ) : __( 'Enable', 'underworld-empire' ) ) . ' ' . $info['name'] ); ?></span>
+									</button>
+								</form>
+							<?php endif; ?>
+						</header>
+						<p class="dfmg-admin-module__desc"><?php echo esc_html( $info['description'] ); ?></p>
+						<footer class="dfmg-admin-module__foot">
+							<?php if ( $info['requires'] ) : ?>
+								<span class="dfmg-admin-module__requires"><?php esc_html_e( 'Requires', 'underworld-empire' ); ?>
+									<?php foreach ( $info['requires'] as $dep ) : ?>
+										<span class="dfmg-admin-chip"><?php echo esc_html( $dep ); ?></span>
+									<?php endforeach; ?>
+								</span>
+							<?php endif; ?>
+							<?php if ( $module && ( $module->settings_fields() || $module->admin_tables() ) ) : ?>
+								<a class="dfmg-admin-btn dfmg-admin-btn--ghost dfmg-configure" href="<?php echo esc_url( self::module_url( $id ) ); ?>"><?php echo Icons::svg( 'settings', 15 ); // phpcs:ignore ?> <?php esc_html_e( 'Configure', 'underworld-empire' ); ?></a>
+							<?php endif; ?>
+						</footer>
+					</article>
+				<?php endforeach; ?>
+			</div>
+			<p class="dfmg-admin-empty" hidden data-dfmg-no-modules><?php esc_html_e( 'No modules match your search.', 'underworld-empire' ); ?></p>
 		</div>
 		<?php
 	}
@@ -443,15 +681,13 @@ final class Admin {
 		}
 		?>
 		<div class="wrap dfmg-admin">
-			<h1><?php esc_html_e( 'Settings', 'underworld-empire' ); ?></h1>
-			<?php self::notices(); ?>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<?php self::header( __( 'Settings', 'underworld-empire' ), __( 'General game settings. The settings of each module are on its own page: Modules → Configure.', 'underworld-empire' ), 'dfmg-settings' ); ?>
+			<form method="post" class="dfmg-admin-panel dfmg-admin-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="dfmg_settings">
 				<input type="hidden" name="section" value="core">
 				<?php wp_nonce_field( 'dfmg_settings' ); ?>
-				<p class="description"><?php esc_html_e( 'General game settings. The settings of each module are on its own page: Modules → Configure.', 'underworld-empire' ); ?></p>
 				<?php self::render_fields( Settings::core_fields() ); ?>
-				<?php submit_button( __( 'Save settings', 'underworld-empire' ) ); ?>
+				<div class="dfmg-admin-form__foot"><?php submit_button( __( 'Save settings', 'underworld-empire' ), 'primary', 'submit', false ); ?></div>
 			</form>
 		</div>
 		<?php
@@ -510,7 +746,7 @@ final class Admin {
 		$module = Plugin::instance()->modules->get( $id );
 		echo '<div class="wrap dfmg-admin">';
 		if ( ! $module ) {
-			echo '<h1>' . esc_html__( 'Configure module', 'underworld-empire' ) . '</h1><p>' . esc_html__( 'This module is not enabled.', 'underworld-empire' ) . '</p>';
+			self::header( __( 'Configure module', 'underworld-empire' ), esc_html__( 'This module is not enabled.', 'underworld-empire' ), 'dfmg-modules' );
 			echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'underworld-empire' ) . '</a></p></div>';
 			return;
 		}
@@ -524,11 +760,12 @@ final class Admin {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
 		$on_settings = $fields && ( ! isset( $_GET['table'] ) || ! isset( $tables[ sanitize_key( wp_unslash( $_GET['table'] ) ) ] ) );
 
-		/* translators: %s: module name */
-		echo '<h1>' . esc_html( sprintf( __( 'Configure: %s', 'underworld-empire' ), $module->name() ) ) . '</h1>';
-		echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'underworld-empire' ) . '</a></p>';
-		echo '<p class="description">' . esc_html( (string) $module->info( 'description' ) ) . '</p>';
-		self::notices();
+		self::header(
+			/* translators: %s: module name */
+			sprintf( __( 'Configure: %s', 'underworld-empire' ), $module->name() ),
+			'<a class="dfmg-admin-back" href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'underworld-empire' ) . '</a> ' . esc_html( (string) $module->info( 'description' ) ),
+			'dfmg-modules'
+		);
 
 		$extra = array();
 		if ( $fields ) {
@@ -552,12 +789,12 @@ final class Admin {
 		if ( $on_settings ) {
 			?>
 			<h2><?php esc_html_e( 'Settings', 'underworld-empire' ); ?></h2>
-			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+			<form method="post" class="dfmg-admin-panel dfmg-admin-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="dfmg_settings">
 				<input type="hidden" name="section" value="<?php echo esc_attr( $id ); ?>">
 				<?php wp_nonce_field( 'dfmg_settings' ); ?>
 				<?php self::render_fields( $fields ); ?>
-				<?php submit_button( __( 'Save settings', 'underworld-empire' ) ); ?>
+				<div class="dfmg-admin-form__foot"><?php submit_button( __( 'Save settings', 'underworld-empire' ), 'primary', 'submit', false ); ?></div>
 			</form>
 			<?php
 		}

@@ -3,6 +3,31 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.8.0
+
+A premium look for the game, the theme and the admin.
+
+- **Game**: its own set of line icons for every page, stat and alert; stat chips with icon
+  tiles; the player's avatar sits in a ring that fills up towards the next rank; menu with
+  icons and a highlighted active page; page titles with an icon tile; refined cards, buttons
+  (gradient, lift, focus ring), fields, progress bars with a soft sheen, alerts with icons,
+  timers and "ready" as pills, framed tables and segmented tabs; subtle entrance motion that
+  respects "reduce motion".
+- **Overview** redesigned: hero with avatar ring, rank and health meters, stat tiles, timer
+  list with icons and a "ready" counter, notification feed.
+- Welcome, login, create character, dead and closed screens with an emblem and glow.
+- **Theme 3.3.0**: glass header while scrolling, animated menu underline, refined buttons,
+  cards and blog grid (lift and image zoom), comment cards, widget headings, footer hairline,
+  selection colour and focus rings. Fixed: the sticky header didn't stick in the boxed layout,
+  and the theme squeezed game tables inside page content.
+- **Admin**: branded header with navigation and quick actions, a new dashboard (stat tiles,
+  7-day activity chart, top players, live feed, quick links, new round in a danger zone),
+  module cards with on/off switches, filter and search, settings in panels with a sticky save
+  bar, restyled game data screens. Works on phones.
+- The default game header now shows the player (with rank ring) and cash, bank, bullets,
+  health, city and points. Existing layouts are kept.
+- Developers: `dfmg_icons` and `dfmg_activity_labels` filters, `'icon'` on menu items.
+
 ## 1.7.0
 
 - **Light and dark mode** (theme 3.2.0, *Customize → Global → Light & dark mode*): one

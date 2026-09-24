@@ -19,6 +19,12 @@ Requirements: WordPress 6.0+, PHP 7.4+, MySQL 5.7+/MariaDB 10.3+.
 
 ## Administration
 
+All admin screens share a branded header with quick actions (*Game layout*, *Open the game*)
+and section navigation. The **dashboard** shows player stats, a 7-day activity chart, the
+top players, a live feed of what happens in the game and quick links; starting a new round
+sits in a collapsed danger zone. **Modules** are cards with an on/off switch, filter
+(all/active/inactive) and search.
+
 | Screen | Purpose |
 | --- | --- |
 | **Dashboard** | Numbers, link to the game page and *Start new round* (wipes player data, keeps game data and premium points). |

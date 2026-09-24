@@ -263,6 +263,7 @@ final class Game {
 				);
 			}
 			$item['url']              = self::url( $item['route'], $item['args'] ?? array() );
+			$item['icon']             = $item['icon'] ?? ( \DigiFalk\UnderworldEmpire\Icons::has( $item['route'] ) ? $item['route'] : 'dot' );
 			$out[ $group ]['items'][] = $item;
 		}
 		foreach ( $out as $key => $group ) {

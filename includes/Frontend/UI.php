@@ -19,12 +19,15 @@ final class UI {
 	 * "You have to wait" box with live countdown.
 	 */
 	public static function cooldown( string $text, int $expires ): string {
-		return '<div class="dfmg-alert dfmg-alert--wait"><span>' . esc_html( $text ) . '</span> '
-			. Format::countdown( $expires ) . '</div>';
+		return '<div class="dfmg-alert dfmg-alert--wait"><span class="dfmg-alert__icon">' . \DigiFalk\UnderworldEmpire\Icons::svg( 'wait', 20 ) . '</span><div class="dfmg-alert__text"><span>' . esc_html( $text ) . '</span> '
+			. Format::countdown( $expires ) . '</div></div>';
 	}
 
-	public static function bar( float $percent, string $label = '' ): string {
+	public static function bar( float $percent, string $label = '', bool $slim = false ): string {
 		$percent = max( 0, min( 100, $percent ) );
+		if ( $slim ) {
+			return '<div class="dfmg-bar dfmg-bar--slim" role="progressbar" aria-valuenow="' . esc_attr( (string) $percent ) . '" aria-valuemin="0" aria-valuemax="100"><span style="width:' . esc_attr( (string) $percent ) . '%"></span></div>';
+		}
 		return '<div class="dfmg-bar" title="' . esc_attr( $label ?: $percent . '%' ) . '"><span style="width:' . esc_attr( (string) $percent ) . '%"></span><em>'
 			. esc_html( $label ?: $percent . '%' ) . '</em></div>';
 	}

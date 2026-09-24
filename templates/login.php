@@ -9,8 +9,9 @@ use DigiFalk\UnderworldEmpire\Frontend\Game;
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<div class="dfmg-welcome">
+<div class="dfmg-welcome dfmg-welcome--login">
 	<div class="dfmg-card">
+		<span class="dfmg-emblem"><?php echo \DigiFalk\UnderworldEmpire\Icons::svg( 'shield', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 		<h2><?php esc_html_e( 'Welcome to the underworld', 'underworld-empire' ); ?></h2>
 		<p><?php esc_html_e( 'Commit crimes, steal cars, build a family and work your way up to Godfather. Log in to play.', 'underworld-empire' ); ?></p>
 		<?php
