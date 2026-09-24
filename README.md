@@ -22,9 +22,9 @@ Requirements: WordPress 6.0+, PHP 7.4+, MySQL 5.7+/MariaDB 10.3+.
 | Screen | Purpose |
 | --- | --- |
 | **Dashboard** | Numbers, link to the game page and *Start new round* (wipes player data, keeps game data and premium points). |
-| **Modules** | Enable and disable modules. Dependencies are checked. |
-| **Game data** | Edit players, ranks, wealth titles, cities, items and module data (crimes, cars, theft spots, memberships, forum boards, families). |
-| **Settings** | General settings plus the settings of every active module. |
+| **Modules** | Enable and disable modules (dependencies are checked). **Configure** opens one page with all settings and game data of that module. |
+| **Game data** | Core data: players, ranks, wealth titles, cities and items. |
+| **Settings** | General game settings. |
 | **Game news** | News items (custom post type) shown in the game and on the login page. |
 
 ## Bundled modules
@@ -78,14 +78,14 @@ See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
 ## Updates
 
 The plugin updates itself through the normal WordPress update screen. It checks the
-[GitHub releases](https://github.com/DigiFalk/WP_Maffia_Game/releases) of this repository
+[GitHub releases](https://github.com/DigiFalk/Underworld_Empire/releases) of this repository
 (every 12 hours, or immediately via the *Check for updates* link on the Plugins screen)
 and installs the `underworld-empire.zip` asset of the newest release.
 
 Optional settings in `wp-config.php`:
 
 ```php
-define( 'DFMG_UPDATE_REPO', 'DigiFalk/WP_Maffia_Game' ); // repository to take releases from
+define( 'DFMG_UPDATE_REPO', 'DigiFalk/Underworld_Empire' ); // repository to take releases from
 define( 'DFMG_GITHUB_TOKEN', 'ghp_...' );                // only needed for a private repository
 ```
 

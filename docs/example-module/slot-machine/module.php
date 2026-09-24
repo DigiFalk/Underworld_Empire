@@ -26,7 +26,7 @@ final class SlotMachine extends Module {
 		return __( 'Slot machine', 'underworld-empire' );
 	}
 
-	/** Settings appear automatically under Underworld Empire > Settings. */
+	/** Settings appear automatically under Underworld Empire > Modules > Configure. */
 	public function settings_fields(): array {
 		return array(
 			'slots_bet'      => array(

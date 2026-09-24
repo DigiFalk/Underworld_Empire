@@ -35,6 +35,13 @@ final class DataTable {
 	const PER_PAGE = 50;
 
 	/**
+	 * Query args of the admin page the tables are shown on (Game data or a module page).
+	 *
+	 * @var array
+	 */
+	public static $page_args = array( 'page' => 'dfmg-data' );
+
+	/**
 	 * Normalize a definition.
 	 */
 	public static function normalize( array $def ): array {
@@ -88,7 +95,7 @@ final class DataTable {
 	}
 
 	public static function base_url( string $key, array $args = array() ): string {
-		return add_query_arg( array_merge( array( 'page' => 'dfmg-data', 'table' => $key ), $args ), admin_url( 'admin.php' ) );
+		return add_query_arg( array_merge( self::$page_args, array( 'table' => $key ), $args ), admin_url( 'admin.php' ) );
 	}
 
 	public static function render_list( string $key, array $def ): void {
@@ -125,7 +132,9 @@ final class DataTable {
 		<?php endif; ?>
 		<?php if ( $def['search'] ) : ?>
 			<form method="get" class="dfmg-admin-search">
-				<input type="hidden" name="page" value="dfmg-data">
+				<?php foreach ( self::$page_args as $arg => $val ) : ?>
+					<input type="hidden" name="<?php echo esc_attr( $arg ); ?>" value="<?php echo esc_attr( $val ); ?>">
+				<?php endforeach; ?>
 				<input type="hidden" name="table" value="<?php echo esc_attr( $key ); ?>">
 				<input type="search" name="s" value="<?php echo esc_attr( $search ); ?>">
 				<button class="button"><?php esc_html_e( 'Search', 'underworld-empire' ); ?></button>

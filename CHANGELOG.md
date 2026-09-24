@@ -3,6 +3,13 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.2.1
+
+- Every module with settings or game data now has a **Configure** button on the Modules
+  screen. It opens one page with all settings and data tables of that module.
+- The general *Settings* and *Game data* screens now only show core items.
+- The repository moved to `DigiFalk/Underworld_Empire`; updates and links point there.
+
 ## 1.2.0
 
 - New name: **Underworld Empire**. Plugin file `underworld-empire.php`, text domain

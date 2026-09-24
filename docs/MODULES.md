@@ -82,8 +82,8 @@ A named class works too (use your own namespace to avoid collisions).
 | `render( Character $c, array $query ): string` | The page. `$query` holds the (sanitized) GET parameters. |
 | `action_<name>( Character $c, array $input )` | Form action. Optionally return an array of query args for the redirect (e.g. `array( 'view' => 'home' )`, or `'mg' => 'other-module'`). |
 | `allowed_in_jail()`, `allowed_in_hospital()` | `true` = reachable while in jail / hospital. |
-| `admin_tables(): array` | Tables editable under *Game data* (see `includes/Admin/DataTable.php`). |
-| `settings_fields(): array` | Fields on the settings page: `key => [ label, type, default, description ]`. Types: `text`, `int`, `checkbox`, `textarea`, `select` (+`options`), `datetime`. Prefix keys with your module name. |
+| `admin_tables(): array` | Tables editable on the module's own page: *Modules → Configure* (see `includes/Admin/DataTable.php`). |
+| `settings_fields(): array` | Fields on the module's *Configure* page: `key => [ label, type, default, description ]`. Types: `text`, `int`, `checkbox`, `textarea`, `select` (+`options`), `datetime`. Prefix keys with your module name. |
 
 Menu groups: `general`, `crime`, `city`, `casino`, `murder`, `family`, `money`, `premium`, `community`
 (extend with the `dfmg_menu_groups` filter).

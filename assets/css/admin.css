@@ -17,3 +17,6 @@
 	.dfmg-admin-data { flex-direction: column; }
 	.dfmg-admin-tabs { width: 100%; }
 }
+.dfmg-modules td:last-child { white-space: nowrap; }
+.dfmg-modules .dfmg-inline { display: inline-block; margin: 0 0 0 4px; }
+.dfmg-admin-data__main > h2:first-child { margin-top: 0; }

@@ -32,7 +32,7 @@ final class Updater {
 	}
 
 	public static function repo(): string {
-		return defined( 'DFMG_UPDATE_REPO' ) ? (string) DFMG_UPDATE_REPO : 'DigiFalk/WP_Maffia_Game';
+		return defined( 'DFMG_UPDATE_REPO' ) ? (string) DFMG_UPDATE_REPO : 'DigiFalk/Underworld_Empire';
 	}
 
 	private static function token(): string {

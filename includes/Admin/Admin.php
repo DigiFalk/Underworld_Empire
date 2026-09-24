@@ -30,6 +30,14 @@ final class Admin {
 		add_action( 'admin_post_dfmg_settings', array( __CLASS__, 'handle_settings' ) );
 		add_action( 'admin_post_dfmg_module', array( __CLASS__, 'handle_module' ) );
 		add_action( 'admin_post_dfmg_new_round', array( __CLASS__, 'handle_new_round' ) );
+		add_filter( 'submenu_file', array( __CLASS__, 'highlight_menu' ) );
+		// Hide the module configuration page from the menu once WordPress has checked access to it.
+		add_action(
+			'admin_head',
+			static function () {
+				remove_submenu_page( 'dfmg', 'dfmg-module' );
+			}
+		);
 		add_filter( 'plugin_action_links_' . plugin_basename( DFMG_FILE ), array( __CLASS__, 'plugin_links' ) );
 	}
 
@@ -62,6 +70,8 @@ final class Admin {
 		add_submenu_page( 'dfmg', __( 'Modules', 'underworld-empire' ), __( 'Modules', 'underworld-empire' ), $cap, 'dfmg-modules', array( __CLASS__, 'page_modules' ) );
 		add_submenu_page( 'dfmg', __( 'Game data', 'underworld-empire' ), __( 'Game data', 'underworld-empire' ), $cap, 'dfmg-data', array( __CLASS__, 'page_data' ) );
 		add_submenu_page( 'dfmg', __( 'Settings', 'underworld-empire' ), __( 'Settings', 'underworld-empire' ), $cap, 'dfmg-settings', array( __CLASS__, 'page_settings' ) );
+		// Per module configuration page, reached through the Modules screen (not shown in the menu).
+		add_submenu_page( 'dfmg', __( 'Configure module', 'underworld-empire' ), __( 'Configure module', 'underworld-empire' ), $cap, 'dfmg-module', array( __CLASS__, 'page_module' ) );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -154,7 +164,8 @@ final class Admin {
 		);
 		foreach ( Plugin::instance()->modules->active() as $module ) {
 			foreach ( $module->admin_tables() as $key => $def ) {
-				$def['module']  = $module->name();
+				$def['module']    = $module->name();
+				$def['module_id'] = $module->id();
 				$tables[ $key ] = $def;
 			}
 		}
@@ -173,31 +184,64 @@ final class Admin {
 		if ( ! self::can() ) {
 			return;
 		}
-		$tables  = self::tables();
-		$current = sanitize_key( wp_unslash( $_GET['table'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( ! isset( $tables[ $current ] ) ) {
-			$current = (string) key( $tables );
-		}
-		$edit = sanitize_text_field( wp_unslash( $_GET['edit'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$tables = array_filter(
+			self::tables(),
+			static function ( $def ) {
+				return empty( $def['module_id'] );
+			}
+		);
 		echo '<div class="wrap dfmg-admin"><h1>' . esc_html__( 'Game data', 'underworld-empire' ) . '</h1>';
 		self::notices();
+		echo '<p class="description">' . esc_html__( 'Core game data. The data of each module is managed on its own page: Modules → Configure.', 'underworld-empire' ) . '</p>';
+		self::render_tables( $tables, array( 'page' => 'dfmg-data' ) );
+		echo '</div></div></div>';
+	}
+
+	/**
+	 * Vertical tabs with data tables; the selected table is listed or edited.
+	 *
+	 * @param array $tables    Table definitions.
+	 * @param array $page_args Query args of the current admin page.
+	 * @param array $extra     Extra tabs before the tables: key => [ label, url, active ].
+	 */
+	private static function render_tables( array $tables, array $page_args, array $extra = array() ): string {
+		DataTable::$page_args = $page_args;
+		$current              = sanitize_key( wp_unslash( $_GET['table'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$edit                 = sanitize_text_field( wp_unslash( $_GET['edit'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( ! isset( $tables[ $current ] ) && ! $extra ) {
+			$current = (string) key( $tables );
+		}
 		echo '<div class="dfmg-admin-data"><ul class="dfmg-admin-tabs">';
-		$group = null;
+		foreach ( $extra as $tab ) {
+			printf( '<li class="%1$s"><a href="%2$s">%3$s</a></li>', $tab['active'] ? 'is-active' : '', esc_url( $tab['url'] ), esc_html( $tab['label'] ) );
+		}
+		if ( $extra && $tables ) {
+			echo '<li class="dfmg-admin-tabs__group">' . esc_html__( 'Game data', 'underworld-empire' ) . '</li>';
+		}
 		foreach ( $tables as $key => $def ) {
-			$g = $def['module'] ?? __( 'Core', 'underworld-empire' );
-			if ( $g !== $group ) {
-				echo '<li class="dfmg-admin-tabs__group">' . esc_html( $g ) . '</li>';
-				$group = $g;
-			}
 			printf( '<li class="%1$s"><a href="%2$s">%3$s</a></li>', $key === $current ? 'is-active' : '', esc_url( DataTable::base_url( $key ) ), esc_html( $def['label'] ) );
 		}
 		echo '</ul><div class="dfmg-admin-data__main">';
-		if ( $edit ) {
-			DataTable::render_form( $current, $tables[ $current ], 'new' === $edit ? 'new' : (int) $edit );
-		} else {
-			DataTable::render_list( $current, $tables[ $current ] );
+		if ( isset( $tables[ $current ] ) ) {
+			if ( $edit ) {
+				DataTable::render_form( $current, $tables[ $current ], 'new' === $edit ? 'new' : (int) $edit );
+			} else {
+				DataTable::render_list( $current, $tables[ $current ] );
+			}
 		}
-		echo '</div></div></div>';
+		return $current;
+	}
+
+	/**
+	 * Point data table links and redirects to the page that owns the table.
+	 */
+	private static function table_context( array $def ): void {
+		DataTable::$page_args = empty( $def['module_id'] )
+			? array( 'page' => 'dfmg-data' )
+			: array(
+				'page'   => 'dfmg-module',
+				'module' => $def['module_id'],
+			);
 	}
 
 	public static function handle_data_save(): void {
@@ -208,6 +252,7 @@ final class Admin {
 		}
 		check_admin_referer( 'dfmg_data_save_' . $key );
 		DataTable::save( $key, $tables[ $key ] );
+		self::table_context( $tables[ $key ] );
 		self::redirect( DataTable::base_url( $key, array( 'dfmg_notice' => 'saved' ) ) );
 	}
 
@@ -220,6 +265,7 @@ final class Admin {
 		}
 		check_admin_referer( 'dfmg_data_delete_' . $key . '_' . $id );
 		DataTable::delete( $key, $tables[ $key ], $id );
+		self::table_context( $tables[ $key ] );
 		self::redirect( DataTable::base_url( $key, array( 'dfmg_notice' => 'deleted' ) ) );
 	}
 
@@ -329,10 +375,14 @@ final class Admin {
 							<td><?php echo esc_html( implode( ', ', $info['requires'] ) ); ?></td>
 							<td><?php echo esc_html( $sources[ $info['source'] ] ?? $info['source'] ); ?></td>
 							<td>
+								<?php $module = $registry->get( $id ); ?>
+								<?php if ( $module && ( $module->settings_fields() || $module->admin_tables() ) ) : ?>
+									<a class="button button-secondary dfmg-configure" href="<?php echo esc_url( self::module_url( $id ) ); ?>"><?php esc_html_e( 'Configure', 'underworld-empire' ); ?></a>
+								<?php endif; ?>
 								<?php if ( $info['required'] ) : ?>
 									<em><?php esc_html_e( 'Required', 'underworld-empire' ); ?></em>
 								<?php else : ?>
-									<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+									<form method="post" class="dfmg-inline" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 										<input type="hidden" name="action" value="dfmg_module">
 										<input type="hidden" name="module" value="<?php echo esc_attr( $id ); ?>">
 										<input type="hidden" name="state" value="<?php echo $on ? 'off' : 'on'; ?>">
@@ -397,28 +447,121 @@ final class Admin {
 			<?php self::notices(); ?>
 			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 				<input type="hidden" name="action" value="dfmg_settings">
+				<input type="hidden" name="section" value="core">
 				<?php wp_nonce_field( 'dfmg_settings' ); ?>
-				<?php foreach ( self::settings_sections() as $section ) : ?>
-					<h2><?php echo esc_html( $section['label'] ); ?></h2>
-					<table class="form-table">
-						<?php foreach ( $section['fields'] as $key => $field ) : ?>
-							<?php $field = wp_parse_args( $field, array( 'type' => 'text', 'default' => '', 'description' => '', 'options' => array() ) ); ?>
-							<tr>
-								<th><label for="dfmg-<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $field['label'] ); ?></label></th>
-								<td>
-									<?php DataTable::field( $key, $field, Settings::get( $key, $field['default'] ), 'settings[' . $key . ']' ); ?>
-									<?php if ( $field['description'] ) : ?>
-										<p class="description"><?php echo esc_html( $field['description'] ); ?></p>
-									<?php endif; ?>
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					</table>
-				<?php endforeach; ?>
+				<p class="description"><?php esc_html_e( 'General game settings. The settings of each module are on its own page: Modules → Configure.', 'underworld-empire' ); ?></p>
+				<?php self::render_fields( Settings::core_fields() ); ?>
 				<?php submit_button( __( 'Save settings', 'underworld-empire' ) ); ?>
 			</form>
 		</div>
 		<?php
+	}
+
+	private static function render_fields( array $fields ): void {
+		echo '<table class="form-table">';
+		foreach ( $fields as $key => $field ) {
+			$field = wp_parse_args( $field, array( 'type' => 'text', 'default' => '', 'description' => '', 'options' => array() ) );
+			echo '<tr><th><label for="dfmg-' . esc_attr( $key ) . '">' . esc_html( $field['label'] ) . '</label></th><td>';
+			DataTable::field( $key, $field, Settings::get( $key, $field['default'] ), 'settings[' . $key . ']' );
+			if ( $field['description'] ) {
+				echo '<p class="description">' . esc_html( $field['description'] ) . '</p>';
+			}
+			echo '</td></tr>';
+		}
+		echo '</table>';
+	}
+
+	/* ------------------------------------------------------------------ */
+	/* Module configuration                                                 */
+	/* ------------------------------------------------------------------ */
+
+	public static function module_url( string $id, array $args = array() ): string {
+		return add_query_arg(
+			array_merge(
+				array(
+					'page'   => 'dfmg-module',
+					'module' => $id,
+				),
+				$args
+			),
+			admin_url( 'admin.php' )
+		);
+	}
+
+	/**
+	 * Keep "Modules" highlighted in the menu while configuring a module.
+	 *
+	 * @param string|null $submenu_file
+	 * @return string|null
+	 */
+	public static function highlight_menu( $submenu_file ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		return ( 'dfmg-module' === ( $_GET['page'] ?? '' ) ) ? 'dfmg-modules' : $submenu_file;
+	}
+
+	/**
+	 * All settings and game data of one module on a single page.
+	 */
+	public static function page_module(): void {
+		if ( ! self::can() ) {
+			return;
+		}
+		$id     = sanitize_key( wp_unslash( $_GET['module'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$module = Plugin::instance()->modules->get( $id );
+		echo '<div class="wrap dfmg-admin">';
+		if ( ! $module ) {
+			echo '<h1>' . esc_html__( 'Configure module', 'underworld-empire' ) . '</h1><p>' . esc_html__( 'This module is not enabled.', 'underworld-empire' ) . '</p>';
+			echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'underworld-empire' ) . '</a></p></div>';
+			return;
+		}
+		$fields = $module->settings_fields();
+		$tables = array();
+		foreach ( self::tables() as $key => $def ) {
+			if ( ( $def['module_id'] ?? '' ) === $id ) {
+				$tables[ $key ] = $def;
+			}
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$on_settings = $fields && ( ! isset( $_GET['table'] ) || ! isset( $tables[ sanitize_key( wp_unslash( $_GET['table'] ) ) ] ) );
+
+		/* translators: %s: module name */
+		echo '<h1>' . esc_html( sprintf( __( 'Configure: %s', 'underworld-empire' ), $module->name() ) ) . '</h1>';
+		echo '<p><a href="' . esc_url( admin_url( 'admin.php?page=dfmg-modules' ) ) . '">&larr; ' . esc_html__( 'Back to modules', 'underworld-empire' ) . '</a></p>';
+		echo '<p class="description">' . esc_html( (string) $module->info( 'description' ) ) . '</p>';
+		self::notices();
+
+		$extra = array();
+		if ( $fields ) {
+			$extra['settings'] = array(
+				'label'  => __( 'Settings', 'underworld-empire' ),
+				'url'    => self::module_url( $id ),
+				'active' => $on_settings,
+			);
+		}
+		if ( ! $on_settings && $tables && ! isset( $_GET['table'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+			$_GET['table'] = (string) key( $tables );
+		}
+		self::render_tables(
+			$tables,
+			array(
+				'page'   => 'dfmg-module',
+				'module' => $id,
+			),
+			$extra
+		);
+		if ( $on_settings ) {
+			?>
+			<h2><?php esc_html_e( 'Settings', 'underworld-empire' ); ?></h2>
+			<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
+				<input type="hidden" name="action" value="dfmg_settings">
+				<input type="hidden" name="section" value="<?php echo esc_attr( $id ); ?>">
+				<?php wp_nonce_field( 'dfmg_settings' ); ?>
+				<?php self::render_fields( $fields ); ?>
+				<?php submit_button( __( 'Save settings', 'underworld-empire' ) ); ?>
+			</form>
+			<?php
+		}
+		echo '</div></div></div>';
 	}
 
 	public static function handle_settings(): void {
@@ -426,16 +569,23 @@ final class Admin {
 			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
 		}
 		check_admin_referer( 'dfmg_settings' );
-		$input  = (array) wp_unslash( $_POST['settings'] ?? array() ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$input    = (array) wp_unslash( $_POST['settings'] ?? array() ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$section  = sanitize_key( wp_unslash( $_POST['section'] ?? 'core' ) );
+		$sections = self::settings_sections();
+		if ( ! isset( $sections[ $section ] ) ) {
+			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
+		}
 		$values = Settings::all();
-		foreach ( self::settings_sections() as $section ) {
-			foreach ( $section['fields'] as $key => $field ) {
-				$field          = wp_parse_args( $field, array( 'type' => 'text', 'default' => '', 'options' => array() ) );
-				$values[ $key ] = DataTable::sanitize( $field, $input[ $key ] ?? '' );
-			}
+		foreach ( $sections[ $section ]['fields'] as $key => $field ) {
+			$field          = wp_parse_args( $field, array( 'type' => 'text', 'default' => '', 'options' => array() ) );
+			$values[ $key ] = DataTable::sanitize( $field, $input[ $key ] ?? '' );
 		}
 		Settings::save( $values );
-		self::redirect( admin_url( 'admin.php?page=dfmg-settings&dfmg_notice=saved' ) );
+		self::redirect(
+			'core' === $section
+				? admin_url( 'admin.php?page=dfmg-settings&dfmg_notice=saved' )
+				: self::module_url( $section, array( 'dfmg_notice' => 'saved' ) )
+		);
 	}
 
 	/* ------------------------------------------------------------------ */
