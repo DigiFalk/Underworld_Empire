@@ -47,7 +47,7 @@ final class Notifications extends Module {
 	}
 
 	public function render( Character $c, array $query ): string {
-		$paged = max( 1, absint( $query['paged'] ?? 1 ) );
+		$paged = max( 1, absint( $query['pg'] ?? 1 ) );
 		$total = (int) DB::value( 'SELECT COUNT(*) FROM {notifications} WHERE character_id = %d', $c->id() );
 		$rows  = DB::results(
 			'SELECT * FROM {notifications} WHERE character_id = %d ORDER BY id DESC LIMIT %d OFFSET %d',

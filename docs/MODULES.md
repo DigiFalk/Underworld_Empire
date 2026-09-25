@@ -261,6 +261,10 @@ an element, for use in your own templates.
 
 ## Tips
 
+* Don't use WordPress query vars (`name`, `s`, `p`, `page`, `paged`, `author`, `year`, …) as
+  arguments in game links: WordPress then looks for other content and shows a 404. Use your
+  own names, like `player` or `pg`. With `WP_DEBUG` on, `Game::url()` warns about this.
+
 * Always use `spend()` or a conditional `UPDATE ... WHERE x >= %d` when deducting, so nobody can go below zero by clicking fast.
 * Use `claim_cooldown()` for actions with a cooldown.
 * Escape all output (`esc_html`, `esc_attr`, `esc_url`); actions receive raw (unslashed) `$_POST` data.

@@ -67,7 +67,8 @@ final class Profile extends Module {
 	}
 
 	public function render( Character $c, array $query ): string {
-		$target = isset( $query['name'] ) ? Character::find_by_name( $query['name'] ) : $c;
+		$name   = (string) ( $query['player'] ?? '' );
+		$target = '' !== $name ? Character::find_by_name( $name ) : $c;
 		if ( ! $target ) {
 			$this->error( __( 'This player doesn\'t exist.', 'underworld-empire' ) );
 			$target = $c;

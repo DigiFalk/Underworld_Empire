@@ -130,7 +130,7 @@ final class Messages extends Module {
 		}
 
 		$sent  = 'sent' === $view;
-		$paged = max( 1, absint( $query['paged'] ?? 1 ) );
+		$paged = max( 1, absint( $query['pg'] ?? 1 ) );
 		$where = $sent ? 'sender_id = %d AND sender_deleted = 0' : 'recipient_id = %d AND recipient_deleted = 0';
 		$total = (int) DB::value( "SELECT COUNT(*) FROM {messages} WHERE $where", $c->id() );
 		$rows  = DB::results(

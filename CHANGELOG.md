@@ -3,6 +3,15 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.1
+
+- Fixed: clicking a player name (Players, leaderboards, messages, forum, …) showed a
+  WordPress "page not found". Profile links used `?name=`, a query var reserved by
+  WordPress; they now use `?player=`.
+- Page numbers in the forum, messages and notifications now use `?pg=` instead of the
+  WordPress `paged` var, so the page title no longer says "Page 2".
+- Developers: `Game::url()` warns (with `WP_DEBUG`) when a link uses a WordPress query var.
+
 ## 1.10.0
 
 - **Premium Membership** and **premium points** are no longer part of the free plugin; they

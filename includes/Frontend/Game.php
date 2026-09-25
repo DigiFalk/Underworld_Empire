@@ -92,6 +92,15 @@ final class Game {
 	}
 
 	public static function url( string $route = '', array $args = array() ): string {
+		// WordPress reserves query vars like "name", "s", "p", "page" and "paged"; using them
+		// in a game link makes WordPress look for other content (usually a 404).
+		if ( $args && defined( 'WP_DEBUG' ) && WP_DEBUG && isset( $GLOBALS['wp'] ) ) {
+			$reserved = array_intersect( array_keys( $args ), (array) $GLOBALS['wp']->public_query_vars );
+			if ( $reserved ) {
+				/* translators: %s: query vars */
+				_doing_it_wrong( __METHOD__, esc_html( sprintf( __( 'Game links can\'t use the WordPress query vars: %s. Pick another name (for example "pg" instead of "paged").', 'underworld-empire' ), implode( ', ', $reserved ) ) ), '1.10.1' );
+			}
+		}
 		if ( $route && self::DEFAULT_ROUTE !== $route ) {
 			$args = array_merge( array( 'mg' => $route ), $args );
 		}

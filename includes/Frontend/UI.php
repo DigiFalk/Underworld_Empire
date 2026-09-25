@@ -37,7 +37,7 @@ final class UI {
 	}
 
 	/**
-	 * Simple pager. Returns markup for pages 1..$pages linking to $base_args + paged.
+	 * Simple pager. Returns markup for pages 1..$pages linking to $base_args + pg.
 	 */
 	public static function pager( string $route, array $base_args, int $current, int $pages ): string {
 		if ( $pages < 2 ) {
@@ -48,7 +48,7 @@ final class UI {
 			$html .= sprintf(
 				'<a class="%1$s" href="%2$s">%3$d</a>',
 				$i === $current ? 'is-current' : '',
-				esc_url( Game::url( $route, array_merge( $base_args, array( 'paged' => $i ) ) ) ),
+				esc_url( Game::url( $route, array_merge( $base_args, array( 'pg' => $i ) ) ) ),
 				$i
 			);
 		}

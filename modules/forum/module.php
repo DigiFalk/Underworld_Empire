@@ -159,7 +159,7 @@ final class Forum extends Module {
 			$topic = DB::row( 'SELECT * FROM {forum_topics} WHERE id = %d', $topic_id );
 			$board = $topic ? $this->board( $c, (int) $topic['board_id'] ) : null;
 			if ( $topic && $board ) {
-				$paged = max( 1, absint( $query['paged'] ?? 1 ) );
+				$paged = max( 1, absint( $query['pg'] ?? 1 ) );
 				$total = (int) DB::value( 'SELECT COUNT(*) FROM {forum_posts} WHERE topic_id = %d', $topic_id );
 				return $this->view(
 					'topic',
@@ -180,7 +180,7 @@ final class Forum extends Module {
 		$board_id = absint( $query['board'] ?? 0 );
 		$board    = $board_id ? $this->board( $c, $board_id ) : null;
 		if ( $board ) {
-			$paged = max( 1, absint( $query['paged'] ?? 1 ) );
+			$paged = max( 1, absint( $query['pg'] ?? 1 ) );
 			$total = (int) DB::value( 'SELECT COUNT(*) FROM {forum_topics} WHERE board_id = %d', $board_id );
 			return $this->view(
 				'board',
@@ -295,7 +295,7 @@ final class Forum extends Module {
 		);
 		DB::update( 'forum_topics', array( 'last_post_at' => time() ), array( 'id' => $topic['id'] ) );
 		$last = (int) ceil( (int) DB::value( 'SELECT COUNT(*) FROM {forum_posts} WHERE topic_id = %d', $topic['id'] ) / self::PER_PAGE );
-		return array( 'topic' => $topic['id'], 'paged' => $last );
+		return array( 'topic' => $topic['id'], 'pg' => $last );
 	}
 
 	/**

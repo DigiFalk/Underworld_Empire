@@ -549,7 +549,7 @@ final class Character {
 	}
 
 	public function profile_url(): string {
-		return Frontend\Game::url( 'profile', array( 'name' => $this->row['name'] ) );
+		return Frontend\Game::url( 'profile', array( 'player' => $this->row['name'] ) );
 	}
 
 	/**
