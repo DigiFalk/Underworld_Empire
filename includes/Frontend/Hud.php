@@ -135,12 +135,6 @@ final class Hud {
 					return '<span class="dfmg-hud-health" style="--dfmg-hp:' . esc_attr( (string) $pct ) . '%">' . esc_html( $pct . '%' ) . '</span>';
 				}, 'health' ),
 			),
-			'points'        => array(
-				'label'  => __( 'Premium points', 'underworld-empire' ),
-				'render' => $stat( (string) Settings::get( 'points_name', __( 'Points', 'underworld-empire' ) ), static function ( Character $c ) {
-					return esc_html( Format::number( $c->points ) );
-				}, 'points' ),
-			),
 			'city'          => array(
 				'label'  => __( 'City', 'underworld-empire' ),
 				'render' => $stat( __( 'City', 'underworld-empire' ), static function ( Character $c ) {

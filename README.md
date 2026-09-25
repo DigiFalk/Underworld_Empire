@@ -27,7 +27,7 @@ sits in a collapsed danger zone. **Modules** are cards with an on/off switch, fi
 
 | Screen | Purpose |
 | --- | --- |
-| **Dashboard** | Numbers, link to the game page and *Start new round* (wipes player data, keeps game data and premium points). |
+| **Dashboard** | Numbers, link to the game page and *Start new round* (wipes player data, keeps game data). |
 | **Modules** | Enable and disable modules (dependencies are checked). **Configure** opens one page with all settings and game data of that module. |
 | **Game data** | Core data: players, ranks, wealth titles, cities and items. |
 | **Settings** | General game settings. |
@@ -55,7 +55,6 @@ sits in a collapsed danger zone. **Modules** are cards with an on/off switch, fi
 | Murder | `murder` | Shoot players (requires `detectives`). |
 | Bounties | `bounties` | Bounties on players, paid to the killer. |
 | Families | `families` | Families with roles, permissions, vault, invitations and log. |
-| Premium Membership | `membership` | Shorter cooldowns in exchange for premium points. |
 | Messages | `messages` | Private messages. |
 | Notifications | `notifications` | Events around your character. |
 | Profile | `profile` | Public profiles and your own profile text. |
@@ -97,7 +96,7 @@ an upload.
 ### Game layout and game elements (drag & drop)
 
 The game is made of small live **game elements**: player (name & avatar), rank, rank
-progress bar, cash, bank, bullets, health, premium points, city, wealth title,
+progress bar, cash, bank, bullets, health, city, wealth title,
 notifications and messages (with counters), active timers, the game menu (all pages or one
 group such as *Crime*), players online, round name & end, a play / log in button and a log
 out link. Place them anywhere:

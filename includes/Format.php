@@ -28,9 +28,6 @@ final class Format {
 		return number_format_i18n( (float) $n );
 	}
 
-	public static function points( int $n ): string {
-		return self::number( $n ) . ' ' . Settings::get( 'points_name', __( 'Points', 'underworld-empire' ) );
-	}
 
 	/**
 	 * Human readable duration: "1h 04m 09s".

@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
 			}
 			?>
 		</p>
-		<p><?php esc_html_e( 'Your premium points are kept. Start again with a new character.', 'underworld-empire' ); ?></p>
+		<p><?php esc_html_e( 'Start again with a new character.', 'underworld-empire' ); ?></p>
 		<?php echo Game::form_open( 'core', 'create_character' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<label for="dfmg-name"><?php esc_html_e( 'New name', 'underworld-empire' ); ?></label>
 			<input type="text" id="dfmg-name" name="name" minlength="3" maxlength="20" pattern="[A-Za-z0-9_\-]{3,20}" required>

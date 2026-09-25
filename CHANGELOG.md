@@ -3,6 +3,17 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.0
+
+- **Premium Membership** and **premium points** are no longer part of the free plugin; they
+  will return as a premium module in the DigiFalk store. Removed: the Membership module, the
+  *Points* game element and header stat, the *Name of premium points* setting and the Points
+  field on players. Existing point balances stay in the database for that premium module;
+  saved game layouts simply drop the Points element.
+- The core no longer carries points over to a new character or a new round (the premium
+  module will take care of that through `dfmg_new_character_data` and
+  `dfmg_before_new_round`).
+
 ## 1.9.0
 
 - **Premium modules**: a new *Premium modules* section on the Modules screen shows modules

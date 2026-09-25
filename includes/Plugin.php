@@ -109,12 +109,6 @@ final class Plugin {
 	public function new_round(): void {
 		do_action( 'dfmg_before_new_round' );
 
-		// Premium points are bought by the player, keep them for the next round.
-		foreach ( DB::results( 'SELECT user_id, SUM(points) AS points FROM {characters} GROUP BY user_id HAVING points > 0' ) as $row ) {
-			$carry = (int) get_user_meta( (int) $row['user_id'], 'dfmg_carry_points', true );
-			update_user_meta( (int) $row['user_id'], 'dfmg_carry_points', $carry + (int) $row['points'] );
-		}
-
 		foreach ( Installer::round_tables() as $table ) {
 			DB::truncate( $table );
 		}

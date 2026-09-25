@@ -92,7 +92,7 @@ final class Admin {
 				'order'      => 'id DESC',
 				'can_create' => false,
 				'search'     => 'name',
-				'help'       => __( 'Player characters. Here you can, among other things, award premium points.', 'underworld-empire' ),
+				'help'       => __( 'Player characters.', 'underworld-empire' ),
 				'columns'    => array(
 					'name'        => array( 'label' => __( 'Name', 'underworld-empire' ), 'type' => 'text', 'required' => true ),
 					'status'      => array(
@@ -107,7 +107,6 @@ final class Admin {
 					'bank'        => array( 'label' => __( 'Bank', 'underworld-empire' ), 'type' => 'int' ),
 					'bullets'     => array( 'label' => __( 'Bullets', 'underworld-empire' ), 'type' => 'int' ),
 					'exp'         => array( 'label' => __( 'Experience', 'underworld-empire' ), 'type' => 'int' ),
-					'points'      => array( 'label' => __( 'Points', 'underworld-empire' ), 'type' => 'int' ),
 					'damage'      => array( 'label' => __( 'Damage', 'underworld-empire' ), 'type' => 'int', 'list' => false ),
 					'rank_id'     => array( 'label' => __( 'Rank', 'underworld-empire' ), 'type' => 'select', 'options' => array( Ranks::class, 'options' ) ),
 					'location_id' => array( 'label' => __( 'City', 'underworld-empire' ), 'type' => 'select', 'options' => array( Locations::class, 'options' ) ),

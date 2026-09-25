@@ -126,7 +126,7 @@ Menu groups: `general`, `crime`, `city`, `casino`, `murder`, `family`, `money`, 
 ### The character (`DigiFalk\UnderworldEmpire\Character`)
 
 ```php
-$c->name; $c->money; $c->bank; $c->bullets; $c->exp; $c->points; $c->location_id;
+$c->name; $c->money; $c->bank; $c->bullets; $c->exp; $c->location_id;
 $c->add( 'money', 500 );              // atomic increase (or decrease with a negative number)
 $c->spend( 'money', 500 );            // atomic deduction, false when there isn't enough
 $c->transfer_to( $other, 'bank', 1000 );
@@ -168,10 +168,10 @@ and `dfmg_item_effects`:
 
 ```php
 add_filter( 'dfmg_item_effects', function ( $effects ) {
-	$effects['give_points'] = array(
-		'label' => 'Gives premium points',
+	$effects['give_bank'] = array(
+		'label' => 'Adds money to the bank',
 		'usage' => 'use',
-		'apply' => function ( Character $c, $value ) { $c->add( 'points', (int) $value ); },
+		'apply' => function ( Character $c, $value ) { $c->add( 'bank', (int) $value ); },
 	);
 	return $effects;
 } );
@@ -223,7 +223,6 @@ add_filter( 'dfmg_item_effects', function ( $effects ) {
 | `dfmg_property_types` | business types |
 | `dfmg_item_types`, `dfmg_equip_slots`, `dfmg_item_effects` | items |
 | `dfmg_family_permissions` | family permissions |
-| `dfmg_membership_benefits` | benefits on the membership page |
 | `dfmg_leaderboards`, `dfmg_statistics` | leaderboards and statistics |
 | `dfmg_new_character_data`, `dfmg_blocked_names` | new characters |
 | `dfmg_round_open` | `bool` |
@@ -259,21 +258,6 @@ add_filter( 'dfmg_hud_elements', function ( array $elements ) {
 
 `\DigiFalk\UnderworldEmpire\Frontend\Hud::render( 'cash', 'bar', 'theme' )` returns the HTML of
 an element, for use in your own templates.
-
-## Connecting premium points to a web shop
-
-Points are a column on the character. For example after a WooCommerce payment:
-
-```php
-add_action( 'woocommerce_order_status_completed', function ( $order_id ) {
-	$order = wc_get_order( $order_id );
-	$c     = \DigiFalk\UnderworldEmpire\Character::for_user( $order->get_user_id() );
-	if ( $c ) {
-		$c->add( 'points', 100 );
-		$c->notify( 'Thank you! You received 100 points.' );
-	}
-} );
-```
 
 ## Tips
 

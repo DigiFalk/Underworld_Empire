@@ -43,7 +43,7 @@ final class Layout {
 		return array(
 			'header-left'   => array( 'player' ),
 			'header-center' => array(),
-			'header-right'  => array( 'cash', 'bank', 'bullets', 'health', 'city', 'points' ),
+			'header-right'  => array( 'cash', 'bank', 'bullets', 'health', 'city' ),
 			'sidebar'       => array( 'menu' ),
 			'top'           => array(),
 			'bottom'        => array(),

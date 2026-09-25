@@ -84,11 +84,6 @@ final class Settings {
 				'type'    => 'text',
 				'default' => '$',
 			),
-			'points_name'        => array(
-				'label'   => __( 'Name of premium points', 'underworld-empire' ),
-				'type'    => 'text',
-				'default' => __( 'Points', 'underworld-empire' ),
-			),
 			'start_money'        => array(
 				'label'   => __( 'Starting money for new characters', 'underworld-empire' ),
 				'type'    => 'int',

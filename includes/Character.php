@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @property-read int    $bank
  * @property-read int    $bullets
  * @property-read int    $exp
- * @property-read int    $points
+ * @property-read int    $points  Spare counter for premium modules (unused by the free plugin).
  * @property-read int    $damage
  * @property-read int    $rank_id
  * @property-read int    $location_id
@@ -138,18 +138,6 @@ final class Character {
 			return new \WP_Error( 'alive', __( 'You already have a living character.', 'underworld-empire' ) );
 		}
 
-		// Premium points belong to the player, not the character: carry them over.
-		$points = (int) DB::value( 'SELECT COALESCE(SUM(points), 0) FROM {characters} WHERE user_id = %d', $user_id );
-		if ( $points ) {
-			DB::query( 'UPDATE {characters} SET points = 0 WHERE user_id = %d', $user_id );
-		}
-		// Points saved when a new round started.
-		$carried = (int) get_user_meta( $user_id, 'dfmg_carry_points', true );
-		if ( $carried ) {
-			$points += $carried;
-			delete_user_meta( $user_id, 'dfmg_carry_points' );
-		}
-
 		$data = apply_filters(
 			'dfmg_new_character_data',
 			array(
@@ -160,7 +148,7 @@ final class Character {
 				'bank'        => 0,
 				'bullets'     => Settings::int( 'start_bullets', 100 ),
 				'exp'         => 0,
-				'points'      => $points,
+				'points'      => 0,
 				'damage'      => 0,
 				'rank_id'     => (int) Ranks::first()['id'],
 				'location_id' => Locations::first_id(),
@@ -329,7 +317,7 @@ final class Character {
 	}
 
 	/**
-	 * Cooldown length after filters (for example premium membership reductions).
+	 * Cooldown length after filters (modules can shorten or lengthen cooldowns).
 	 */
 	public function cooldown_seconds( string $name, int $seconds ): int {
 		return max( 0, (int) apply_filters( 'dfmg_cooldown_seconds', $seconds, $name, $this ) );
