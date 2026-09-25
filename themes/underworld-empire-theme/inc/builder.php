@@ -289,7 +289,7 @@ function uet_account_link(): string {
 	if ( function_exists( 'dfmg_character' ) && function_exists( 'dfmg_url' ) ) {
 		$character = is_user_logged_in() ? dfmg_character() : null;
 		if ( $character && $character->is_alive() ) {
-			$avatar = function_exists( 'dfmg_avatar_url' ) ? dfmg_avatar_url( (int) $character->user_id ) : '';
+			$avatar = function_exists( 'dfmg_player_avatar_url' ) ? dfmg_player_avatar_url( (int) $character->user_id, 28 ) : ( function_exists( 'dfmg_avatar_url' ) ? dfmg_avatar_url( (int) $character->user_id ) : '' );
 			$avatar = $avatar
 				? '<img class="uet-account__avatar" src="' . esc_url( $avatar ) . '" alt="" width="28" height="28">'
 				: '<span class="uet-account__avatar" aria-hidden="true">' . esc_html( mb_strtoupper( mb_substr( $character->name, 0, 1 ) ) ) . '</span>';

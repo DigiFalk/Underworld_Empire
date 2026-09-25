@@ -3,6 +3,15 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.2
+
+- Fixed: the picture next to your name in the game header (and in the theme's player
+  account element and the admin top players) was not the same as on your profile. Without
+  an uploaded avatar the header showed your first letter while the profile showed your
+  Gravatar. Everywhere now uses the same rule: uploaded avatar, otherwise the WordPress
+  avatar, and the first letter only when avatars are switched off in WordPress.
+- New helper `dfmg_player_avatar_url( $user_id, $size )`.
+
 ## 1.10.1
 
 - Fixed: clicking a player name (Players, leaderboards, messages, forum, …) showed a

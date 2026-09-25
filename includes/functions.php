@@ -69,3 +69,15 @@ function dfmg_url( $route = '', $args = array() ) {
 function dfmg_avatar_url( $user_id ) {
 	return \DigiFalk\UnderworldEmpire\Avatar::url( (int) $user_id );
 }
+
+/**
+ * URL of the picture shown for a player (uploaded avatar, otherwise the WordPress avatar;
+ * '' when avatars are switched off in WordPress).
+ *
+ * @param int $user_id WordPress user id.
+ * @param int $size    Display size in pixels.
+ * @return string
+ */
+function dfmg_player_avatar_url( $user_id, $size = 64 ) {
+	return \DigiFalk\UnderworldEmpire\Avatar::display_url( (int) $user_id, (int) $size );
+}

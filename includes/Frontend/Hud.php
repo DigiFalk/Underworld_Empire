@@ -326,7 +326,7 @@ final class Hud {
 	 * Uploaded avatar, or the first letter of the name.
 	 */
 	public static function avatar( Character $c, int $size = 30 ): string {
-		$url = \DigiFalk\UnderworldEmpire\Avatar::url( (int) $c->user_id );
+		$url = \DigiFalk\UnderworldEmpire\Avatar::display_url( (int) $c->user_id, $size );
 		if ( $url ) {
 			return '<img class="dfmg-hud-player__avatar dfmg-hud-player__avatar--img" src="' . esc_url( $url ) . '" alt="" width="' . $size . '" height="' . $size . '" loading="lazy">';
 		}

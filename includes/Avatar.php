@@ -49,6 +49,23 @@ final class Avatar {
 	}
 
 	/**
+	 * The picture to show for a player everywhere in the game: the uploaded avatar, otherwise
+	 * the normal WordPress avatar (Gravatar or the default picture chosen under Settings →
+	 * Discussion), exactly like on the profile page. '' when avatars are switched off in
+	 * WordPress, so the caller can show the first letter of the name instead.
+	 */
+	public static function display_url( int $user_id, int $size = 64 ): string {
+		$own = self::url( $user_id );
+		if ( $own ) {
+			return $own;
+		}
+		if ( ! $user_id || ! get_option( 'show_avatars' ) ) {
+			return '';
+		}
+		return (string) get_avatar_url( $user_id, array( 'size' => max( 32, $size * 2 ) ) );
+	}
+
+	/**
 	 * User id for anything get_avatar() accepts.
 	 *
 	 * @param mixed $id_or_email

@@ -382,7 +382,7 @@ final class Admin {
 						<ol class="dfmg-admin-top">
 							<?php foreach ( $top as $row ) : ?>
 								<li>
-									<?php $avatar = \DigiFalk\UnderworldEmpire\Avatar::url( (int) $row['user_id'] ); ?>
+									<?php $avatar = \DigiFalk\UnderworldEmpire\Avatar::display_url( (int) $row['user_id'], 34 ); ?>
 									<?php if ( $avatar ) : ?>
 										<img class="dfmg-admin-top__avatar" src="<?php echo esc_url( $avatar ); ?>" alt="" width="34" height="34">
 									<?php else : ?>
