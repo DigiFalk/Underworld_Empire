@@ -219,7 +219,8 @@ final class Licenses {
 	 * @return true|\WP_Error
 	 */
 	public static function activate( string $product, string $key ) {
-		$key = trim( $key );
+		// Keys are shown in capitals in the purchase email; the store accepts any case.
+		$key = strtoupper( trim( $key ) );
 		if ( '' === $key || ! preg_match( '/^[A-Za-z0-9\-]{8,64}$/', $key ) ) {
 			return new \WP_Error( 'dfmg_store', __( 'This doesn\'t look like a license key. Copy it from the email you received after buying.', 'underworld-empire' ) );
 		}
@@ -521,17 +522,29 @@ final class Licenses {
 	}
 
 	public static function handle_update(): void {
-		$product = self::guard( 'dfmg_license_update' );
-		$result  = self::install( $product );
+		$product  = self::guard( 'dfmg_license_update' );
+		$registry = Plugin::instance()->modules;
+		// First download (for example when the download failed right after activating).
+		$first    = ! $registry->info( $product );
+		$result   = self::install( $product );
+		$message  = __( 'The module was updated.', 'underworld-empire' );
 		if ( true === $result ) {
-			$registry = Plugin::instance()->modules;
 			$registry->add( trailingslashit( DFMG_CUSTOM_MODULES_DIR ) . $product . '/module.php', 'custom' );
-			$module = $registry->load( $product );
-			if ( $module && $registry->is_enabled( $product ) ) {
-				$registry->install( $module );
+			if ( $first ) {
+				$enabled = $registry->enable( $product );
+				$message = __( 'The module is installed and switched on.', 'underworld-empire' );
+				if ( is_wp_error( $enabled ) ) {
+					/* translators: %s: reason */
+					$result = new \WP_Error( 'dfmg_store', sprintf( __( 'The module was installed but could not be switched on: %s', 'underworld-empire' ), $enabled->get_error_message() ) );
+				}
+			} else {
+				$module = $registry->load( $product );
+				if ( $module && $registry->is_enabled( $product ) ) {
+					$registry->install( $module );
+				}
 			}
 		}
-		self::back( $result, __( 'The module was updated.', 'underworld-empire' ), $product );
+		self::back( $result, $message, $product );
 	}
 
 	public static function handle_refresh(): void {

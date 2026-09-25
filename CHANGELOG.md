@@ -3,6 +3,15 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.3
+
+- Premium modules: when the download failed right after activating a license, **Download
+  again** now also switches the module on (before, it only installed it).
+- License keys are saved and shown in capitals, like in the purchase email, however they
+  were typed.
+- Tested end to end against the DigiFalk Licenses store plugin: catalogue, activation,
+  signed download, updates, activation limit and deactivation.
+
 ## 1.10.2
 
 - Fixed: the picture next to your name in the game header (and in the theme's player
