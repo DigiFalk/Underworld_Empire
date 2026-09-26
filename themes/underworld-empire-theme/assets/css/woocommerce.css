@@ -4,7 +4,7 @@
  * variables, so it follows the palette and the light/dark mode.
  */
 .woocommerce, .wc-block-components-form, .wp-block-woocommerce-checkout, .wp-block-woocommerce-cart {
-	--uet-wc-field: color-mix(in srgb, var(--uet-base) 70%, var(--uet-surface));
+	--uet-wc-field: var(--uet-base);
 	--uet-wc-radius: calc(var(--uet-radius) + 4px);
 }
 
@@ -117,19 +117,29 @@ body .wc-block-components-text-input input[type="tel"], body .wc-block-component
 body .wc-block-components-text-input input[type="password"], body .wc-block-components-text-input input[type="url"],
 body .wc-block-components-form .wc-block-components-text-input input, body .wc-block-components-combobox .wc-block-components-combobox-control input.components-combobox-control__input,
 body .wc-blocks-components-select .wc-blocks-components-select__select, body .wc-block-components-textarea, body .wc-block-checkout__add-note textarea {
-	background-color: var(--uet-wc-field);
-	color: var(--uet-text);
-	border: 1px solid var(--uet-border);
-	border-radius: var(--uet-radius);
-	box-shadow: none;
+	/* WooCommerce loads its block styles after the theme with stronger selectors, so these win with !important. */
+	background-color: var(--uet-wc-field) !important;
+	color: var(--uet-text) !important;
+	border: 1px solid var(--uet-border) !important;
+	border-radius: var(--uet-radius) !important;
+	box-shadow: none !important;
 }
 body .wc-block-components-text-input input:focus, body .wc-block-components-combobox .wc-block-components-combobox-control input.components-combobox-control__input:focus,
 body .wc-blocks-components-select .wc-blocks-components-select__select:focus, body .wc-block-components-textarea:focus {
-	border-color: var(--uet-accent); box-shadow: 0 0 0 3px var(--uet-accent-soft, transparent); outline: none;
+	border-color: var(--uet-accent) !important; box-shadow: 0 0 0 3px var(--uet-accent-soft, transparent) !important; outline: none;
 }
+/* Browser autofill (Chrome/Safari paint autofilled fields light blue or white). */
+body .wc-block-components-text-input input:-webkit-autofill, body .wc-block-components-combobox input:-webkit-autofill,
+.woocommerce form .form-row input.input-text:-webkit-autofill {
+	-webkit-box-shadow: 0 0 0 1000px var(--uet-wc-field) inset !important;
+	-webkit-text-fill-color: var(--uet-text) !important;
+	caret-color: var(--uet-text);
+	transition: background-color 9999s ease-out 0s;
+}
+body .wc-block-components-order-summary .wc-block-components-order-summary-item__image img[src*="placeholder"] { opacity: .35; }
 body .wc-block-components-text-input label, body .wc-block-components-combobox .wc-block-components-combobox-control label.components-base-control__label,
 body .wc-blocks-components-select .wc-blocks-components-select__label { color: var(--uet-muted); }
-body .wc-block-components-text-input.has-error input, body .wc-block-components-combobox.has-error input { border-color: #c0453a; }
+body .wc-block-components-text-input.has-error input, body .wc-block-components-combobox.has-error input { border-color: #c0453a !important; }
 body .wc-blocks-components-select .wc-blocks-components-select__container { background: transparent; }
 body .wc-blocks-components-select .wc-blocks-components-select__expand { fill: var(--uet-muted); }
 body .wc-block-components-combobox .wc-block-components-combobox-control .components-form-token-field__suggestions-list,

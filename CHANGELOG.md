@@ -3,6 +3,14 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.6
+
+- Theme 3.4.1: the text fields of the WooCommerce checkout (email, name, address, postal
+  code, city, phone) were still white. WooCommerce loads its block styles after the theme
+  with stronger selectors; the theme now wins, so the fields look exactly like the game's
+  and theme's own fields, in dark and light mode (also when the browser fills them in).
+- Product placeholder pictures in the order summary are toned down.
+
 ## 1.10.5
 
 - Theme 3.4.0: the WooCommerce checkout, cart and My Account now use the colours, fields
