@@ -3,6 +3,13 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.5
+
+- Theme 3.4.0: the WooCommerce checkout, cart and My Account now use the colours, fields
+  and buttons of the theme, in dark and light mode. This covers the block checkout (fields,
+  country selector, payment methods, order summary, totals) and the classic pages (orders
+  table, account forms, password fields, notices).
+
 ## 1.10.4
 
 - The public signing key of the DigiFalk store is now built in: every premium module

@@ -9,7 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'UET_VERSION', '3.3.1' );
+define( 'UET_VERSION', '3.4.0' );
 define( 'UET_DIR', trailingslashit( get_template_directory() ) );
 define( 'UET_URI', trailingslashit( get_template_directory_uri() ) );
 
