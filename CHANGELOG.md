@@ -3,6 +3,13 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.4
+
+- The public signing key of the DigiFalk store is now built in: every premium module
+  download from digifalk.com must be signed by the store, without anything in
+  `wp-config.php`. `DFMG_STORE_PUBLIC_KEY` still overrides it (for another store or after a
+  key rotation).
+
 ## 1.10.3
 
 - Premium modules: when the download failed right after activating a license, **Download

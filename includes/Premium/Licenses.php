@@ -30,6 +30,13 @@ final class Licenses {
 	const CLIENT        = 'underworld-empire';
 	const API_NAMESPACE = 'digifalk-licenses/v1';
 
+	/**
+	 * Ed25519 public key of the DigiFalk store (https://digifalk.com). Every download from
+	 * that store must carry a valid signature. Not secret. When the store's keys are rotated,
+	 * ship a plugin update with the new key first.
+	 */
+	const STORE_PUBLIC_KEY = 'FwPUKWIk7GE6x/BxHxEoodZJx2vUyEiXE7Z3c8Pc2jk=';
+
 	public static function init(): void {
 		add_action( 'admin_post_dfmg_license_activate', array( __CLASS__, 'handle_activate' ) );
 		add_action( 'admin_post_dfmg_license_deactivate', array( __CLASS__, 'handle_deactivate' ) );
@@ -58,11 +65,17 @@ final class Licenses {
 	}
 
 	/**
-	 * Base64 Ed25519 public key of the store. When set, every package must carry a valid
-	 * signature. Set it with define( 'DFMG_STORE_PUBLIC_KEY', '…' ) or the filter.
+	 * Base64 Ed25519 public key of the store; every package must carry a valid signature.
+	 * Built in for the DigiFalk store. Override with define( 'DFMG_STORE_PUBLIC_KEY', '…' ) or
+	 * the dfmg_store_public_key filter (for example for another store).
 	 */
 	public static function public_key(): string {
-		$key = defined( 'DFMG_STORE_PUBLIC_KEY' ) ? (string) DFMG_STORE_PUBLIC_KEY : '';
+		if ( defined( 'DFMG_STORE_PUBLIC_KEY' ) ) {
+			$key = (string) DFMG_STORE_PUBLIC_KEY;
+		} else {
+			$host = strtolower( (string) wp_parse_url( self::store_url(), PHP_URL_HOST ) );
+			$key  = in_array( $host, array( 'digifalk.com', 'www.digifalk.com' ), true ) ? self::STORE_PUBLIC_KEY : '';
+		}
 		return (string) apply_filters( 'dfmg_store_public_key', $key );
 	}
 

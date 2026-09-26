@@ -57,10 +57,17 @@ reached. New products in the store appear automatically.
 | | |
 |---|---|
 | `DFMG_STORE_URL` (constant) / `dfmg_store_url` (filter) | Store URL, default `https://digifalk.com`. HTTPS is required. |
-| `DFMG_STORE_PUBLIC_KEY` (constant) / `dfmg_store_public_key` (filter) | Base64 Ed25519 public key of the store. When set, every package must carry a valid signature. Recommended: copy it from the store settings. |
+| `DFMG_STORE_PUBLIC_KEY` (constant) / `dfmg_store_public_key` (filter) | Base64 Ed25519 public key of the store; every package must carry a valid signature. The key of the DigiFalk store is built in (`Licenses::STORE_PUBLIC_KEY`), so sites need nothing in `wp-config.php`. Only set this for another store, or temporarily after rotating the store's keys. |
 | `dfmg_premium_catalog` (filter) | Change the list of premium cards. |
 | `dfmg_premium_is_licensed` (filter) | `bool $ok, string $product, ?array $license`. |
 | `dfmg_premium_installed` (action) | `string $product, string $version` after install or update. |
+
+### Rotating the store's signing keys
+
+The public key is built into the plugin. Before you rotate the keys in DigiFalk Licenses,
+release an Underworld Empire update with the new public key in `Licenses::STORE_PUBLIC_KEY`,
+otherwise sites refuse the newly signed downloads. Sites that can't update yet can set
+`DFMG_STORE_PUBLIC_KEY` in `wp-config.php`.
 
 ## Store API
 
