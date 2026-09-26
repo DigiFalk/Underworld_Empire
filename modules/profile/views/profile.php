@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 <div class="dfmg-card dfmg-profile">
 	<div class="dfmg-profile__head">
 		<?php echo $avatar; // phpcs:ignore ?>
-		<h3><?php echo esc_html( $target->name ); ?></h3>
+		<h3><?php echo $target->name_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped in name_html(). ?></h3>
 	</div>
 	<table class="dfmg-table dfmg-table--keyvalue">
 		<?php foreach ( $fields as $dfmg_label => $dfmg_value ) : ?>

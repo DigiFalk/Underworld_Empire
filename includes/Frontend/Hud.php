@@ -370,12 +370,14 @@ final class Hud {
 		foreach ( $groups as $group ) {
 			$html .= '<div class="dfmg-nav__group">' . ( $only_group && 'bar' === $context ? '' : '<h4>' . esc_html( $group['label'] ) . '</h4>' ) . '<ul>';
 			foreach ( $group['items'] as $item ) {
-				$html .= '<li class="' . ( $item['route'] === $current && ( null !== self::$route || Game::is_game_page() ) ? 'is-active' : '' ) . '"><a href="' . esc_url( $item['url'] ) . '"' . ( $item['route'] === $current && ( null !== self::$route || Game::is_game_page() ) ? ' aria-current="page"' : '' ) . '>' . Icons::svg( $item['icon'] ?? 'dot', 18, 'dfmg-nav__icon' ) . '<span>' . esc_html( $item['label'] ) . '</span>';
-				if ( ! empty( $item['badge'] ) ) {
-					$html .= '<em class="dfmg-badge">' . esc_html( (string) $item['badge'] ) . '</em>';
-				}
+				$html .= '<li class="' . ( $item['route'] === $current && ( null !== self::$route || Game::is_game_page() ) ? 'is-active' : '' ) . '"><a href="' . esc_url( $item['url'] ) . '"' . ( $item['route'] === $current && ( null !== self::$route || Game::is_game_page() ) ? ' aria-current="page"' : '' ) . '>' . Icons::svg( $item['icon'] ?? 'dot', 18, 'dfmg-nav__icon' ) . '<span class="dfmg-nav__text">' . esc_html( $item['label'] );
+				// The countdown goes under the label, so long timers fit in narrow menus.
 				if ( ! empty( $item['timer'] ) && $c->timer_active( $item['timer'] ) ) {
 					$html .= '<small class="dfmg-nav__timer">' . Format::countdown( $c->timer( $item['timer'] ) ) . '</small>';
+				}
+				$html .= '</span>';
+				if ( ! empty( $item['badge'] ) ) {
+					$html .= '<em class="dfmg-badge">' . esc_html( (string) $item['badge'] ) . '</em>';
 				}
 				$html .= '</a></li>';
 			}

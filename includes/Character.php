@@ -553,6 +553,19 @@ final class Character {
 	}
 
 	/**
+	 * Character name as HTML, as shown to other players (links, profile).
+	 */
+	public function name_html(): string {
+		/**
+		 * Filters the public name of a player, e.g. to add a badge in front of it.
+		 *
+		 * @param string    $html Escaped name. Return safe HTML (it passes wp_kses_post in some places).
+		 * @param Character $c    The player.
+		 */
+		return (string) apply_filters( 'dfmg_player_name_html', esc_html( $this->row['name'] ), $this );
+	}
+
+	/**
 	 * Linked character name.
 	 */
 	public function link(): string {
@@ -561,7 +574,7 @@ final class Character {
 			'<a class="%1$s" href="%2$s">%3$s</a>',
 			esc_attr( $class ),
 			esc_url( $this->profile_url() ),
-			esc_html( $this->row['name'] )
+			$this->name_html()
 		);
 	}
 

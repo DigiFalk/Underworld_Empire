@@ -561,7 +561,9 @@
 	box-shadow: inset 0 0 0 1px var(--dfmg-accent-line); font-weight: 600; transform: none;
 }
 .dfmg-nav li.is-active .dfmg-nav__icon { color: var(--dfmg-accent); }
-.dfmg-nav__timer { padding: 1px 7px; border-radius: 999px; background: var(--dfmg-panel-2); }
+.dfmg-nav__text { display: flex; flex-direction: column; align-items: flex-start; min-width: 0; }
+.dfmg-nav__timer { margin-top: 3px; padding: 1px 7px; border-radius: 999px; background: var(--dfmg-panel-2); font-size: .74em; line-height: 1.5; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.dfmg-nav li.is-active .dfmg-nav__timer, .dfmg-nav li a:hover .dfmg-nav__timer { background: var(--dfmg-panel); }
 .dfmg-hud-menu__panel .dfmg-nav__group h4 { margin: 12px 12px 4px; }
 .dfmg-nav--bar.dfmg-nav--group li a { gap: 7px; }
 

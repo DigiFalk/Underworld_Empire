@@ -3,6 +3,14 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.7
+
+- Game menu: a running timer (e.g. the premium membership) is now shown under the name of
+  the menu item instead of next to it, so it no longer sticks out of the menu.
+- New filter `dfmg_player_name_html` for the public name of a player (all player links and
+  the profile heading). Premium Points & Membership 1.2.0 uses it for a gold star in front
+  of the name of premium members.
+
 ## 1.10.6
 
 - Theme 3.4.1: the text fields of the WooCommerce checkout (email, name, address, postal
