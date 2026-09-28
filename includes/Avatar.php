@@ -138,11 +138,24 @@ final class Avatar {
 		if ( empty( $check['type'] ) || ! $info || ! in_array( $info['mime'] ?? '', $mimes, true ) ) {
 			return new \WP_Error( 'dfmg_avatar', __( 'Upload a JPG, PNG, GIF or WebP image.', 'underworld-empire' ) );
 		}
+		return self::store( $user_id, (string) $file['tmp_name'], $size );
+	}
+
+	/**
+	 * Store an image file on the server as the avatar of a user (square, WebP). Used for
+	 * uploads and for pictures made by the game itself, e.g. by an avatar maker module.
+	 *
+	 * @return true|\WP_Error
+	 */
+	public static function store( int $user_id, string $path, int $size = 256 ) {
 		if ( ! self::supported() ) {
 			return new \WP_Error( 'dfmg_avatar', __( 'This server can\'t create WebP images. Ask the site administrator to enable WebP support in GD or Imagick.', 'underworld-empire' ) );
 		}
+		if ( ! is_file( $path ) ) {
+			return new \WP_Error( 'dfmg_avatar', __( 'This image can\'t be read.', 'underworld-empire' ) );
+		}
 
-		$editor = wp_get_image_editor( $file['tmp_name'] );
+		$editor = wp_get_image_editor( $path );
 		if ( is_wp_error( $editor ) ) {
 			return new \WP_Error( 'dfmg_avatar', __( 'This image can\'t be read.', 'underworld-empire' ) );
 		}

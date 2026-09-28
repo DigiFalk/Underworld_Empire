@@ -3,6 +3,12 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.10
+
+- New `Avatar::store( $user_id, $path, $size )`: stores an image made on the server as a
+  player's avatar (square WebP, also the WordPress profile picture). Uploads use it too.
+  Needed by the premium module Avatar Maker.
+
 ## 1.10.9
 
 - Fixed: searching on the Modules screen did nothing. The premium module cards stopped the
