@@ -3,6 +3,12 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.9
+
+- Fixed: searching on the Modules screen did nothing. The premium module cards stopped the
+  search with a script error; search and the All / Active / Inactive filter now only look at
+  the installed modules, and the premium section always stays visible.
+
 ## 1.10.8
 
 - The bottom of every game page now shows "Underworld Empire by DigiFalk" with a link to

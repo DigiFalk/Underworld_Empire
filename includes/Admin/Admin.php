@@ -591,7 +591,7 @@ final class Admin {
 				</label>
 			</div>
 
-			<div class="dfmg-admin-modules">
+			<div class="dfmg-admin-modules" data-dfmg-installed>
 				<?php foreach ( $available as $id => $info ) : ?>
 					<?php
 					$on     = $registry->is_enabled( $id );

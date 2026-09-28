@@ -8,7 +8,8 @@
 	if ( ! toolbar ) {
 		return;
 	}
-	var cards = Array.prototype.slice.call( document.querySelectorAll( '.dfmg-admin-module' ) );
+	// Only the installed modules; the premium cards above have their own section.
+	var cards = Array.prototype.slice.call( document.querySelectorAll( '[data-dfmg-installed] .dfmg-admin-module' ) );
 	var search = toolbar.querySelector( '[data-dfmg-module-search]' );
 	var empty = document.querySelector( '[data-dfmg-no-modules]' );
 	var filter = 'all';
@@ -18,7 +19,7 @@
 		var shown = 0;
 		cards.forEach( function ( card ) {
 			var ok = ( 'all' === filter || card.getAttribute( 'data-state' ) === filter ) &&
-				( ! q || card.getAttribute( 'data-search' ).indexOf( q ) > -1 );
+				( ! q || ( card.getAttribute( 'data-search' ) || '' ).indexOf( q ) > -1 );
 			card.hidden = ! ok;
 			shown += ok ? 1 : 0;
 		} );
