@@ -3,6 +3,14 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.8
+
+- The bottom of every game page now shows "Underworld Empire by DigiFalk" with a link to
+  digifalk.com (in the game footer under the round; on the login, character, dead and
+  closed screens underneath).
+- The premium module **White Label** removes this line, or replaces it with your own text and
+  link, while its license is active.
+
 ## 1.10.7
 
 - Game menu: a running timer (e.g. the premium membership) is now shown under the name of

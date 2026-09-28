@@ -24,6 +24,7 @@ foreach ( array_keys( Layout::zones() ) as $dfmg_zone ) {
 $dfmg_header  = $dfmg_z['header-left'] . $dfmg_z['header-center'] . $dfmg_z['header-right'];
 $dfmg_footer  = $dfmg_z['footer-left'] . $dfmg_z['footer-center'] . $dfmg_z['footer-right'];
 $dfmg_sidebar = '' !== $dfmg_z['sidebar'];
+$dfmg_credit  = \DigiFalk\UnderworldEmpire\Frontend\Credit::html();
 
 $dfmg_zone_html = static function ( string $zone ) use ( $dfmg_z ): string {
 	return '' === $dfmg_z[ $zone ] ? '' : '<div class="dfmg-zone dfmg-zone--' . esc_attr( $zone ) . '">' . $dfmg_z[ $zone ] . '</div>';
@@ -59,9 +60,9 @@ $dfmg_zone_html = static function ( string $zone ) use ( $dfmg_z ): string {
 			<?php echo $dfmg_zone_html( 'bottom' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</main>
 	</div>
-	<?php if ( '' !== $dfmg_footer ) : ?>
+	<?php if ( '' !== $dfmg_footer || '' !== $dfmg_credit ) : ?>
 		<footer class="dfmg-footer">
-			<?php echo $dfmg_zone_html( 'footer-left' ) . $dfmg_zone_html( 'footer-center' ) . $dfmg_zone_html( 'footer-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
+			<?php echo $dfmg_zone_html( 'footer-left' ) . $dfmg_zone_html( 'footer-center' ) . $dfmg_zone_html( 'footer-right' ) . $dfmg_credit; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</footer>
 	<?php endif; ?>
 </div>

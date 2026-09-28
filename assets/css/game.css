@@ -112,6 +112,11 @@
 .dfmg-footer .dfmg-zone--footer-center { flex: 1; justify-content: center; }
 .dfmg-footer .dfmg-zone--footer-right { margin-left: auto; justify-content: flex-end; }
 .dfmg-footer .dfmg-zone:only-child { flex: 1; justify-content: center; }
+.dfmg-footer__credit { flex: 1 0 100%; text-align: center; font-size: .9em; letter-spacing: .02em; opacity: .85; }
+.dfmg-footer__credit:only-child { flex-basis: auto; }
+.dfmg > .dfmg-footer__credit { margin-top: 14px; color: var(--dfmg-muted); font-size: .82em; }
+.dfmg-footer__credit a { color: inherit; font-weight: 600; text-decoration: none; }
+.dfmg-footer__credit a:hover { color: var(--dfmg-accent); }
 
 /* Game elements (HUD) -------------------------------------------------------
  * Used inside the game and anywhere else: theme header/footer, widgets, shortcode. */

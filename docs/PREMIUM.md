@@ -52,6 +52,13 @@ Cards come from the store catalogue (cached 12 hours) merged over `premium/catal
 which ships with the plugin. Add entries there to show a module even when the store can't be
 reached. New products in the store appear automatically.
 
+## Footer credit and White Label
+
+Every game page shows "Underworld Empire by DigiFalk" (`Frontend\Credit`). It is only removed
+while the premium module `ue-white-label` is booted and licensed (`Registry::runnable`). That
+module can return its own footer HTML with the filter `dfmg_white_label_credit`; the filter is
+ignored without the module.
+
 ## Configuration
 
 | | |

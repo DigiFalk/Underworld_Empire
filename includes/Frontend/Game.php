@@ -225,6 +225,11 @@ final class Game {
 
 	private static function wrap( string $html ): string {
 		$class = 'dark' === Settings::get( 'appearance', 'theme' ) ? 'dfmg dfmg--dark' : 'dfmg';
+		// The credit sits in the game footer; pages without it (login, dead, closed, or a theme's
+		// own layout template) get it underneath.
+		if ( false === strpos( $html, 'dfmg-footer__credit' ) ) {
+			$html .= Credit::html();
+		}
 		return '<div class="' . esc_attr( $class ) . '" data-now="' . esc_attr( (string) time() ) . '">' . $html . '</div>';
 	}
 
