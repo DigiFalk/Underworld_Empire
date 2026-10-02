@@ -193,8 +193,10 @@ Every version is released automatically by the GitHub Actions workflow
 
 ## Translations
 
-All strings use the text domain `underworld-empire` and can be translated with the usual
-WordPress tools (for example Loco Translate) into the `languages/` folder.
+Translating Underworld Empire (with translation files, translation plugins or otherwise) is
+not allowed by the license. Other languages are reserved for a premium module from DigiFalk.
+The strings use the text domain `underworld-empire`; your own modules may use their own text
+domain and translations.
 
 ## License
 
@@ -202,7 +204,8 @@ Copyright © DigiFalk. See [LICENSE.md](LICENSE.md) for the full text. In short:
 
 - Free to use on any number of websites, private and commercial.
 - Do not modify the plugin, the theme or the bundled modules, and do not distribute them.
-  Settings, the Customizer, Additional CSS and translations are fine.
+  Settings, the Customizer and Additional CSS are fine. Translating the game is not allowed;
+  other languages come with a DigiFalk premium module.
 - Extend the game with your own modules. They are yours to use, share or sell, as long as
   they are your own work and do not copy or imitate a DigiFalk premium module.
 - The "Underworld Empire by DigiFalk" line stays, unless you use the White Label premium

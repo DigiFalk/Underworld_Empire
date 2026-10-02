@@ -3,6 +3,12 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.12
+
+- License: translating the game (translation files, translation plugins or otherwise) is no
+  longer allowed. Other languages are reserved for a premium module from DigiFalk. Your own
+  modules may still be translated.
+
 ## 1.10.11
 
 - New license terms (LICENSE.md): Underworld Empire is free to use on any number of

@@ -14,8 +14,7 @@ of DigiFalk. It is licensed to you, not sold.
    points or memberships with DigiFalk premium modules, accept donations, or set up a game
    for a client.
 2. Configure the Software through its settings, the WordPress Customizer and the
-   "Additional CSS" option of WordPress, and translate it with translation files
-   (`.po` / `.mo` / `.l10n.php`). This does not count as modifying the Software.
+   "Additional CSS" option of WordPress. This does not count as modifying the Software.
 3. Build your own modules (see section 3).
 
 ## 2. What you may not do
@@ -33,6 +32,11 @@ Unless DigiFalk has given you written permission, you may not:
    license, copyright notices or author information.
 4. Use the Software, or any part of it, as the basis for a competing product.
 5. Get around, disable or imitate the license check of premium modules.
+6. Translate the Software, or show it in another language than the one it comes in, in
+   any way: with translation files (such as `.po`, `.mo` or `.l10n.php`), translation
+   plugins, translation services, your own modules or otherwise. The game can only be
+   offered in other languages with a premium module from DigiFalk that does this. You may
+   translate the texts of your own modules.
 
 ## 3. Your own modules
 
