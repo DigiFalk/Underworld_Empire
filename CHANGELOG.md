@@ -3,6 +3,13 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.10.11
+
+- New license terms (LICENSE.md): Underworld Empire is free to use on any number of
+  websites, also commercially. The plugin, theme and bundled modules may not be modified or
+  distributed; extend the game with your own modules instead. Your own modules may not copy
+  or imitate a DigiFalk premium module.
+
 ## 1.10.10
 
 - New `Avatar::store( $user_id, $path, $size )`: stores an image made on the server as a

@@ -198,4 +198,12 @@ WordPress tools (for example Loco Translate) into the `languages/` folder.
 
 ## License
 
-Copyright © DigiFalk. See [LICENSE.md](LICENSE.md).
+Copyright © DigiFalk. See [LICENSE.md](LICENSE.md) for the full text. In short:
+
+- Free to use on any number of websites, private and commercial.
+- Do not modify the plugin, the theme or the bundled modules, and do not distribute them.
+  Settings, the Customizer, Additional CSS and translations are fine.
+- Extend the game with your own modules. They are yours to use, share or sell, as long as
+  they are your own work and do not copy or imitate a DigiFalk premium module.
+- The "Underworld Empire by DigiFalk" line stays, unless you use the White Label premium
+  module.
