@@ -3,6 +3,11 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.13.3
+
+- The link to Underworld Empire Extended now opens the English product page on digifalk.com
+  (https://digifalk.com/en/product/underworld-empire-extended/).
+
 ## 1.13.2
 
 - New: the game has its own **light/dark switch** (game element "Light/dark switch"). Light

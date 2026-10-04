@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.13.2
+Stable tag: 1.13.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -40,7 +40,7 @@ The game runs on a shortcode page that the plugin creates for you, works with an
 
 = Underworld Empire Extended (free) =
 
-The game in this plugin is complete on its own. The free add-on **Underworld Empire Extended**, available on [digifalk.com](https://digifalk.com/product/underworld-empire-extended/), adds families, murders, detectives, bounties, the bullet factory, the black market, blackjack, police chases, properties, a forum and the matching Underworld Empire theme. Extended is also needed for premium modules from DigiFalk. Extended is not hosted on WordPress.org and has its own license.
+The game in this plugin is complete on its own. The free add-on **Underworld Empire Extended**, available on [digifalk.com](https://digifalk.com/en/product/underworld-empire-extended/), adds families, murders, detectives, bounties, the bullet factory, the black market, blackjack, police chases, properties, a forum and the matching Underworld Empire theme. Extended is also needed for premium modules from DigiFalk. Extended is not hosted on WordPress.org and has its own license.
 
 = Source code =
 
@@ -78,6 +78,9 @@ No. This plugin does not send data to external services.
 Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
 
 == Changelog ==
+
+= 1.13.3 =
+* The link to Underworld Empire Extended opens the English product page.
 
 = 1.13.2 =
 * New: a light/dark switch in the game. Players choose between the colours of your theme and the built-in dark look.

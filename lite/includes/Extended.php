@@ -26,7 +26,7 @@ final class Extended {
 		 *
 		 * @param string $url
 		 */
-		return (string) apply_filters( 'dfmg_extended_url', 'https://digifalk.com/product/underworld-empire-extended/' );
+		return (string) apply_filters( 'dfmg_extended_url', 'https://digifalk.com/en/product/underworld-empire-extended/' );
 	}
 
 	/**

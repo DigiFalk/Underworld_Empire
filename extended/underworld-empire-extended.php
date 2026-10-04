@@ -3,7 +3,7 @@
  * Plugin Name:       Underworld Empire Extended
  * Plugin URI:        https://digifalk.com/
  * Description:       Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum and the Underworld Empire theme for the Underworld Empire mafia game. Also needed for premium modules.
- * Version:           1.13.2
+ * Version:           1.13.3
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Requires Plugins:  underworld-empire
@@ -20,7 +20,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'DFMG_EXTENDED_VERSION', '1.13.2' );
+define( 'DFMG_EXTENDED_VERSION', '1.13.3' );
 define( 'DFMG_EXTENDED_FILE', __FILE__ );
 define( 'DFMG_EXTENDED_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DFMG_EXTENDED_URL', plugin_dir_url( __FILE__ ) );
