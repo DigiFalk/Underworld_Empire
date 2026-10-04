@@ -214,7 +214,7 @@ final class Character {
 	 */
 	public function set( string $field, $value ): void {
 		if ( ! in_array( $field, self::WRITABLE, true ) ) {
-			throw new \InvalidArgumentException( 'Field not writable: ' . $field );
+			throw new \InvalidArgumentException( 'Field not writable: ' . esc_html( $field ) );
 		}
 		DB::update( 'characters', array( $field => $value ), array( 'id' => $this->id() ) );
 		$this->row[ $field ] = $value;

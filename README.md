@@ -15,9 +15,26 @@ The game comes as two plugins. This repository holds both, each in its own folde
 | [`lite/`](lite) | **Underworld Empire** (`underworld-empire.zip`) | The game engine and 16 modules: a complete game with crimes, car theft, jail, hospital, travel, bank, inventory, messages and leaderboards. |
 | [`extended/`](extended) | **Underworld Empire Extended** (`underworld-empire-extended.zip`, free) | Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum, the **Underworld Empire theme** and premium modules (license keys). Needs Underworld Empire. |
 
-Both zips are attached to every [GitHub release](https://github.com/DigiFalk/Underworld_Empire/releases).
-Sites that update from 1.10/1.11 get Extended installed and activated automatically, so the
-game keeps all its modules and data.
+Every [GitHub release](https://github.com/DigiFalk/Underworld_Empire/releases) carries three zips:
+
+| Zip | What it is |
+| --- | --- |
+| `underworld-empire.zip` | Underworld Empire, **GitHub edition**: updates itself from these releases and can install Extended with one click. Sites that update from 1.10/1.11 get Extended installed and activated automatically, so the game keeps all its modules and data. |
+| `underworld-empire-extended.zip` | Underworld Empire Extended. Updates itself from these releases. |
+| `underworld-empire-wordpress-org.zip` | Underworld Empire, **WordPress.org edition**: the same plugin without the GitHub updater and without the Extended installer (`includes/Updater.php` and `includes/Bridge.php`), as the plugin directory requires. Built by `.github/scripts/build-wporg.sh`. |
+
+### WordPress.org
+
+The WordPress.org edition passes the official [Plugin Check](https://wordpress.org/plugins/plugin-check/)
+without errors or warnings. To submit it:
+
+1. Log in on WordPress.org with the DigiFalk account and set that username under
+   `Contributors:` in `lite/readme.txt`.
+2. Upload `underworld-empire-wordpress-org.zip` of the newest release on
+   https://wordpress.org/plugins/developers/add/.
+3. After approval, publish new versions to the plugin's SVN repository (the slug must be
+   `underworld-empire`, so sites of the GitHub edition can switch to WordPress.org updates
+   later by dropping the `Update URI` header).
 
 ## Installation
 
@@ -214,20 +231,19 @@ Every version is released automatically by the GitHub Actions workflow
 
 ## Translations
 
-Translating Underworld Empire (with translation files, translation plugins or otherwise) is
-not allowed by the license. Other languages are reserved for a premium module from DigiFalk.
-The strings use the text domain `underworld-empire`; your own modules may use their own text
-domain and translations.
+Underworld Empire (`lite/`) uses the text domain `underworld-empire` and may be translated:
+once it is in the WordPress.org plugin directory, translations are made on
+translate.wordpress.org. Underworld Empire Extended and the premium modules may not be
+translated (see `extended/LICENSE.md`); other languages for those come with a premium module
+from DigiFalk.
 
 ## License
 
-Copyright © DigiFalk. See [LICENSE.md](LICENSE.md) for the full text. In short:
+- **Underworld Empire** (`lite/`): GNU General Public License, version 2 or later
+  ([`lite/LICENSE.txt`](lite/LICENSE.txt)).
+- **Underworld Empire Extended** (`extended/`, including the theme) and DigiFalk premium
+  modules: DigiFalk License ([`extended/LICENSE.md`](extended/LICENSE.md)). Free to use, also
+  commercially; not to be modified, distributed or translated; with Extended the line
+  "Underworld Empire by DigiFalk" stays unless you use the White Label premium module.
 
-- Free to use on any number of websites, private and commercial.
-- Do not modify the plugin, the theme or the bundled modules, and do not distribute them.
-  Settings, the Customizer and Additional CSS are fine. Translating the game is not allowed;
-  other languages come with a DigiFalk premium module.
-- Extend the game with your own modules. They are yours to use, share or sell, as long as
-  they are your own work and do not copy or imitate a DigiFalk premium module.
-- With Underworld Empire Extended the "Underworld Empire by DigiFalk" line stays, unless you
-  use the White Label premium module.
+See [LICENSE.md](LICENSE.md). Copyright © DigiFalk.

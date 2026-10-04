@@ -12,8 +12,9 @@ Adding modules extends the game without touching the plugin itself.
 | `wp-content/underworld-modules/<id>/` | **Your own modules.** Survives updates. A module with the same id as a bundled module replaces it. Change the folder with `define( 'DFMG_CUSTOM_MODULES_DIR', '/path' );` in `wp-config.php`. |
 | Another plugin | `add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( __DIR__ . '/my-module/module.php' ) );` |
 
-Your modules must be your own work and must not copy or imitate a DigiFalk premium module;
-the plugin itself may not be modified. See sections 3 and 4 of [`LICENSE.md`](../LICENSE.md).
+Underworld Empire itself is GPL software. If your game also uses Underworld Empire Extended,
+your modules may not copy code from Extended and may not copy or imitate a DigiFalk premium
+module; see sections 3 and 4 of [`extended/LICENSE.md`](../extended/LICENSE.md).
 
 The folder name is the module **id** (e.g. `slot-machine`). It is also used in the URL
 (`?mg=slot-machine`). Enable new modules under *Underworld Empire → Modules*.

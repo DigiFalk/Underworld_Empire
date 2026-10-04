@@ -7,8 +7,8 @@
 
 namespace DigiFalk\UnderworldEmpire\Admin;
 
-use DigiFalk\UnderworldEmpire\Bridge;
 use DigiFalk\UnderworldEmpire\DB;
+use DigiFalk\UnderworldEmpire\Extended;
 use DigiFalk\UnderworldEmpire\Format;
 use DigiFalk\UnderworldEmpire\Icons;
 use DigiFalk\UnderworldEmpire\Frontend\Game;
@@ -32,6 +32,7 @@ final class Admin {
 		add_action( 'admin_post_dfmg_settings', array( __CLASS__, 'handle_settings' ) );
 		add_action( 'admin_post_dfmg_module', array( __CLASS__, 'handle_module' ) );
 		add_action( 'admin_post_dfmg_new_round', array( __CLASS__, 'handle_new_round' ) );
+		add_action( 'admin_post_dfmg_credit_choice', array( __CLASS__, 'handle_credit_choice' ) );
 		add_filter( 'submenu_file', array( __CLASS__, 'highlight_menu' ) );
 		// Hide the module configuration page from the menu once WordPress has checked access to it.
 		add_action(
@@ -358,6 +359,7 @@ final class Admin {
 		?>
 		<div class="wrap dfmg-admin">
 			<?php self::header( __( 'Dashboard', 'underworld-empire' ), __( 'How your underworld is doing right now.', 'underworld-empire' ), 'dfmg' ); ?>
+			<?php self::render_credit_question(); ?>
 
 			<div class="dfmg-admin-stats">
 				<?php foreach ( $stats as $stat ) : ?>
@@ -490,11 +492,11 @@ final class Admin {
 			$labels[] = wp_date( 'D j', $start + $i * DAY_IN_SECONDS + 3600, $tz );
 		}
 		echo '<figure class="dfmg-admin-chart">';
-		echo '<svg viewBox="0 0 ' . $w . ' ' . $h . '" role="img" aria-label="' . esc_attr__( 'Player actions per day', 'underworld-empire' ) . '">';
+		echo '<svg viewBox="0 0 ' . esc_attr( $w . ' ' . $h ) . '" role="img" aria-label="' . esc_attr__( 'Player actions per day', 'underworld-empire' ) . '">';
 		for ( $g = 0; $g <= 4; $g++ ) {
 			$y = 12 + $plot_h - ( $plot_h * $g / 4 );
-			echo '<line class="dfmg-admin-chart__grid" x1="' . $left . '" x2="' . ( $w - 4 ) . '" y1="' . $y . '" y2="' . $y . '"/>';
-			echo '<text class="dfmg-admin-chart__tick" x="' . ( $left - 8 ) . '" y="' . ( $y + 4 ) . '" text-anchor="end">' . esc_html( Format::number( $step * $g ) ) . '</text>';
+			echo '<line class="dfmg-admin-chart__grid" x1="' . esc_attr( $left ) . '" x2="' . esc_attr( $w - 4 ) . '" y1="' . esc_attr( $y ) . '" y2="' . esc_attr( $y ) . '"/>';
+			echo '<text class="dfmg-admin-chart__tick" x="' . esc_attr( $left - 8 ) . '" y="' . esc_attr( $y + 4 ) . '" text-anchor="end">' . esc_html( Format::number( $step * $g ) ) . '</text>';
 		}
 		foreach ( $days as $i => $n ) {
 			$x   = $left + $slot * $i + ( $slot - $bar_w ) / 2;
@@ -504,7 +506,7 @@ final class Admin {
 			$cx  = $x + $bar_w / 2;
 			echo '<g class="dfmg-admin-chart__col' . ( $n === $max && $max > 0 ? ' is-max' : '' ) . '" tabindex="0">';
 			echo '<title>' . esc_html( $labels[ $i ] . ': ' . Format::number( $n ) ) . '</title>';
-			echo '<rect class="dfmg-admin-chart__hit" x="' . ( $left + $slot * $i ) . '" y="12" width="' . $slot . '" height="' . $plot_h . '"/>';
+			echo '<rect class="dfmg-admin-chart__hit" x="' . esc_attr( $left + $slot * $i ) . '" y="12" width="' . esc_attr( $slot ) . '" height="' . esc_attr( $plot_h ) . '"/>';
 			if ( $bh > 0 ) {
 				// Rounded data end, square at the baseline.
 				$path = sprintf(
@@ -514,12 +516,12 @@ final class Admin {
 				echo '<path class="dfmg-admin-chart__bar" d="' . esc_attr( $path ) . '"/>';
 			}
 			if ( $n === $max && $max > 0 ) {
-				echo '<text class="dfmg-admin-chart__value" x="' . $cx . '" y="' . ( $y - 7 ) . '" text-anchor="middle">' . esc_html( Format::number( $n ) ) . '</text>';
+				echo '<text class="dfmg-admin-chart__value" x="' . esc_attr( $cx ) . '" y="' . esc_attr( $y - 7 ) . '" text-anchor="middle">' . esc_html( Format::number( $n ) ) . '</text>';
 			}
-			echo '<text class="dfmg-admin-chart__day" x="' . $cx . '" y="' . ( $h - 8 ) . '" text-anchor="middle">' . esc_html( $labels[ $i ] ) . '</text>';
+			echo '<text class="dfmg-admin-chart__day" x="' . esc_attr( $cx ) . '" y="' . esc_attr( $h - 8 ) . '" text-anchor="middle">' . esc_html( $labels[ $i ] ) . '</text>';
 			echo '</g>';
 		}
-		echo '<line class="dfmg-admin-chart__base" x1="' . $left . '" x2="' . ( $w - 4 ) . '" y1="' . ( 12 + $plot_h ) . '" y2="' . ( 12 + $plot_h ) . '"/>';
+		echo '<line class="dfmg-admin-chart__base" x1="' . esc_attr( $left ) . '" x2="' . esc_attr( $w - 4 ) . '" y1="' . esc_attr( 12 + $plot_h ) . '" y2="' . esc_attr( 12 + $plot_h ) . '"/>';
 		echo '</svg>';
 		echo '<table class="screen-reader-text"><caption>' . esc_html__( 'Player actions per day', 'underworld-empire' ) . '</caption><tbody>';
 		foreach ( $days as $i => $n ) {
@@ -529,6 +531,51 @@ final class Admin {
 		/* translators: %s: number of actions */
 		echo '<figcaption>' . esc_html( sprintf( __( '%s actions this week', 'underworld-empire' ), Format::number( array_sum( $days ) ) ) ) . '</figcaption>';
 		echo '</figure>';
+	}
+
+	/**
+	 * Asks once whether the game may show "Underworld Empire by DigiFalk". Nothing is shown
+	 * until the site owner says yes (also later under Settings).
+	 */
+	private static function render_credit_question(): void {
+		if ( Extended::active() || get_option( 'dfmg_credit_asked' ) || Settings::get( 'show_credit', 0 ) ) {
+			return;
+		}
+		$action = admin_url( 'admin-post.php' );
+		?>
+		<section class="dfmg-admin-panel dfmg-admin-credit-question">
+			<h2 class="dfmg-admin-section-title"><?php echo Icons::svg( 'membership', 18 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> <?php esc_html_e( 'Support Underworld Empire?', 'underworld-empire' ); ?></h2>
+			<p><?php esc_html_e( 'May the game show a small line "Underworld Empire by DigiFalk" with a link to the maker at the bottom of game pages? It helps others find the game. It stays off unless you choose yes, and you can change it any time under Settings.', 'underworld-empire' ); ?></p>
+			<div class="dfmg-admin-premium__actions">
+				<form method="post" action="<?php echo esc_url( $action ); ?>">
+					<input type="hidden" name="action" value="dfmg_credit_choice">
+					<input type="hidden" name="choice" value="yes">
+					<?php wp_nonce_field( 'dfmg_credit_choice' ); ?>
+					<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--gold"><?php esc_html_e( 'Yes, show the line', 'underworld-empire' ); ?></button>
+				</form>
+				<form method="post" action="<?php echo esc_url( $action ); ?>">
+					<input type="hidden" name="action" value="dfmg_credit_choice">
+					<input type="hidden" name="choice" value="no">
+					<?php wp_nonce_field( 'dfmg_credit_choice' ); ?>
+					<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--ghost"><?php esc_html_e( 'No thanks', 'underworld-empire' ); ?></button>
+				</form>
+			</div>
+		</section>
+		<?php
+	}
+
+	public static function handle_credit_choice(): void {
+		if ( ! self::can() ) {
+			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
+		}
+		check_admin_referer( 'dfmg_credit_choice' );
+		$yes = 'yes' === sanitize_key( wp_unslash( $_POST['choice'] ?? '' ) );
+		Settings::set( 'show_credit', $yes ? 1 : 0 );
+		update_option( 'dfmg_credit_asked', 1 );
+		if ( $yes ) {
+			set_transient( 'dfmg_admin_success_' . get_current_user_id(), __( 'Thank you! The line is shown at the bottom of game pages.', 'underworld-empire' ), 60 );
+		}
+		self::redirect( admin_url( 'admin.php?page=dfmg' ) );
 	}
 
 	public static function handle_new_round(): void {
@@ -617,7 +664,7 @@ final class Admin {
 							<?php if ( $info['required'] ) : ?>
 								<span class="dfmg-admin-badge"><?php esc_html_e( 'Required', 'underworld-empire' ); ?></span>
 							<?php elseif ( ! empty( $info['premium'] ) && ! $registry->runnable( $id ) ) : ?>
-								<?php if ( Bridge::extended_active() ) : ?>
+								<?php if ( Extended::active() ) : ?>
 									<a class="dfmg-admin-badge dfmg-admin-badge--premium" href="#premium-<?php echo esc_attr( $id ); ?>"><?php esc_html_e( 'License needed', 'underworld-empire' ); ?></a>
 								<?php else : ?>
 									<a class="dfmg-admin-badge dfmg-admin-badge--premium" href="#dfmg-extended"><?php esc_html_e( 'Needs Extended', 'underworld-empire' ); ?></a>
@@ -667,7 +714,7 @@ final class Admin {
 					<p><?php esc_html_e( 'Extended adds families, murders, detectives, bounties, the bullet factory, the black market, blackjack, police chases, properties, the forum and the Underworld Empire theme. It is also needed for premium modules.', 'underworld-empire' ); ?></p>
 				</div>
 				<div class="dfmg-admin-premium__actions">
-					<?php echo Bridge::button(); // phpcs:ignore ?>
+					<?php echo Extended::button(); // phpcs:ignore ?>
 				</div>
 			</div>
 		</section>
@@ -681,7 +728,7 @@ final class Admin {
 		}
 		check_admin_referer( 'dfmg_module_' . $id );
 		$registry = Plugin::instance()->modules;
-		$result   = 'on' === ( $_POST['state'] ?? '' ) ? $registry->enable( $id ) : $registry->disable( $id );
+		$result   = 'on' === sanitize_key( wp_unslash( $_POST['state'] ?? '' ) ) ? $registry->enable( $id ) : $registry->disable( $id );
 		if ( is_wp_error( $result ) ) {
 			set_transient( 'dfmg_admin_error_' . get_current_user_id(), $result->get_error_message(), 60 );
 			self::redirect( admin_url( 'admin.php?page=dfmg-modules' ) );
@@ -769,7 +816,7 @@ final class Admin {
 	 */
 	public static function highlight_menu( $submenu_file ) {
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		return ( 'dfmg-module' === ( $_GET['page'] ?? '' ) ) ? 'dfmg-modules' : $submenu_file;
+		return ( 'dfmg-module' === sanitize_key( wp_unslash( $_GET['page'] ?? '' ) ) ) ? 'dfmg-modules' : $submenu_file;
 	}
 
 	/**

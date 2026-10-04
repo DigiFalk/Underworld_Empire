@@ -2,6 +2,9 @@
 /**
  * Underworld Empire Extended: detection and installation.
  *
+ * Only in the GitHub edition of this plugin: the wordpress.org edition leaves this file (and
+ * Updater.php) out, because plugins from WordPress.org may not install other plugins.
+ *
  * Since 1.12.0 families, murders, the theme, premium licenses and more live in the separate
  * plugin Underworld Empire Extended. Sites that used those modules before get Extended
  * installed and activated automatically after updating, so the game keeps working. Other
@@ -42,7 +45,7 @@ final class Bridge {
 	}
 
 	public static function extended_active(): bool {
-		return defined( 'DFMG_EXTENDED_VERSION' );
+		return Extended::active();
 	}
 
 	public static function installed(): bool {

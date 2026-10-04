@@ -36,16 +36,19 @@ final class Plugin {
 	}
 
 	private function boot(): void {
-		load_plugin_textdomain( 'underworld-empire', false, dirname( plugin_basename( DFMG_FILE ) ) . '/languages' );
-
 		Installer::maybe_upgrade();
 
 		foreach ( Settings::core_fields() as $key => $field ) {
 			Settings::register_default( $key, $field['default'] );
 		}
 
-		Updater::init();
-		Bridge::init();
+		// Only in the GitHub edition; the wordpress.org edition gets its updates from WordPress.org.
+		if ( class_exists( Updater::class ) ) {
+			Updater::init();
+		}
+		if ( class_exists( Bridge::class ) ) {
+			Bridge::init();
+		}
 		Avatar::init();
 		Items::boot();
 		$this->modules->boot_enabled();

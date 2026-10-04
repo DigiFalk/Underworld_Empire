@@ -3,12 +3,13 @@
  * Plugin Name:       Underworld Empire
  * Plugin URI:        https://github.com/DigiFalk/Underworld_Empire
  * Description:       A complete, modular mafia browser game (PBBG) for WordPress. Crimes, car theft, jail, travel, bank and more — all as separate, extendable modules. Families, murders and the Underworld Empire theme come with the free Underworld Empire Extended.
- * Version:           1.12.1
+ * Version:           1.13.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            DigiFalk
- * Author URI:        https://github.com/DigiFalk
- * License:           DigiFalk License (see LICENSE.md)
+ * Author URI:        https://digifalk.com/
+ * License:           GPLv2 or later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Update URI:        https://github.com/DigiFalk/Underworld_Empire
  * Text Domain:       underworld-empire
  * Domain Path:       /languages
@@ -17,9 +18,21 @@
  * @copyright DigiFalk
  */
 
+/*
+ * Copyright (C) 2026 DigiFalk
+ *
+ * This program is free software; you can redistribute it and/or modify it under the terms of
+ * the GNU General Public License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See the GNU General Public License (LICENSE.txt) for more details.
+ */
+
 defined( 'ABSPATH' ) || exit;
 
-define( 'DFMG_VERSION', '1.12.1' );
+define( 'DFMG_VERSION', '1.13.0' );
 define( 'DFMG_DB_VERSION', '1' );
 define( 'DFMG_FILE', __FILE__ );
 define( 'DFMG_DIR', plugin_dir_path( __FILE__ ) );

@@ -1,0 +1,89 @@
+=== Underworld Empire ===
+Contributors: digifalk
+Tags: game, browser game, mafia, rpg, multiplayer
+Requires at least: 6.0
+Tested up to: 7.1
+Requires PHP: 7.4
+Stable tag: 1.13.0
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
+
+A complete mafia browser game (PBBG) for WordPress. Players commit crimes, steal cars, travel, bank and climb from Street Rat to Godfather.
+
+== Description ==
+
+Underworld Empire turns your WordPress site into a multiplayer mafia browser game. Players log in with their WordPress account, pick a gangster name and work their way up from *Street Rat* to *Godfather*.
+
+The game runs on a shortcode page that the plugin creates for you, works with any theme and looks good on phones.
+
+= What players can do =
+
+* **Crimes**: crimes with a success chance that grows the more a player does them.
+* **Car theft and garage**: steal cars at spots with different odds, then sell, repair, ship or crush them.
+* **Jail**: jail time, breakouts, bail and solitary confinement.
+* **Hospital**: heal for money and time.
+* **Travel**: fly between cities.
+* **Bank**: deposit (with a laundering fee), withdraw and transfer money.
+* **Inventory**: equip, use and sell items.
+* **Messages and notifications**: private messages and a feed of everything that happens to your character.
+* **Profiles, players and leaderboards**: public profiles, who's online, search and top 25 lists.
+* **Statistics and news**: numbers about the game world and game news.
+
+= What you can do as the game owner =
+
+* Switch every game feature (module) on or off.
+* Edit all game data: ranks, wealth titles, cities, crimes, cars, items and more.
+* Start a new round: player data is wiped, game data is kept.
+* Arrange the game screen with the **Game layout** in the Customizer: drag money, timers, the game menu and more into the header, sidebar or footer.
+* Follow the colours and font of your theme, or use the built-in dark look.
+* Build your own modules: a module is a folder with a `module.php`. Your own modules survive plugin updates.
+
+= Underworld Empire Extended (free) =
+
+The game in this plugin is complete on its own. The free add-on **Underworld Empire Extended**, available on [digifalk.com](https://digifalk.com/product/underworld-empire-extended/), adds families, murders, detectives, bounties, the bullet factory, the black market, blackjack, police chases, properties, a forum and the matching Underworld Empire theme. Extended is also needed for premium modules from DigiFalk. Extended is not hosted on WordPress.org and has its own license.
+
+= Source code =
+
+The source code, documentation for module developers and the development history are on [GitHub](https://github.com/DigiFalk/Underworld_Empire).
+
+== Installation ==
+
+1. Install and activate **Underworld Empire** from *Plugins → Add New*.
+2. On activation the plugin creates its tables, loads starting data and creates a page **Underworld Empire** with the shortcode `[underworld_empire]`.
+3. Enable *Settings → General → Anyone can register* if players may create their own account.
+4. Manage the game under the **Underworld Empire** menu.
+
+Requirements: WordPress 6.0 or newer, PHP 7.4 or newer, MySQL 5.7+ or MariaDB 10.3+.
+
+== Frequently Asked Questions ==
+
+= Do players need a WordPress account? =
+
+Yes. Players log in with a normal WordPress account. Turn on *Anyone can register* under *Settings → General* so they can sign up themselves.
+
+= Can I add my own game features? =
+
+Yes. Put a folder with a `module.php` in `wp-content/underworld-modules/` and switch it on under *Underworld Empire → Modules*. See the module documentation on GitHub.
+
+= Does the plugin show a link to its maker? =
+
+Only if you want it to. On the dashboard of the plugin you can choose to show a small line "Underworld Empire by DigiFalk" at the bottom of game pages. It is off until you choose yes, and you can change it under *Settings*.
+
+= Does the plugin contact other servers? =
+
+No. This plugin does not send data to external services.
+
+= What happens to player data when I delete the plugin? =
+
+Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
+
+== Changelog ==
+
+= 1.13.0 =
+* Underworld Empire is now available under the GPL (version 2 or later).
+* New: on the dashboard you choose whether game pages show "Underworld Empire by DigiFalk". It is off until you choose yes.
+
+= 1.12.0 =
+* Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum and the theme moved to the free add-on Underworld Empire Extended.
+
+The full changelog is on [GitHub](https://github.com/DigiFalk/Underworld_Empire/blob/main/CHANGELOG.md).

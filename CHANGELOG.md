@@ -3,6 +3,23 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.13.0
+
+- **Underworld Empire is now free software under the GPL (version 2 or later)**, see
+  `lite/LICENSE.txt`. Underworld Empire Extended, its theme and the premium modules keep the
+  DigiFalk License (`extended/LICENSE.md`).
+- New **WordPress.org edition** (`underworld-empire-wordpress-org.zip` in every release):
+  the same plugin without the GitHub updater and without the Extended installer. It passes
+  the official Plugin Check without errors or warnings, and comes with a `readme.txt` for the
+  plugin directory.
+- The dashboard asks once whether game pages may show "Underworld Empire by DigiFalk". It
+  stays off until the site owner chooses yes (also under Settings). With Extended it is
+  always shown, as before.
+- Without the installer, the Modules screen links to the free download of Extended on
+  digifalk.com.
+- Code fixes from the Plugin Check: escaped chart output on the dashboard, sanitized request
+  values, no more manual loading of translations (WordPress does that itself).
+
 ## 1.12.1
 
 - Extended: more reliable repair of the theme folder after the move to Extended. WordPress

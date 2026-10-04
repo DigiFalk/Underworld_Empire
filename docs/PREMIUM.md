@@ -60,7 +60,8 @@ reached. New products in the store appear automatically.
 ## Footer credit and White Label
 
 Game pages show "Underworld Empire by DigiFalk" (`Frontend\Credit`). In the free plugin it is
-off until the site owner switches on *Settings → Show "Underworld Empire by DigiFalk"*;
+off until the site owner says yes on the dashboard (asked once) or switches on *Settings →
+Show "Underworld Empire by DigiFalk"*;
 Underworld Empire Extended always shows it (filter `dfmg_show_credit`). It is only removed
 while the premium module `ue-white-label` is booted and licensed (`Registry::runnable`). That
 module can return its own footer HTML with the filter `dfmg_white_label_credit`; the filter is

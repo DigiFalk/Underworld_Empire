@@ -3,7 +3,9 @@ name: Release
 # Publishes a GitHub release for every new plugin version pushed to the main branch.
 # Raise "Version:" and DFMG_VERSION in lite/underworld-empire.php, "Version:" and
 # DFMG_EXTENDED_VERSION in extended/underworld-empire-extended.php (all the same) and add a
-# CHANGELOG.md section. Every release carries underworld-empire.zip and underworld-empire-extended.zip.
+# CHANGELOG.md section. Every release carries underworld-empire.zip and underworld-empire-extended.zip
+# (GitHub editions, which update themselves from these releases) and
+# underworld-empire-wordpress-org.zip (the edition for the WordPress.org plugin directory).
 
 on:
   push:
@@ -53,11 +55,13 @@ jobs:
           mkdir -p build/underworld-empire build/underworld-empire-extended
           rsync -a lite/ build/underworld-empire/
           rsync -a extended/ build/underworld-empire-extended/
-          cp LICENSE.md CHANGELOG.md build/underworld-empire/
-          cp LICENSE.md CHANGELOG.md build/underworld-empire-extended/
+          cp CHANGELOG.md build/underworld-empire/
+          cp CHANGELOG.md build/underworld-empire-extended/
+          .github/scripts/build-wporg.sh build/wordpress-org
           cd build
           zip -rq underworld-empire.zip underworld-empire
           zip -rq underworld-empire-extended.zip underworld-empire-extended
+          (cd wordpress-org && zip -rq ../underworld-empire-wordpress-org.zip underworld-empire)
 
       - name: Release notes
         if: steps.version.outputs.exists == 'false'
@@ -74,7 +78,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "v${{ steps.version.outputs.version }}" build/underworld-empire.zip build/underworld-empire-extended.zip \
+          gh release create "v${{ steps.version.outputs.version }}" build/underworld-empire.zip build/underworld-empire-extended.zip build/underworld-empire-wordpress-org.zip \
             --target "$GITHUB_SHA" \
             --title "Underworld Empire ${{ steps.version.outputs.version }}" \
             --notes-file build/notes.md \
