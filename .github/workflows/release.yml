@@ -1,7 +1,9 @@
 name: Release
 
 # Publishes a GitHub release for every new plugin version pushed to the main branch.
-# Raise "Version:" and DFMG_VERSION in underworld-empire.php and add a CHANGELOG.md section.
+# Raise "Version:" and DFMG_VERSION in lite/underworld-empire.php, "Version:" and
+# DFMG_EXTENDED_VERSION in extended/underworld-empire-extended.php (all the same) and add a
+# CHANGELOG.md section. Every release carries underworld-empire.zip and underworld-empire-extended.zip.
 
 on:
   push:
@@ -24,14 +26,18 @@ jobs:
       - name: Read version
         id: version
         run: |
-          header=$(grep -m1 -E '^\s*\*\s*Version:' underworld-empire.php | sed -E 's/.*Version:\s*//' | tr -d '[:space:]')
-          constant=$(grep -m1 "define( 'DFMG_VERSION'" underworld-empire.php | sed -E "s/.*'DFMG_VERSION', '([^']+)'.*/\1/")
-          if [ "$header" != "$constant" ]; then
-            echo "::error::Version header ($header) and DFMG_VERSION ($constant) differ."
+          read_header() { grep -m1 -E '^\s*\*\s*Version:' "$1" | sed -E 's/.*Version:\s*//' | tr -d '[:space:]'; }
+          read_constant() { grep -m1 "define( '$2'" "$1" | sed -E "s/.*'$2', '([^']+)'.*/\1/"; }
+          lite=$(read_header lite/underworld-empire.php)
+          lite_constant=$(read_constant lite/underworld-empire.php DFMG_VERSION)
+          extended=$(read_header extended/underworld-empire-extended.php)
+          extended_constant=$(read_constant extended/underworld-empire-extended.php DFMG_EXTENDED_VERSION)
+          if [ "$lite" != "$lite_constant" ] || [ "$lite" != "$extended" ] || [ "$lite" != "$extended_constant" ]; then
+            echo "::error::Versions differ: Lite header $lite, DFMG_VERSION $lite_constant, Extended header $extended, DFMG_EXTENDED_VERSION $extended_constant."
             exit 1
           fi
-          echo "version=$header" >> "$GITHUB_OUTPUT"
-          if git ls-remote --exit-code --tags origin "refs/tags/v$header" >/dev/null 2>&1; then
+          echo "version=$lite" >> "$GITHUB_OUTPUT"
+          if git ls-remote --exit-code --tags origin "refs/tags/v$lite" >/dev/null 2>&1; then
             echo "exists=true" >> "$GITHUB_OUTPUT"
           else
             echo "exists=false" >> "$GITHUB_OUTPUT"
@@ -39,14 +45,19 @@ jobs:
 
       - name: Check PHP syntax
         if: steps.version.outputs.exists == 'false'
-        run: find . -name '*.php' -not -path './.git/*' -print0 | xargs -0 -n1 php -l > /dev/null
+        run: find lite extended -name '*.php' -print0 | xargs -0 -n1 php -l > /dev/null
 
-      - name: Build zip
+      - name: Build zips
         if: steps.version.outputs.exists == 'false'
         run: |
-          mkdir -p build/underworld-empire
-          rsync -a --exclude '.git' --exclude '.github' --exclude 'build' --exclude '.gitattributes' --exclude '.gitignore' ./ build/underworld-empire/
-          cd build && zip -rq underworld-empire.zip underworld-empire
+          mkdir -p build/underworld-empire build/underworld-empire-extended
+          rsync -a lite/ build/underworld-empire/
+          rsync -a extended/ build/underworld-empire-extended/
+          cp LICENSE.md CHANGELOG.md build/underworld-empire/
+          cp LICENSE.md CHANGELOG.md build/underworld-empire-extended/
+          cd build
+          zip -rq underworld-empire.zip underworld-empire
+          zip -rq underworld-empire-extended.zip underworld-empire-extended
 
       - name: Release notes
         if: steps.version.outputs.exists == 'false'
@@ -63,7 +74,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "v${{ steps.version.outputs.version }}" build/underworld-empire.zip \
+          gh release create "v${{ steps.version.outputs.version }}" build/underworld-empire.zip build/underworld-empire-extended.zip \
             --target "$GITHUB_SHA" \
             --title "Underworld Empire ${{ steps.version.outputs.version }}" \
             --notes-file build/notes.md \

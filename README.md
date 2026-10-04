@@ -6,10 +6,25 @@ Players log in with their WordPress account, pick a gangster name and work their
 from *Street Rat* to *Godfather*: committing crimes, stealing cars, building a family,
 buying businesses, gambling at the casino and taking out rivals.
 
+## Two plugins
+
+The game comes as two plugins. This repository holds both, each in its own folder:
+
+| Folder | Plugin | Contents |
+| --- | --- | --- |
+| [`lite/`](lite) | **Underworld Empire** (`underworld-empire.zip`) | The game engine and 16 modules: a complete game with crimes, car theft, jail, hospital, travel, bank, inventory, messages and leaderboards. |
+| [`extended/`](extended) | **Underworld Empire Extended** (`underworld-empire-extended.zip`, free) | Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum, the **Underworld Empire theme** and premium modules (license keys). Needs Underworld Empire. |
+
+Both zips are attached to every [GitHub release](https://github.com/DigiFalk/Underworld_Empire/releases).
+Sites that update from 1.10/1.11 get Extended installed and activated automatically, so the
+game keeps all its modules and data.
+
 ## Installation
 
-1. Upload the folder to `wp-content/plugins/` (or install the zip via *Plugins → Add New*).
-2. Activate **Underworld Empire**.
+1. Upload `underworld-empire.zip` and `underworld-empire-extended.zip` via *Plugins → Add New
+   → Upload Plugin* (or install only Underworld Empire and click *Install Extended* on the
+   Modules screen later).
+2. Activate **Underworld Empire** and **Underworld Empire Extended**.
 3. On activation the tables are created, starting data is loaded and a page
    **Underworld Empire** is created containing the shortcode `[underworld_empire]`.
 4. Enable *Settings → General → Anyone can register* if players may create their own account.
@@ -35,38 +50,40 @@ sits in a collapsed danger zone. **Modules** are cards with an on/off switch, fi
 
 ## Bundled modules
 
-| Module | Id | Description |
-| --- | --- | --- |
-| Overview | `overview` | Home page with status, timers and notifications (required). |
-| Crimes | `crimes` | Crimes with a success chance that grows per player. |
-| Car Theft | `car-theft` | Steal cars at spots with different odds (requires `garage`). |
-| Garage | `garage` | Sell, repair, ship or crush cars into bullets. |
-| Police Chase | `police-chase` | Escape the police for a reward. |
-| Jail | `jail` | Jail time, breakouts, bail and solitary confinement. |
-| Hospital | `hospital` | Heal for money and time. |
-| Travel | `travel` | Fly between cities. |
-| Bullet Factory | `bullet-factory` | Buy bullets; the factory can be owned. Hourly production via WP-Cron. |
-| Black Market | `black-market` | Buy items (requires `inventory`). |
-| Inventory | `inventory` | Equip, use and sell items. |
-| Bank | `bank` | Deposit (with laundering fee), withdraw, transfer. |
-| Properties | `properties` | Manage owned businesses; taken over on murder. |
-| Blackjack | `blackjack` | Blackjack; the table can be owned. |
-| Detectives | `detectives` | Track down players. |
-| Murder | `murder` | Shoot players (requires `detectives`). |
-| Bounties | `bounties` | Bounties on players, paid to the killer. |
-| Families | `families` | Families with roles, permissions, vault, invitations and log. |
-| Messages | `messages` | Private messages. |
-| Notifications | `notifications` | Events around your character. |
-| Profile | `profile` | Public profiles and your own profile text. |
-| Players | `players` | Who's online and search. |
-| Leaderboards | `leaderboards` | Top 25 per category. |
-| Statistics | `statistics` | Numbers about the game world. |
-| News | `news` | Game news. |
-| Forum | `forum` | Forum with moderation. |
+Modules marked *Extended* come with Underworld Empire Extended.
+
+| Module | Id | Plugin | Description |
+| --- | --- | --- | --- |
+| Overview | `overview` | Underworld Empire | Home page with status, timers and notifications (required). |
+| Crimes | `crimes` | Underworld Empire | Crimes with a success chance that grows per player. |
+| Car Theft | `car-theft` | Underworld Empire | Steal cars at spots with different odds (requires `garage`). |
+| Garage | `garage` | Underworld Empire | Sell, repair, ship or crush cars into bullets. |
+| Police Chase | `police-chase` | Extended | Escape the police for a reward. |
+| Jail | `jail` | Underworld Empire | Jail time, breakouts, bail and solitary confinement. |
+| Hospital | `hospital` | Underworld Empire | Heal for money and time. |
+| Travel | `travel` | Underworld Empire | Fly between cities. |
+| Bullet Factory | `bullet-factory` | Extended | Buy bullets; the factory can be owned. Hourly production via WP-Cron. |
+| Black Market | `black-market` | Extended | Buy items (requires `inventory`). |
+| Inventory | `inventory` | Underworld Empire | Equip, use and sell items. |
+| Bank | `bank` | Underworld Empire | Deposit (with laundering fee), withdraw, transfer. |
+| Properties | `properties` | Extended | Manage owned businesses; taken over on murder. |
+| Blackjack | `blackjack` | Extended | Blackjack; the table can be owned. |
+| Detectives | `detectives` | Extended | Track down players. |
+| Murder | `murder` | Extended | Shoot players (requires `detectives`). |
+| Bounties | `bounties` | Extended | Bounties on players, paid to the killer. |
+| Families | `families` | Extended | Families with roles, permissions, vault, invitations and log. |
+| Messages | `messages` | Underworld Empire | Private messages. |
+| Notifications | `notifications` | Underworld Empire | Events around your character. |
+| Profile | `profile` | Underworld Empire | Public profiles and your own profile text. |
+| Players | `players` | Underworld Empire | Who's online and search. |
+| Leaderboards | `leaderboards` | Underworld Empire | Top 25 per category. |
+| Statistics | `statistics` | Underworld Empire | Numbers about the game world. |
+| News | `news` | Underworld Empire | Game news. |
+| Forum | `forum` | Extended | Forum with moderation. |
 
 ## Premium modules
 
-Extra modules can be bought in the DigiFalk store. They show on the Modules screen as locked
+Extra modules can be bought in the DigiFalk store. They need Underworld Empire Extended. They show on the Modules screen as locked
 cards with a **Buy** button; paste the license key from your email and the module is
 downloaded, verified, installed and switched on. One payment, lifetime updates. Details and
 the store API: [`docs/PREMIUM.md`](docs/PREMIUM.md).
@@ -106,7 +123,7 @@ out link. Place them anywhere:
   content, or the game footer (left, center, right). The preview opens the game and updates
   immediately. With an empty sidebar the game uses the full width; the game menu can then go
   in the header as a dropdown (a bottom sheet on phones).
-* **Theme header and footer**: with the bundled theme every game element is also available
+* **Theme header and footer**: with the Underworld Empire theme every game element is also available
   in the header and footer builders (*Game: Cash*, *Game: Game menu*, ...), on desktop,
   mobile and in the mobile menu panel – for example the player's money in the top bar of
   every page of the site.
@@ -132,8 +149,8 @@ online* are always shown. Modules and themes can add their own elements with the
 * **Appearance** (Underworld Empire → Settings): by default the game follows the colours and
   font of your WordPress theme, in light and dark themes alike. Choose *Built-in dark look* for
   the original dark style regardless of the theme.
-* **Bundled theme**: the plugin ships the theme **Underworld Empire**. Activate it under
-  *Appearance → Themes*; it is available while the plugin is active. Everything is set in
+* **Underworld Empire theme**: Underworld Empire Extended ships the theme **Underworld
+  Empire**. Activate it under *Appearance → Themes*; it is available while Extended is active. Everything is set in
   *Appearance → Customize*, comparable to the free version of Astra:
   * **Global**: colour palettes (Underworld, Noir, Daylight or custom colours), typography
     (16 fonts, optional Google Fonts, sizes, weights, heading case), site layout (full width,
@@ -169,10 +186,11 @@ online* are always shown. Modules and themes can add their own elements with the
 
 ## Updates
 
-The plugin updates itself through the normal WordPress update screen. It checks the
+Both plugins update themselves through the normal WordPress update screen. They check the
 [GitHub releases](https://github.com/DigiFalk/Underworld_Empire/releases) of this repository
 (every 12 hours, or immediately via the *Check for updates* link on the Plugins screen)
-and installs the `underworld-empire.zip` asset of the newest release.
+and install the `underworld-empire.zip` and `underworld-empire-extended.zip` assets of the
+newest release.
 
 Optional settings in `wp-config.php`:
 
@@ -186,10 +204,13 @@ define( 'DFMG_GITHUB_TOKEN', 'ghp_...' );                // only needed for a pr
 Every version is released automatically by the GitHub Actions workflow
 `.github/workflows/release.yml`:
 
-1. Raise the version in **both** the `Version:` header and `DFMG_VERSION` in `underworld-empire.php`.
+1. Raise the version (the same number everywhere) in the `Version:` header and `DFMG_VERSION`
+   of `lite/underworld-empire.php`, and in the `Version:` header and `DFMG_EXTENDED_VERSION`
+   of `extended/underworld-empire-extended.php`.
 2. Add a `## x.y.z` section to `CHANGELOG.md` (used as the release notes).
-3. Push to the `main` branch. The workflow builds `underworld-empire.zip`, tags `vx.y.z` and
-   publishes the release. Pushes without a version change don't create a release.
+3. Push to the `main` branch. The workflow builds `underworld-empire.zip` and
+   `underworld-empire-extended.zip`, tags `vx.y.z` and publishes the release. Pushes without
+   a version change don't create a release.
 
 ## Translations
 
@@ -208,5 +229,5 @@ Copyright © DigiFalk. See [LICENSE.md](LICENSE.md) for the full text. In short:
   other languages come with a DigiFalk premium module.
 - Extend the game with your own modules. They are yours to use, share or sell, as long as
   they are your own work and do not copy or imitate a DigiFalk premium module.
-- The "Underworld Empire by DigiFalk" line stays, unless you use the White Label premium
-  module.
+- With Underworld Empire Extended the "Underworld Empire by DigiFalk" line stays, unless you
+  use the White Label premium module.

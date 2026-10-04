@@ -14,10 +14,10 @@
  *   POST /check      { license_key, product, activation_id, activation_secret, installed_version }
  *   POST /deactivate { license_key, product, activation_id, activation_secret }
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\UnderworldEmpire\Extended
  */
 
-namespace DigiFalk\UnderworldEmpire\Premium;
+namespace DigiFalk\UnderworldEmpire\Extended;
 
 use DigiFalk\UnderworldEmpire\Plugin;
 
@@ -43,9 +43,21 @@ final class Licenses {
 		add_action( 'admin_post_dfmg_license_update', array( __CLASS__, 'handle_update' ) );
 		add_action( 'admin_post_dfmg_license_refresh', array( __CLASS__, 'handle_refresh' ) );
 		add_action( 'dfmg_daily_license_check', array( __CLASS__, 'check_all' ) );
+		add_filter( 'dfmg_module_runnable', array( __CLASS__, 'runnable' ), 10, 3 );
 		if ( ! wp_next_scheduled( 'dfmg_daily_license_check' ) ) {
 			wp_schedule_event( time() + HOUR_IN_SECONDS, 'daily', 'dfmg_daily_license_check' );
 		}
+	}
+
+	/**
+	 * Premium modules only run with an active license.
+	 *
+	 * @param bool   $runnable
+	 * @param string $id
+	 * @param array  $info
+	 */
+	public static function runnable( $runnable, $id, $info ): bool {
+		return empty( $info['premium'] ) ? (bool) $runnable : self::is_licensed( (string) $id );
 	}
 
 	/* ------------------------------------------------------------------ */
@@ -88,7 +100,7 @@ final class Licenses {
 	 * placeholders shipped with the plugin (premium/catalog.php). Keyed by product slug.
 	 */
 	public static function catalog( bool $refresh = false ): array {
-		$bundled = file_exists( DFMG_DIR . 'premium/catalog.php' ) ? (array) include DFMG_DIR . 'premium/catalog.php' : array();
+		$bundled = file_exists( DFMG_EXTENDED_DIR . 'premium/catalog.php' ) ? (array) include DFMG_EXTENDED_DIR . 'premium/catalog.php' : array();
 		$remote  = $refresh ? false : get_transient( self::CATALOG_CACHE );
 		if ( false === $remote ) {
 			$remote   = array();

@@ -3,6 +3,26 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.12.0
+
+- Underworld Empire is now two plugins, both attached to every release:
+  - **Underworld Empire** (`underworld-empire.zip`): the game engine with crimes, car theft,
+    garage, jail, hospital, travel, bank, inventory, messages, notifications, profiles,
+    players, leaderboards, statistics, news and the overview.
+  - **Underworld Empire Extended** (`underworld-empire-extended.zip`, free): families,
+    murders, detectives, bounties, the bullet factory, black market, blackjack, police
+    chases, properties, the forum, the Underworld Empire theme and premium modules
+    (license keys, downloads and updates).
+- Updating from an earlier version installs and activates Extended automatically, so the game
+  keeps all its modules, data, licenses and the theme. If that is not possible (for example
+  when WordPress may not write to the plugins folder), a notice explains how to install it;
+  no game data is lost in the meantime.
+- Without Extended, "Underworld Empire by DigiFalk" is off until it is switched on under
+  Settings. Extended always shows it (White Label can still change it).
+- New filters `dfmg_module_runnable` and `dfmg_show_credit`, and the action
+  `dfmg_admin_premium_modules` for the premium section of the Modules screen.
+- The repository has two folders: `lite/` and `extended/`.
+
 ## 1.10.12
 
 - License: translating the game (translation files, translation plugins or otherwise) is no

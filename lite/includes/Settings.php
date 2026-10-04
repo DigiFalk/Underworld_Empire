@@ -77,7 +77,13 @@ final class Settings {
 					'theme' => __( 'Follow the colours and font of the WordPress theme', 'underworld-empire' ),
 					'dark'  => __( 'Built-in dark look', 'underworld-empire' ),
 				),
-				'description' => __( 'Tip: activate the bundled "Underworld Empire" theme under Appearance → Themes for a matching website. With "Follow the theme" the game also switches along with the light/dark mode of that theme; the built-in dark look always stays dark.', 'underworld-empire' ),
+				'description' => __( 'Tip: Underworld Empire Extended comes with the matching "Underworld Empire" theme (Appearance → Themes). With "Follow the theme" the game also switches along with the light/dark mode of that theme; the built-in dark look always stays dark.', 'underworld-empire' ),
+			),
+			'show_credit'        => array(
+				'label'       => __( 'Show "Underworld Empire by DigiFalk" at the bottom of game pages', 'underworld-empire' ),
+				'type'        => 'checkbox',
+				'default'     => 0,
+				'description' => __( 'A small line with a link to the maker of the game. Thank you for your support! Always shown while Underworld Empire Extended is active.', 'underworld-empire' ),
 			),
 			'currency_symbol'    => array(
 				'label'   => __( 'Currency symbol', 'underworld-empire' ),

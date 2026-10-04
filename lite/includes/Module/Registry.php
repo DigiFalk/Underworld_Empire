@@ -7,8 +7,9 @@
  *  2. wp-content/underworld-modules/<id>/module.php   (your own, survives updates; overrides bundled modules with the same id)
  *  3. Other plugins: add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( '/path/to/module.php' ) );
  *
- * Modules with the header "Premium: yes" are bought on the DigiFalk store and only run
- * with an activated license (see Premium\Licenses).
+ * Modules with the header "Premium: yes" are bought on the DigiFalk store. They only run when
+ * the dfmg_module_runnable filter allows it: Underworld Empire Extended does that for modules
+ * with an activated license.
  *
  * @package DigiFalk\UnderworldEmpire
  */
@@ -16,7 +17,6 @@
 namespace DigiFalk\UnderworldEmpire\Module;
 
 use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Premium\Licenses;
 use DigiFalk\UnderworldEmpire\Settings;
 
 defined( 'ABSPATH' ) || exit;
@@ -139,7 +139,18 @@ final class Registry {
 	 */
 	public function runnable( string $id ): bool {
 		$info = $this->available()[ $id ] ?? null;
-		return $info && ( empty( $info['premium'] ) || Licenses::is_licensed( $id ) );
+		if ( ! $info ) {
+			return false;
+		}
+		/**
+		 * Whether a module may run. Premium modules only run when a plugin (Underworld Empire
+		 * Extended) confirms their license.
+		 *
+		 * @param bool   $runnable
+		 * @param string $id
+		 * @param array  $info
+		 */
+		return (bool) apply_filters( 'dfmg_module_runnable', empty( $info['premium'] ), $id, $info );
 	}
 
 	public function is_enabled( string $id ): bool {
@@ -236,7 +247,7 @@ final class Registry {
 			return new \WP_Error( 'module', __( 'Module not found.', 'underworld-empire' ) );
 		}
 		if ( ! $this->runnable( $id ) ) {
-			return new \WP_Error( 'module', __( 'This premium module needs an active license. Enter your license key on the Modules screen.', 'underworld-empire' ) );
+			return new \WP_Error( 'module', __( 'This premium module needs Underworld Empire Extended and an active license. Enter your license key on the Modules screen.', 'underworld-empire' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $info['requires'] as $dep ) {

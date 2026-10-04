@@ -2,13 +2,17 @@
 /**
  * "Underworld Empire by DigiFalk" at the bottom of every game page.
  *
- * The free plugin always shows it. The premium module White Label (ue-white-label) removes
- * it, or replaces it with the site's own text, while its license is active.
+ * Off by default: the site owner chooses to show it (Settings → Show "Underworld Empire by
+ * DigiFalk"). Underworld Empire Extended always shows it through the dfmg_show_credit filter;
+ * the premium module White Label (ue-white-label) removes it, or replaces it with the site's
+ * own text, while its license is active.
  *
  * @package DigiFalk\UnderworldEmpire
  */
 
 namespace DigiFalk\UnderworldEmpire\Frontend;
+
+use DigiFalk\UnderworldEmpire\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -35,6 +39,14 @@ final class Credit {
 			 */
 			$html = (string) apply_filters( 'dfmg_white_label_credit', '' );
 			return '' === $html ? '' : '<div class="dfmg-footer__credit">' . wp_kses_post( $html ) . '</div>';
+		}
+		/**
+		 * Show "Underworld Empire by DigiFalk" at the bottom of game pages.
+		 *
+		 * @param bool $show The "show_credit" setting (off by default).
+		 */
+		if ( ! apply_filters( 'dfmg_show_credit', (bool) Settings::get( 'show_credit', 0 ) ) ) {
+			return '';
 		}
 		return '<div class="dfmg-footer__credit">' . sprintf(
 			/* translators: 1: game name, 2: link to DigiFalk */

@@ -4,6 +4,11 @@ Premium modules are sold in the DigiFalk store (https://digifalk.com), which run
 **DigiFalk Licenses** plugin on top of WooCommerce. This document is the contract between
 that store and Underworld Empire.
 
+The license system lives in **Underworld Empire Extended** (`extended/includes/Licenses.php`,
+`extended/includes/PremiumScreen.php`). Without Extended premium modules don't run: the free
+plugin only asks the `dfmg_module_runnable` filter, and Extended answers it for modules with
+an active license.
+
 ## How it works for the buyer
 
 1. On **Underworld Empire → Modules** the section *Premium modules* shows every premium
@@ -48,13 +53,15 @@ Upload the zip to the WooCommerce product in the store (see the DigiFalk License
 
 ## Placeholders
 
-Cards come from the store catalogue (cached 12 hours) merged over `premium/catalog.php`,
-which ships with the plugin. Add entries there to show a module even when the store can't be
+Cards come from the store catalogue (cached 12 hours) merged over
+`extended/premium/catalog.php`, which ships with Extended. Add entries there to show a module even when the store can't be
 reached. New products in the store appear automatically.
 
 ## Footer credit and White Label
 
-Every game page shows "Underworld Empire by DigiFalk" (`Frontend\Credit`). It is only removed
+Game pages show "Underworld Empire by DigiFalk" (`Frontend\Credit`). In the free plugin it is
+off until the site owner switches on *Settings → Show "Underworld Empire by DigiFalk"*;
+Underworld Empire Extended always shows it (filter `dfmg_show_credit`). It is only removed
 while the premium module `ue-white-label` is booted and licensed (`Registry::runnable`). That
 module can return its own footer HTML with the filter `dfmg_white_label_credit`; the filter is
 ignored without the module.
@@ -68,6 +75,7 @@ ignored without the module.
 | `dfmg_premium_catalog` (filter) | Change the list of premium cards. |
 | `dfmg_premium_is_licensed` (filter) | `bool $ok, string $product, ?array $license`. |
 | `dfmg_premium_installed` (action) | `string $product, string $version` after install or update. |
+| `dfmg_module_runnable` (filter) | `bool $runnable, string $id, array $info`: whether a module may run (free plugin; Extended uses it for licenses). |
 
 ### Rotating the store's signing keys
 

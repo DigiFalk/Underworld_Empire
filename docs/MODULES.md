@@ -8,7 +8,7 @@ Adding modules extends the game without touching the plugin itself.
 
 | Location | When to use |
 | --- | --- |
-| `wp-content/plugins/underworld-empire/modules/<id>/` | Bundled modules. Don't edit: changes are lost on update. |
+| `wp-content/plugins/underworld-empire/modules/<id>/` and `wp-content/plugins/underworld-empire-extended/modules/<id>/` | Bundled modules of Underworld Empire and Underworld Empire Extended. Don't edit: changes are lost on update. |
 | `wp-content/underworld-modules/<id>/` | **Your own modules.** Survives updates. A module with the same id as a bundled module replaces it. Change the folder with `define( 'DFMG_CUSTOM_MODULES_DIR', '/path' );` in `wp-config.php`. |
 | Another plugin | `add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( __DIR__ . '/my-module/module.php' ) );` |
 

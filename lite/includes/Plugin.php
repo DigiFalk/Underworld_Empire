@@ -45,7 +45,7 @@ final class Plugin {
 		}
 
 		Updater::init();
-		Premium\Licenses::init();
+		Bridge::init();
 		Avatar::init();
 		Items::boot();
 		$this->modules->boot_enabled();

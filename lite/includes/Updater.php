@@ -55,7 +55,7 @@ final class Updater {
 	 */
 	public static function release( bool $force = false ): ?array {
 		$cached = $force ? false : get_site_transient( self::CACHE_KEY );
-		if ( is_array( $cached ) ) {
+		if ( is_array( $cached ) && isset( $cached['assets'] ) ) {
 			return $cached['version'] ? $cached : null;
 		}
 
@@ -71,17 +71,18 @@ final class Updater {
 			: json_decode( (string) wp_remote_retrieve_body( $response ), true );
 
 		if ( ! is_array( $data ) || empty( $data['tag_name'] ) ) {
-			set_site_transient( self::CACHE_KEY, array( 'version' => '' ), HOUR_IN_SECONDS );
+			set_site_transient( self::CACHE_KEY, array( 'version' => '', 'assets' => array() ), HOUR_IN_SECONDS );
 			return null;
 		}
 
-		$package = '';
+		$assets = array();
 		foreach ( (array) ( $data['assets'] ?? array() ) as $asset ) {
-			if ( self::ASSET_NAME === ( $asset['name'] ?? '' ) ) {
+			if ( ! empty( $asset['name'] ) ) {
 				// Private repositories need the API url (with auth), public ones the direct download.
-				$package = self::token() ? (string) $asset['url'] : (string) $asset['browser_download_url'];
+				$assets[ (string) $asset['name'] ] = self::token() ? (string) $asset['url'] : (string) $asset['browser_download_url'];
 			}
 		}
+		$package = $assets[ self::ASSET_NAME ] ?? '';
 
 		$release = array(
 			'version'   => ltrim( (string) $data['tag_name'], 'vV' ),
@@ -89,6 +90,7 @@ final class Updater {
 			'url'       => (string) ( $data['html_url'] ?? '' ),
 			'notes'     => (string) ( $data['body'] ?? '' ),
 			'published' => (string) ( $data['published_at'] ?? '' ),
+			'assets'    => $assets,
 		);
 		set_site_transient( self::CACHE_KEY, $release, 6 * HOUR_IN_SECONDS );
 		return $release;
