@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.13.0
+Stable tag: 1.13.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,9 @@ No. This plugin does not send data to external services.
 Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
 
 == Changelog ==
+
+= 1.13.1 =
+* Fixed: rank names, labels and icons are readable with themes that have a very light accent colour.
 
 = 1.13.0 =
 * Underworld Empire is now available under the GPL (version 2 or later).

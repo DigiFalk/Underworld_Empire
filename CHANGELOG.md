@@ -3,6 +3,15 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.13.1
+
+- Fixed: with a light theme whose accent colour is very light (such as the yellow of Twenty
+  Twenty-Five), rank names, labels and icons in the game were hard to read. Text and icons
+  now use `--dfmg-accent-text`: when the theme's accent has too little contrast with the
+  theme's background (below 4.5:1), the plugin uses the same colour made just dark enough (or
+  light enough on a dark background). Backgrounds and bars keep the theme's accent. Filter
+  `dfmg_accent_text` to choose your own colour.
+
 ## 1.13.0
 
 - **Underworld Empire is now free software under the GPL (version 2 or later)**, see

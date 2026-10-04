@@ -38,6 +38,10 @@ final class Game {
 
 	public static function register_assets(): void {
 		wp_register_style( 'dfmg-game', DFMG_URL . 'assets/css/game.css', array(), DFMG_VERSION );
+		$contrast = Contrast::css();
+		if ( '' !== $contrast ) {
+			wp_add_inline_style( 'dfmg-game', $contrast );
+		}
 		wp_register_script( 'dfmg-game', DFMG_URL . 'assets/js/game.js', array(), DFMG_VERSION, true );
 		if ( self::is_game_page() || self::uses_hud() ) {
 			wp_enqueue_style( 'dfmg-game' );
