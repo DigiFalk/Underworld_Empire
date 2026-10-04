@@ -77,7 +77,7 @@ final class Settings {
 					'theme' => __( 'Follow the colours and font of the WordPress theme', 'underworld-empire' ),
 					'dark'  => __( 'Built-in dark look', 'underworld-empire' ),
 				),
-				'description' => __( 'Tip: Underworld Empire Extended comes with the matching "Underworld Empire" theme (Appearance → Themes). With "Follow the theme" the game also switches along with the light/dark mode of that theme; the built-in dark look always stays dark.', 'underworld-empire' ),
+				'description' => __( 'Tip: Underworld Empire Extended comes with the matching "Underworld Empire" theme (Appearance → Themes). With "Follow the theme" the game also switches along with the light/dark mode of that theme. This is the starting look: players can switch between light and dark with the light/dark switch (a game element, see Appearance → Customize → Game layout).', 'underworld-empire' ),
 			),
 			'show_credit'        => array(
 				'label'       => __( 'Show "Underworld Empire by DigiFalk" at the bottom of game pages', 'underworld-empire' ),

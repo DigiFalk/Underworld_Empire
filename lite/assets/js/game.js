@@ -153,6 +153,33 @@
 		form.setAttribute( 'data-sent', '1' );
 	} );
 
+	// Light/dark switch: remembered in the browser, applied to every game on the page.
+	function setMode( mode ) {
+		document.documentElement.setAttribute( 'data-dfmg-mode', mode );
+		try {
+			localStorage.setItem( 'dfmg-mode', mode );
+		} catch ( err ) {}
+		Array.prototype.forEach.call( document.querySelectorAll( '.dfmg' ), function ( game ) {
+			game.classList.toggle( 'dfmg--dark', 'dark' === mode );
+		} );
+		syncModeButtons();
+	}
+
+	function syncModeButtons() {
+		var dark = 'dark' === document.documentElement.getAttribute( 'data-dfmg-mode' );
+		Array.prototype.forEach.call( document.querySelectorAll( '.dfmg-mode-toggle' ), function ( button ) {
+			button.setAttribute( 'aria-pressed', dark ? 'true' : 'false' );
+		} );
+	}
+
+	document.addEventListener( 'click', function ( e ) {
+		var button = e.target.closest && e.target.closest( '.dfmg-mode-toggle' );
+		if ( button ) {
+			setMode( 'dark' === document.documentElement.getAttribute( 'data-dfmg-mode' ) ? 'light' : 'dark' );
+		}
+	} );
+	syncModeButtons();
+
 	// Customizer live preview: the game is re-rendered after layout changes.
 	document.addEventListener( 'DOMContentLoaded', function () {
 		if ( window.wp && window.wp.customize && window.wp.customize.selectiveRefresh ) {

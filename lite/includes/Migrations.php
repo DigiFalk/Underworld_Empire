@@ -25,6 +25,35 @@ final class Migrations {
 			$done['round_name_en'] = time();
 			update_option( self::OPTION, $done );
 		}
+		if ( empty( $done['mode_toggle'] ) ) {
+			self::mode_toggle();
+			$done['mode_toggle'] = time();
+			update_option( self::OPTION, $done );
+		}
+	}
+
+	/**
+	 * 1.13.2: the game has its own light/dark switch. Saved game layouts get it at the end of
+	 * the header (new installs have it in the default layout). Not with the Underworld Empire
+	 * theme, which has the switch in the site header.
+	 */
+	private static function mode_toggle(): void {
+		$raw = get_option( Frontend\Layout::OPTION, '' );
+		if ( '' === $raw || false === $raw || 'underworld-empire-theme' === get_template() ) {
+			return;
+		}
+		$layout = is_array( $raw ) ? $raw : json_decode( (string) $raw, true );
+		if ( ! is_array( $layout ) ) {
+			return;
+		}
+		foreach ( $layout as $zone ) {
+			if ( in_array( 'mode-toggle', (array) $zone, true ) ) {
+				return;
+			}
+		}
+		$layout['header-right']   = (array) ( $layout['header-right'] ?? array() );
+		$layout['header-right'][] = 'mode-toggle';
+		update_option( Frontend\Layout::OPTION, wp_json_encode( $layout ) );
 	}
 
 	/**

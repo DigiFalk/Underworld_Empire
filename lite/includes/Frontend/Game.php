@@ -46,7 +46,27 @@ final class Game {
 		if ( self::is_game_page() || self::uses_hud() ) {
 			wp_enqueue_style( 'dfmg-game' );
 			wp_enqueue_script( 'dfmg-game' );
+			add_action( 'wp_head', array( __CLASS__, 'print_mode_script' ), 2 );
 		}
+	}
+
+	/**
+	 * Light or dark game: the player's choice (light/dark switch, kept in the browser) or the
+	 * Appearance setting. Set on <html> before the page is painted, so nothing flickers.
+	 */
+	public static function print_mode_script(): void {
+		$default = 'dark' === Settings::get( 'appearance', 'theme' ) ? 'dark' : 'light';
+		echo wp_get_inline_script_tag( "(function(d){var m=null;try{m=localStorage.getItem('dfmg-mode')}catch(e){}if(m!=='light'&&m!=='dark'){m='" . $default . "'}d.documentElement.setAttribute('data-dfmg-mode',m)})(document);", array( 'id' => 'dfmg-mode' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+	}
+
+	/**
+	 * The light/dark switch (game element "Light/dark switch"). Light follows the colours of
+	 * the theme, dark is the built-in dark look.
+	 */
+	public static function mode_toggle(): string {
+		$sun  = '<svg class="dfmg-mode-toggle__sun" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
+		$moon = '<svg class="dfmg-mode-toggle__moon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 14.6A8.5 8.5 0 0 1 9.4 3.3a8.5 8.5 0 1 0 11.3 11.3z"/></svg>';
+		return '<button type="button" class="dfmg-hud-icon dfmg-mode-toggle" aria-pressed="false" aria-label="' . esc_attr__( 'Switch between light and dark', 'underworld-empire' ) . '" title="' . esc_attr__( 'Light / dark', 'underworld-empire' ) . '">' . $moon . $sun . '</button>';
 	}
 
 	/**
@@ -234,7 +254,9 @@ final class Game {
 		if ( false === strpos( $html, 'dfmg-footer__credit' ) ) {
 			$html .= Credit::html();
 		}
-		return '<div class="' . esc_attr( $class ) . '" data-now="' . esc_attr( (string) time() ) . '">' . $html . '</div>';
+		// Follow the light/dark choice set on <html> (see print_mode_script()) before anything is painted.
+		$sync = wp_get_inline_script_tag( "(function(e){var m=document.documentElement.getAttribute('data-dfmg-mode');if(e&&m){e.classList.toggle('dfmg--dark',m==='dark')}})(document.currentScript&&document.currentScript.parentNode);" );
+		return '<div class="' . esc_attr( $class ) . '" data-now="' . esc_attr( (string) time() ) . '">' . $sync . $html . '</div>';
 	}
 
 	/**

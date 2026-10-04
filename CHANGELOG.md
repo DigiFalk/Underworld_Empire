@@ -3,6 +3,16 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.13.2
+
+- New: the game has its own **light/dark switch** (game element "Light/dark switch"). Light
+  follows the colours of the theme, dark is the built-in dark look. The choice is kept in the
+  player's browser and applied before the page is painted, so nothing flickers. The Appearance
+  setting is the starting look.
+- The switch is in the default game layout (end of the header). Saved layouts get it once at
+  the end of the header, except on sites with the Underworld Empire theme, which has its own
+  switch in the site header.
+
 ## 1.13.1
 
 - Fixed: with a light theme whose accent colour is very light (such as the yellow of Twenty

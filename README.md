@@ -135,6 +135,9 @@ notifications and messages (with counters), active timers, the game menu (all pa
 group such as *Crime*), players online, round name & end, a play / log in button and a log
 out link. Place them anywhere:
 
+* **Light/dark switch**: the game element *Light/dark switch* (in the game header by default)
+  lets players choose between the theme's colours and the built-in dark look; the choice is
+  kept in their browser.
 * **Game layout** (*Appearance → Customize → Game layout*, works with any theme): drag
   elements into the game header (left, center, right), the sidebar, above or below the page
   content, or the game footer (left, center, right). The preview opens the game and updates

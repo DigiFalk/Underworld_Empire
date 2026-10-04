@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.13.1
+Stable tag: 1.13.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -35,7 +35,7 @@ The game runs on a shortcode page that the plugin creates for you, works with an
 * Edit all game data: ranks, wealth titles, cities, crimes, cars, items and more.
 * Start a new round: player data is wiped, game data is kept.
 * Arrange the game screen with the **Game layout** in the Customizer: drag money, timers, the game menu and more into the header, sidebar or footer.
-* Follow the colours and font of your theme, or use the built-in dark look.
+* Follow the colours and font of your theme, or use the built-in dark look. Players can switch between light and dark with one click.
 * Build your own modules: a module is a folder with a `module.php`. Your own modules survive plugin updates.
 
 = Underworld Empire Extended (free) =
@@ -78,6 +78,9 @@ No. This plugin does not send data to external services.
 Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
 
 == Changelog ==
+
+= 1.13.2 =
+* New: a light/dark switch in the game. Players choose between the colours of your theme and the built-in dark look.
 
 = 1.13.1 =
 * Fixed: rank names, labels and icons are readable with themes that have a very light accent colour.

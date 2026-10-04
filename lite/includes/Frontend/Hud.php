@@ -205,6 +205,12 @@ final class Hud {
 					return '<a class="dfmg-button dfmg-hud-play" href="' . esc_url( Game::url() ) . '">' . Icons::svg( 'play', 14 ) . esc_html( $label ) . '</a>';
 				},
 			),
+			'mode-toggle'   => array(
+				'label'  => __( 'Light/dark switch', 'underworld-empire' ),
+				'render' => static function () {
+					return Game::mode_toggle();
+				},
+			),
 			'logout'        => array(
 				'label'  => __( 'Log out link', 'underworld-empire' ),
 				'render' => static function () {

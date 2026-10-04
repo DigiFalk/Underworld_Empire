@@ -777,3 +777,9 @@
 @media (max-width: 380px) {
 	.dfmg-tiles { grid-template-columns: 1fr; }
 }
+
+/* Light/dark switch (game element). Shows the moon in light mode and the sun in dark mode. */
+.dfmg-mode-toggle { cursor: pointer; padding: 0; font: inherit; }
+.dfmg-mode-toggle__sun { display: none; }
+:root[data-dfmg-mode="dark"] .dfmg-mode-toggle__sun { display: block; }
+:root[data-dfmg-mode="dark"] .dfmg-mode-toggle__moon { display: none; }
