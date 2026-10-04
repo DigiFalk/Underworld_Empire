@@ -3,6 +3,12 @@
 All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 1.12.1
+
+- Extended: more reliable repair of the theme folder after the move to Extended. WordPress
+  remembers where the active theme lives; Extended now checks the folder the way WordPress
+  itself resolves it, so the Underworld Empire theme is always found again.
+
 ## 1.12.0
 
 - Underworld Empire is now two plugins, both attached to every release:

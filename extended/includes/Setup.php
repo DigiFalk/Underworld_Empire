@@ -36,14 +36,14 @@ final class Setup {
 		if ( get_option( 'template' ) === $theme ) {
 			$keys[] = 'template_root';
 		}
-		foreach ( $keys as $key ) {
-			$root = (string) get_option( $key );
-			if ( '' === $root || is_dir( $root . '/' . $theme ) || is_dir( WP_CONTENT_DIR . $root . '/' . $theme ) ) {
-				continue;
-			}
-			delete_site_transient( 'theme_roots' );
-			$new = get_raw_theme_root( $theme, true );
-			if ( $new ) {
+		// The folder WordPress will actually use for the theme (as get_theme_root() resolves it).
+		if ( ! $keys || is_dir( get_theme_root( $theme ) . '/' . $theme ) ) {
+			return;
+		}
+		delete_site_transient( 'theme_roots' );
+		$new = get_raw_theme_root( $theme, true );
+		if ( $new ) {
+			foreach ( $keys as $key ) {
 				update_option( $key, $new );
 			}
 		}
