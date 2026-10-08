@@ -1,17 +1,17 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
  * @var array                          $slots
  * @var array                          $equipped
  * @var array                          $items
  * @var int                            $sell_pct
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Frontend\UI;
-use DigiFalk\UnderworldEmpire\Items;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Frontend\UI;
+use DigiFalk\MafiaPBBGEngine\Items;
 
 defined( 'ABSPATH' ) || exit;
 ?>

@@ -5,15 +5,15 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Frontend\UI;
-use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Frontend\UI;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 

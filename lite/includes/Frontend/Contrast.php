@@ -8,12 +8,12 @@
  * --dfmg-accent-text to the same colour made just dark (or light) enough to be readable.
  * Good accent colours are left alone.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Frontend;
+namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
-use DigiFalk\UnderworldEmpire\Settings;
+use DigiFalk\MafiaPBBGEngine\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -29,7 +29,7 @@ final class Contrast {
 			return '';
 		}
 		// The Mafia PBBG Engine theme (Extended) has its own light and dark colours.
-		if ( 'underworld-empire-theme' === get_template() ) {
+		if ( 'mafia-pbbg-engine-theme' === get_template() ) {
 			return '';
 		}
 		if ( ! function_exists( 'wp_theme_has_theme_json' ) || ! wp_theme_has_theme_json() ) {

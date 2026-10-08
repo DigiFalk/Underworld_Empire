@@ -9,10 +9,10 @@
  *
  * Effects are stored per item as lines "effect=value".
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
 defined( 'ABSPATH' ) || exit;
 

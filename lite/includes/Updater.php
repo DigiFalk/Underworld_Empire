@@ -4,20 +4,20 @@
  *
  * The plugin header contains "Update URI: https://github.com/...", so WordPress (5.8+)
  * asks the update_plugins_github.com filter for update information instead of
- * WordPress.org. We answer with the latest GitHub release and its underworld-empire.zip asset.
+ * WordPress.org. We answer with the latest GitHub release and its mafia-pbbg-engine.zip asset.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Updater {
 
 	const CACHE_KEY  = 'dfmg_github_release';
-	const ASSET_NAME = 'underworld-empire.zip';
-	const SLUG       = 'underworld-empire';
+	const ASSET_NAME = 'mafia-pbbg-engine.zip';
+	const SLUG       = 'mafia-pbbg-engine';
 
 	public static function init(): void {
 		add_filter( 'update_plugins_github.com', array( __CLASS__, 'check' ), 10, 4 );
@@ -42,7 +42,7 @@ final class Updater {
 	private static function headers(): array {
 		$headers = array(
 			'Accept'     => 'application/vnd.github+json',
-			'User-Agent' => 'Underworld-Empire/' . DFMG_VERSION . '; ' . home_url(),
+			'User-Agent' => 'Mafia-PBBG-Engine/' . DFMG_VERSION . '; ' . home_url(),
 		);
 		if ( self::token() ) {
 			$headers['Authorization'] = 'Bearer ' . self::token();

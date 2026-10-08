@@ -6,29 +6,29 @@
  * Author: DigiFalk
  * Requires: inventory
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Items;
-use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Items;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 final class BlackMarket extends Module {
 
 	public function title(): string {
-		return __( 'Black market', 'underworld-empire' );
+		return __( 'Black market', 'mafia-pbbg-engine' );
 	}
 
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Black market', 'underworld-empire' ),
+				'label' => __( 'Black market', 'mafia-pbbg-engine' ),
 				'group' => 'city',
 				'order' => 50,
 			),
@@ -55,7 +55,7 @@ final class BlackMarket extends Module {
 		$item = Items::get( absint( $input['item'] ?? 0 ) );
 		$qty  = max( 1, min( 100, absint( $input['qty'] ?? 1 ) ) );
 		if ( ! $item || ! (int) $item['buyable'] ) {
-			$this->error( __( 'This item isn\'t sold here.', 'underworld-empire' ) );
+			$this->error( __( 'This item isn\'t sold here.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$check = apply_filters( 'dfmg_can_buy_item', true, $c, $item, $qty );
@@ -66,13 +66,13 @@ final class BlackMarket extends Module {
 		$cost = (int) $item['price'] * $qty;
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'underworld-empire' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'mafia-pbbg-engine' ), Format::money( $cost ) ) );
 			return;
 		}
 		Items::give( $c, (int) $item['id'], $qty );
 		$c->log( 'black-market.buy', true, $cost, (int) $item['id'] );
 		/* translators: 1: quantity, 2: item, 3: money */
-		$this->success( sprintf( __( 'You bought %1$dx %2$s for %3$s. You\'ll find it in your inventory.', 'underworld-empire' ), $qty, $item['name'], Format::money( $cost ) ) );
+		$this->success( sprintf( __( 'You bought %1$dx %2$s for %3$s. You\'ll find it in your inventory.', 'mafia-pbbg-engine' ), $qty, $item['name'], Format::money( $cost ) ) );
 	}
 }
 

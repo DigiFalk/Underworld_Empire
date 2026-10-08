@@ -2,16 +2,16 @@
 /**
  * Shown to visitors that are not logged in.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Frontend\Game;
+use DigiFalk\MafiaPBBGEngine\Frontend\Game;
 
 defined( 'ABSPATH' ) || exit;
 ?>
 <div class="dfmg-welcome dfmg-welcome--login">
 	<div class="dfmg-card">
-		<span class="dfmg-emblem"><?php echo \DigiFalk\UnderworldEmpire\Icons::svg( 'shield', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+		<span class="dfmg-emblem"><?php echo \DigiFalk\MafiaPBBGEngine\Icons::svg( 'shield', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 		<h2><?php esc_html_e( 'Welcome to the underworld', 'mafia-pbbg-engine' ); ?></h2>
 		<p><?php esc_html_e( 'Commit crimes, steal cars, build a family and work your way up to Godfather. Log in to play.', 'mafia-pbbg-engine' ); ?></p>
 		<?php

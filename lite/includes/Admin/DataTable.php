@@ -19,14 +19,14 @@
  *       ],
  *   ]
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Admin;
+namespace DigiFalk\MafiaPBBGEngine\Admin;
 
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Locations;
-use DigiFalk\UnderworldEmpire\Ranks;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Locations;
+use DigiFalk\MafiaPBBGEngine\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 

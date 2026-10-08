@@ -2,10 +2,10 @@
 /**
  * "Game element" widget: shows one game element (cash, timers, menu, …) in any widget area.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Frontend;
+namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 

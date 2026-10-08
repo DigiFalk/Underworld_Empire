@@ -1,13 +1,13 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
  * @var int                            $tax
  * @var int                            $fee
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\MafiaPBBGEngine\Format;
 
 defined( 'ABSPATH' ) || exit;
 ?>

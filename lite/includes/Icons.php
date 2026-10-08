@@ -6,10 +6,10 @@
  *   add_filter( 'dfmg_icons', fn( $icons ) => $icons + [ 'my-module' => '<path d="…"/>' ] );
  * A value is a path "d" attribute, or raw SVG markup when it starts with "<".
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
 defined( 'ABSPATH' ) || exit;
 

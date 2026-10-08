@@ -2,13 +2,13 @@
 /**
  * Public helper functions, handy for themes and custom modules.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Plugin;
-use DigiFalk\UnderworldEmpire\Settings;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Plugin;
+use DigiFalk\MafiaPBBGEngine\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -57,7 +57,7 @@ function dfmg_money( $amount ) {
  * @return string
  */
 function dfmg_url( $route = '', $args = array() ) {
-	return \DigiFalk\UnderworldEmpire\Frontend\Game::url( $route, $args );
+	return \DigiFalk\MafiaPBBGEngine\Frontend\Game::url( $route, $args );
 }
 
 /**
@@ -67,7 +67,7 @@ function dfmg_url( $route = '', $args = array() ) {
  * @return string
  */
 function dfmg_avatar_url( $user_id ) {
-	return \DigiFalk\UnderworldEmpire\Avatar::url( (int) $user_id );
+	return \DigiFalk\MafiaPBBGEngine\Avatar::url( (int) $user_id );
 }
 
 /**
@@ -79,5 +79,5 @@ function dfmg_avatar_url( $user_id ) {
  * @return string
  */
 function dfmg_player_avatar_url( $user_id, $size = 64 ) {
-	return \DigiFalk\UnderworldEmpire\Avatar::display_url( (int) $user_id, (int) $size );
+	return \DigiFalk\MafiaPBBGEngine\Avatar::display_url( (int) $user_id, (int) $size );
 }

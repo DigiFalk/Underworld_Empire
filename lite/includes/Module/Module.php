@@ -13,19 +13,19 @@
  *    * Author: DigiFalk
  *    * Requires: bank, garage
  *    * /
- *   return new class extends \DigiFalk\UnderworldEmpire\Module\Module { ... };
+ *   return new class extends \DigiFalk\MafiaPBBGEngine\Module\Module { ... };
  *
  * See docs/MODULES.md for the full guide.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Module;
+namespace DigiFalk\MafiaPBBGEngine\Module;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\Flash;
-use DigiFalk\UnderworldEmpire\Frontend\Game;
-use DigiFalk\UnderworldEmpire\Settings;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\Flash;
+use DigiFalk\MafiaPBBGEngine\Frontend\Game;
+use DigiFalk\MafiaPBBGEngine\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -206,10 +206,10 @@ abstract class Module {
 
 	/**
 	 * Render a template from views/ in the module directory. Themes can override it
-	 * by placing a file in <theme>/underworld-empire/<module-id>/<template>.php.
+	 * by placing a file in <theme>/mafia-pbbg-engine/<module-id>/<template>.php.
 	 */
 	public function view( string $template, array $vars = array() ): string {
-		$file = locate_template( 'underworld-empire/' . $this->id . '/' . $template . '.php' );
+		$file = locate_template( 'mafia-pbbg-engine/' . $this->id . '/' . $template . '.php' );
 		if ( ! $file ) {
 			$file = $this->dir . 'views/' . $template . '.php';
 		}

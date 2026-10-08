@@ -3,10 +3,10 @@
  * A player character. A WordPress user can own several characters over time
  * (after being murdered a new one is started), but only one alive at once.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
 defined( 'ABSPATH' ) || exit;
 

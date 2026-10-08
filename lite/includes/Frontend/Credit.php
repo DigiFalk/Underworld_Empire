@@ -4,21 +4,21 @@
  *
  * Off by default: the site owner chooses to show it (Settings → Show "Mafia PBBG Engine by
  * DigiFalk"). Mafia PBBG Engine Extended always shows it through the dfmg_show_credit filter;
- * the premium module White Label (ue-white-label) removes it, or replaces it with the site's
+ * the premium module White Label (mpe-white-label) removes it, or replaces it with the site's
  * own text, while its license is active.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Frontend;
+namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
-use DigiFalk\UnderworldEmpire\Settings;
+use DigiFalk\MafiaPBBGEngine\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Credit {
 
-	const WHITE_LABEL = 'ue-white-label';
+	const WHITE_LABEL = 'mpe-white-label';
 	const URL         = 'https://digifalk.com/';
 
 	/**

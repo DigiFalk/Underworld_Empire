@@ -2,16 +2,16 @@
 /**
  * Plugin bootstrap.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
-use DigiFalk\UnderworldEmpire\Admin\Admin;
-use DigiFalk\UnderworldEmpire\Frontend\Game;
-use DigiFalk\UnderworldEmpire\Frontend\Hud;
-use DigiFalk\UnderworldEmpire\Frontend\Layout;
-use DigiFalk\UnderworldEmpire\Module\Registry;
+use DigiFalk\MafiaPBBGEngine\Admin\Admin;
+use DigiFalk\MafiaPBBGEngine\Frontend\Game;
+use DigiFalk\MafiaPBBGEngine\Frontend\Hud;
+use DigiFalk\MafiaPBBGEngine\Frontend\Layout;
+use DigiFalk\MafiaPBBGEngine\Module\Registry;
 
 defined( 'ABSPATH' ) || exit;
 

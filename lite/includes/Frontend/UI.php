@@ -2,14 +2,14 @@
 /**
  * Small reusable pieces of markup for module views.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Frontend;
+namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Property;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Property;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -19,7 +19,7 @@ final class UI {
 	 * "You have to wait" box with live countdown.
 	 */
 	public static function cooldown( string $text, int $expires ): string {
-		return '<div class="dfmg-alert dfmg-alert--wait"><span class="dfmg-alert__icon">' . \DigiFalk\UnderworldEmpire\Icons::svg( 'wait', 20 ) . '</span><div class="dfmg-alert__text"><span>' . esc_html( $text ) . '</span> '
+		return '<div class="dfmg-alert dfmg-alert--wait"><span class="dfmg-alert__icon">' . \DigiFalk\MafiaPBBGEngine\Icons::svg( 'wait', 20 ) . '</span><div class="dfmg-alert__text"><span>' . esc_html( $text ) . '</span> '
 			. Format::countdown( $expires ) . '</div></div>';
 	}
 

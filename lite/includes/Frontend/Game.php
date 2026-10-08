@@ -1,24 +1,24 @@
 <?php
 /**
- * Front end: the [underworld_empire] shortcode, routing and action handling.
+ * Front end: the [mafia_pbbg_engine] shortcode, routing and action handling.
  *
  * Pages:   <game page>?mg=<module id>&...
  * Actions: POST to admin-post.php with action=dfmg, module=<id>, do=<action>, nonce.
  *          The module method action_<do>( Character $c, array $input ) is called,
  *          after which the player is redirected back (Post/Redirect/Get).
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Frontend;
+namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\Flash;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Module\Module;
-use DigiFalk\UnderworldEmpire\Plugin;
-use DigiFalk\UnderworldEmpire\Property;
-use DigiFalk\UnderworldEmpire\Settings;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\Flash;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Plugin;
+use DigiFalk\MafiaPBBGEngine\Property;
+use DigiFalk\MafiaPBBGEngine\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,7 +27,7 @@ final class Game {
 	const DEFAULT_ROUTE = 'overview';
 
 	public static function init(): void {
-		add_shortcode( 'underworld_empire', array( __CLASS__, 'shortcode' ) );
+		add_shortcode( 'mafia_pbbg_engine', array( __CLASS__, 'shortcode' ) );
 		// Shortcode names of earlier versions.
 		add_shortcode( 'mafia_game', array( __CLASS__, 'shortcode' ) );
 		add_shortcode( 'maffia_game', array( __CLASS__, 'shortcode' ) );
@@ -88,16 +88,16 @@ final class Game {
 		if ( is_customize_preview() || is_active_widget( false, false, 'dfmg_hud' ) ) {
 			return true;
 		}
-		foreach ( array( 'uet_header_builder', 'uet_footer_builder' ) as $mod ) {
+		foreach ( array( 'mpet_header_builder', 'mpet_footer_builder' ) as $mod ) {
 			if ( false !== strpos( (string) get_theme_mod( $mod, '' ), '"game-' ) ) {
 				return true;
 			}
 		}
-		return is_singular() && has_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ), 'ue_hud' );
+		return is_singular() && has_shortcode( (string) get_post_field( 'post_content', get_queried_object_id() ), 'mpe_hud' );
 	}
 
 	private static function has_game_shortcode( string $content ): bool {
-		foreach ( array( 'underworld_empire', 'mafia_game', 'maffia_game' ) as $tag ) {
+		foreach ( array( 'mafia_pbbg_engine', 'mafia_game', 'maffia_game' ) as $tag ) {
 			if ( has_shortcode( $content, $tag ) ) {
 				return true;
 			}
@@ -148,10 +148,10 @@ final class Game {
 	}
 
 	/**
-	 * Render a core template (overridable in <theme>/underworld-empire/<name>.php).
+	 * Render a core template (overridable in <theme>/mafia-pbbg-engine/<name>.php).
 	 */
 	public static function template( string $name, array $vars = array() ): string {
-		$file = locate_template( 'underworld-empire/' . $name . '.php' );
+		$file = locate_template( 'mafia-pbbg-engine/' . $name . '.php' );
 		if ( ! $file ) {
 			$file = DFMG_DIR . 'templates/' . $name . '.php';
 		}
@@ -303,7 +303,7 @@ final class Game {
 				);
 			}
 			$item['url']              = self::url( $item['route'], $item['args'] ?? array() );
-			$item['icon']             = $item['icon'] ?? ( \DigiFalk\UnderworldEmpire\Icons::has( $item['route'] ) ? $item['route'] : 'dot' );
+			$item['icon']             = $item['icon'] ?? ( \DigiFalk\MafiaPBBGEngine\Icons::has( $item['route'] ) ? $item['route'] : 'dot' );
 			$out[ $group ]['items'][] = $item;
 		}
 		foreach ( $out as $key => $group ) {

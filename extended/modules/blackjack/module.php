@@ -5,15 +5,15 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Module\Module;
-use DigiFalk\UnderworldEmpire\Property;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Property;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +22,7 @@ final class Blackjack extends Module {
 	const TYPE = 'blackjack';
 
 	public function title(): string {
-		return __( 'Blackjack', 'underworld-empire' );
+		return __( 'Blackjack', 'mafia-pbbg-engine' );
 	}
 
 	public function boot(): void {
@@ -30,9 +30,9 @@ final class Blackjack extends Module {
 			'dfmg_property_types',
 			function ( $types ) {
 				$types[ self::TYPE ] = array(
-					'label'         => __( 'Blackjack table', 'underworld-empire' ),
+					'label'         => __( 'Blackjack table', 'mafia-pbbg-engine' ),
 					'price'         => (int) $this->setting( 'blackjack_property_price' ),
-					'setting_label' => __( 'Maximum bet', 'underworld-empire' ),
+					'setting_label' => __( 'Maximum bet', 'mafia-pbbg-engine' ),
 					'setting_min'   => (int) $this->setting( 'blackjack_min_bet' ),
 					'setting_max'   => 0,
 					'route'         => $this->id(),
@@ -45,17 +45,17 @@ final class Blackjack extends Module {
 	public function settings_fields(): array {
 		return array(
 			'blackjack_min_bet'        => array(
-				'label'   => __( 'Minimum bet', 'underworld-empire' ),
+				'label'   => __( 'Minimum bet', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 100,
 			),
 			'blackjack_max_bet'        => array(
-				'label'   => __( 'Default maximum bet', 'underworld-empire' ),
+				'label'   => __( 'Default maximum bet', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 50000,
 			),
 			'blackjack_property_price' => array(
-				'label'   => __( 'Blackjack table purchase price', 'underworld-empire' ),
+				'label'   => __( 'Blackjack table purchase price', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 1000000,
 			),
@@ -65,7 +65,7 @@ final class Blackjack extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Blackjack', 'underworld-empire' ),
+				'label' => __( 'Blackjack', 'mafia-pbbg-engine' ),
 				'group' => 'casino',
 				'order' => 10,
 			),
@@ -158,7 +158,7 @@ final class Blackjack extends Module {
 
 	public function action_bet( Character $c, array $input ): void {
 		if ( $this->game( $c ) ) {
-			$this->error( __( 'Finish your current game first.', 'underworld-empire' ) );
+			$this->error( __( 'Finish your current game first.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$bet   = Format::parse_amount( $input['bet'] ?? 0 );
@@ -167,11 +167,11 @@ final class Blackjack extends Module {
 		$max   = $this->max_bet( $table );
 		if ( $bet < $min || $bet > $max ) {
 			/* translators: 1: min, 2: max */
-			$this->error( sprintf( __( 'Your bet must be between %1$s and %2$s.', 'underworld-empire' ), Format::money( $min ), Format::money( $max ) ) );
+			$this->error( sprintf( __( 'Your bet must be between %1$s and %2$s.', 'mafia-pbbg-engine' ), Format::money( $min ), Format::money( $max ) ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $bet ) ) {
-			$this->error( __( 'You don\'t have that much cash.', 'underworld-empire' ) );
+			$this->error( __( 'You don\'t have that much cash.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$owner = $table->owner();
@@ -230,21 +230,21 @@ final class Blackjack extends Module {
 
 		if ( $player > 21 ) {
 			/* translators: %s: money */
-			$result = sprintf( __( 'Bust! You lose your bet of %s.', 'underworld-empire' ), Format::money( $bet ) );
+			$result = sprintf( __( 'Bust! You lose your bet of %s.', 'mafia-pbbg-engine' ), Format::money( $bet ) );
 		} elseif ( self::is_blackjack( $game['player'] ) && ! self::is_blackjack( $game['dealer'] ) ) {
 			$payout = (int) floor( $bet * 2.5 );
 			/* translators: %s: money */
-			$result = sprintf( __( 'Blackjack! You win %s.', 'underworld-empire' ), Format::money( $payout - $bet ) );
+			$result = sprintf( __( 'Blackjack! You win %s.', 'mafia-pbbg-engine' ), Format::money( $payout - $bet ) );
 		} elseif ( $dealer > 21 || $player > $dealer ) {
 			$payout = $bet * 2;
 			/* translators: %s: money */
-			$result = sprintf( __( 'You won! You win %s.', 'underworld-empire' ), Format::money( $bet ) );
+			$result = sprintf( __( 'You won! You win %s.', 'mafia-pbbg-engine' ), Format::money( $bet ) );
 		} elseif ( $player === $dealer ) {
 			$payout = $bet;
-			$result = __( 'Push. You get your bet back.', 'underworld-empire' );
+			$result = __( 'Push. You get your bet back.', 'mafia-pbbg-engine' );
 		} else {
 			/* translators: %s: money */
-			$result = sprintf( __( 'The house wins. You lose %s.', 'underworld-empire' ), Format::money( $bet ) );
+			$result = sprintf( __( 'The house wins. You lose %s.', 'mafia-pbbg-engine' ), Format::money( $bet ) );
 		}
 
 		if ( $payout ) {
@@ -278,8 +278,8 @@ final class Blackjack extends Module {
 			} else {
 				$table->transfer( $c->id() );
 				/* translators: %s: player */
-				$owner->notify( sprintf( __( 'You couldn\'t pay out a blackjack win. %s took over your table!', 'underworld-empire' ), $c->link() ) );
-				$this->notice( __( 'The owner couldn\'t pay. The blackjack table is now yours!', 'underworld-empire' ) );
+				$owner->notify( sprintf( __( 'You couldn\'t pay out a blackjack win. %s took over your table!', 'mafia-pbbg-engine' ), $c->link() ) );
+				$this->notice( __( 'The owner couldn\'t pay. The blackjack table is now yours!', 'mafia-pbbg-engine' ) );
 			}
 		}
 		$c->add( 'money', $amount );

@@ -3,10 +3,10 @@
  * Player avatars: uploaded on the game profile, stored as .webp and used as the
  * WordPress avatar of the user everywhere on the site (comments, admin, author boxes).
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
 defined( 'ABSPATH' ) || exit;
 

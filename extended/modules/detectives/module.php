@@ -5,22 +5,22 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Detectives extends Module {
 
 	public function title(): string {
-		return __( 'Detectives', 'underworld-empire' );
+		return __( 'Detectives', 'mafia-pbbg-engine' );
 	}
 
 	public function schema(): array {
@@ -48,23 +48,23 @@ final class Detectives extends Module {
 	public function settings_fields(): array {
 		return array(
 			'detective_cost'         => array(
-				'label'   => __( 'Cost per detective per hour', 'underworld-empire' ),
+				'label'   => __( 'Cost per detective per hour', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 25000,
 			),
 			'detective_hour_seconds' => array(
-				'label'       => __( 'Length of a search "hour" (sec)', 'underworld-empire' ),
+				'label'       => __( 'Length of a search "hour" (sec)', 'mafia-pbbg-engine' ),
 				'type'        => 'int',
 				'default'     => 600,
-				'description' => __( 'How long a search hour takes in real time.', 'underworld-empire' ),
+				'description' => __( 'How long a search hour takes in real time.', 'mafia-pbbg-engine' ),
 			),
 			'detective_valid'        => array(
-				'label'   => __( 'Report valid after completion (sec)', 'underworld-empire' ),
+				'label'   => __( 'Report valid after completion (sec)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 900,
 			),
 			'detective_max'          => array(
-				'label'   => __( 'Max. detectives / hours', 'underworld-empire' ),
+				'label'   => __( 'Max. detectives / hours', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 5,
 			),
@@ -74,7 +74,7 @@ final class Detectives extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Detectives', 'underworld-empire' ),
+				'label' => __( 'Detectives', 'mafia-pbbg-engine' ),
 				'group' => 'murder',
 				'order' => 10,
 			),
@@ -101,7 +101,7 @@ final class Detectives extends Module {
 	 */
 	public static function valid_reports( Character $c ): array {
 		self::resolve_finished( $c );
-		$valid = (int) \DigiFalk\UnderworldEmpire\Settings::get( 'detective_valid', 900 );
+		$valid = (int) \DigiFalk\MafiaPBBGEngine\Settings::get( 'detective_valid', 900 );
 		return DB::results(
 			'SELECT * FROM {detectives} WHERE character_id = %d AND success = 1 AND used = 0 AND found_location > 0
 			 AND ready_at <= %d AND ready_at > %d ORDER BY ready_at DESC',
@@ -138,22 +138,22 @@ final class Detectives extends Module {
 		$count  = absint( $input['detectives'] ?? 0 );
 		$hours  = absint( $input['hours'] ?? 0 );
 		if ( ! $target || ! $target->is_alive() ) {
-			$this->error( __( 'This player doesn\'t exist or is no longer alive.', 'underworld-empire' ) );
+			$this->error( __( 'This player doesn\'t exist or is no longer alive.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( $target->id() === $c->id() ) {
-			$this->error( __( 'Surely you know where you are yourself?', 'underworld-empire' ) );
+			$this->error( __( 'Surely you know where you are yourself?', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( $count < 1 || $count > $max || $hours < 1 || $hours > $max ) {
 			/* translators: %d: max */
-			$this->error( sprintf( __( 'Choose 1 to %d detectives and 1 to %d hours.', 'underworld-empire' ), $max, $max ) );
+			$this->error( sprintf( __( 'Choose 1 to %d detectives and 1 to %d hours.', 'mafia-pbbg-engine' ), $max, $max ) );
 			return;
 		}
 		$cost = $count * $hours * (int) $this->setting( 'detective_cost' );
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'underworld-empire' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'mafia-pbbg-engine' ), Format::money( $cost ) ) );
 			return;
 		}
 		$chance  = (int) apply_filters( 'dfmg_detective_chance', min( 100, $count * $hours * 4 ), $c, $target, $count, $hours );
@@ -172,7 +172,7 @@ final class Detectives extends Module {
 		);
 		$c->log( 'detectives.hire', true, $cost, $target->id() );
 		/* translators: %s: player */
-		$this->success( sprintf( __( 'Your detectives are searching for %s.', 'underworld-empire' ), $target->name ) );
+		$this->success( sprintf( __( 'Your detectives are searching for %s.', 'mafia-pbbg-engine' ), $target->name ) );
 	}
 
 	public function action_remove( Character $c, array $input ): void {

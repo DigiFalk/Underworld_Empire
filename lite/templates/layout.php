@@ -3,17 +3,17 @@
  * Game layout. The zones are filled with game elements chosen in
  * Appearance → Customize → Game layout (see Frontend\Layout and Frontend\Hud).
  *
- * @var \DigiFalk\UnderworldEmpire\Character     $character
- * @var \DigiFalk\UnderworldEmpire\Module\Module $module
+ * @var \DigiFalk\MafiaPBBGEngine\Character     $character
+ * @var \DigiFalk\MafiaPBBGEngine\Module\Module $module
  * @var array                              $menu
  * @var array                              $messages
  * @var string                             $content
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Frontend\Game;
-use DigiFalk\UnderworldEmpire\Frontend\Layout;
+use DigiFalk\MafiaPBBGEngine\Frontend\Game;
+use DigiFalk\MafiaPBBGEngine\Frontend\Layout;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -24,7 +24,7 @@ foreach ( array_keys( Layout::zones() ) as $dfmg_zone ) {
 $dfmg_header  = $dfmg_z['header-left'] . $dfmg_z['header-center'] . $dfmg_z['header-right'];
 $dfmg_footer  = $dfmg_z['footer-left'] . $dfmg_z['footer-center'] . $dfmg_z['footer-right'];
 $dfmg_sidebar = '' !== $dfmg_z['sidebar'];
-$dfmg_credit  = \DigiFalk\UnderworldEmpire\Frontend\Credit::html();
+$dfmg_credit  = \DigiFalk\MafiaPBBGEngine\Frontend\Credit::html();
 
 $dfmg_zone_html = static function ( string $zone ) use ( $dfmg_z ): string {
 	return '' === $dfmg_z[ $zone ] ? '' : '<div class="dfmg-zone dfmg-zone--' . esc_attr( $zone ) . '">' . $dfmg_z[ $zone ] . '</div>';
@@ -52,7 +52,7 @@ $dfmg_zone_html = static function ( string $zone ) use ( $dfmg_z ): string {
 		<main class="dfmg-main">
 			<?php echo $dfmg_zone_html( 'top' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<div class="dfmg-page-head">
-				<span class="dfmg-page-head__icon"><?php echo \DigiFalk\UnderworldEmpire\Icons::svg( \DigiFalk\UnderworldEmpire\Icons::has( $module->id() ) ? $module->id() : 'dot', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+				<span class="dfmg-page-head__icon"><?php echo \DigiFalk\MafiaPBBGEngine\Icons::svg( \DigiFalk\MafiaPBBGEngine\Icons::has( $module->id() ) ? $module->id() : 'dot', 22 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 				<h2 class="dfmg-title"><?php echo esc_html( $module->title() ); ?></h2>
 			</div>
 			<?php echo Game::template( 'messages', array( 'messages' => $messages ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>

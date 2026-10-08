@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.14.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -49,7 +49,7 @@ The source code, documentation for module developers and the development history
 == Installation ==
 
 1. Install and activate **Mafia PBBG Engine** from *Plugins → Add New*.
-2. On activation the plugin creates its tables, loads starting data and creates a page **Mafia PBBG Engine** with the shortcode `[underworld_empire]`.
+2. On activation the plugin creates its tables, loads starting data and creates a page **Mafia PBBG Engine** with the shortcode `[mafia_pbbg_engine]`.
 3. Enable *Settings → General → Anyone can register* if players may create their own account.
 4. Manage the game under the **Mafia PBBG Engine** menu.
 
@@ -63,7 +63,7 @@ Yes. Players log in with a normal WordPress account. Turn on *Anyone can registe
 
 = Can I add my own game features? =
 
-Yes. Put a folder with a `module.php` in `wp-content/underworld-modules/` and switch it on under *Mafia PBBG Engine → Modules*. See the module documentation on GitHub.
+Yes. Put a folder with a `module.php` in `wp-content/mafia-pbbg-modules/` and switch it on under *Mafia PBBG Engine → Modules*. See the module documentation on GitHub.
 
 = Does the plugin show a link to its maker? =
 
@@ -78,6 +78,9 @@ No. This plugin does not send data to external services.
 Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
 
 == Changelog ==
+
+= 2.0.0 =
+* Mafia PBBG Engine carries its new name everywhere: folders, shortcodes ([mafia_pbbg_engine]), the folder for your own modules (wp-content/mafia-pbbg-modules) and more.
 
 = 1.14.0 =
 * New name: Mafia PBBG Engine (was Underworld Empire).

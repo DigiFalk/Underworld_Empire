@@ -3,6 +3,21 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.0.0
+
+- Mafia PBBG Engine now carries its name everywhere, also inside:
+  - plugin folders, main files and release zips: `mafia-pbbg-engine`,
+    `mafia-pbbg-engine-extended`, `mafia-pbbg-engine-wordpress-org.zip`;
+  - the theme folder `mafia-pbbg-engine-theme` (prefix `mpet`), the PHP namespace
+    `DigiFalk\MafiaPBBGEngine`, the shortcodes `[mafia_pbbg_engine]` and `[mpe_hud]`, the
+    folder for your own modules `wp-content/mafia-pbbg-modules`;
+  - premium module ids (`mpe-premium`, `mpe-turf`, `mpe-smuggling`, `mpe-avatar-maker`,
+    `mpe-white-label`) and the store client id `mafia-pbbg-engine`.
+- Removed the code that moved sites from 1.11 and older to Extended (automatic installation,
+  theme folder repair, old data migrations). The GitHub edition keeps the one-click
+  installation of Extended on the Modules screen.
+- Premium modules 2.0.0 are needed with this version.
+
 ## 1.14.0
 
 - **New name: Mafia PBBG Engine** (was Underworld Empire). The add-on is now Mafia PBBG Engine

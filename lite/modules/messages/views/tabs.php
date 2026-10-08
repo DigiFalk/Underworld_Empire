@@ -2,7 +2,7 @@
 /**
  * @var string $active
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
 defined( 'ABSPATH' ) || exit;

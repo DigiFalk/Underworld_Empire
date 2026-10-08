@@ -12,17 +12,17 @@
  *   $elements['my-el'] = [ 'label' => 'My element', 'render' => fn( ?Character $c, string $context ) => '<span>…</span>' ];
  * Add 'theme' => false to keep an element out of the theme header/footer builders.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Frontend;
+namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Icons;
-use DigiFalk\UnderworldEmpire\Plugin;
-use DigiFalk\UnderworldEmpire\Settings;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Icons;
+use DigiFalk\MafiaPBBGEngine\Plugin;
+use DigiFalk\MafiaPBBGEngine\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -35,7 +35,7 @@ final class Hud {
 	public static $route = null;
 
 	public static function init(): void {
-		add_shortcode( 'ue_hud', array( __CLASS__, 'shortcode' ) );
+		add_shortcode( 'mpe_hud', array( __CLASS__, 'shortcode' ) );
 		// The plugin boots on init priority 1, after WordPress fired widgets_init.
 		if ( did_action( 'widgets_init' ) ) {
 			self::register_widget();
@@ -48,10 +48,10 @@ final class Hud {
 		}
 
 		// Theme builder integration (Mafia PBBG Engine theme and compatible themes).
-		add_filter( 'uet_header_elements', array( __CLASS__, 'theme_elements' ) );
-		add_filter( 'uet_footer_elements', array( __CLASS__, 'theme_elements' ) );
+		add_filter( 'mpet_header_elements', array( __CLASS__, 'theme_elements' ) );
+		add_filter( 'mpet_footer_elements', array( __CLASS__, 'theme_elements' ) );
 		add_filter(
-			'uet_render_header_element',
+			'mpet_render_header_element',
 			static function ( $html, $element, $context ) {
 				return 0 === strpos( (string) $element, 'game-' ) ? self::render( substr( $element, 5 ), 'popup' === $context ? 'stack' : 'bar', 'theme' ) : $html;
 			},
@@ -59,7 +59,7 @@ final class Hud {
 			3
 		);
 		add_filter(
-			'uet_render_footer_element',
+			'mpet_render_footer_element',
 			static function ( $html, $element ) {
 				return 0 === strpos( (string) $element, 'game-' ) ? self::render( substr( $element, 5 ), 'bar', 'theme' ) : $html;
 			},
@@ -332,7 +332,7 @@ final class Hud {
 	 * Uploaded avatar, or the first letter of the name.
 	 */
 	public static function avatar( Character $c, int $size = 30 ): string {
-		$url = \DigiFalk\UnderworldEmpire\Avatar::display_url( (int) $c->user_id, $size );
+		$url = \DigiFalk\MafiaPBBGEngine\Avatar::display_url( (int) $c->user_id, $size );
 		if ( $url ) {
 			return '<img class="dfmg-hud-player__avatar dfmg-hud-player__avatar--img" src="' . esc_url( $url ) . '" alt="" width="' . $size . '" height="' . $size . '" loading="lazy">';
 		}
@@ -396,7 +396,7 @@ final class Hud {
 	}
 
 	/**
-	 * [ue_hud element="cash"] – or several: element="cash,bank,bullets".
+	 * [mpe_hud element="cash"] – or several: element="cash,bank,bullets".
 	 */
 	public static function shortcode( $atts ): string {
 		$atts = shortcode_atts(
@@ -405,7 +405,7 @@ final class Hud {
 				'layout'  => 'inline',
 			),
 			$atts,
-			'ue_hud'
+			'mpe_hud'
 		);
 		$context = in_array( $atts['layout'], array( 'bar', 'stack', 'inline' ), true ) ? $atts['layout'] : 'inline';
 		$html    = '';

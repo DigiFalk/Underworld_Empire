@@ -6,20 +6,20 @@
  * The plugin header contains "Update URI: https://github.com/...", so WordPress (5.8+)
  * asks the update_plugins_github.com filter for update information instead of
  * WordPress.org. We answer with the latest GitHub release and its
- * underworld-empire-extended.zip asset.
+ * mafia-pbbg-engine-extended.zip asset.
  *
- * @package DigiFalk\UnderworldEmpire\Extended
+ * @package DigiFalk\MafiaPBBGEngine\Extended
  */
 
-namespace DigiFalk\UnderworldEmpire\Extended;
+namespace DigiFalk\MafiaPBBGEngine\Extended;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Updater {
 
 	const CACHE_KEY  = 'dfmg_extended_github_release';
-	const ASSET_NAME = 'underworld-empire-extended.zip';
-	const SLUG       = 'underworld-empire-extended';
+	const ASSET_NAME = 'mafia-pbbg-engine-extended.zip';
+	const SLUG       = 'mafia-pbbg-engine-extended';
 
 	public static function init(): void {
 		add_filter( 'update_plugins_github.com', array( __CLASS__, 'check' ), 10, 4 );
@@ -44,7 +44,7 @@ final class Updater {
 	private static function headers(): array {
 		$headers = array(
 			'Accept'     => 'application/vnd.github+json',
-			'User-Agent' => 'Underworld-Empire-Extended/' . DFMG_EXTENDED_VERSION . '; ' . home_url(),
+			'User-Agent' => 'Mafia-PBBG-Engine-Extended/' . DFMG_EXTENDED_VERSION . '; ' . home_url(),
 		);
 		if ( self::token() ) {
 			$headers['Authorization'] = 'Bearer ' . self::token();
@@ -179,7 +179,7 @@ final class Updater {
 			'last_updated'  => $release['published'],
 			'download_link' => $release['package'],
 			'sections'      => array(
-				'description' => esc_html__( 'Families, murders, the Mafia PBBG Engine theme and premium modules for Mafia PBBG Engine.', 'underworld-empire' ),
+				'description' => esc_html__( 'Families, murders, the Mafia PBBG Engine theme and premium modules for Mafia PBBG Engine.', 'mafia-pbbg-engine' ),
 				'changelog'   => self::markdown( $release['notes'] ),
 			),
 		);
@@ -231,7 +231,7 @@ final class Updater {
 		if ( $wp_filesystem && $wp_filesystem->move( $source, $wanted, true ) ) {
 			return $wanted;
 		}
-		return new \WP_Error( 'dfmg_extended_update_folder', __( 'The update could not be unpacked into the plugin folder.', 'underworld-empire' ) );
+		return new \WP_Error( 'dfmg_extended_update_folder', __( 'The update could not be unpacked into the plugin folder.', 'mafia-pbbg-engine' ) );
 	}
 
 	/**
@@ -255,7 +255,7 @@ final class Updater {
 
 	public static function action_link( array $links ): array {
 		if ( current_user_can( 'update_plugins' ) ) {
-			$links[] = '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dfmg_extended_check_updates' ), 'dfmg_extended_check_updates' ) ) . '">' . esc_html__( 'Check for updates', 'underworld-empire' ) . '</a>';
+			$links[] = '<a href="' . esc_url( wp_nonce_url( admin_url( 'admin-post.php?action=dfmg_extended_check_updates' ), 'dfmg_extended_check_updates' ) ) . '">' . esc_html__( 'Check for updates', 'mafia-pbbg-engine' ) . '</a>';
 		}
 		return $links;
 	}
@@ -265,7 +265,7 @@ final class Updater {
 	 */
 	public static function force_check(): void {
 		if ( ! current_user_can( 'update_plugins' ) ) {
-			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
+			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_extended_check_updates' );
 		self::flush();

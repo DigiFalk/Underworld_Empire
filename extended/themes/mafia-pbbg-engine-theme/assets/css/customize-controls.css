@@ -1,0 +1,70 @@
+/* Mafia PBBG Engine theme – Customizer controls. */
+
+/* Responsive number control */
+.mpet-responsive__head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.mpet-responsive__head .customize-control-title { margin: 0; }
+.mpet-responsive__devices { display: inline-flex; gap: 2px; }
+.mpet-device-btn { border: 0; background: transparent; padding: 2px; cursor: pointer; color: #8c8f94; border-radius: 3px; }
+.mpet-device-btn .dashicons { font-size: 16px; width: 16px; height: 16px; }
+.mpet-device-btn.is-active, .mpet-device-btn:hover { color: #2271b1; background: #f0f6fc; }
+.mpet-responsive__field { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
+.mpet-responsive__field .mpet-range { flex: 1; }
+.mpet-responsive__field .mpet-number { width: 72px; }
+.mpet-builder-note { font-style: italic; color: #646970; }
+
+/* Builder panel at the bottom of the preview */
+.mpet-builder-panel {
+	position: fixed;
+	z-index: 500000;
+	bottom: 0;
+	left: clamp(300px, 18%, 600px);
+	right: 0;
+	max-height: 58vh;
+	overflow: auto;
+	background: #fff;
+	border-top: 1px solid #c3c4c7;
+	box-shadow: 0 -8px 24px rgba(0, 0, 0, .12);
+	padding: 0 16px 16px;
+	font-size: 13px;
+}
+.mpet-pane-hidden .mpet-builder-panel { left: 0; }
+.mpet-builder-panel[hidden] { display: none; }
+.mpet-builder-panel.is-minimized { max-height: 44px; overflow: hidden; }
+.mpet-builder-panel.is-minimized .mpet-builder-close { transform: rotate(180deg); }
+.mpet-builder-bar { position: sticky; top: 0; z-index: 2; display: flex; align-items: center; gap: 6px; padding: 8px 0; background: #fff; border-bottom: 1px solid #f0f0f1; margin-bottom: 10px; }
+.mpet-builder-tab { border: 1px solid #c3c4c7; background: #f6f7f7; border-radius: 4px; padding: 5px 12px; cursor: pointer; }
+.mpet-builder-tab.is-active { background: #2271b1; border-color: #2271b1; color: #fff; }
+.mpet-builder-close { margin-left: auto; border: 0; background: transparent; cursor: pointer; width: 28px; height: 28px; font-size: 20px; color: #50575e; }
+
+.mpet-brow { display: grid; grid-template-columns: 130px 1fr; gap: 10px; align-items: stretch; margin-bottom: 8px; }
+.mpet-brow__label { font-weight: 600; color: #1d2327; padding-top: 10px; display: flex; flex-direction: column; gap: 6px; }
+.mpet-brow__label select { font-weight: 400; max-width: 120px; }
+.mpet-brow__zones { display: grid; gap: 8px; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.mpet-brow__zones--3 { grid-template-columns: 1fr 1fr 1fr; }
+.mpet-brow--popup .mpet-brow__zones { grid-template-columns: 1fr; }
+.mpet-brow__zones[data-cols="1"] { grid-template-columns: 1fr; }
+.mpet-brow__zones[data-cols="2"] { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mpet-brow__zones[data-cols="3"] { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.mpet-brow.is-hidden-row .mpet-brow__zones { min-height: 36px; background: repeating-linear-gradient(45deg, #f6f7f7, #f6f7f7 8px, #fff 8px, #fff 16px); border: 1px dashed #dcdcde; border-radius: 4px; }
+.mpet-bzone-wrap { position: relative; display: flex; flex-direction: column; gap: 4px; background: #f6f7f7; border: 1px dashed #c3c4c7; border-radius: 4px; padding: 6px; min-height: 58px; }
+.mpet-bzone-wrap:hover { border-color: #2271b1; }
+.mpet-bzone-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; color: #646970; }
+.mpet-bzone { display: flex; flex-wrap: wrap; gap: 4px; min-height: 30px; margin: 0; padding: 0; list-style: none; }
+.mpet-builder-panel .mpet-bzone-add { position: absolute; top: 4px; right: 4px; width: 26px; min-height: 22px; height: 22px; padding: 0 2px; font-size: 14px; line-height: 1; border-radius: 3px; appearance: none; -webkit-appearance: none; background: #fff none; text-align: center; cursor: pointer; }
+.mpet-builder-panel .mpet-bzone-add:disabled { opacity: .4; cursor: default; }
+.mpet-chip { display: inline-flex; align-items: center; gap: 2px; margin: 0; padding: 3px 4px 3px 8px; background: #fff; border: 1px solid #c3c4c7; border-radius: 3px; cursor: grab; box-shadow: 0 1px 1px rgba(0, 0, 0, .04); }
+.mpet-chip:focus { outline: 2px solid #2271b1; }
+.mpet-chip.ui-sortable-helper { cursor: grabbing; box-shadow: 0 6px 16px rgba(0, 0, 0, .18); }
+.mpet-chip--placeholder { background: #f0f6fc; border: 1px dashed #2271b1; min-width: 60px; height: 26px; visibility: visible !important; }
+.mpet-chip__edit, .mpet-chip__x { border: 0; background: transparent; cursor: pointer; color: #787c82; padding: 0 2px; width: 20px; height: 20px; font-size: 14px; line-height: 20px; }
+.mpet-chip__x { font-size: 16px; }
+.mpet-chip__edit:hover, .mpet-chip__x:hover { color: #d63638; }
+.mpet-chip__edit:hover { color: #2271b1; }
+.mpet-bpool { margin-top: 10px; padding-top: 10px; border-top: 1px solid #f0f0f1; }
+.mpet-bzone--pool { margin-top: 6px; }
+.mpet-bzone--pool .mpet-chip__x, .mpet-bzone--pool .mpet-chip__edit { display: none; }
+.mpet-bzone--pool .mpet-chip { background: #f0f6fc; border-style: dashed; padding-right: 8px; }
+@media (max-width: 1100px) {
+	.mpet-brow { grid-template-columns: 1fr; }
+	.mpet-brow__label { padding-top: 0; flex-direction: row; align-items: center; }
+}

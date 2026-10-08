@@ -5,15 +5,15 @@
  * Version: 1.1.0
  * Author: DigiFalk
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Avatar;
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Avatar;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -80,7 +80,7 @@ final class Profile extends Module {
 				? ( $target->is_online() ? '<span class="dfmg-online">' . esc_html__( 'Online', 'mafia-pbbg-engine' ) . '</span>' : esc_html__( 'Alive', 'mafia-pbbg-engine' ) )
 				: '<span class="dfmg-dead">' . esc_html__( 'Murdered', 'mafia-pbbg-engine' ) . '</span>',
 			__( 'Murders', 'mafia-pbbg-engine' ) => (int) DB::value( "SELECT COUNT(*) FROM {activity} WHERE character_id = %d AND action = 'murder' AND success = 1", $target->id() ),
-			__( 'Started', 'mafia-pbbg-engine' ) => esc_html( \DigiFalk\UnderworldEmpire\Format::date( (int) $target->created_at ) ),
+			__( 'Started', 'mafia-pbbg-engine' ) => esc_html( \DigiFalk\MafiaPBBGEngine\Format::date( (int) $target->created_at ) ),
 		);
 		if ( ! $target->is_alive() && $target->shot_by ) {
 			$fields[ __( 'Murdered by', 'mafia-pbbg-engine' ) ] = Character::link_by_id( (int) $target->shot_by );

@@ -6,16 +6,16 @@
  * Author: DigiFalk
  * Required: yes
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Frontend\Game;
-use DigiFalk\UnderworldEmpire\Module\Module;
-use DigiFalk\UnderworldEmpire\Ranks;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Frontend\Game;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 

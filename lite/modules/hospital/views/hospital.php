@@ -1,14 +1,14 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character   $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character   $c
  * @var array                            $quote
- * @var \DigiFalk\UnderworldEmpire\Character[] $patients
+ * @var \DigiFalk\MafiaPBBGEngine\Character[] $patients
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Frontend\UI;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Frontend\UI;
 
 defined( 'ABSPATH' ) || exit;
 ?>

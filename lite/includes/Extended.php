@@ -4,10 +4,10 @@
  * modules. This class only detects it and links to it; the GitHub edition of this plugin can
  * also install it (see Bridge).
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
 defined( 'ABSPATH' ) || exit;
 

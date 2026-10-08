@@ -16,7 +16,7 @@ an active license.
 2. The buyer buys the module in the store and receives a license key by email.
 3. The buyer pastes the key and clicks **Activate**. Mafia PBBG Engine activates the key for
    this site, downloads the module, checks it and installs it in
-   `wp-content/underworld-modules/<product>/`, then switches it on.
+   `wp-content/mafia-pbbg-modules/<product>/`, then switches it on.
 4. Updates: the plugin checks the store daily (or on *Check for updates*). When a newer
    version exists the card shows **Update to vX**. Licenses are lifetime: updates forever.
 5. **Deactivate license** switches the module off, removes its files (game data is kept)
@@ -43,8 +43,8 @@ Package it as a zip with **one root folder named after the product slug**, which
 module id:
 
 ```
-ue-heists.zip
-└── ue-heists/
+mpe-heists.zip
+└── mpe-heists/
     ├── module.php
     └── views/…
 ```
@@ -63,7 +63,7 @@ Game pages show "Mafia PBBG Engine by DigiFalk" (`Frontend\Credit`). In the free
 off until the site owner says yes on the dashboard (asked once) or switches on *Settings →
 Show "Mafia PBBG Engine by DigiFalk"*;
 Mafia PBBG Engine Extended always shows it (filter `dfmg_show_credit`). It is only removed
-while the premium module `ue-white-label` is booted and licensed (`Registry::runnable`). That
+while the premium module `mpe-white-label` is booted and licensed (`Registry::runnable`). That
 module can return its own footer HTML with the filter `dfmg_white_label_credit`; the filter is
 ignored without the module.
 
@@ -90,11 +90,11 @@ otherwise sites refuse the newly signed downloads. Sites that can't update yet c
 Base: `https://digifalk.com/wp-json/digifalk-licenses/v1/`. JSON in and out. Errors use a
 non-2xx status with `{ "code": "…", "message": "…" }`; the message is shown to the admin.
 
-### `GET /catalog?client=underworld-empire`
+### `GET /catalog?client=mafia-pbbg-engine`
 
 ```json
 { "products": [ {
-  "product": "ue-heists", "name": "Heists", "description": "…", "version": "1.0.0",
+  "product": "mpe-heists", "name": "Heists", "description": "…", "version": "1.0.0",
   "price": "€ 19", "buy_url": "https://digifalk.com/product/heists/", "icon": "bank",
   "requires": "1.9.0"
 } ] }
@@ -110,7 +110,7 @@ Request: `license_key`, `product`, `site_url`, `client`, `client_version`, `wp_v
 ```json
 { "activation_id": "act_…", "activation_secret": "…",
   "license": { "status": "active", "type": "lifetime", "activations_limit": 1, "activations_used": 1 },
-  "product": { "product": "ue-heists", "name": "Heists" } }
+  "product": { "product": "mpe-heists", "name": "Heists" } }
 ```
 
 Activating the same key again on the same site URL returns the existing activation (with a

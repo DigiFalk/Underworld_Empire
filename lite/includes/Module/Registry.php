@@ -4,20 +4,20 @@
  *
  * Modules are found in:
  *  1. <plugin>/modules/<id>/module.php            (bundled)
- *  2. wp-content/underworld-modules/<id>/module.php   (your own, survives updates; overrides bundled modules with the same id)
+ *  2. wp-content/mafia-pbbg-modules/<id>/module.php   (your own, survives updates; overrides bundled modules with the same id)
  *  3. Other plugins: add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( '/path/to/module.php' ) );
  *
  * Modules with the header "Premium: yes" are bought on the DigiFalk store. They only run when
  * the dfmg_module_runnable filter allows it: Mafia PBBG Engine Extended does that for modules
  * with an activated license.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Module;
+namespace DigiFalk\MafiaPBBGEngine\Module;
 
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Settings;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Settings;
 
 defined( 'ABSPATH' ) || exit;
 

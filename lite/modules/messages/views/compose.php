@@ -1,11 +1,11 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
  * @var string                         $to
  * @var string                         $subject
  * @var int                            $reply
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
 defined( 'ABSPATH' ) || exit;

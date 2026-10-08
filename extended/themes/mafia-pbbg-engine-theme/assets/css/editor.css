@@ -1,0 +1,21 @@
+/* Block editor: mirror the front end typography and colours. */
+.editor-styles-wrapper {
+	background: var(--mpet-base);
+	color: var(--mpet-text);
+	font-family: var(--mpet-font-body);
+	font-size: var(--mpet-body-size);
+	line-height: var(--mpet-line-height);
+}
+.editor-styles-wrapper h1, .editor-styles-wrapper h2, .editor-styles-wrapper h3,
+.editor-styles-wrapper h4, .editor-styles-wrapper h5, .editor-styles-wrapper h6,
+.editor-styles-wrapper .editor-post-title__input {
+	color: var(--mpet-heading);
+	font-family: var(--mpet-font-heading);
+	font-weight: var(--mpet-heading-weight);
+	text-transform: var(--mpet-heading-transform);
+}
+.editor-styles-wrapper h1 { font-size: var(--mpet-h1); }
+.editor-styles-wrapper h2 { font-size: var(--mpet-h2); }
+.editor-styles-wrapper h3 { font-size: var(--mpet-h3); }
+.editor-styles-wrapper a { color: var(--mpet-accent); }
+.editor-styles-wrapper .wp-block-button__link { background: var(--mpet-button-bg); color: var(--mpet-button-text); border-radius: var(--mpet-radius); }

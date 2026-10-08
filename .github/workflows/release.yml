@@ -1,9 +1,9 @@
 name: Release
 
 # Publishes a GitHub release for every new plugin version pushed to the main branch.
-# Raise "Version:" and DFMG_VERSION in lite/underworld-empire.php, "Version:" and
-# DFMG_EXTENDED_VERSION in extended/underworld-empire-extended.php (all the same) and add a
-# CHANGELOG.md section. Every release carries underworld-empire.zip and underworld-empire-extended.zip
+# Raise "Version:" and DFMG_VERSION in lite/mafia-pbbg-engine.php, "Version:" and
+# DFMG_EXTENDED_VERSION in extended/mafia-pbbg-engine-extended.php (all the same) and add a
+# CHANGELOG.md section. Every release carries mafia-pbbg-engine.zip and mafia-pbbg-engine-extended.zip
 # (GitHub editions, which update themselves from these releases) and
 # mafia-pbbg-engine-wordpress-org.zip (the edition for the WordPress.org plugin directory).
 
@@ -30,10 +30,10 @@ jobs:
         run: |
           read_header() { grep -m1 -E '^\s*\*\s*Version:' "$1" | sed -E 's/.*Version:\s*//' | tr -d '[:space:]'; }
           read_constant() { grep -m1 "define( '$2'" "$1" | sed -E "s/.*'$2', '([^']+)'.*/\1/"; }
-          lite=$(read_header lite/underworld-empire.php)
-          lite_constant=$(read_constant lite/underworld-empire.php DFMG_VERSION)
-          extended=$(read_header extended/underworld-empire-extended.php)
-          extended_constant=$(read_constant extended/underworld-empire-extended.php DFMG_EXTENDED_VERSION)
+          lite=$(read_header lite/mafia-pbbg-engine.php)
+          lite_constant=$(read_constant lite/mafia-pbbg-engine.php DFMG_VERSION)
+          extended=$(read_header extended/mafia-pbbg-engine-extended.php)
+          extended_constant=$(read_constant extended/mafia-pbbg-engine-extended.php DFMG_EXTENDED_VERSION)
           if [ "$lite" != "$lite_constant" ] || [ "$lite" != "$extended" ] || [ "$lite" != "$extended_constant" ]; then
             echo "::error::Versions differ: Lite header $lite, DFMG_VERSION $lite_constant, Extended header $extended, DFMG_EXTENDED_VERSION $extended_constant."
             exit 1
@@ -52,15 +52,15 @@ jobs:
       - name: Build zips
         if: steps.version.outputs.exists == 'false'
         run: |
-          mkdir -p build/underworld-empire build/underworld-empire-extended
-          rsync -a lite/ build/underworld-empire/
-          rsync -a extended/ build/underworld-empire-extended/
-          cp CHANGELOG.md build/underworld-empire/
-          cp CHANGELOG.md build/underworld-empire-extended/
+          mkdir -p build/mafia-pbbg-engine build/mafia-pbbg-engine-extended
+          rsync -a lite/ build/mafia-pbbg-engine/
+          rsync -a extended/ build/mafia-pbbg-engine-extended/
+          cp CHANGELOG.md build/mafia-pbbg-engine/
+          cp CHANGELOG.md build/mafia-pbbg-engine-extended/
           .github/scripts/build-wporg.sh build/wordpress-org
           cd build
-          zip -rq underworld-empire.zip underworld-empire
-          zip -rq underworld-empire-extended.zip underworld-empire-extended
+          zip -rq mafia-pbbg-engine.zip mafia-pbbg-engine
+          zip -rq mafia-pbbg-engine-extended.zip mafia-pbbg-engine-extended
           (cd wordpress-org && zip -rq ../mafia-pbbg-engine-wordpress-org.zip mafia-pbbg-engine)
 
       - name: Release notes
@@ -78,7 +78,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh release create "v${{ steps.version.outputs.version }}" build/underworld-empire.zip build/underworld-empire-extended.zip build/mafia-pbbg-engine-wordpress-org.zip \
+          gh release create "v${{ steps.version.outputs.version }}" build/mafia-pbbg-engine.zip build/mafia-pbbg-engine-extended.zip build/mafia-pbbg-engine-wordpress-org.zip \
             --target "$GITHUB_SHA" \
             --title "Mafia PBBG Engine ${{ steps.version.outputs.version }}" \
             --notes-file build/notes.md \

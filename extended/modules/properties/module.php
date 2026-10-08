@@ -5,24 +5,24 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Locations;
-use DigiFalk\UnderworldEmpire\Module\Module;
-use DigiFalk\UnderworldEmpire\Property;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Locations;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Property;
 
 defined( 'ABSPATH' ) || exit;
 
 final class Properties extends Module {
 
 	public function title(): string {
-		return __( 'Properties', 'underworld-empire' );
+		return __( 'Properties', 'mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -41,14 +41,14 @@ final class Properties extends Module {
 		$count = (int) DB::query( 'UPDATE {properties} SET owner_id = %d, profit = 0 WHERE owner_id = %d', $killer->id(), $victim->id() );
 		if ( $count ) {
 			/* translators: 1: count, 2: player */
-			$killer->notify( sprintf( _n( 'You took over %1$d property from %2$s.', 'You took over %1$d properties from %2$s.', $count, 'underworld-empire' ), $count, esc_html( $victim->name ) ) );
+			$killer->notify( sprintf( _n( 'You took over %1$d property from %2$s.', 'You took over %1$d properties from %2$s.', $count, 'mafia-pbbg-engine' ), $count, esc_html( $victim->name ) ) );
 		}
 	}
 
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Properties', 'underworld-empire' ),
+				'label' => __( 'Properties', 'mafia-pbbg-engine' ),
 				'group' => 'money',
 				'order' => 40,
 			),
@@ -76,7 +76,7 @@ final class Properties extends Module {
 		}
 		$property = Property::get( $type, $location );
 		if ( ! $property->is_owned_by( $c ) ) {
-			$this->error( __( 'This property isn\'t yours.', 'underworld-empire' ) );
+			$this->error( __( 'This property isn\'t yours.', 'mafia-pbbg-engine' ) );
 			return null;
 		}
 		return $property;
@@ -93,11 +93,11 @@ final class Properties extends Module {
 		$max   = (int) ( $type['setting_max'] ?? 0 );
 		if ( $price < $min || ( $max && $price > $max ) ) {
 			/* translators: 1: min, 2: max */
-			$this->error( $max ? sprintf( __( 'Choose a value between %1$s and %2$s.', 'underworld-empire' ), Format::money( $min ), Format::money( $max ) ) : sprintf( __( 'Choose at least %s.', 'underworld-empire' ), Format::money( $min ) ) );
+			$this->error( $max ? sprintf( __( 'Choose a value between %1$s and %2$s.', 'mafia-pbbg-engine' ), Format::money( $min ), Format::money( $max ) ) : sprintf( __( 'Choose at least %s.', 'mafia-pbbg-engine' ), Format::money( $min ) ) );
 			return;
 		}
 		$property->set_price( $price );
-		$this->success( __( 'Saved.', 'underworld-empire' ) );
+		$this->success( __( 'Saved.', 'mafia-pbbg-engine' ) );
 	}
 
 	public function action_reset( Character $c, array $input ): void {
@@ -114,21 +114,21 @@ final class Properties extends Module {
 		}
 		$to = Character::find_by_name( sanitize_text_field( $input['to'] ?? '' ) );
 		if ( ! $to || ! $to->is_alive() || $to->id() === $c->id() ) {
-			$this->error( __( 'Choose another living player.', 'underworld-empire' ) );
+			$this->error( __( 'Choose another living player.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$property->transfer( $to->id() );
 		/* translators: 1: player, 2: property, 3: city */
-		$to->notify( sprintf( __( '%1$s gave you their %2$s in %3$s.', 'underworld-empire' ), $c->link(), esc_html( $property->label() ), esc_html( Locations::name( $property->location_id() ) ) ) );
+		$to->notify( sprintf( __( '%1$s gave you their %2$s in %3$s.', 'mafia-pbbg-engine' ), $c->link(), esc_html( $property->label() ), esc_html( Locations::name( $property->location_id() ) ) ) );
 		/* translators: %s: player */
-		$this->success( sprintf( __( 'Transferred to %s.', 'underworld-empire' ), $to->name ) );
+		$this->success( sprintf( __( 'Transferred to %s.', 'mafia-pbbg-engine' ), $to->name ) );
 	}
 
 	public function action_drop( Character $c, array $input ): void {
 		$property = $this->mine( $c, $input );
 		if ( $property ) {
 			$property->transfer( 0 );
-			$this->success( __( 'You gave up this property.', 'underworld-empire' ) );
+			$this->success( __( 'You gave up this property.', 'mafia-pbbg-engine' ) );
 		}
 	}
 }

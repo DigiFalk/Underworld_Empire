@@ -2,14 +2,14 @@
 /**
  * The premium modules section on the Modules screen of Mafia PBBG Engine.
  *
- * @package DigiFalk\UnderworldEmpire\Extended
+ * @package DigiFalk\MafiaPBBGEngine\Extended
  */
 
-namespace DigiFalk\UnderworldEmpire\Extended;
+namespace DigiFalk\MafiaPBBGEngine\Extended;
 
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Icons;
-use DigiFalk\UnderworldEmpire\Plugin;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Icons;
+use DigiFalk\MafiaPBBGEngine\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -32,20 +32,20 @@ final class PremiumScreen {
 		<section class="dfmg-admin-premium">
 			<div class="dfmg-admin-premium__head">
 				<div>
-					<h2 class="dfmg-admin-section-title"><?php echo Icons::svg( 'membership', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Premium modules', 'underworld-empire' ); ?></h2>
-					<p><?php esc_html_e( 'Buy a module in the DigiFalk store, paste the license key from your email here and it is downloaded, installed and switched on. One payment, lifetime updates.', 'underworld-empire' ); ?></p>
+					<h2 class="dfmg-admin-section-title"><?php echo Icons::svg( 'membership', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Premium modules', 'mafia-pbbg-engine' ); ?></h2>
+					<p><?php esc_html_e( 'Buy a module in the DigiFalk store, paste the license key from your email here and it is downloaded, installed and switched on. One payment, lifetime updates.', 'mafia-pbbg-engine' ); ?></p>
 				</div>
 				<div class="dfmg-admin-premium__actions">
 					<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>">
 						<input type="hidden" name="action" value="dfmg_license_refresh">
 						<?php wp_nonce_field( 'dfmg_license_refresh' ); ?>
-						<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--ghost"><?php echo Icons::svg( 'activity', 15 ); // phpcs:ignore ?> <?php esc_html_e( 'Check for updates', 'underworld-empire' ); ?></button>
+						<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--ghost"><?php echo Icons::svg( 'activity', 15 ); // phpcs:ignore ?> <?php esc_html_e( 'Check for updates', 'mafia-pbbg-engine' ); ?></button>
 					</form>
-					<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="<?php echo esc_url( Licenses::store_url() ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Visit the store', 'underworld-empire' ); ?> <?php echo Icons::svg( 'external', 15 ); // phpcs:ignore ?></a>
+					<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="<?php echo esc_url( Licenses::store_url() ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Visit the store', 'mafia-pbbg-engine' ); ?> <?php echo Icons::svg( 'external', 15 ); // phpcs:ignore ?></a>
 				</div>
 			</div>
 			<?php if ( ! $products ) : ?>
-				<p class="dfmg-admin-empty"><?php esc_html_e( 'No premium modules available yet. New modules appear here automatically as soon as they are in the store.', 'underworld-empire' ); ?></p>
+				<p class="dfmg-admin-empty"><?php esc_html_e( 'No premium modules available yet. New modules appear here automatically as soon as they are in the store.', 'mafia-pbbg-engine' ); ?></p>
 			<?php else : ?>
 				<div class="dfmg-admin-modules">
 					<?php foreach ( $products as $slug ) : ?>
@@ -67,7 +67,7 @@ final class PremiumScreen {
 										<?php
 										if ( $info ) {
 											/* translators: %s: version */
-											echo esc_html( sprintf( __( 'Installed: v%s', 'underworld-empire' ), $info['version'] ) );
+											echo esc_html( sprintf( __( 'Installed: v%s', 'mafia-pbbg-engine' ), $info['version'] ) );
 										} elseif ( $product['version'] ) {
 											echo esc_html( 'v' . $product['version'] );
 										}
@@ -75,11 +75,11 @@ final class PremiumScreen {
 									</span>
 								</div>
 								<?php if ( $licensed ) : ?>
-									<span class="dfmg-admin-badge dfmg-admin-badge--ok"><?php echo Icons::svg( 'check', 13 ); // phpcs:ignore ?> <?php esc_html_e( 'Licensed', 'underworld-empire' ); ?></span>
+									<span class="dfmg-admin-badge dfmg-admin-badge--ok"><?php echo Icons::svg( 'check', 13 ); // phpcs:ignore ?> <?php esc_html_e( 'Licensed', 'mafia-pbbg-engine' ); ?></span>
 								<?php elseif ( $license ) : ?>
-									<span class="dfmg-admin-badge dfmg-admin-badge--bad"><?php esc_html_e( 'License revoked', 'underworld-empire' ); ?></span>
+									<span class="dfmg-admin-badge dfmg-admin-badge--bad"><?php esc_html_e( 'License revoked', 'mafia-pbbg-engine' ); ?></span>
 								<?php else : ?>
-									<span class="dfmg-admin-badge dfmg-admin-badge--premium"><?php echo Icons::svg( 'jail', 13 ); // phpcs:ignore ?> <?php echo esc_html( $product['price'] ?: __( 'Premium', 'underworld-empire' ) ); ?></span>
+									<span class="dfmg-admin-badge dfmg-admin-badge--premium"><?php echo Icons::svg( 'jail', 13 ); // phpcs:ignore ?> <?php echo esc_html( $product['price'] ?: __( 'Premium', 'mafia-pbbg-engine' ) ); ?></span>
 								<?php endif; ?>
 							</header>
 							<?php if ( $product['description'] ) : ?>
@@ -87,15 +87,15 @@ final class PremiumScreen {
 							<?php endif; ?>
 							<?php if ( $too_old ) : ?>
 								<?php /* translators: %s: version */ ?>
-								<p class="dfmg-admin-note"><?php echo esc_html( sprintf( __( 'Needs Mafia PBBG Engine %s or newer. Update the plugin first.', 'underworld-empire' ), $product['requires'] ) ); ?></p>
+								<p class="dfmg-admin-note"><?php echo esc_html( sprintf( __( 'Needs Mafia PBBG Engine %s or newer. Update the plugin first.', 'mafia-pbbg-engine' ), $product['requires'] ) ); ?></p>
 							<?php endif; ?>
 
 							<?php if ( $license ) : ?>
 								<dl class="dfmg-admin-license">
-									<div><dt><?php esc_html_e( 'Key', 'underworld-empire' ); ?></dt><dd><code><?php echo esc_html( Licenses::mask( (string) $license['key'] ) ); ?></code></dd></div>
-									<div><dt><?php esc_html_e( 'License', 'underworld-empire' ); ?></dt><dd><?php echo 'lifetime' === ( $license['type'] ?? 'lifetime' ) ? esc_html__( 'Lifetime', 'underworld-empire' ) : esc_html( ucfirst( (string) $license['type'] ) ); ?></dd></div>
+									<div><dt><?php esc_html_e( 'Key', 'mafia-pbbg-engine' ); ?></dt><dd><code><?php echo esc_html( Licenses::mask( (string) $license['key'] ) ); ?></code></dd></div>
+									<div><dt><?php esc_html_e( 'License', 'mafia-pbbg-engine' ); ?></dt><dd><?php echo 'lifetime' === ( $license['type'] ?? 'lifetime' ) ? esc_html__( 'Lifetime', 'mafia-pbbg-engine' ) : esc_html( ucfirst( (string) $license['type'] ) ); ?></dd></div>
 									<?php if ( ! empty( $license['checked_at'] ) ) : ?>
-										<div><dt><?php esc_html_e( 'Checked', 'underworld-empire' ); ?></dt><dd><?php echo esc_html( Format::ago( (int) $license['checked_at'] ) ); ?></dd></div>
+										<div><dt><?php esc_html_e( 'Checked', 'mafia-pbbg-engine' ); ?></dt><dd><?php echo esc_html( Format::ago( (int) $license['checked_at'] ) ); ?></dd></div>
 									<?php endif; ?>
 								</dl>
 								<footer class="dfmg-admin-module__foot">
@@ -107,16 +107,16 @@ final class PremiumScreen {
 											<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--gold">
 												<?php
 												/* translators: %s: version */
-												echo esc_html( $info ? sprintf( __( 'Update to v%s', 'underworld-empire' ), $license['latest'] ) : __( 'Download again', 'underworld-empire' ) );
+												echo esc_html( $info ? sprintf( __( 'Update to v%s', 'mafia-pbbg-engine' ), $license['latest'] ) : __( 'Download again', 'mafia-pbbg-engine' ) );
 												?>
 											</button>
 										</form>
 									<?php endif; ?>
-									<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'Deactivate the license on this site? The module is switched off and removed; its game data is kept. You can then use the key on another site.', 'underworld-empire' ) ); ?>');">
+									<form method="post" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" onsubmit="return confirm('<?php echo esc_js( __( 'Deactivate the license on this site? The module is switched off and removed; its game data is kept. You can then use the key on another site.', 'mafia-pbbg-engine' ) ); ?>');">
 										<input type="hidden" name="action" value="dfmg_license_deactivate">
 										<input type="hidden" name="product" value="<?php echo esc_attr( $slug ); ?>">
 										<?php wp_nonce_field( 'dfmg_license_deactivate_' . $slug ); ?>
-										<button type="submit" class="dfmg-admin-link-btn"><?php esc_html_e( 'Deactivate license', 'underworld-empire' ); ?></button>
+										<button type="submit" class="dfmg-admin-link-btn"><?php esc_html_e( 'Deactivate license', 'mafia-pbbg-engine' ); ?></button>
 									</form>
 								</footer>
 							<?php else : ?>
@@ -125,11 +125,11 @@ final class PremiumScreen {
 										<input type="hidden" name="action" value="dfmg_license_activate">
 										<input type="hidden" name="product" value="<?php echo esc_attr( $slug ); ?>">
 										<?php wp_nonce_field( 'dfmg_license_activate_' . $slug ); ?>
-										<label class="screen-reader-text" for="dfmg-key-<?php echo esc_attr( $slug ); ?>"><?php esc_html_e( 'License key', 'underworld-empire' ); ?></label>
-										<input type="text" id="dfmg-key-<?php echo esc_attr( $slug ); ?>" name="license_key" placeholder="<?php esc_attr_e( 'Paste your license key', 'underworld-empire' ); ?>" autocomplete="off" spellcheck="false" required pattern="[A-Za-z0-9\-]{8,64}" <?php disabled( $too_old ); ?>>
-										<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--dark" <?php disabled( $too_old ); ?>><?php esc_html_e( 'Activate', 'underworld-empire' ); ?></button>
+										<label class="screen-reader-text" for="dfmg-key-<?php echo esc_attr( $slug ); ?>"><?php esc_html_e( 'License key', 'mafia-pbbg-engine' ); ?></label>
+										<input type="text" id="dfmg-key-<?php echo esc_attr( $slug ); ?>" name="license_key" placeholder="<?php esc_attr_e( 'Paste your license key', 'mafia-pbbg-engine' ); ?>" autocomplete="off" spellcheck="false" required pattern="[A-Za-z0-9\-]{8,64}" <?php disabled( $too_old ); ?>>
+										<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--dark" <?php disabled( $too_old ); ?>><?php esc_html_e( 'Activate', 'mafia-pbbg-engine' ); ?></button>
 									</form>
-									<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="<?php echo esc_url( $product['buy_url'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Buy', 'underworld-empire' ); ?> <?php echo Icons::svg( 'external', 14 ); // phpcs:ignore ?></a>
+									<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="<?php echo esc_url( $product['buy_url'] ); ?>" target="_blank" rel="noopener"><?php esc_html_e( 'Buy', 'mafia-pbbg-engine' ); ?> <?php echo Icons::svg( 'external', 14 ); // phpcs:ignore ?></a>
 								</footer>
 							<?php endif; ?>
 						</article>

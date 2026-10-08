@@ -2,20 +2,20 @@
 /**
  * Shown when the character has been murdered.
  *
- * @var \DigiFalk\UnderworldEmpire\Character      $character
- * @var \DigiFalk\UnderworldEmpire\Character|null $killer
+ * @var \DigiFalk\MafiaPBBGEngine\Character      $character
+ * @var \DigiFalk\MafiaPBBGEngine\Character|null $killer
  * @var array                               $messages
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Frontend\Game;
+use DigiFalk\MafiaPBBGEngine\Frontend\Game;
 
 defined( 'ABSPATH' ) || exit;
 ?>
 <div class="dfmg-welcome dfmg-welcome--dead">
 	<div class="dfmg-card dfmg-card--dead">
-		<span class="dfmg-emblem"><?php echo \DigiFalk\UnderworldEmpire\Icons::svg( 'murder', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
+		<span class="dfmg-emblem"><?php echo \DigiFalk\MafiaPBBGEngine\Icons::svg( 'murder', 30 ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></span>
 		<?php echo Game::template( 'messages', array( 'messages' => $messages ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		<h2><?php esc_html_e( 'Rest in peace', 'mafia-pbbg-engine' ); ?></h2>
 		<p>

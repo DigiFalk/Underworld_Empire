@@ -12,15 +12,15 @@ The game comes as two plugins. This repository holds both, each in its own folde
 
 | Folder | Plugin | Contents |
 | --- | --- | --- |
-| [`lite/`](lite) | **Mafia PBBG Engine** (`underworld-empire.zip`) | The game engine and 16 modules: a complete game with crimes, car theft, jail, hospital, travel, bank, inventory, messages and leaderboards. |
-| [`extended/`](extended) | **Mafia PBBG Engine Extended** (`underworld-empire-extended.zip`, free) | Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum, the **Mafia PBBG Engine theme** and premium modules (license keys). Needs Mafia PBBG Engine. |
+| [`lite/`](lite) | **Mafia PBBG Engine** (`mafia-pbbg-engine.zip`) | The game engine and 16 modules: a complete game with crimes, car theft, jail, hospital, travel, bank, inventory, messages and leaderboards. |
+| [`extended/`](extended) | **Mafia PBBG Engine Extended** (`mafia-pbbg-engine-extended.zip`, free) | Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum, the **Mafia PBBG Engine theme** and premium modules (license keys). Needs Mafia PBBG Engine. |
 
 Every [GitHub release](https://github.com/DigiFalk/Underworld_Empire/releases) carries three zips:
 
 | Zip | What it is |
 | --- | --- |
-| `underworld-empire.zip` | Mafia PBBG Engine, **GitHub edition**: updates itself from these releases and can install Extended with one click. Sites that update from 1.10/1.11 get Extended installed and activated automatically, so the game keeps all its modules and data. |
-| `underworld-empire-extended.zip` | Mafia PBBG Engine Extended. Updates itself from these releases. |
+| `mafia-pbbg-engine.zip` | Mafia PBBG Engine, **GitHub edition**: updates itself from these releases and can install Extended with one click. |
+| `mafia-pbbg-engine-extended.zip` | Mafia PBBG Engine Extended. Updates itself from these releases. |
 | `mafia-pbbg-engine-wordpress-org.zip` | Mafia PBBG Engine, **WordPress.org edition** (slug `mafia-pbbg-engine`): the same plugin without the GitHub updater and without the Extended installer (`includes/Updater.php` and `includes/Bridge.php`), as the plugin directory requires. Built by `.github/scripts/build-wporg.sh`. |
 
 ### WordPress.org
@@ -33,18 +33,16 @@ without errors or warnings. To submit it:
 2. Upload `mafia-pbbg-engine-wordpress-org.zip` of the newest release on
    https://wordpress.org/plugins/developers/add/.
 3. After approval, publish new versions to the plugin's SVN repository. The slug is
-   `mafia-pbbg-engine` (folder and main file `mafia-pbbg-engine/mafia-pbbg-engine.php`). The
-   GitHub edition keeps the folder `underworld-empire` and the zip names
-   `underworld-empire.zip` / `underworld-empire-extended.zip`, so existing sites keep updating.
+   `mafia-pbbg-engine` (folder and main file `mafia-pbbg-engine/mafia-pbbg-engine.php`).
 
 ## Installation
 
-1. Upload `underworld-empire.zip` and `underworld-empire-extended.zip` via *Plugins → Add New
+1. Upload `mafia-pbbg-engine.zip` and `mafia-pbbg-engine-extended.zip` via *Plugins → Add New
    → Upload Plugin* (or install only Mafia PBBG Engine and click *Install Extended* on the
    Modules screen later).
 2. Activate **Mafia PBBG Engine** and **Mafia PBBG Engine Extended**.
 3. On activation the tables are created, starting data is loaded and a page
-   **Mafia PBBG Engine** is created containing the shortcode `[underworld_empire]`.
+   **Mafia PBBG Engine** is created containing the shortcode `[mafia_pbbg_engine]`.
 4. Enable *Settings → General → Anyone can register* if players may create their own account.
 5. Manage everything under the **Mafia PBBG Engine** menu in the WordPress admin.
 
@@ -109,7 +107,7 @@ the store API: [`docs/PREMIUM.md`](docs/PREMIUM.md).
 ## Custom modules
 
 The game is fully modular. A module is a folder containing a `module.php`. Put your own
-modules in **`wp-content/underworld-modules/<module-id>/`**: that folder survives plugin
+modules in **`wp-content/mafia-pbbg-modules/<module-id>/`**: that folder survives plugin
 updates. Then enable the module under *Mafia PBBG Engine → Modules*.
 
 See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
@@ -150,8 +148,8 @@ out link. Place them anywhere:
   every page of the site.
 * **Widgets**: the *Mafia PBBG Engine: game element* widget shows one element in any widget
   area.
-* **Shortcode**: `[ue_hud element="cash"]`, several at once with
-  `[ue_hud element="cash,bank,bullets"]`, and `layout="bar|stack|inline"`.
+* **Shortcode**: `[mpe_hud element="cash"]`, several at once with
+  `[mpe_hud element="cash,bank,bullets"]`, and `layout="bar|stack|inline"`.
 
 Elements that need a character are hidden for visitors; *Play / log in* and *Players
 online* are always shown. Modules and themes can add their own elements with the
@@ -161,7 +159,7 @@ online* are always shown. Modules and themes can add their own elements with the
 
 * **Light and dark mode** (bundled theme, *Customize → Global → Light & dark mode*): keep one
   colour scheme, or let visitors switch between dark and light with the *Light/dark switch*
-  element (header builder, footer builder, game layout or `[ue_hud element="mode-toggle"]`).
+  element (header builder, footer builder, game layout or `[mpe_hud element="mode-toggle"]`).
   Start dark, start light, or follow the visitor's device. The choice is remembered in the
   browser and applied before the page is drawn, so there is no flash of the wrong colours.
   The *Colours* section holds the dark mode colours; light mode has its own palette and
@@ -202,15 +200,15 @@ online* are always shown. Modules and themes can add their own elements with the
   `accent`, `surface`, `surface-2`, `border`, `muted`, `button`, `button-text`.
 * All styles are CSS custom properties on `.dfmg` and `.dfmg-hud` (see `assets/css/game.css`) and can be overridden in your theme.
 * Every template can be overridden from your theme:
-  * core templates: `<theme>/underworld-empire/layout.php`, `login.php`, `create-character.php`, `dead.php`, `closed.php`, `messages.php`
-  * module templates: `<theme>/underworld-empire/<module-id>/<template>.php`
+  * core templates: `<theme>/mafia-pbbg-engine/layout.php`, `login.php`, `create-character.php`, `dead.php`, `closed.php`, `messages.php`
+  * module templates: `<theme>/mafia-pbbg-engine/<module-id>/<template>.php`
 
 ## Updates
 
 Both plugins update themselves through the normal WordPress update screen. They check the
 [GitHub releases](https://github.com/DigiFalk/Underworld_Empire/releases) of this repository
 (every 12 hours, or immediately via the *Check for updates* link on the Plugins screen)
-and install the `underworld-empire.zip` and `underworld-empire-extended.zip` assets of the
+and install the `mafia-pbbg-engine.zip` and `mafia-pbbg-engine-extended.zip` assets of the
 newest release.
 
 Optional settings in `wp-config.php`:
@@ -226,11 +224,11 @@ Every version is released automatically by the GitHub Actions workflow
 `.github/workflows/release.yml`:
 
 1. Raise the version (the same number everywhere) in the `Version:` header and `DFMG_VERSION`
-   of `lite/underworld-empire.php`, and in the `Version:` header and `DFMG_EXTENDED_VERSION`
-   of `extended/underworld-empire-extended.php`.
+   of `lite/mafia-pbbg-engine.php`, and in the `Version:` header and `DFMG_EXTENDED_VERSION`
+   of `extended/mafia-pbbg-engine-extended.php`.
 2. Add a `## x.y.z` section to `CHANGELOG.md` (used as the release notes).
-3. Push to the `main` branch. The workflow builds `underworld-empire.zip` and
-   `underworld-empire-extended.zip`, tags `vx.y.z` and publishes the release. Pushes without
+3. Push to the `main` branch. The workflow builds `mafia-pbbg-engine.zip` and
+   `mafia-pbbg-engine-extended.zip`, tags `vx.y.z` and publishes the release. Pushes without
    a version change don't create a release.
 
 ## Translations

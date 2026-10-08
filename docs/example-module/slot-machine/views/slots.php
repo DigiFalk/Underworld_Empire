@@ -1,21 +1,21 @@
 <?php
 /**
- * Themes can override this file with <theme>/underworld-empire/slot-machine/slots.php
+ * Themes can override this file with <theme>/mafia-pbbg-engine/slot-machine/slots.php
  *
- * @var \DigiFalk\UnderworldEmpire\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
  * @var int                            $bet
  * @var array|false                    $last
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Frontend\UI;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Frontend\UI;
 
 defined( 'ABSPATH' ) || exit;
 
 if ( $c->timer_active( 'slots' ) ) {
-	echo UI::cooldown( __( 'You can spin again in', 'underworld-empire' ), $c->timer( 'slots' ) ); // phpcs:ignore
+	echo UI::cooldown( __( 'You can spin again in', 'mafia-pbbg-engine' ), $c->timer( 'slots' ) ); // phpcs:ignore
 }
 ?>
 <div class="dfmg-card">
@@ -26,6 +26,6 @@ if ( $c->timer_active( 'slots' ) ) {
 			<?php endforeach; ?>
 		</div>
 	<?php endif; ?>
-	<p><?php echo esc_html( sprintf( /* translators: %s: money */ __( 'Bet: %s. Two of a kind = 2x, three of a kind = 20x.', 'underworld-empire' ), Format::money( $bet ) ) ); ?></p>
-	<?php echo $this->button( 'spin', __( 'Spin!', 'underworld-empire' ) ); // phpcs:ignore ?>
+	<p><?php echo esc_html( sprintf( /* translators: %s: money */ __( 'Bet: %s. Two of a kind = 2x, three of a kind = 20x.', 'mafia-pbbg-engine' ), Format::money( $bet ) ) ); ?></p>
+	<?php echo $this->button( 'spin', __( 'Spin!', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
 </div>

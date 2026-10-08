@@ -1,27 +1,27 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
  * @var array                          $boards
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Frontend\UI;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Frontend\UI;
 
 defined( 'ABSPATH' ) || exit;
 
 if ( ! $boards ) {
-	echo UI::empty_state( __( 'There are no forum boards yet.', 'underworld-empire' ) ); // phpcs:ignore
+	echo UI::empty_state( __( 'There are no forum boards yet.', 'mafia-pbbg-engine' ) ); // phpcs:ignore
 	return;
 }
 ?>
 <table class="dfmg-table dfmg-forum">
 	<thead>
 		<tr>
-			<th><?php esc_html_e( 'Board', 'underworld-empire' ); ?></th>
-			<th><?php esc_html_e( 'Topics', 'underworld-empire' ); ?></th>
-			<th><?php esc_html_e( 'Last activity', 'underworld-empire' ); ?></th>
+			<th><?php esc_html_e( 'Board', 'mafia-pbbg-engine' ); ?></th>
+			<th><?php esc_html_e( 'Topics', 'mafia-pbbg-engine' ); ?></th>
+			<th><?php esc_html_e( 'Last activity', 'mafia-pbbg-engine' ); ?></th>
 		</tr>
 	</thead>
 	<tbody>

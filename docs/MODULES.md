@@ -8,8 +8,8 @@ Adding modules extends the game without touching the plugin itself.
 
 | Location | When to use |
 | --- | --- |
-| `wp-content/plugins/underworld-empire/modules/<id>/` and `wp-content/plugins/underworld-empire-extended/modules/<id>/` | Bundled modules of Mafia PBBG Engine and Mafia PBBG Engine Extended. Don't edit: changes are lost on update. |
-| `wp-content/underworld-modules/<id>/` | **Your own modules.** Survives updates. A module with the same id as a bundled module replaces it. Change the folder with `define( 'DFMG_CUSTOM_MODULES_DIR', '/path' );` in `wp-config.php`. |
+| `wp-content/plugins/mafia-pbbg-engine/modules/<id>/` and `wp-content/plugins/mafia-pbbg-engine-extended/modules/<id>/` | Bundled modules of Mafia PBBG Engine and Mafia PBBG Engine Extended. Don't edit: changes are lost on update. |
+| `wp-content/mafia-pbbg-modules/<id>/` | **Your own modules.** Survives updates. A module with the same id as a bundled module replaces it. Change the folder with `define( 'DFMG_CUSTOM_MODULES_DIR', '/path' );` in `wp-config.php`. |
 | Another plugin | `add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( __DIR__ . '/my-module/module.php' ) );` |
 
 Mafia PBBG Engine itself is GPL software. If your game also uses Mafia PBBG Engine Extended,
@@ -21,7 +21,7 @@ The folder name is the module **id** (e.g. `slot-machine`). It is also used in t
 
 ## The smallest module
 
-`wp-content/underworld-modules/hello/module.php`:
+`wp-content/mafia-pbbg-modules/hello/module.php`:
 
 ```php
 <?php
@@ -32,8 +32,8 @@ The folder name is the module **id** (e.g. `slot-machine`). It is also used in t
  * Author: DigiFalk
  */
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -59,7 +59,7 @@ return new class() extends Module {
 };
 ```
 
-The file must return an object that extends `DigiFalk\UnderworldEmpire\Module\Module`.
+The file must return an object that extends `DigiFalk\MafiaPBBGEngine\Module\Module`.
 
 ### Premium modules
 
@@ -80,7 +80,7 @@ add_filter( 'dfmg_icons', function ( array $icons ) {
 } );
 ```
 
-`\DigiFalk\UnderworldEmpire\Icons::svg( 'cash', 18 )` prints an icon in your own views.
+`\DigiFalk\MafiaPBBGEngine\Icons::svg( 'cash', 18 )` prints an icon in your own views.
 A named class works too (use your own namespace to avoid collisions).
 
 ### Header fields
@@ -117,17 +117,17 @@ Menu groups: `general`, `crime`, `city`, `casino`, `murder`, `family`, `money`, 
 
 | Code | What |
 | --- | --- |
-| `$this->view( 'file', $vars )` | Renders `views/file.php`. Inside the template `$this` is the module. Themes can override it in `<theme>/underworld-empire/<id>/file.php`. |
+| `$this->view( 'file', $vars )` | Renders `views/file.php`. Inside the template `$this` is the module. Themes can override it in `<theme>/mafia-pbbg-engine/<id>/file.php`. |
 | `$this->form( 'action', $hidden )` … `</form>` | Form posting to `action_action`, including a nonce. |
 | `$this->button( 'action', 'Label', $hidden, $class )` | Form with a single button. |
 | `$this->url( $args, $route )` | Link to a (different) game page. |
 | `$this->setting( 'key' )` | Read a setting (falls back to the default from `settings_fields()`). |
 | `$this->success()`, `$this->error()`, `$this->notice()` | Messages shown after the redirect. |
-| `UI::cooldown()`, `UI::bar()`, `UI::pager()`, `UI::property()` | Ready-made components (`DigiFalk\UnderworldEmpire\Frontend\UI`). |
+| `UI::cooldown()`, `UI::bar()`, `UI::pager()`, `UI::property()` | Ready-made components (`DigiFalk\MafiaPBBGEngine\Frontend\UI`). |
 | `Format::money()`, `Format::number()`, `Format::duration()`, `Format::countdown()`, `Format::parse_amount()` | Formatting and input parsing. |
 | `DB::row()`, `DB::results()`, `DB::value()`, `DB::query()`, `DB::insert()`, `DB::update()` | Database. Write tables as `{short_name}`; placeholders as in `$wpdb->prepare()`. |
 
-### The character (`DigiFalk\UnderworldEmpire\Character`)
+### The character (`DigiFalk\MafiaPBBGEngine\Character`)
 
 ```php
 $c->name; $c->money; $c->bank; $c->bullets; $c->exp; $c->location_id;
@@ -221,7 +221,7 @@ add_filter( 'dfmg_item_effects', function ( $effects ) {
 | `dfmg_can_buy_item`, `dfmg_can_equip` | `true\|WP_Error` |
 | `dfmg_module_data` | `array $rows, string $module, Character $c` – alter crimes, theft spots, destinations or market items. |
 | `dfmg_menu_groups`, `dfmg_menu_items` | menu |
-| `dfmg_hud_elements` | `array $elements` – game elements for the game layout, theme builders, widget and `[ue_hud]` shortcode (replaces `dfmg_header_stats`). |
+| `dfmg_hud_elements` | `array $elements` – game elements for the game layout, theme builders, widget and `[mpe_hud]` shortcode (replaces `dfmg_header_stats`). |
 | `dfmg_overview_panels`, `dfmg_overview_timers` | extra blocks on the overview |
 | `dfmg_profile_fields`, `dfmg_profile_actions` | profile page |
 | `dfmg_property_types` | business types |
@@ -248,7 +248,7 @@ Add `'theme' => false` to keep an element out of the theme header/footer builder
 add_filter( 'dfmg_hud_elements', function ( array $elements ) {
 	$elements['heat'] = array(
 		'label'  => __( 'Police heat', 'my-module' ),
-		'render' => function ( ?\DigiFalk\UnderworldEmpire\Character $c, string $context ) {
+		'render' => function ( ?\DigiFalk\MafiaPBBGEngine\Character $c, string $context ) {
 			if ( ! $c ) {
 				return '';
 			}
@@ -260,7 +260,7 @@ add_filter( 'dfmg_hud_elements', function ( array $elements ) {
 } );
 ```
 
-`\DigiFalk\UnderworldEmpire\Frontend\Hud::render( 'cash', 'bar', 'theme' )` returns the HTML of
+`\DigiFalk\MafiaPBBGEngine\Frontend\Hud::render( 'cash', 'bar', 'theme' )` returns the HTML of
 an element, for use in your own templates.
 
 ## Tips

@@ -2,10 +2,10 @@
 /**
  * Customizer control for the game layout. The drag & drop UI is built by assets/js/customize-layout.js.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Frontend;
+namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 

@@ -5,17 +5,17 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Locations;
-use DigiFalk\UnderworldEmpire\Module\Module;
-use DigiFalk\UnderworldEmpire\Property;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Locations;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Property;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -25,7 +25,7 @@ final class BulletFactory extends Module {
 	const TIMER = 'bullets';
 
 	public function title(): string {
-		return __( 'Bullet factory', 'underworld-empire' );
+		return __( 'Bullet factory', 'mafia-pbbg-engine' );
 	}
 
 	public function boot(): void {
@@ -33,9 +33,9 @@ final class BulletFactory extends Module {
 			'dfmg_property_types',
 			function ( $types ) {
 				$types[ self::TYPE ] = array(
-					'label'         => __( 'Bullet factory', 'underworld-empire' ),
+					'label'         => __( 'Bullet factory', 'mafia-pbbg-engine' ),
 					'price'         => (int) $this->setting( 'bullets_property_price' ),
-					'setting_label' => __( 'Price per bullet', 'underworld-empire' ),
+					'setting_label' => __( 'Price per bullet', 'mafia-pbbg-engine' ),
 					'setting_min'   => 1,
 					'setting_max'   => (int) $this->setting( 'bullets_max_price' ),
 					'route'         => $this->id(),
@@ -49,42 +49,42 @@ final class BulletFactory extends Module {
 	public function settings_fields(): array {
 		return array(
 			'bullets_max_per_buy'    => array(
-				'label'   => __( 'Max. bullets per purchase', 'underworld-empire' ),
+				'label'   => __( 'Max. bullets per purchase', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 250,
 			),
 			'bullets_cooldown'       => array(
-				'label'   => __( 'Cooldown between purchases (sec)', 'underworld-empire' ),
+				'label'   => __( 'Cooldown between purchases (sec)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 60,
 			),
 			'bullets_max_price'      => array(
-				'label'   => __( 'Max. price an owner may charge', 'underworld-empire' ),
+				'label'   => __( 'Max. price an owner may charge', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 500,
 			),
 			'bullets_owner_share'    => array(
-				'label'   => __( 'Owner share of revenue (%)', 'underworld-empire' ),
+				'label'   => __( 'Owner share of revenue (%)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 50,
 			),
 			'bullets_property_price' => array(
-				'label'   => __( 'Factory purchase price', 'underworld-empire' ),
+				'label'   => __( 'Factory purchase price', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 1000000,
 			),
 			'bullets_restock_min'    => array(
-				'label'   => __( 'Production per hour (min.)', 'underworld-empire' ),
+				'label'   => __( 'Production per hour (min.)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 2000,
 			),
 			'bullets_restock_max'    => array(
-				'label'   => __( 'Production per hour (max.)', 'underworld-empire' ),
+				'label'   => __( 'Production per hour (max.)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 3000,
 			),
 			'bullets_max_stock'      => array(
-				'label'   => __( 'Maximum stock per city', 'underworld-empire' ),
+				'label'   => __( 'Maximum stock per city', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 50000,
 			),
@@ -94,7 +94,7 @@ final class BulletFactory extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Bullet factory', 'underworld-empire' ),
+				'label' => __( 'Bullet factory', 'mafia-pbbg-engine' ),
 				'group' => 'city',
 				'order' => 40,
 				'timer' => self::TIMER,
@@ -160,16 +160,16 @@ final class BulletFactory extends Module {
 		$max      = (int) $this->setting( 'bullets_max_per_buy' );
 		$location = Locations::get( (int) $c->location_id );
 		if ( ! $location || $qty < 1 ) {
-			$this->error( __( 'How many bullets do you want to buy?', 'underworld-empire' ) );
+			$this->error( __( 'How many bullets do you want to buy?', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( $qty > $max ) {
 			/* translators: %s: number */
-			$this->error( sprintf( __( 'You can buy at most %s bullets at a time.', 'underworld-empire' ), Format::number( $max ) ) );
+			$this->error( sprintf( __( 'You can buy at most %s bullets at a time.', 'mafia-pbbg-engine' ), Format::number( $max ) ) );
 			return;
 		}
 		if ( $c->timer_active( self::TIMER ) ) {
-			$this->error( __( 'The factory will serve you again shortly.', 'underworld-empire' ) );
+			$this->error( __( 'The factory will serve you again shortly.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$property = Property::get( self::TYPE, (int) $location['id'] );
@@ -178,13 +178,13 @@ final class BulletFactory extends Module {
 		// Reserve stock first so two buyers can not take the same bullets.
 		$reserved = DB::query( 'UPDATE {locations} SET bullet_stock = bullet_stock - %d WHERE id = %d AND bullet_stock >= %d', $qty, (int) $location['id'], $qty );
 		if ( ! $reserved ) {
-			$this->error( __( 'The factory doesn\'t have that many bullets in stock.', 'underworld-empire' ) );
+			$this->error( __( 'The factory doesn\'t have that many bullets in stock.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( ! $c->spend( 'money', $cost ) ) {
 			DB::query( 'UPDATE {locations} SET bullet_stock = bullet_stock + %d WHERE id = %d', $qty, (int) $location['id'] );
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'underworld-empire' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'That costs %s. You don\'t have that in cash.', 'mafia-pbbg-engine' ), Format::money( $cost ) ) );
 			return;
 		}
 		Locations::flush();
@@ -199,7 +199,7 @@ final class BulletFactory extends Module {
 		}
 		$c->log( 'bullets.buy', true, $qty );
 		/* translators: 1: bullets, 2: money */
-		$this->success( sprintf( __( 'You bought %1$s bullets for %2$s.', 'underworld-empire' ), Format::number( $qty ), Format::money( $cost ) ) );
+		$this->success( sprintf( __( 'You bought %1$s bullets for %2$s.', 'mafia-pbbg-engine' ), Format::number( $qty ), Format::money( $cost ) ) );
 	}
 }
 

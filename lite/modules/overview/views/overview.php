@@ -1,18 +1,18 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
  * @var array|null                     $next
  * @var array                          $timers
  * @var array                          $notifications
  * @var array                          $panels  List of [ 'title' => , 'html' => ] added by other modules.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Frontend\Hud;
-use DigiFalk\UnderworldEmpire\Frontend\UI;
-use DigiFalk\UnderworldEmpire\Icons;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Frontend\Hud;
+use DigiFalk\MafiaPBBGEngine\Frontend\UI;
+use DigiFalk\MafiaPBBGEngine\Icons;
 
 defined( 'ABSPATH' ) || exit;
 

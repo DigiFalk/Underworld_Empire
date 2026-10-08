@@ -4,10 +4,10 @@
  *
  * @var array $messages
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Icons;
+use DigiFalk\MafiaPBBGEngine\Icons;
 
 defined( 'ABSPATH' ) || exit;
 

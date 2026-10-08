@@ -2,12 +2,12 @@
 /**
  * Registers the modules and theme of Extended and switches new modules on.
  *
- * @package DigiFalk\UnderworldEmpire\Extended
+ * @package DigiFalk\MafiaPBBGEngine\Extended
  */
 
-namespace DigiFalk\UnderworldEmpire\Extended;
+namespace DigiFalk\MafiaPBBGEngine\Extended;
 
-use DigiFalk\UnderworldEmpire\Module\Registry;
+use DigiFalk\MafiaPBBGEngine\Module\Registry;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -20,33 +20,6 @@ final class Setup {
 		add_action( 'dfmg_modules_booted', array( __CLASS__, 'enable_new' ) );
 		// "Mafia PBBG Engine by DigiFalk" stays on game pages (White Label can change it).
 		add_filter( 'dfmg_show_credit', '__return_true', 5 );
-	}
-
-	/**
-	 * The theme moved from the Mafia PBBG Engine plugin to this plugin in 1.12.0. WordPress
-	 * remembers the folder of the active theme (and caches all theme folders), so point it to
-	 * the new folder when the remembered one no longer exists.
-	 */
-	public static function fix_theme_root(): void {
-		$theme = 'underworld-empire-theme';
-		$keys  = array();
-		if ( get_option( 'stylesheet' ) === $theme ) {
-			$keys[] = 'stylesheet_root';
-		}
-		if ( get_option( 'template' ) === $theme ) {
-			$keys[] = 'template_root';
-		}
-		// The folder WordPress will actually use for the theme (as get_theme_root() resolves it).
-		if ( ! $keys || is_dir( get_theme_root( $theme ) . '/' . $theme ) ) {
-			return;
-		}
-		delete_site_transient( 'theme_roots' );
-		$new = get_raw_theme_root( $theme, true );
-		if ( $new ) {
-			foreach ( $keys as $key ) {
-				update_option( $key, $new );
-			}
-		}
 	}
 
 	/**

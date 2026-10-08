@@ -3,8 +3,6 @@
 #
 # The wordpress.org edition is lite/ without the GitHub updater (WordPress.org delivers the
 # updates) and without the Bridge (plugins from WordPress.org may not install other plugins).
-# Its folder and main file follow the WordPress.org slug "mafia-pbbg-engine"; the GitHub
-# edition keeps "underworld-empire" so existing sites keep updating.
 # Run from the root of the repository.
 set -euo pipefail
 
@@ -14,6 +12,6 @@ mkdir -p "$dir"
 rsync -a \
   --exclude 'includes/Updater.php' \
   --exclude 'includes/Bridge.php' \
-  --exclude 'underworld-empire.php' \
+  --exclude 'mafia-pbbg-engine.php' \
   lite/ "$dir/"
-sed '/^ \* Update URI:/d' lite/underworld-empire.php > "$dir/mafia-pbbg-engine.php"
+sed '/^ \* Update URI:/d' lite/mafia-pbbg-engine.php > "$dir/mafia-pbbg-engine.php"

@@ -3,7 +3,7 @@
  * Runs when the plugin is deleted from the WordPress admin.
  * Data is only removed when "Delete all game data when the plugin is deleted" is enabled.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
 defined( 'WP_UNINSTALL_PLUGIN' ) || exit;
@@ -21,7 +21,7 @@ foreach ( $dfmg_tables as $dfmg_table ) {
 	$wpdb->query( 'DROP TABLE IF EXISTS `' . esc_sql( $dfmg_table ) . '`' ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared, WordPress.DB.DirectDatabaseQuery
 }
 
-foreach ( array( 'dfmg_settings', 'dfmg_enabled_modules', 'dfmg_installed_modules', 'dfmg_core_db_version', 'dfmg_page_id', 'dfmg_bullets_restocked', 'dfmg_flush_rewrite', 'dfmg_layout', 'dfmg_migrations', 'dfmg_licenses', 'dfmg_credit_asked', 'dfmg_bridge_checked', 'dfmg_bridge_auto', 'dfmg_bridge_error', 'dfmg_extended_setup' ) as $dfmg_option ) {
+foreach ( array( 'dfmg_settings', 'dfmg_enabled_modules', 'dfmg_installed_modules', 'dfmg_core_db_version', 'dfmg_page_id', 'dfmg_bullets_restocked', 'dfmg_flush_rewrite', 'dfmg_layout', 'dfmg_migrations', 'dfmg_licenses', 'dfmg_credit_asked', 'dfmg_extended_setup' ) as $dfmg_option ) {
 	delete_option( $dfmg_option );
 }
 $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '\\_transient\\_dfmg\\_%' OR option_name LIKE '\\_transient\\_timeout\\_dfmg\\_%'" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery

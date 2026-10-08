@@ -2,10 +2,10 @@
 /**
  * Core tables, starting data and activation logic.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -267,7 +267,7 @@ final class Installer {
 	}
 
 	/**
-	 * Create the page that hosts the game (shortcode [underworld_empire]).
+	 * Create the page that hosts the game (shortcode [mafia_pbbg_engine]).
 	 */
 	public static function create_game_page(): void {
 		$page_id = (int) get_option( 'dfmg_page_id' );
@@ -278,7 +278,7 @@ final class Installer {
 			array(
 				'post_title'   => __( 'Mafia Game', 'mafia-pbbg-engine' ),
 				'post_name'    => 'mafia-game',
-				'post_content' => '[underworld_empire]',
+				'post_content' => '[mafia_pbbg_engine]',
 				'post_status'  => 'publish',
 				'post_type'    => 'page',
 			)

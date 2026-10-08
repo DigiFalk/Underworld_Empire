@@ -3,10 +3,10 @@
  * Game layout: which game elements go where around the game pages.
  * Stored in the dfmg_layout option and edited with drag & drop in Appearance → Customize.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Frontend;
+namespace DigiFalk\MafiaPBBGEngine\Frontend;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -110,7 +110,7 @@ final class Layout {
 			'dfmg_game_layout',
 			array(
 				'title'       => __( 'Game layout', 'mafia-pbbg-engine' ),
-				'description' => __( 'Drag game elements to the header, sidebar, footer or around the content of the game pages. Tip: game elements can also be placed in the theme header and footer, in widget areas, or anywhere with the [ue_hud element="cash"] shortcode.', 'mafia-pbbg-engine' ),
+				'description' => __( 'Drag game elements to the header, sidebar, footer or around the content of the game pages. Tip: game elements can also be placed in the theme header and footer, in widget areas, or anywhere with the [mpe_hud element="cash"] shortcode.', 'mafia-pbbg-engine' ),
 				'priority'    => 25,
 				'capability'  => 'manage_options',
 			)

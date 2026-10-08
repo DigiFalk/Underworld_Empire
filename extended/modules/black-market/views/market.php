@@ -1,20 +1,20 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
  * @var array                          $grouped
  * @var array                          $types
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Frontend\UI;
-use DigiFalk\UnderworldEmpire\Items;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Frontend\UI;
+use DigiFalk\MafiaPBBGEngine\Items;
 
 defined( 'ABSPATH' ) || exit;
 
 if ( ! $grouped ) {
-	echo UI::empty_state( __( 'The dealer has nothing on offer today.', 'underworld-empire' ) ); // phpcs:ignore
+	echo UI::empty_state( __( 'The dealer has nothing on offer today.', 'mafia-pbbg-engine' ) ); // phpcs:ignore
 	return;
 }
 foreach ( $grouped as $dfmg_type => $dfmg_items ) : ?>
@@ -32,7 +32,7 @@ foreach ( $grouped as $dfmg_type => $dfmg_items ) : ?>
 					<?php endforeach; ?>
 				</ul>
 				<p class="dfmg-price"><?php echo esc_html( Format::money( $dfmg_item['price'] ) ); ?></p>
-				<?php echo $this->button( 'buy', __( 'Buy', 'underworld-empire' ), array( 'item' => $dfmg_item['id'] ) ); // phpcs:ignore ?>
+				<?php echo $this->button( 'buy', __( 'Buy', 'mafia-pbbg-engine' ), array( 'item' => $dfmg_item['id'] ) ); // phpcs:ignore ?>
 			</div>
 		<?php endforeach; ?>
 	</div>

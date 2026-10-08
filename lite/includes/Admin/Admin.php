@@ -2,21 +2,21 @@
 /**
  * WordPress admin screens.
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Admin;
+namespace DigiFalk\MafiaPBBGEngine\Admin;
 
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Extended;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Icons;
-use DigiFalk\UnderworldEmpire\Frontend\Game;
-use DigiFalk\UnderworldEmpire\Items;
-use DigiFalk\UnderworldEmpire\Locations;
-use DigiFalk\UnderworldEmpire\Plugin;
-use DigiFalk\UnderworldEmpire\Ranks;
-use DigiFalk\UnderworldEmpire\Settings;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Extended;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Icons;
+use DigiFalk\MafiaPBBGEngine\Frontend\Game;
+use DigiFalk\MafiaPBBGEngine\Items;
+use DigiFalk\MafiaPBBGEngine\Locations;
+use DigiFalk\MafiaPBBGEngine\Plugin;
+use DigiFalk\MafiaPBBGEngine\Ranks;
+use DigiFalk\MafiaPBBGEngine\Settings;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -384,7 +384,7 @@ final class Admin {
 						<ol class="dfmg-admin-top">
 							<?php foreach ( $top as $row ) : ?>
 								<li>
-									<?php $avatar = \DigiFalk\UnderworldEmpire\Avatar::display_url( (int) $row['user_id'], 34 ); ?>
+									<?php $avatar = \DigiFalk\MafiaPBBGEngine\Avatar::display_url( (int) $row['user_id'], 34 ); ?>
 									<?php if ( $avatar ) : ?>
 										<img class="dfmg-admin-top__avatar" src="<?php echo esc_url( $avatar ); ?>" alt="" width="34" height="34">
 									<?php else : ?>
@@ -429,7 +429,7 @@ final class Admin {
 					<p class="dfmg-admin-shortcode">
 						<?php esc_html_e( 'Game page', 'mafia-pbbg-engine' ); ?>:
 						<a href="<?php echo esc_url( Game::page_url() ); ?>" target="_blank" rel="noopener"><?php echo esc_html( Game::page_url() ); ?></a>
-						<code>[underworld_empire]</code>
+						<code>[mafia_pbbg_engine]</code>
 					</p>
 				</section>
 			</div>

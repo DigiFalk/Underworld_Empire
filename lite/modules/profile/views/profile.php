@@ -1,7 +1,7 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character $c
- * @var \DigiFalk\UnderworldEmpire\Character $target
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $target
  * @var bool                           $own
  * @var array                          $fields  Label => HTML.
  * @var array                          $actions HTML buttons.
@@ -10,10 +10,10 @@
  * @var bool                           $has_own Has an uploaded avatar.
  * @var int                            $max_kb
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Format;
+use DigiFalk\MafiaPBBGEngine\Format;
 
 defined( 'ABSPATH' ) || exit;
 ?>

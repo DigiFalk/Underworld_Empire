@@ -237,7 +237,7 @@
 .dfmg-hud-menu:not([open]) .dfmg-hud-menu__panel { display: none; }
 .dfmg--dark .dfmg-hud-menu__panel { background: var(--dfmg-panel); color: var(--dfmg-text); }
 .dfmg-zone--header-right .dfmg-hud-menu__panel, .dfmg-zone--footer-right .dfmg-hud-menu__panel { left: auto; right: 0; }
-.dfmg-footer .dfmg-hud-menu__panel, .uet-footer .dfmg-hud-menu__panel, .site-footer .dfmg-hud-menu__panel { top: auto; bottom: calc(100% + 6px); }
+.dfmg-footer .dfmg-hud-menu__panel, .mpet-footer .dfmg-hud-menu__panel, .site-footer .dfmg-hud-menu__panel { top: auto; bottom: calc(100% + 6px); }
 .dfmg-hud-menu__panel .dfmg-nav__group h4 { margin: 10px 12px 4px; }
 .dfmg-hud-menu__panel li a { padding: 6px 12px; border-radius: 4px; }
 
@@ -413,7 +413,7 @@
 	.dfmg-sidebar .dfmg-nav li a { padding: 9px 8px; border-radius: 6px; min-height: 40px; }
 	.dfmg-nav li.is-active a { box-shadow: inset 3px 0 0 var(--dfmg-accent); }
 	/* The dropdown menu becomes a bottom sheet. */
-	.dfmg-hud-menu__panel, .dfmg-footer .dfmg-hud-menu__panel, .uet-footer .dfmg-hud-menu__panel, .site-footer .dfmg-hud-menu__panel {
+	.dfmg-hud-menu__panel, .dfmg-footer .dfmg-hud-menu__panel, .mpet-footer .dfmg-hud-menu__panel, .site-footer .dfmg-hud-menu__panel {
 		position: fixed; z-index: 100000; left: 0 !important; right: 0 !important; top: auto; bottom: 0; width: auto; max-height: 70vh;
 		grid-template-columns: repeat(2, minmax(0, 1fr)); border-radius: 12px 12px 0 0; padding-bottom: 18px;
 	}
@@ -593,7 +593,7 @@
 .dfmg-card > h3:first-child, .dfmg-card__title { font-size: 1.05em; letter-spacing: .01em; }
 .dfmg-card__title { display: flex; align-items: center; gap: 8px; margin-top: 0 !important; }
 .dfmg-card__title .dfmg-icon { color: var(--dfmg-accent-text); }
-.dfmg-pill { font-family: var(--uet-font-body, inherit); margin-left: auto; padding: 3px 10px; border-radius: 999px; background: var(--dfmg-accent-soft); color: var(--dfmg-accent-text); font-size: .72em; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
+.dfmg-pill { font-family: var(--mpet-font-body, inherit); margin-left: auto; padding: 3px 10px; border-radius: 999px; background: var(--dfmg-accent-soft); color: var(--dfmg-accent-text); font-size: .72em; font-weight: 700; letter-spacing: .02em; white-space: nowrap; }
 
 /* Buttons. */
 .dfmg-button, .dfmg button.dfmg-button, .dfmg input[type="submit"] {

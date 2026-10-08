@@ -44,7 +44,7 @@ Unless DigiFalk has given you written permission, you may not:
 ## 3. Your own modules
 
 1. You may build your own modules: a folder with a `module.php` in the custom modules
-   folder (`wp-content/underworld-modules/`), or a module that another plugin registers with
+   folder (`wp-content/mafia-pbbg-modules/`), or a module that another plugin registers with
    the `dfmg_register_modules` action. Your modules may use the public classes, functions,
    hooks and filters of the Software, and the example code from the documentation.
 2. A module of your own may not contain code, images or texts copied from the Software or

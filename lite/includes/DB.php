@@ -5,10 +5,10 @@
  * SQL passed to the query helpers may reference game tables as {name};
  * these are expanded to the full prefixed table name ({characters} -> wp_dfmg_characters).
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire;
+namespace DigiFalk\MafiaPBBGEngine;
 
 defined( 'ABSPATH' ) || exit;
 

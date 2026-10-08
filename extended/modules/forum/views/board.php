@@ -1,40 +1,40 @@
 <?php
 /**
- * @var \DigiFalk\UnderworldEmpire\Character $c
+ * @var \DigiFalk\MafiaPBBGEngine\Character $c
  * @var array                          $board
  * @var array                          $topics
  * @var int                            $paged
  * @var int                            $pages
  * @var bool                           $can_post
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\Format;
-use DigiFalk\UnderworldEmpire\Frontend\UI;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\Format;
+use DigiFalk\MafiaPBBGEngine\Frontend\UI;
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<p><a href="<?php echo esc_url( $this->url() ); ?>">&larr; <?php esc_html_e( 'Forum', 'underworld-empire' ); ?></a> / <strong><?php echo esc_html( $board['name'] ); ?></strong></p>
+<p><a href="<?php echo esc_url( $this->url() ); ?>">&larr; <?php esc_html_e( 'Forum', 'mafia-pbbg-engine' ); ?></a> / <strong><?php echo esc_html( $board['name'] ); ?></strong></p>
 <?php if ( ! $topics ) : ?>
-	<?php echo UI::empty_state( __( 'No topics yet.', 'underworld-empire' ) ); // phpcs:ignore ?>
+	<?php echo UI::empty_state( __( 'No topics yet.', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
 <?php else : ?>
 	<table class="dfmg-table dfmg-forum">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Topic', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'By', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Posts', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Last post', 'underworld-empire' ); ?></th>
+				<th><?php esc_html_e( 'Topic', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'By', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Posts', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Last post', 'mafia-pbbg-engine' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
 			<?php foreach ( $topics as $dfmg_t ) : ?>
 				<tr>
 					<td>
-						<?php if ( $dfmg_t['sticky'] ) : ?><em class="dfmg-tag"><?php esc_html_e( 'pinned', 'underworld-empire' ); ?></em><?php endif; ?>
-						<?php if ( $dfmg_t['locked'] ) : ?><em class="dfmg-tag"><?php esc_html_e( 'locked', 'underworld-empire' ); ?></em><?php endif; ?>
+						<?php if ( $dfmg_t['sticky'] ) : ?><em class="dfmg-tag"><?php esc_html_e( 'pinned', 'mafia-pbbg-engine' ); ?></em><?php endif; ?>
+						<?php if ( $dfmg_t['locked'] ) : ?><em class="dfmg-tag"><?php esc_html_e( 'locked', 'mafia-pbbg-engine' ); ?></em><?php endif; ?>
 						<a href="<?php echo esc_url( $this->url( array( 'topic' => $dfmg_t['id'] ) ) ); ?>"><?php echo esc_html( $dfmg_t['title'] ); ?></a>
 					</td>
 					<td><?php echo Character::link_by_id( (int) $dfmg_t['character_id'] ); // phpcs:ignore ?></td>
@@ -49,11 +49,11 @@ defined( 'ABSPATH' ) || exit;
 
 <?php if ( $can_post ) : ?>
 	<div class="dfmg-card">
-		<h3><?php esc_html_e( 'New topic', 'underworld-empire' ); ?></h3>
+		<h3><?php esc_html_e( 'New topic', 'mafia-pbbg-engine' ); ?></h3>
 		<?php echo $this->form( 'new_topic', array( 'board' => $board['id'] ), 'dfmg-form dfmg-form--stacked' ); // phpcs:ignore ?>
-			<input type="text" name="title" maxlength="150" placeholder="<?php esc_attr_e( 'Title', 'underworld-empire' ); ?>" required>
+			<input type="text" name="title" maxlength="150" placeholder="<?php esc_attr_e( 'Title', 'mafia-pbbg-engine' ); ?>" required>
 			<textarea name="body" rows="6" required></textarea>
-			<button type="submit" class="dfmg-button"><?php esc_html_e( 'Place', 'underworld-empire' ); ?></button>
+			<button type="submit" class="dfmg-button"><?php esc_html_e( 'Place', 'mafia-pbbg-engine' ); ?></button>
 		</form>
 	</div>
 <?php endif; ?>

@@ -6,20 +6,20 @@
  * "DigiFalk Licenses" plugin. The buyer enters the license key on the Modules screen; this
  * class activates the key for this site, downloads the module zip, checks its SHA-256 (and
  * Ed25519 signature when a public key is configured) and installs it in
- * wp-content/underworld-modules/<product>/. The product slug is the module id.
+ * wp-content/mafia-pbbg-modules/<product>/. The product slug is the module id.
  *
  * Store API (namespace digifalk-licenses/v1), see docs/PREMIUM.md:
- *   GET  /catalog?client=underworld-empire
+ *   GET  /catalog?client=mafia-pbbg-engine
  *   POST /activate   { license_key, product, site_url, client, client_version }
  *   POST /check      { license_key, product, activation_id, activation_secret, installed_version }
  *   POST /deactivate { license_key, product, activation_id, activation_secret }
  *
- * @package DigiFalk\UnderworldEmpire\Extended
+ * @package DigiFalk\MafiaPBBGEngine\Extended
  */
 
-namespace DigiFalk\UnderworldEmpire\Extended;
+namespace DigiFalk\MafiaPBBGEngine\Extended;
 
-use DigiFalk\UnderworldEmpire\Plugin;
+use DigiFalk\MafiaPBBGEngine\Plugin;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -27,7 +27,7 @@ final class Licenses {
 
 	const OPTION        = 'dfmg_licenses';
 	const CATALOG_CACHE = 'dfmg_premium_catalog';
-	const CLIENT        = 'underworld-empire';
+	const CLIENT        = 'mafia-pbbg-engine';
 	const API_NAMESPACE = 'digifalk-licenses/v1';
 
 	/**
@@ -201,7 +201,7 @@ final class Licenses {
 	 */
 	private static function request( string $route, array $body ) {
 		if ( 0 !== strpos( self::store_url(), 'https://' ) && ! apply_filters( 'dfmg_store_allow_http', false ) ) {
-			return new \WP_Error( 'dfmg_store', __( 'The store must use HTTPS.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The store must use HTTPS.', 'mafia-pbbg-engine' ) );
 		}
 		$response = wp_remote_post(
 			self::api( $route ),
@@ -216,12 +216,12 @@ final class Licenses {
 		);
 		if ( is_wp_error( $response ) ) {
 			/* translators: %s: error */
-			return new \WP_Error( 'dfmg_store', sprintf( __( 'The store could not be reached: %s', 'underworld-empire' ), $response->get_error_message() ) );
+			return new \WP_Error( 'dfmg_store', sprintf( __( 'The store could not be reached: %s', 'mafia-pbbg-engine' ), $response->get_error_message() ) );
 		}
 		$code = (int) wp_remote_retrieve_response_code( $response );
 		$data = json_decode( (string) wp_remote_retrieve_body( $response ), true );
 		if ( $code < 200 || $code >= 300 || ! is_array( $data ) ) {
-			$message = is_array( $data ) && ! empty( $data['message'] ) ? sanitize_text_field( (string) $data['message'] ) : __( 'The store gave an unexpected answer. Please try again later.', 'underworld-empire' );
+			$message = is_array( $data ) && ! empty( $data['message'] ) ? sanitize_text_field( (string) $data['message'] ) : __( 'The store gave an unexpected answer. Please try again later.', 'mafia-pbbg-engine' );
 			return new \WP_Error( is_array( $data ) && ! empty( $data['code'] ) ? sanitize_key( (string) $data['code'] ) : 'dfmg_store', $message );
 		}
 		return $data;
@@ -247,7 +247,7 @@ final class Licenses {
 		// Keys are shown in capitals in the purchase email; the store accepts any case.
 		$key = strtoupper( trim( $key ) );
 		if ( '' === $key || ! preg_match( '/^[A-Za-z0-9\-]{8,64}$/', $key ) ) {
-			return new \WP_Error( 'dfmg_store', __( 'This doesn\'t look like a license key. Copy it from the email you received after buying.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'This doesn\'t look like a license key. Copy it from the email you received after buying.', 'mafia-pbbg-engine' ) );
 		}
 		$data = self::request(
 			'activate',
@@ -263,7 +263,7 @@ final class Licenses {
 			return $data;
 		}
 		if ( empty( $data['activation_id'] ) || empty( $data['activation_secret'] ) ) {
-			return new \WP_Error( 'dfmg_store', __( 'The store gave an unexpected answer. Please try again later.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The store gave an unexpected answer. Please try again later.', 'mafia-pbbg-engine' ) );
 		}
 		self::put(
 			$product,
@@ -293,7 +293,7 @@ final class Licenses {
 	public static function check( string $product ) {
 		$license = self::get( $product );
 		if ( ! $license ) {
-			return new \WP_Error( 'dfmg_store', __( 'No license for this module.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'No license for this module.', 'mafia-pbbg-engine' ) );
 		}
 		$info = Plugin::instance()->modules->info( $product );
 		$data = self::request(
@@ -355,18 +355,18 @@ final class Licenses {
 		$url     = esc_url_raw( (string) ( $package['url'] ?? '' ) );
 		$sha256  = strtolower( (string) ( $package['sha256'] ?? '' ) );
 		if ( '' === $url || ! preg_match( '/^[a-f0-9]{64}$/', $sha256 ) ) {
-			return new \WP_Error( 'dfmg_store', __( 'The store did not send a download for this module.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The store did not send a download for this module.', 'mafia-pbbg-engine' ) );
 		}
 		// The package must come from the store itself.
 		if ( wp_parse_url( $url, PHP_URL_HOST ) !== wp_parse_url( self::store_url(), PHP_URL_HOST ) ) {
-			return new \WP_Error( 'dfmg_store', __( 'The download link does not point to the store.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The download link does not point to the store.', 'mafia-pbbg-engine' ) );
 		}
 
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		$tmp = download_url( $url, 60 );
 		if ( is_wp_error( $tmp ) ) {
 			/* translators: %s: error */
-			return new \WP_Error( 'dfmg_store', sprintf( __( 'Downloading the module failed: %s', 'underworld-empire' ), $tmp->get_error_message() ) );
+			return new \WP_Error( 'dfmg_store', sprintf( __( 'Downloading the module failed: %s', 'mafia-pbbg-engine' ), $tmp->get_error_message() ) );
 		}
 		$verified = self::verify( $tmp, $sha256, (string) ( $package['signature'] ?? '' ) );
 		if ( is_wp_error( $verified ) ) {
@@ -389,7 +389,7 @@ final class Licenses {
 	 */
 	private static function verify( string $file, string $sha256, string $signature ) {
 		if ( ! hash_equals( $sha256, (string) hash_file( 'sha256', $file ) ) ) {
-			return new \WP_Error( 'dfmg_store', __( 'The downloaded file is damaged (checksum mismatch). Please try again.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The downloaded file is damaged (checksum mismatch). Please try again.', 'mafia-pbbg-engine' ) );
 		}
 		$public = self::public_key();
 		if ( '' === $public ) {
@@ -400,7 +400,7 @@ final class Licenses {
 		if ( ! function_exists( 'sodium_crypto_sign_verify_detached' ) || false === $sig || false === $key
 			|| SODIUM_CRYPTO_SIGN_BYTES !== strlen( $sig ) || SODIUM_CRYPTO_SIGN_PUBLICKEYBYTES !== strlen( $key )
 			|| ! sodium_crypto_sign_verify_detached( $sig, $sha256, $key ) ) {
-			return new \WP_Error( 'dfmg_store', __( 'The download is not signed by the DigiFalk store and was not installed.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The download is not signed by the DigiFalk store and was not installed.', 'mafia-pbbg-engine' ) );
 		}
 		return true;
 	}
@@ -414,38 +414,38 @@ final class Licenses {
 		global $wp_filesystem;
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		if ( ! WP_Filesystem() ) {
-			return new \WP_Error( 'dfmg_store', __( 'WordPress can\'t write files on this server. Check the file permissions of wp-content.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'WordPress can\'t write files on this server. Check the file permissions of wp-content.', 'mafia-pbbg-engine' ) );
 		}
 		$work = trailingslashit( get_temp_dir() ) . 'dfmg-premium-' . wp_generate_password( 8, false, false );
 		$res  = unzip_file( $zip, $work );
 		if ( is_wp_error( $res ) ) {
 			$wp_filesystem->delete( $work, true );
 			/* translators: %s: error */
-			return new \WP_Error( 'dfmg_store', sprintf( __( 'The module could not be unpacked: %s', 'underworld-empire' ), $res->get_error_message() ) );
+			return new \WP_Error( 'dfmg_store', sprintf( __( 'The module could not be unpacked: %s', 'mafia-pbbg-engine' ), $res->get_error_message() ) );
 		}
 		// The zip holds one folder named after the product, with a module.php inside.
 		$source = trailingslashit( $work ) . $product;
 		$header = is_readable( $source . '/module.php' ) ? get_file_data( $source . '/module.php', array( 'name' => 'Module Name', 'premium' => 'Premium' ) ) : array();
 		if ( empty( $header['name'] ) || 'yes' !== strtolower( trim( (string) $header['premium'] ) ) ) {
 			$wp_filesystem->delete( $work, true );
-			return new \WP_Error( 'dfmg_store', __( 'The download does not contain this premium module.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The download does not contain this premium module.', 'mafia-pbbg-engine' ) );
 		}
 		if ( ! wp_mkdir_p( DFMG_CUSTOM_MODULES_DIR ) ) {
 			$wp_filesystem->delete( $work, true );
-			return new \WP_Error( 'dfmg_store', __( 'The modules folder can\'t be created.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The modules folder can\'t be created.', 'mafia-pbbg-engine' ) );
 		}
 		$target = trailingslashit( DFMG_CUSTOM_MODULES_DIR ) . $product;
 		$backup = $target . '.old-' . time();
 		if ( $wp_filesystem->exists( $target ) && ! $wp_filesystem->move( $target, $backup, true ) ) {
 			$wp_filesystem->delete( $work, true );
-			return new \WP_Error( 'dfmg_store', __( 'The old version could not be replaced.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The old version could not be replaced.', 'mafia-pbbg-engine' ) );
 		}
 		if ( ! $wp_filesystem->move( $source, $target, true ) && ! copy_dir( $source, $target ) ) {
 			if ( $wp_filesystem->exists( $backup ) ) {
 				$wp_filesystem->move( $backup, $target, true );
 			}
 			$wp_filesystem->delete( $work, true );
-			return new \WP_Error( 'dfmg_store', __( 'The module could not be installed.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_store', __( 'The module could not be installed.', 'mafia-pbbg-engine' ) );
 		}
 		if ( $wp_filesystem->exists( $backup ) ) {
 			$wp_filesystem->delete( $backup, true );
@@ -508,7 +508,7 @@ final class Licenses {
 	private static function guard( string $action ): string {
 		$product = sanitize_key( wp_unslash( $_POST['product'] ?? '' ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
+			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( $action . '_' . $product );
 		return $product;
@@ -535,15 +535,15 @@ final class Licenses {
 			$enabled = $registry->enable( $product );
 			if ( is_wp_error( $enabled ) ) {
 				/* translators: %s: reason */
-				$result = new \WP_Error( 'dfmg_store', sprintf( __( 'The module was installed but could not be switched on: %s', 'underworld-empire' ), $enabled->get_error_message() ) );
+				$result = new \WP_Error( 'dfmg_store', sprintf( __( 'The module was installed but could not be switched on: %s', 'mafia-pbbg-engine' ), $enabled->get_error_message() ) );
 			}
 		}
-		self::back( $result, __( 'License activated. The module is installed and switched on.', 'underworld-empire' ), $product );
+		self::back( $result, __( 'License activated. The module is installed and switched on.', 'mafia-pbbg-engine' ), $product );
 	}
 
 	public static function handle_deactivate(): void {
 		$product = self::guard( 'dfmg_license_deactivate' );
-		self::back( self::deactivate( $product ), __( 'License deactivated and module removed. You can use the key on another site now.', 'underworld-empire' ), $product );
+		self::back( self::deactivate( $product ), __( 'License deactivated and module removed. You can use the key on another site now.', 'mafia-pbbg-engine' ), $product );
 	}
 
 	public static function handle_update(): void {
@@ -552,15 +552,15 @@ final class Licenses {
 		// First download (for example when the download failed right after activating).
 		$first    = ! $registry->info( $product );
 		$result   = self::install( $product );
-		$message  = __( 'The module was updated.', 'underworld-empire' );
+		$message  = __( 'The module was updated.', 'mafia-pbbg-engine' );
 		if ( true === $result ) {
 			$registry->add( trailingslashit( DFMG_CUSTOM_MODULES_DIR ) . $product . '/module.php', 'custom' );
 			if ( $first ) {
 				$enabled = $registry->enable( $product );
-				$message = __( 'The module is installed and switched on.', 'underworld-empire' );
+				$message = __( 'The module is installed and switched on.', 'mafia-pbbg-engine' );
 				if ( is_wp_error( $enabled ) ) {
 					/* translators: %s: reason */
-					$result = new \WP_Error( 'dfmg_store', sprintf( __( 'The module was installed but could not be switched on: %s', 'underworld-empire' ), $enabled->get_error_message() ) );
+					$result = new \WP_Error( 'dfmg_store', sprintf( __( 'The module was installed but could not be switched on: %s', 'mafia-pbbg-engine' ), $enabled->get_error_message() ) );
 				}
 			} else {
 				$module = $registry->load( $product );
@@ -574,11 +574,11 @@ final class Licenses {
 
 	public static function handle_refresh(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
+			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_license_refresh' );
 		self::check_all();
 		self::catalog( true );
-		self::back( true, __( 'Premium modules refreshed from the store.', 'underworld-empire' ) );
+		self::back( true, __( 'Premium modules refreshed from the store.', 'mafia-pbbg-engine' ) );
 	}
 }

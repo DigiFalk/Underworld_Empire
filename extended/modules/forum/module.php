@@ -5,15 +5,15 @@
  * Version: 1.0.0
  * Author: DigiFalk
  *
- * @package DigiFalk\UnderworldEmpire
+ * @package DigiFalk\MafiaPBBGEngine
  */
 
-namespace DigiFalk\UnderworldEmpire\Modules;
+namespace DigiFalk\MafiaPBBGEngine\Modules;
 
-use DigiFalk\UnderworldEmpire\Character;
-use DigiFalk\UnderworldEmpire\DB;
-use DigiFalk\UnderworldEmpire\Module\Module;
-use DigiFalk\UnderworldEmpire\Ranks;
+use DigiFalk\MafiaPBBGEngine\Character;
+use DigiFalk\MafiaPBBGEngine\DB;
+use DigiFalk\MafiaPBBGEngine\Module\Module;
+use DigiFalk\MafiaPBBGEngine\Ranks;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -22,7 +22,7 @@ final class Forum extends Module {
 	const PER_PAGE = 20;
 
 	public function title(): string {
-		return __( 'Forum', 'underworld-empire' );
+		return __( 'Forum', 'mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -89,12 +89,12 @@ final class Forum extends Module {
 	public function settings_fields(): array {
 		return array(
 			'forum_cooldown'     => array(
-				'label'   => __( 'Cooldown between posts (sec)', 'underworld-empire' ),
+				'label'   => __( 'Cooldown between posts (sec)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 15,
 			),
 			'forum_round_reset' => array(
-				'label'       => __( 'Clear forum when a new round starts', 'underworld-empire' ),
+				'label'       => __( 'Clear forum when a new round starts', 'mafia-pbbg-engine' ),
 				'type'        => 'checkbox',
 				'default'     => 0,
 			),
@@ -108,15 +108,15 @@ final class Forum extends Module {
 	public function admin_tables(): array {
 		return array(
 			'forum_boards' => array(
-				'label'   => __( 'Forum boards', 'underworld-empire' ),
+				'label'   => __( 'Forum boards', 'mafia-pbbg-engine' ),
 				'table'   => 'forum_boards',
 				'order'   => 'sort ASC',
 				'columns' => array(
-					'name'        => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
-					'description' => array( 'label' => __( 'Description', 'underworld-empire' ) ),
-					'sort'        => array( 'label' => __( 'Order', 'underworld-empire' ), 'type' => 'int' ),
-					'min_rank'    => array( 'label' => __( 'From rank (level)', 'underworld-empire' ), 'type' => 'int', 'default' => 1 ),
-					'staff_only'  => array( 'label' => __( 'Only administrators may post', 'underworld-empire' ), 'type' => 'checkbox' ),
+					'name'        => array( 'label' => __( 'Name', 'mafia-pbbg-engine' ), 'required' => true ),
+					'description' => array( 'label' => __( 'Description', 'mafia-pbbg-engine' ) ),
+					'sort'        => array( 'label' => __( 'Order', 'mafia-pbbg-engine' ), 'type' => 'int' ),
+					'min_rank'    => array( 'label' => __( 'From rank (level)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 1 ),
+					'staff_only'  => array( 'label' => __( 'Only administrators may post', 'mafia-pbbg-engine' ), 'type' => 'checkbox' ),
 				),
 			),
 		);
@@ -125,7 +125,7 @@ final class Forum extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Forum', 'underworld-empire' ),
+				'label' => __( 'Forum', 'mafia-pbbg-engine' ),
 				'group' => 'community',
 				'order' => 10,
 			),
@@ -228,16 +228,16 @@ final class Forum extends Module {
 		$title = mb_substr( trim( sanitize_text_field( $input['title'] ?? '' ) ), 0, 150 );
 		$body  = $this->clean_body( (string) ( $input['body'] ?? '' ) );
 		if ( ! $board || ! $this->can_post( $board ) ) {
-			$this->error( __( 'You can\'t start a topic here.', 'underworld-empire' ) );
+			$this->error( __( 'You can\'t start a topic here.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$back = array( 'board' => $board['id'] );
 		if ( mb_strlen( $title ) < 3 || '' === $body ) {
-			$this->error( __( 'Enter a title (min. 3 characters) and a message.', 'underworld-empire' ) );
+			$this->error( __( 'Enter a title (min. 3 characters) and a message.', 'mafia-pbbg-engine' ) );
 			return $back;
 		}
 		if ( ! $c->claim_cooldown( 'forum', (int) $this->setting( 'forum_cooldown' ) ) ) {
-			$this->error( __( 'You\'re posting too fast. Wait a moment.', 'underworld-empire' ) );
+			$this->error( __( 'You\'re posting too fast. Wait a moment.', 'mafia-pbbg-engine' ) );
 			return $back;
 		}
 		$topic = DB::insert(
@@ -272,16 +272,16 @@ final class Forum extends Module {
 		}
 		$back = array( 'topic' => $topic['id'] );
 		if ( (int) $topic['locked'] && ! self::is_staff() ) {
-			$this->error( __( 'This topic is locked.', 'underworld-empire' ) );
+			$this->error( __( 'This topic is locked.', 'mafia-pbbg-engine' ) );
 			return $back;
 		}
 		$body = $this->clean_body( (string) ( $input['body'] ?? '' ) );
 		if ( '' === $body ) {
-			$this->error( __( 'Your message is empty.', 'underworld-empire' ) );
+			$this->error( __( 'Your message is empty.', 'mafia-pbbg-engine' ) );
 			return $back;
 		}
 		if ( ! $c->claim_cooldown( 'forum', (int) $this->setting( 'forum_cooldown' ) ) ) {
-			$this->error( __( 'You\'re posting too fast. Wait a moment.', 'underworld-empire' ) );
+			$this->error( __( 'You\'re posting too fast. Wait a moment.', 'mafia-pbbg-engine' ) );
 			return $back;
 		}
 		DB::insert(
