@@ -47,7 +47,7 @@ final class Hud {
 			add_action( 'widgets_init', array( __CLASS__, 'register_widget' ) );
 		}
 
-		// Theme builder integration (Underworld Empire theme and compatible themes).
+		// Theme builder integration (Mafia PBBG Engine theme and compatible themes).
 		add_filter( 'uet_header_elements', array( __CLASS__, 'theme_elements' ) );
 		add_filter( 'uet_footer_elements', array( __CLASS__, 'theme_elements' ) );
 		add_filter(
@@ -91,130 +91,130 @@ final class Hud {
 
 		$elements = array(
 			'player'        => array(
-				'label'  => __( 'Player (name & avatar)', 'underworld-empire' ),
+				'label'  => __( 'Player (name & avatar)', 'mafia-pbbg-engine' ),
 				'render' => array( __CLASS__, 'render_player' ),
 			),
 			'rank'          => array(
-				'label'  => __( 'Rank', 'underworld-empire' ),
-				'render' => $stat( __( 'Rank', 'underworld-empire' ), static function ( Character $c ) {
+				'label'  => __( 'Rank', 'mafia-pbbg-engine' ),
+				'render' => $stat( __( 'Rank', 'mafia-pbbg-engine' ), static function ( Character $c ) {
 					return esc_html( $c->rank_name() );
 				}, 'rank' ),
 			),
 			'rank-progress' => array(
-				'label'  => __( 'Rank progress bar', 'underworld-empire' ),
+				'label'  => __( 'Rank progress bar', 'mafia-pbbg-engine' ),
 				'render' => static function ( ?Character $c ) {
 					if ( ! $c ) {
 						return '';
 					}
 					/* translators: %s: percent */
-					return '<div class="dfmg-hud-progress" title="' . esc_attr( sprintf( __( '%s%% to next rank', 'underworld-empire' ), $c->rank_progress() ) ) . '"><span style="width:' . esc_attr( (string) $c->rank_progress() ) . '%"></span></div>';
+					return '<div class="dfmg-hud-progress" title="' . esc_attr( sprintf( __( '%s%% to next rank', 'mafia-pbbg-engine' ), $c->rank_progress() ) ) . '"><span style="width:' . esc_attr( (string) $c->rank_progress() ) . '%"></span></div>';
 				},
 			),
 			'cash'          => array(
-				'label'  => __( 'Cash', 'underworld-empire' ),
-				'render' => $stat( __( 'Cash', 'underworld-empire' ), static function ( Character $c ) {
+				'label'  => __( 'Cash', 'mafia-pbbg-engine' ),
+				'render' => $stat( __( 'Cash', 'mafia-pbbg-engine' ), static function ( Character $c ) {
 					return esc_html( Format::money( $c->money ) );
 				}, 'cash' ),
 			),
 			'bank'          => array(
-				'label'  => __( 'Bank', 'underworld-empire' ),
-				'render' => $stat( __( 'Bank', 'underworld-empire' ), static function ( Character $c ) {
+				'label'  => __( 'Bank', 'mafia-pbbg-engine' ),
+				'render' => $stat( __( 'Bank', 'mafia-pbbg-engine' ), static function ( Character $c ) {
 					return esc_html( Format::money( $c->bank ) );
 				}, 'bank' ),
 			),
 			'bullets'       => array(
-				'label'  => __( 'Bullets', 'underworld-empire' ),
-				'render' => $stat( __( 'Bullets', 'underworld-empire' ), static function ( Character $c ) {
+				'label'  => __( 'Bullets', 'mafia-pbbg-engine' ),
+				'render' => $stat( __( 'Bullets', 'mafia-pbbg-engine' ), static function ( Character $c ) {
 					return esc_html( Format::number( $c->bullets ) );
 				}, 'bullets' ),
 			),
 			'health'        => array(
-				'label'  => __( 'Health', 'underworld-empire' ),
-				'render' => $stat( __( 'Health', 'underworld-empire' ), static function ( Character $c ) {
+				'label'  => __( 'Health', 'mafia-pbbg-engine' ),
+				'render' => $stat( __( 'Health', 'mafia-pbbg-engine' ), static function ( Character $c ) {
 					$pct = $c->health_percent();
 					return '<span class="dfmg-hud-health" style="--dfmg-hp:' . esc_attr( (string) $pct ) . '%">' . esc_html( $pct . '%' ) . '</span>';
 				}, 'health' ),
 			),
 			'city'          => array(
-				'label'  => __( 'City', 'underworld-empire' ),
-				'render' => $stat( __( 'City', 'underworld-empire' ), static function ( Character $c ) {
+				'label'  => __( 'City', 'mafia-pbbg-engine' ),
+				'render' => $stat( __( 'City', 'mafia-pbbg-engine' ), static function ( Character $c ) {
 					return esc_html( $c->location_name() );
 				}, 'city' ),
 			),
 			'wealth'        => array(
-				'label'  => __( 'Wealth title', 'underworld-empire' ),
-				'render' => $stat( __( 'Wealth', 'underworld-empire' ), static function ( Character $c ) {
+				'label'  => __( 'Wealth title', 'mafia-pbbg-engine' ),
+				'render' => $stat( __( 'Wealth', 'mafia-pbbg-engine' ), static function ( Character $c ) {
 					return esc_html( $c->wealth_title() );
 				}, 'wealth' ),
 			),
 			'notifications' => array(
-				'label'  => __( 'Notifications (with counter)', 'underworld-empire' ),
+				'label'  => __( 'Notifications (with counter)', 'mafia-pbbg-engine' ),
 				'render' => static function ( ?Character $c ) {
 					if ( ! $c || ! self::active( 'notifications' ) ) {
 						return '';
 					}
 					$n = (int) DB::value( 'SELECT COUNT(*) FROM {notifications} WHERE character_id = %d AND is_read = 0', $c->id() );
-					return self::icon_link( Game::url( 'notifications' ), __( 'Notifications', 'underworld-empire' ), 'notifications', $n );
+					return self::icon_link( Game::url( 'notifications' ), __( 'Notifications', 'mafia-pbbg-engine' ), 'notifications', $n );
 				},
 			),
 			'messages'      => array(
-				'label'  => __( 'Messages (with counter)', 'underworld-empire' ),
+				'label'  => __( 'Messages (with counter)', 'mafia-pbbg-engine' ),
 				'render' => static function ( ?Character $c ) {
 					if ( ! $c || ! self::active( 'messages' ) ) {
 						return '';
 					}
 					$n = (int) DB::value( 'SELECT COUNT(*) FROM {messages} WHERE recipient_id = %d AND is_read = 0 AND recipient_deleted = 0', $c->id() );
-					return self::icon_link( Game::url( 'messages' ), __( 'Messages', 'underworld-empire' ), 'messages', $n );
+					return self::icon_link( Game::url( 'messages' ), __( 'Messages', 'mafia-pbbg-engine' ), 'messages', $n );
 				},
 			),
 			'timers'        => array(
-				'label'  => __( 'Active timers', 'underworld-empire' ),
+				'label'  => __( 'Active timers', 'mafia-pbbg-engine' ),
 				'render' => array( __CLASS__, 'render_timers' ),
 			),
 			'menu'          => array(
-				'label'  => __( 'Game menu (all pages)', 'underworld-empire' ),
+				'label'  => __( 'Game menu (all pages)', 'mafia-pbbg-engine' ),
 				'render' => array( __CLASS__, 'render_menu' ),
 			),
 			'online'        => array(
-				'label'  => __( 'Players online', 'underworld-empire' ),
+				'label'  => __( 'Players online', 'mafia-pbbg-engine' ),
 				'render' => static function () {
 					$n = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1 AND last_active > %d', time() - 60 * Settings::int( 'online_minutes', 15 ) );
-					$text = '<span class="dfmg-hud-online__dot" aria-hidden="true"></span>' . esc_html( sprintf( /* translators: %s: number */ _n( '%s player online', '%s players online', $n, 'underworld-empire' ), Format::number( $n ) ) );
+					$text = '<span class="dfmg-hud-online__dot" aria-hidden="true"></span>' . esc_html( sprintf( /* translators: %s: number */ _n( '%s player online', '%s players online', $n, 'mafia-pbbg-engine' ), Format::number( $n ) ) );
 					return self::active( 'players' ) ? '<a class="dfmg-hud-online" href="' . esc_url( Game::url( 'players' ) ) . '">' . $text . '</a>' : '<span class="dfmg-hud-online">' . $text . '</span>';
 				},
 			),
 			'round'         => array(
-				'label'  => __( 'Round name & end', 'underworld-empire' ),
+				'label'  => __( 'Round name & end', 'mafia-pbbg-engine' ),
 				'render' => static function () {
 					$end  = (string) Settings::get( 'round_end', '' );
 					$html = '<span class="dfmg-hud-round">' . Icons::svg( 'round', 15 ) . '<span>' . esc_html( (string) Settings::get( 'round_name' ) ) . '</span>';
 					if ( $end && strtotime( $end ) ) {
 						$ts    = strtotime( get_gmt_from_date( $end ) . ' UTC' );
-						$html .= ' &middot; <small>' . esc_html__( 'ends in', 'underworld-empire' ) . ' ' . Format::countdown( (int) $ts ) . '</small>';
+						$html .= ' &middot; <small>' . esc_html__( 'ends in', 'mafia-pbbg-engine' ) . ' ' . Format::countdown( (int) $ts ) . '</small>';
 					}
 					return $html . '</span>';
 				},
 			),
 			'play'          => array(
-				'label'  => __( 'Play / log in button', 'underworld-empire' ),
+				'label'  => __( 'Play / log in button', 'mafia-pbbg-engine' ),
 				'render' => static function ( ?Character $c ) {
 					if ( $c ) {
-						return '<a class="dfmg-button dfmg-hud-play" href="' . esc_url( Game::url() ) . '">' . Icons::svg( 'play', 14 ) . esc_html__( 'Play', 'underworld-empire' ) . '</a>';
+						return '<a class="dfmg-button dfmg-hud-play" href="' . esc_url( Game::url() ) . '">' . Icons::svg( 'play', 14 ) . esc_html__( 'Play', 'mafia-pbbg-engine' ) . '</a>';
 					}
-					$label = is_user_logged_in() ? __( 'Start playing', 'underworld-empire' ) : __( 'Log in to play', 'underworld-empire' );
+					$label = is_user_logged_in() ? __( 'Start playing', 'mafia-pbbg-engine' ) : __( 'Log in to play', 'mafia-pbbg-engine' );
 					return '<a class="dfmg-button dfmg-hud-play" href="' . esc_url( Game::url() ) . '">' . Icons::svg( 'play', 14 ) . esc_html( $label ) . '</a>';
 				},
 			),
 			'mode-toggle'   => array(
-				'label'  => __( 'Light/dark switch', 'underworld-empire' ),
+				'label'  => __( 'Light/dark switch', 'mafia-pbbg-engine' ),
 				'render' => static function () {
 					return Game::mode_toggle();
 				},
 			),
 			'logout'        => array(
-				'label'  => __( 'Log out link', 'underworld-empire' ),
+				'label'  => __( 'Log out link', 'mafia-pbbg-engine' ),
 				'render' => static function () {
-					return is_user_logged_in() ? '<a class="dfmg-hud-logout" href="' . esc_url( wp_logout_url( Game::page_url() ) ) . '">' . Icons::svg( 'logout', 15 ) . '<span>' . esc_html__( 'Log out', 'underworld-empire' ) . '</span></a>' : '';
+					return is_user_logged_in() ? '<a class="dfmg-hud-logout" href="' . esc_url( wp_logout_url( Game::page_url() ) ) . '">' . Icons::svg( 'logout', 15 ) . '<span>' . esc_html__( 'Log out', 'mafia-pbbg-engine' ) . '</span></a>' : '';
 				},
 			),
 		);
@@ -223,7 +223,7 @@ final class Hud {
 		foreach ( self::menu_groups() as $key => $label ) {
 			$elements[ 'menu-' . $key ] = array(
 				/* translators: %s: menu group */
-				'label'  => sprintf( __( 'Game menu: %s', 'underworld-empire' ), $label ),
+				'label'  => sprintf( __( 'Game menu: %s', 'mafia-pbbg-engine' ), $label ),
 				'render' => static function ( ?Character $c, string $context ) use ( $key ) {
 					return self::render_menu( $c, $context, $key );
 				},
@@ -238,15 +238,15 @@ final class Hud {
 		return apply_filters(
 			'dfmg_menu_groups',
 			array(
-				'general'   => __( 'General', 'underworld-empire' ),
-				'crime'     => __( 'Crime', 'underworld-empire' ),
-				'city'      => __( 'City', 'underworld-empire' ),
-				'casino'    => __( 'Casino', 'underworld-empire' ),
-				'murder'    => __( 'Murder', 'underworld-empire' ),
-				'family'    => __( 'Family', 'underworld-empire' ),
-				'money'     => __( 'Assets', 'underworld-empire' ),
-				'premium'   => __( 'Premium', 'underworld-empire' ),
-				'community' => __( 'Community', 'underworld-empire' ),
+				'general'   => __( 'General', 'mafia-pbbg-engine' ),
+				'crime'     => __( 'Crime', 'mafia-pbbg-engine' ),
+				'city'      => __( 'City', 'mafia-pbbg-engine' ),
+				'casino'    => __( 'Casino', 'mafia-pbbg-engine' ),
+				'murder'    => __( 'Murder', 'mafia-pbbg-engine' ),
+				'family'    => __( 'Family', 'mafia-pbbg-engine' ),
+				'money'     => __( 'Assets', 'mafia-pbbg-engine' ),
+				'premium'   => __( 'Premium', 'mafia-pbbg-engine' ),
+				'community' => __( 'Community', 'mafia-pbbg-engine' ),
 			)
 		);
 	}
@@ -264,7 +264,7 @@ final class Hud {
 				continue;
 			}
 			/* translators: %s: element */
-			$elements[ 'game-' . $key ] = sprintf( __( 'Game: %s', 'underworld-empire' ), $label );
+			$elements[ 'game-' . $key ] = sprintf( __( 'Game: %s', 'mafia-pbbg-engine' ), $label );
 		}
 		return $elements;
 	}
@@ -305,7 +305,7 @@ final class Hud {
 	private static function icon_link( string $url, string $label, string $icon, int $count ): string {
 		$badge = $count ? '<span class="dfmg-hud-badge">' . esc_html( $count > 99 ? '99+' : (string) $count ) . '</span>' : '';
 		/* translators: 1: label, 2: count */
-		$aria = $count ? sprintf( __( '%1$s (%2$d new)', 'underworld-empire' ), $label, $count ) : $label;
+		$aria = $count ? sprintf( __( '%1$s (%2$d new)', 'mafia-pbbg-engine' ), $label, $count ) : $label;
 		return '<a class="dfmg-hud-icon" href="' . esc_url( $url ) . '" aria-label="' . esc_attr( $aria ) . '" title="' . esc_attr( $label ) . '">' . Icons::svg( $icon, 19 ) . $badge . '</a>';
 	}
 
@@ -314,7 +314,7 @@ final class Hud {
 			return '';
 		}
 		$profile = self::active( 'profile' );
-		return '<a class="dfmg-hud-player" href="' . esc_url( $profile ? Game::url( 'profile' ) : Game::url() ) . '" title="' . esc_attr( $profile ? __( 'My profile', 'underworld-empire' ) : __( 'Overview', 'underworld-empire' ) ) . '">'
+		return '<a class="dfmg-hud-player" href="' . esc_url( $profile ? Game::url( 'profile' ) : Game::url() ) . '" title="' . esc_attr( $profile ? __( 'My profile', 'mafia-pbbg-engine' ) : __( 'Overview', 'mafia-pbbg-engine' ) ) . '">'
 			. self::avatar_ring( $c, 30 )
 			. '<span class="dfmg-hud-player__text"><span class="dfmg-hud-player__name">' . esc_html( $c->name ) . '</span><span class="dfmg-hud-player__rank">' . esc_html( $c->rank_name() ) . '</span></span></a>';
 	}
@@ -324,7 +324,7 @@ final class Hud {
 	 */
 	public static function avatar_ring( Character $c, int $size = 30 ): string {
 		/* translators: %s: percent */
-		$title = sprintf( __( '%s%% to next rank', 'underworld-empire' ), $c->rank_progress() );
+		$title = sprintf( __( '%s%% to next rank', 'mafia-pbbg-engine' ), $c->rank_progress() );
 		return '<span class="dfmg-ring" style="--dfmg-p:' . esc_attr( (string) $c->rank_progress() ) . '%;--dfmg-ring-size:' . (int) $size . 'px" title="' . esc_attr( $title ) . '">' . self::avatar( $c, $size ) . '</span>';
 	}
 
@@ -352,7 +352,7 @@ final class Hud {
 			}
 		}
 		if ( ! $items ) {
-			return 'stack' === $context ? '<p class="dfmg-hud-timers__none">' . esc_html__( 'No active timers.', 'underworld-empire' ) . '</p>' : '';
+			return 'stack' === $context ? '<p class="dfmg-hud-timers__none">' . esc_html__( 'No active timers.', 'mafia-pbbg-engine' ) . '</p>' : '';
 		}
 		return '<ul class="dfmg-hud-timers">' . $items . '</ul>';
 	}
@@ -390,7 +390,7 @@ final class Hud {
 			$html .= '</ul></div>';
 		}
 		if ( 'bar' === $context && ! $only_group ) {
-			return '<details class="dfmg-hud-menu"><summary><span class="dfmg-menu-toggle__icon" aria-hidden="true"></span>' . esc_html__( 'Game menu', 'underworld-empire' ) . '</summary><nav class="dfmg-nav dfmg-hud-menu__panel">' . $html . '</nav></details>';
+			return '<details class="dfmg-hud-menu"><summary><span class="dfmg-menu-toggle__icon" aria-hidden="true"></span>' . esc_html__( 'Game menu', 'mafia-pbbg-engine' ) . '</summary><nav class="dfmg-nav dfmg-hud-menu__panel">' . $html . '</nav></details>';
 		}
 		return '<nav class="dfmg-nav dfmg-nav--' . esc_attr( $context ) . ( $only_group ? ' dfmg-nav--group' : '' ) . '">' . $html . '</nav>';
 	}

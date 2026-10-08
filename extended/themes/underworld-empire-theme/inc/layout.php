@@ -19,7 +19,7 @@ function uet_meta( string $key ): string {
 }
 
 /**
- * Whether the current page hosts the Underworld Empire game.
+ * Whether the current page hosts the Mafia PBBG Engine game.
  */
 function uet_is_game_page(): bool {
 	if ( ! is_singular() ) {

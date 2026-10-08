@@ -1,4 +1,4 @@
-# Underworld Empire
+# Mafia PBBG Engine
 
 A complete, modular mafia browser game (PBBG) as a WordPress plugin, by **DigiFalk**.
 
@@ -12,16 +12,16 @@ The game comes as two plugins. This repository holds both, each in its own folde
 
 | Folder | Plugin | Contents |
 | --- | --- | --- |
-| [`lite/`](lite) | **Underworld Empire** (`underworld-empire.zip`) | The game engine and 16 modules: a complete game with crimes, car theft, jail, hospital, travel, bank, inventory, messages and leaderboards. |
-| [`extended/`](extended) | **Underworld Empire Extended** (`underworld-empire-extended.zip`, free) | Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum, the **Underworld Empire theme** and premium modules (license keys). Needs Underworld Empire. |
+| [`lite/`](lite) | **Mafia PBBG Engine** (`underworld-empire.zip`) | The game engine and 16 modules: a complete game with crimes, car theft, jail, hospital, travel, bank, inventory, messages and leaderboards. |
+| [`extended/`](extended) | **Mafia PBBG Engine Extended** (`underworld-empire-extended.zip`, free) | Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum, the **Mafia PBBG Engine theme** and premium modules (license keys). Needs Mafia PBBG Engine. |
 
 Every [GitHub release](https://github.com/DigiFalk/Underworld_Empire/releases) carries three zips:
 
 | Zip | What it is |
 | --- | --- |
-| `underworld-empire.zip` | Underworld Empire, **GitHub edition**: updates itself from these releases and can install Extended with one click. Sites that update from 1.10/1.11 get Extended installed and activated automatically, so the game keeps all its modules and data. |
-| `underworld-empire-extended.zip` | Underworld Empire Extended. Updates itself from these releases. |
-| `underworld-empire-wordpress-org.zip` | Underworld Empire, **WordPress.org edition**: the same plugin without the GitHub updater and without the Extended installer (`includes/Updater.php` and `includes/Bridge.php`), as the plugin directory requires. Built by `.github/scripts/build-wporg.sh`. |
+| `underworld-empire.zip` | Mafia PBBG Engine, **GitHub edition**: updates itself from these releases and can install Extended with one click. Sites that update from 1.10/1.11 get Extended installed and activated automatically, so the game keeps all its modules and data. |
+| `underworld-empire-extended.zip` | Mafia PBBG Engine Extended. Updates itself from these releases. |
+| `mafia-pbbg-engine-wordpress-org.zip` | Mafia PBBG Engine, **WordPress.org edition** (slug `mafia-pbbg-engine`): the same plugin without the GitHub updater and without the Extended installer (`includes/Updater.php` and `includes/Bridge.php`), as the plugin directory requires. Built by `.github/scripts/build-wporg.sh`. |
 
 ### WordPress.org
 
@@ -30,22 +30,23 @@ without errors or warnings. To submit it:
 
 1. Log in on WordPress.org with the DigiFalk account and set that username under
    `Contributors:` in `lite/readme.txt`.
-2. Upload `underworld-empire-wordpress-org.zip` of the newest release on
+2. Upload `mafia-pbbg-engine-wordpress-org.zip` of the newest release on
    https://wordpress.org/plugins/developers/add/.
-3. After approval, publish new versions to the plugin's SVN repository (the slug must be
-   `underworld-empire`, so sites of the GitHub edition can switch to WordPress.org updates
-   later by dropping the `Update URI` header).
+3. After approval, publish new versions to the plugin's SVN repository. The slug is
+   `mafia-pbbg-engine` (folder and main file `mafia-pbbg-engine/mafia-pbbg-engine.php`). The
+   GitHub edition keeps the folder `underworld-empire` and the zip names
+   `underworld-empire.zip` / `underworld-empire-extended.zip`, so existing sites keep updating.
 
 ## Installation
 
 1. Upload `underworld-empire.zip` and `underworld-empire-extended.zip` via *Plugins → Add New
-   → Upload Plugin* (or install only Underworld Empire and click *Install Extended* on the
+   → Upload Plugin* (or install only Mafia PBBG Engine and click *Install Extended* on the
    Modules screen later).
-2. Activate **Underworld Empire** and **Underworld Empire Extended**.
+2. Activate **Mafia PBBG Engine** and **Mafia PBBG Engine Extended**.
 3. On activation the tables are created, starting data is loaded and a page
-   **Underworld Empire** is created containing the shortcode `[underworld_empire]`.
+   **Mafia PBBG Engine** is created containing the shortcode `[underworld_empire]`.
 4. Enable *Settings → General → Anyone can register* if players may create their own account.
-5. Manage everything under the **Underworld Empire** menu in the WordPress admin.
+5. Manage everything under the **Mafia PBBG Engine** menu in the WordPress admin.
 
 Requirements: WordPress 6.0+, PHP 7.4+, MySQL 5.7+/MariaDB 10.3+.
 
@@ -67,40 +68,40 @@ sits in a collapsed danger zone. **Modules** are cards with an on/off switch, fi
 
 ## Bundled modules
 
-Modules marked *Extended* come with Underworld Empire Extended.
+Modules marked *Extended* come with Mafia PBBG Engine Extended.
 
 | Module | Id | Plugin | Description |
 | --- | --- | --- | --- |
-| Overview | `overview` | Underworld Empire | Home page with status, timers and notifications (required). |
-| Crimes | `crimes` | Underworld Empire | Crimes with a success chance that grows per player. |
-| Car Theft | `car-theft` | Underworld Empire | Steal cars at spots with different odds (requires `garage`). |
-| Garage | `garage` | Underworld Empire | Sell, repair, ship or crush cars into bullets. |
+| Overview | `overview` | Mafia PBBG Engine | Home page with status, timers and notifications (required). |
+| Crimes | `crimes` | Mafia PBBG Engine | Crimes with a success chance that grows per player. |
+| Car Theft | `car-theft` | Mafia PBBG Engine | Steal cars at spots with different odds (requires `garage`). |
+| Garage | `garage` | Mafia PBBG Engine | Sell, repair, ship or crush cars into bullets. |
 | Police Chase | `police-chase` | Extended | Escape the police for a reward. |
-| Jail | `jail` | Underworld Empire | Jail time, breakouts, bail and solitary confinement. |
-| Hospital | `hospital` | Underworld Empire | Heal for money and time. |
-| Travel | `travel` | Underworld Empire | Fly between cities. |
+| Jail | `jail` | Mafia PBBG Engine | Jail time, breakouts, bail and solitary confinement. |
+| Hospital | `hospital` | Mafia PBBG Engine | Heal for money and time. |
+| Travel | `travel` | Mafia PBBG Engine | Fly between cities. |
 | Bullet Factory | `bullet-factory` | Extended | Buy bullets; the factory can be owned. Hourly production via WP-Cron. |
 | Black Market | `black-market` | Extended | Buy items (requires `inventory`). |
-| Inventory | `inventory` | Underworld Empire | Equip, use and sell items. |
-| Bank | `bank` | Underworld Empire | Deposit (with laundering fee), withdraw, transfer. |
+| Inventory | `inventory` | Mafia PBBG Engine | Equip, use and sell items. |
+| Bank | `bank` | Mafia PBBG Engine | Deposit (with laundering fee), withdraw, transfer. |
 | Properties | `properties` | Extended | Manage owned businesses; taken over on murder. |
 | Blackjack | `blackjack` | Extended | Blackjack; the table can be owned. |
 | Detectives | `detectives` | Extended | Track down players. |
 | Murder | `murder` | Extended | Shoot players (requires `detectives`). |
 | Bounties | `bounties` | Extended | Bounties on players, paid to the killer. |
 | Families | `families` | Extended | Families with roles, permissions, vault, invitations and log. |
-| Messages | `messages` | Underworld Empire | Private messages. |
-| Notifications | `notifications` | Underworld Empire | Events around your character. |
-| Profile | `profile` | Underworld Empire | Public profiles and your own profile text. |
-| Players | `players` | Underworld Empire | Who's online and search. |
-| Leaderboards | `leaderboards` | Underworld Empire | Top 25 per category. |
-| Statistics | `statistics` | Underworld Empire | Numbers about the game world. |
-| News | `news` | Underworld Empire | Game news. |
+| Messages | `messages` | Mafia PBBG Engine | Private messages. |
+| Notifications | `notifications` | Mafia PBBG Engine | Events around your character. |
+| Profile | `profile` | Mafia PBBG Engine | Public profiles and your own profile text. |
+| Players | `players` | Mafia PBBG Engine | Who's online and search. |
+| Leaderboards | `leaderboards` | Mafia PBBG Engine | Top 25 per category. |
+| Statistics | `statistics` | Mafia PBBG Engine | Numbers about the game world. |
+| News | `news` | Mafia PBBG Engine | Game news. |
 | Forum | `forum` | Extended | Forum with moderation. |
 
 ## Premium modules
 
-Extra modules can be bought in the DigiFalk store. They need Underworld Empire Extended. They show on the Modules screen as locked
+Extra modules can be bought in the DigiFalk store. They need Mafia PBBG Engine Extended. They show on the Modules screen as locked
 cards with a **Buy** button; paste the license key from your email and the module is
 downloaded, verified, installed and switched on. One payment, lifetime updates. Details and
 the store API: [`docs/PREMIUM.md`](docs/PREMIUM.md).
@@ -109,7 +110,7 @@ the store API: [`docs/PREMIUM.md`](docs/PREMIUM.md).
 
 The game is fully modular. A module is a folder containing a `module.php`. Put your own
 modules in **`wp-content/underworld-modules/<module-id>/`**: that folder survives plugin
-updates. Then enable the module under *Underworld Empire → Modules*.
+updates. Then enable the module under *Mafia PBBG Engine → Modules*.
 
 See **[docs/MODULES.md](docs/MODULES.md)** for the full guide and
 [`docs/example-module/slot-machine`](docs/example-module/slot-machine) for a complete example.
@@ -143,11 +144,11 @@ out link. Place them anywhere:
   content, or the game footer (left, center, right). The preview opens the game and updates
   immediately. With an empty sidebar the game uses the full width; the game menu can then go
   in the header as a dropdown (a bottom sheet on phones).
-* **Theme header and footer**: with the Underworld Empire theme every game element is also available
+* **Theme header and footer**: with the Mafia PBBG Engine theme every game element is also available
   in the header and footer builders (*Game: Cash*, *Game: Game menu*, ...), on desktop,
   mobile and in the mobile menu panel – for example the player's money in the top bar of
   every page of the site.
-* **Widgets**: the *Underworld Empire: game element* widget shows one element in any widget
+* **Widgets**: the *Mafia PBBG Engine: game element* widget shows one element in any widget
   area.
 * **Shortcode**: `[ue_hud element="cash"]`, several at once with
   `[ue_hud element="cash,bank,bullets"]`, and `layout="bar|stack|inline"`.
@@ -166,10 +167,10 @@ online* are always shown. Modules and themes can add their own elements with the
   The *Colours* section holds the dark mode colours; light mode has its own palette and
   colours. The game follows the mode (with *Appearance: follow the theme*).
 
-* **Appearance** (Underworld Empire → Settings): by default the game follows the colours and
+* **Appearance** (Mafia PBBG Engine → Settings): by default the game follows the colours and
   font of your WordPress theme, in light and dark themes alike. Choose *Built-in dark look* for
   the original dark style regardless of the theme.
-* **Underworld Empire theme**: Underworld Empire Extended ships the theme **Underworld
+* **Mafia PBBG Engine theme**: Mafia PBBG Engine Extended ships the theme **Underworld
   Empire**. Activate it under *Appearance → Themes*; it is available while Extended is active. Everything is set in
   *Appearance → Customize*, comparable to the free version of Astra:
   * **Global**: colour palettes (Underworld, Noir, Daylight or custom colours), typography
@@ -234,19 +235,19 @@ Every version is released automatically by the GitHub Actions workflow
 
 ## Translations
 
-Underworld Empire (`lite/`) uses the text domain `underworld-empire` and may be translated:
+Mafia PBBG Engine (`lite/`) uses the text domain `mafia-pbbg-engine` and may be translated:
 once it is in the WordPress.org plugin directory, translations are made on
-translate.wordpress.org. Underworld Empire Extended and the premium modules may not be
+translate.wordpress.org. Mafia PBBG Engine Extended and the premium modules may not be
 translated (see `extended/LICENSE.md`); other languages for those come with a premium module
 from DigiFalk.
 
 ## License
 
-- **Underworld Empire** (`lite/`): GNU General Public License, version 2 or later
+- **Mafia PBBG Engine** (`lite/`): GNU General Public License, version 2 or later
   ([`lite/LICENSE.txt`](lite/LICENSE.txt)).
-- **Underworld Empire Extended** (`extended/`, including the theme) and DigiFalk premium
+- **Mafia PBBG Engine Extended** (`extended/`, including the theme) and DigiFalk premium
   modules: DigiFalk License ([`extended/LICENSE.md`](extended/LICENSE.md)). Free to use, also
   commercially; not to be modified, distributed or translated; with Extended the line
-  "Underworld Empire by DigiFalk" stays unless you use the White Label premium module.
+  "Mafia PBBG Engine by DigiFalk" stays unless you use the White Label premium module.
 
 See [LICENSE.md](LICENSE.md). Copyright © DigiFalk.

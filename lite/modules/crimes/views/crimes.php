@@ -12,19 +12,19 @@ use DigiFalk\UnderworldEmpire\Frontend\UI;
 defined( 'ABSPATH' ) || exit;
 
 if ( $c->timer_active( 'crime' ) ) {
-	echo UI::cooldown( __( 'You can commit a crime again in', 'underworld-empire' ), $c->timer( 'crime' ) ); // phpcs:ignore
+	echo UI::cooldown( __( 'You can commit a crime again in', 'mafia-pbbg-engine' ), $c->timer( 'crime' ) ); // phpcs:ignore
 }
 ?>
 <?php if ( ! $crimes ) : ?>
-	<?php echo UI::empty_state( __( 'There are no crimes available yet.', 'underworld-empire' ) ); // phpcs:ignore ?>
+	<?php echo UI::empty_state( __( 'There are no crimes available yet.', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
 <?php else : ?>
 	<table class="dfmg-table">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Crime', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Loot', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Cooldown', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Chance', 'underworld-empire' ); ?></th>
+				<th><?php esc_html_e( 'Crime', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Loot', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Cooldown', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Chance', 'mafia-pbbg-engine' ); ?></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -40,7 +40,7 @@ if ( $c->timer_active( 'crime' ) ) {
 					<td><?php echo esc_html( Format::money( $dfmg_crime['min_money'] ) . ' – ' . Format::money( $dfmg_crime['max_money'] ) ); ?></td>
 					<td><?php echo esc_html( Format::duration( (int) $dfmg_crime['cooldown'] ) ); ?></td>
 					<td class="dfmg-col-bar"><?php echo UI::bar( (float) $dfmg_crime['skill'] ); // phpcs:ignore ?></td>
-					<td><?php echo $this->button( 'commit', __( 'Commit', 'underworld-empire' ), array( 'crime' => $dfmg_crime['id'] ) ); // phpcs:ignore ?></td>
+					<td><?php echo $this->button( 'commit', __( 'Commit', 'mafia-pbbg-engine' ), array( 'crime' => $dfmg_crime['id'] ) ); // phpcs:ignore ?></td>
 				</tr>
 			<?php endforeach; ?>
 		</tbody>

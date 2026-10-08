@@ -28,7 +28,7 @@ final class Contrast {
 		if ( 'dark' === Settings::get( 'appearance', 'theme' ) ) {
 			return '';
 		}
-		// The Underworld Empire theme (Extended) has its own light and dark colours.
+		// The Mafia PBBG Engine theme (Extended) has its own light and dark colours.
 		if ( 'underworld-empire-theme' === get_template() ) {
 			return '';
 		}

@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 final class Leaderboards extends Module {
 
 	public function title(): string {
-		return __( 'Leaderboards', 'underworld-empire' );
+		return __( 'Leaderboards', 'mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -35,7 +35,7 @@ final class Leaderboards extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Leaderboards', 'underworld-empire' ),
+				'label' => __( 'Leaderboards', 'mafia-pbbg-engine' ),
 				'group' => 'community',
 				'order' => 30,
 			),
@@ -60,7 +60,7 @@ final class Leaderboards extends Module {
 			'dfmg_leaderboards',
 			array(
 				'rank'    => array(
-					'label'    => __( 'Rank', 'underworld-empire' ),
+					'label'    => __( 'Rank', 'mafia-pbbg-engine' ),
 					'callback' => static function () {
 						$out = array();
 						foreach ( DB::column( 'SELECT id FROM {characters} WHERE status = 1 ORDER BY exp DESC LIMIT 25' ) as $id ) {
@@ -70,7 +70,7 @@ final class Leaderboards extends Module {
 					},
 				),
 				'wealth'  => array(
-					'label'    => __( 'Wealth', 'underworld-empire' ),
+					'label'    => __( 'Wealth', 'mafia-pbbg-engine' ),
 					'callback' => static function () {
 						$out = array();
 						foreach ( DB::column( 'SELECT id FROM {characters} WHERE status = 1 ORDER BY (money + bank) DESC LIMIT 25' ) as $id ) {
@@ -80,15 +80,15 @@ final class Leaderboards extends Module {
 					},
 				),
 				'murders' => array(
-					'label'    => __( 'Murders', 'underworld-empire' ),
+					'label'    => __( 'Murders', 'mafia-pbbg-engine' ),
 					'callback' => $activity( 'murder' ),
 				),
 				'crimes'  => array(
-					'label'    => __( 'Crimes', 'underworld-empire' ),
+					'label'    => __( 'Crimes', 'mafia-pbbg-engine' ),
 					'callback' => $activity( 'crimes' ),
 				),
 				'busts'   => array(
-					'label'    => __( 'Breakouts', 'underworld-empire' ),
+					'label'    => __( 'Breakouts', 'mafia-pbbg-engine' ),
 					'callback' => $activity( 'jail.bust' ),
 				),
 			)
@@ -112,7 +112,7 @@ final class Leaderboards extends Module {
 			set_transient( $cache_key, $rows, 5 * MINUTE_IN_SECONDS );
 		}
 		if ( ! $rows ) {
-			return $html . UI::empty_state( __( 'No data yet.', 'underworld-empire' ) );
+			return $html . UI::empty_state( __( 'No data yet.', 'mafia-pbbg-engine' ) );
 		}
 		$html .= '<table class="dfmg-table dfmg-leaderboard"><tbody>';
 		$pos   = 0;
@@ -120,7 +120,7 @@ final class Leaderboards extends Module {
 			$html .= '<tr class="' . ( (int) $id === $c->id() ? 'is-me' : '' ) . '"><td class="dfmg-pos">' . ( ++$pos ) . '</td><td>' . Character::link_by_id( (int) $id ) . '</td><td>'
 				. esc_html( is_numeric( $value ) ? Format::number( $value ) : (string) $value ) . '</td></tr>';
 		}
-		return $html . '</tbody></table><p class="dfmg-muted">' . esc_html__( 'Updated every 5 minutes.', 'underworld-empire' ) . '</p>';
+		return $html . '</tbody></table><p class="dfmg-muted">' . esc_html__( 'Updated every 5 minutes.', 'mafia-pbbg-engine' ) . '</p>';
 	}
 }
 

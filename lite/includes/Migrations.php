@@ -34,7 +34,7 @@ final class Migrations {
 
 	/**
 	 * 1.13.2: the game has its own light/dark switch. Saved game layouts get it at the end of
-	 * the header (new installs have it in the default layout). Not with the Underworld Empire
+	 * the header (new installs have it in the default layout). Not with the Mafia PBBG Engine
 	 * theme, which has the switch in the site header.
 	 */
 	private static function mode_toggle(): void {
@@ -212,7 +212,7 @@ final class Migrations {
 		$page = get_post( (int) get_option( 'dfmg_page_id' ) );
 		if ( $page ) {
 			$content = str_replace( array( '[maffia_game]', '[mafia_game]' ), '[underworld_empire]', $page->post_content );
-			$title   = in_array( $page->post_title, array( 'Maffia Game', 'Mafia Game' ), true ) ? 'Underworld Empire' : $page->post_title;
+			$title   = in_array( $page->post_title, array( 'Maffia Game', 'Mafia Game' ), true ) ? 'Mafia PBBG Engine' : $page->post_title;
 			if ( in_array( get_post_meta( $page->ID, '_wp_page_template', true ), array( '', 'default' ), true ) ) {
 				update_post_meta( $page->ID, '_wp_page_template', 'page-game' );
 			}

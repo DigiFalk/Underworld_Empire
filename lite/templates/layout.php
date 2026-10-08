@@ -37,7 +37,7 @@ $dfmg_zone_html = static function ( string $zone ) use ( $dfmg_z ): string {
 			echo $dfmg_zone_html( 'header-left' ) . $dfmg_zone_html( 'header-center' ) . $dfmg_zone_html( 'header-right' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- escaped by the elements.
 			?>
 			<?php if ( $dfmg_sidebar ) : ?>
-				<button type="button" class="dfmg-menu-toggle" aria-controls="dfmg-nav" aria-expanded="false"><span class="dfmg-menu-toggle__icon" aria-hidden="true"></span><span><?php esc_html_e( 'Menu', 'underworld-empire' ); ?></span></button>
+				<button type="button" class="dfmg-menu-toggle" aria-controls="dfmg-nav" aria-expanded="false"><span class="dfmg-menu-toggle__icon" aria-hidden="true"></span><span><?php esc_html_e( 'Menu', 'mafia-pbbg-engine' ); ?></span></button>
 			<?php endif; ?>
 		</header>
 	<?php endif; ?>

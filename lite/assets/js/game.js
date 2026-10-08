@@ -1,5 +1,5 @@
 /**
- * Underworld Empire – live countdowns, menus and small helpers. No dependencies.
+ * Mafia PBBG Engine – live countdowns, menus and small helpers. No dependencies.
  * Works for the game itself (.dfmg) and for game elements placed elsewhere (.dfmg-hud).
  */
 ( function () {

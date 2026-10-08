@@ -14,27 +14,27 @@ defined( 'ABSPATH' ) || exit;
 ?>
 <div class="dfmg-card">
 	<?php if ( $c->is_hospitalized() ) : ?>
-		<?php echo UI::cooldown( __( 'You are being treated. Discharged in', 'underworld-empire' ), $c->timer( 'hospital' ) ); // phpcs:ignore ?>
+		<?php echo UI::cooldown( __( 'You are being treated. Discharged in', 'mafia-pbbg-engine' ), $c->timer( 'hospital' ) ); // phpcs:ignore ?>
 	<?php else : ?>
-		<p><?php esc_html_e( 'Your health:', 'underworld-empire' ); ?></p>
+		<p><?php esc_html_e( 'Your health:', 'mafia-pbbg-engine' ); ?></p>
 		<?php echo UI::bar( $c->health_percent() ); // phpcs:ignore ?>
 		<?php if ( $quote['cost'] || $quote['time'] ) : ?>
 			<p>
 				<?php
 				/* translators: 1: cost, 2: duration */
-				printf( esc_html__( 'A full recovery costs %1$s and takes %2$s.', 'underworld-empire' ), esc_html( Format::money( $quote['cost'] ) ), esc_html( Format::duration( $quote['time'] ) ) );
+				printf( esc_html__( 'A full recovery costs %1$s and takes %2$s.', 'mafia-pbbg-engine' ), esc_html( Format::money( $quote['cost'] ) ), esc_html( Format::duration( $quote['time'] ) ) );
 				?>
 			</p>
-			<?php echo $this->button( 'admit', __( 'Get admitted', 'underworld-empire' ) ); // phpcs:ignore ?>
+			<?php echo $this->button( 'admit', __( 'Get admitted', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
 		<?php else : ?>
-			<p><?php esc_html_e( 'You have no injuries.', 'underworld-empire' ); ?></p>
+			<p><?php esc_html_e( 'You have no injuries.', 'mafia-pbbg-engine' ); ?></p>
 		<?php endif; ?>
 	<?php endif; ?>
 </div>
 
-<h3><?php esc_html_e( 'Patients', 'underworld-empire' ); ?></h3>
+<h3><?php esc_html_e( 'Patients', 'mafia-pbbg-engine' ); ?></h3>
 <?php if ( ! $patients ) : ?>
-	<?php echo UI::empty_state( __( 'There are no patients.', 'underworld-empire' ) ); // phpcs:ignore ?>
+	<?php echo UI::empty_state( __( 'There are no patients.', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
 <?php else : ?>
 	<table class="dfmg-table">
 		<?php foreach ( $patients as $dfmg_p ) : ?>

@@ -1,4 +1,4 @@
-# Building modules for Underworld Empire
+# Building modules for Mafia PBBG Engine
 
 Everything players see in the game is a **module**. The core only provides the foundation:
 characters, timers, ranks, cities, items, properties, routing, administration and styling.
@@ -8,16 +8,16 @@ Adding modules extends the game without touching the plugin itself.
 
 | Location | When to use |
 | --- | --- |
-| `wp-content/plugins/underworld-empire/modules/<id>/` and `wp-content/plugins/underworld-empire-extended/modules/<id>/` | Bundled modules of Underworld Empire and Underworld Empire Extended. Don't edit: changes are lost on update. |
+| `wp-content/plugins/underworld-empire/modules/<id>/` and `wp-content/plugins/underworld-empire-extended/modules/<id>/` | Bundled modules of Mafia PBBG Engine and Mafia PBBG Engine Extended. Don't edit: changes are lost on update. |
 | `wp-content/underworld-modules/<id>/` | **Your own modules.** Survives updates. A module with the same id as a bundled module replaces it. Change the folder with `define( 'DFMG_CUSTOM_MODULES_DIR', '/path' );` in `wp-config.php`. |
 | Another plugin | `add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( __DIR__ . '/my-module/module.php' ) );` |
 
-Underworld Empire itself is GPL software. If your game also uses Underworld Empire Extended,
+Mafia PBBG Engine itself is GPL software. If your game also uses Mafia PBBG Engine Extended,
 your modules may not copy code from Extended and may not copy or imitate a DigiFalk premium
 module; see sections 3 and 4 of [`extended/LICENSE.md`](../extended/LICENSE.md).
 
 The folder name is the module **id** (e.g. `slot-machine`). It is also used in the URL
-(`?mg=slot-machine`). Enable new modules under *Underworld Empire → Modules*.
+(`?mg=slot-machine`). Enable new modules under *Mafia PBBG Engine → Modules*.
 
 ## The smallest module
 

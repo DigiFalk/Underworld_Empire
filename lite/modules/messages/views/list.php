@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
 echo $this->view( 'tabs', array( 'active' => $sent ? 'sent' : 'inbox' ) ); // phpcs:ignore
 
 if ( ! $rows ) {
-	echo UI::empty_state( __( 'No messages.', 'underworld-empire' ) ); // phpcs:ignore
+	echo UI::empty_state( __( 'No messages.', 'mafia-pbbg-engine' ) ); // phpcs:ignore
 	return;
 }
 ?>
@@ -27,9 +27,9 @@ if ( ! $rows ) {
 		<thead>
 			<tr>
 				<th class="dfmg-col-check"></th>
-				<th><?php echo $sent ? esc_html__( 'To', 'underworld-empire' ) : esc_html__( 'From', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Subject', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Date', 'underworld-empire' ); ?></th>
+				<th><?php echo $sent ? esc_html__( 'To', 'mafia-pbbg-engine' ) : esc_html__( 'From', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Subject', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Date', 'mafia-pbbg-engine' ); ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -43,10 +43,10 @@ if ( ! $rows ) {
 			<?php endforeach; ?>
 		</tbody>
 	</table>
-	<button type="submit" class="dfmg-button dfmg-button--ghost dfmg-button--small"><?php esc_html_e( 'Delete selected', 'underworld-empire' ); ?></button>
+	<button type="submit" class="dfmg-button dfmg-button--ghost dfmg-button--small"><?php esc_html_e( 'Delete selected', 'mafia-pbbg-engine' ); ?></button>
 </form>
 <?php
 if ( ! $sent ) {
-	echo $this->button( 'read_all', __( 'Mark all as read', 'underworld-empire' ), array(), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore
+	echo $this->button( 'read_all', __( 'Mark all as read', 'mafia-pbbg-engine' ), array(), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore
 }
 echo UI::pager( $this->id(), $sent ? array( 'view' => 'sent' ) : array(), $paged, $pages ); // phpcs:ignore

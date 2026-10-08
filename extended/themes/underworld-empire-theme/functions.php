@@ -1,6 +1,6 @@
 <?php
 /**
- * Underworld Empire theme.
+ * Mafia PBBG Engine theme.
  *
  * All options are theme mods, edited in Appearance → Customize.
  *

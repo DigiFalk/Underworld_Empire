@@ -36,7 +36,7 @@ final class Ranks {
 		$all = self::all();
 		return $all ? $all[0] : array(
 			'id'            => 0,
-			'name'          => __( 'Unknown', 'underworld-empire' ),
+			'name'          => __( 'Unknown', 'mafia-pbbg-engine' ),
 			'exp_required'  => 0,
 			'max_players'   => 0,
 			'cash_reward'   => 0,

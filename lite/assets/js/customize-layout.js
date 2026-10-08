@@ -1,6 +1,6 @@
 /* global wp, jQuery, dfmgLayout */
 /**
- * Underworld Empire – drag & drop game layout in the Customizer.
+ * Mafia PBBG Engine – drag & drop game layout in the Customizer.
  * Drag game elements between the zones of a small map of the game page;
  * the preview updates immediately (selective refresh).
  */

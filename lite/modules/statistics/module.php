@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 final class Statistics extends Module {
 
 	public function title(): string {
-		return __( 'Statistics', 'underworld-empire' );
+		return __( 'Statistics', 'mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -36,7 +36,7 @@ final class Statistics extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Statistics', 'underworld-empire' ),
+				'label' => __( 'Statistics', 'mafia-pbbg-engine' ),
 				'group' => 'community',
 				'order' => 40,
 			),
@@ -51,15 +51,15 @@ final class Statistics extends Module {
 		$stats = get_transient( 'dfmg_statistics' );
 		if ( ! is_array( $stats ) ) {
 			$stats = array(
-				__( 'Living players', 'underworld-empire' )     => Format::number( (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1' ) ),
-				__( 'Murdered players', 'underworld-empire' )   => Format::number( (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 0' ) ),
-				__( 'Money in circulation', 'underworld-empire' )      => Format::money( (int) DB::value( 'SELECT COALESCE(SUM(money + bank), 0) FROM {characters} WHERE status = 1' ) ),
-				__( 'Bullets in circulation', 'underworld-empire' )    => Format::number( (int) DB::value( 'SELECT COALESCE(SUM(bullets), 0) FROM {characters} WHERE status = 1' ) ),
-				__( 'Successful crimes', 'underworld-empire' )  => Format::number( $this->count_action( 'crimes' ) ),
-				__( 'Failed crimes', 'underworld-empire' )   => Format::number( $this->count_action( 'crimes', false ) ),
-				__( 'Stolen cars', 'underworld-empire' )    => Format::number( $this->count_action( 'car-theft' ) ),
-				__( 'Breakouts', 'underworld-empire' )           => Format::number( $this->count_action( 'jail.bust' ) ),
-				__( 'Murders', 'underworld-empire' )             => Format::number( $this->count_action( 'murder' ) ),
+				__( 'Living players', 'mafia-pbbg-engine' )     => Format::number( (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1' ) ),
+				__( 'Murdered players', 'mafia-pbbg-engine' )   => Format::number( (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 0' ) ),
+				__( 'Money in circulation', 'mafia-pbbg-engine' )      => Format::money( (int) DB::value( 'SELECT COALESCE(SUM(money + bank), 0) FROM {characters} WHERE status = 1' ) ),
+				__( 'Bullets in circulation', 'mafia-pbbg-engine' )    => Format::number( (int) DB::value( 'SELECT COALESCE(SUM(bullets), 0) FROM {characters} WHERE status = 1' ) ),
+				__( 'Successful crimes', 'mafia-pbbg-engine' )  => Format::number( $this->count_action( 'crimes' ) ),
+				__( 'Failed crimes', 'mafia-pbbg-engine' )   => Format::number( $this->count_action( 'crimes', false ) ),
+				__( 'Stolen cars', 'mafia-pbbg-engine' )    => Format::number( $this->count_action( 'car-theft' ) ),
+				__( 'Breakouts', 'mafia-pbbg-engine' )           => Format::number( $this->count_action( 'jail.bust' ) ),
+				__( 'Murders', 'mafia-pbbg-engine' )             => Format::number( $this->count_action( 'murder' ) ),
 			);
 			$stats = apply_filters( 'dfmg_statistics', $stats );
 			set_transient( 'dfmg_statistics', $stats, 5 * MINUTE_IN_SECONDS );
@@ -71,12 +71,12 @@ final class Statistics extends Module {
 		}
 		$html .= '</div>';
 
-		$html .= '<div class="dfmg-grid dfmg-grid--2"><section class="dfmg-card"><h3>' . esc_html__( 'Players per city', 'underworld-empire' ) . '</h3><table class="dfmg-table">';
+		$html .= '<div class="dfmg-grid dfmg-grid--2"><section class="dfmg-card"><h3>' . esc_html__( 'Players per city', 'mafia-pbbg-engine' ) . '</h3><table class="dfmg-table">';
 		foreach ( Locations::all() as $loc ) {
 			$n     = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1 AND location_id = %d', $loc['id'] );
 			$html .= '<tr><td>' . esc_html( $loc['name'] ) . '</td><td>' . esc_html( Format::number( $n ) ) . '</td></tr>';
 		}
-		$html .= '</table></section><section class="dfmg-card"><h3>' . esc_html__( 'Players per rank', 'underworld-empire' ) . '</h3><table class="dfmg-table">';
+		$html .= '</table></section><section class="dfmg-card"><h3>' . esc_html__( 'Players per rank', 'mafia-pbbg-engine' ) . '</h3><table class="dfmg-table">';
 		foreach ( Ranks::all() as $rank ) {
 			$n     = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE status = 1 AND rank_id = %d', $rank['id'] );
 			$html .= '<tr><td>' . esc_html( $rank['name'] ) . '</td><td>' . esc_html( Format::number( $n ) ) . '</td></tr>';

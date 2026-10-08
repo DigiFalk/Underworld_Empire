@@ -15,7 +15,7 @@ use DigiFalk\UnderworldEmpire\Items;
 
 defined( 'ABSPATH' ) || exit;
 ?>
-<h3><?php esc_html_e( 'Equipment', 'underworld-empire' ); ?></h3>
+<h3><?php esc_html_e( 'Equipment', 'mafia-pbbg-engine' ); ?></h3>
 <div class="dfmg-grid dfmg-grid--3">
 	<?php foreach ( $slots as $dfmg_key => $dfmg_slot ) : ?>
 		<?php $dfmg_item = $equipped[ $dfmg_key ] ?? null; ?>
@@ -28,9 +28,9 @@ defined( 'ABSPATH' ) || exit;
 						<li><?php echo esc_html( $dfmg_line ); ?></li>
 					<?php endforeach; ?>
 				</ul>
-				<?php echo $this->button( 'unequip', __( 'Unequip', 'underworld-empire' ), array( 'slot' => $dfmg_key ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
+				<?php echo $this->button( 'unequip', __( 'Unequip', 'mafia-pbbg-engine' ), array( 'slot' => $dfmg_key ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
 			<?php else : ?>
-				<p class="dfmg-muted"><?php esc_html_e( 'Empty', 'underworld-empire' ); ?></p>
+				<p class="dfmg-muted"><?php esc_html_e( 'Empty', 'mafia-pbbg-engine' ); ?></p>
 			<?php endif; ?>
 		</div>
 	<?php endforeach; ?>
@@ -38,20 +38,20 @@ defined( 'ABSPATH' ) || exit;
 <p class="dfmg-muted">
 	<?php
 	/* translators: 1: attack, 2: defense, 3: health */
-	printf( esc_html__( 'Attack %1$s · Defense %2$s · Max. health %3$s', 'underworld-empire' ), esc_html( (string) round( $c->attack_power() ) ), esc_html( (string) round( $c->defense_power() ) ), esc_html( Format::number( $c->max_health() ) ) );
+	printf( esc_html__( 'Attack %1$s · Defense %2$s · Max. health %3$s', 'mafia-pbbg-engine' ), esc_html( (string) round( $c->attack_power() ) ), esc_html( (string) round( $c->defense_power() ) ), esc_html( Format::number( $c->max_health() ) ) );
 	?>
 </p>
 
-<h3><?php esc_html_e( 'Belongings', 'underworld-empire' ); ?></h3>
+<h3><?php esc_html_e( 'Belongings', 'mafia-pbbg-engine' ); ?></h3>
 <?php if ( ! $items ) : ?>
-	<?php echo UI::empty_state( __( 'Your inventory is empty.', 'underworld-empire' ) ); // phpcs:ignore ?>
+	<?php echo UI::empty_state( __( 'Your inventory is empty.', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
 <?php else : ?>
 	<table class="dfmg-table">
 		<thead>
 			<tr>
-				<th><?php esc_html_e( 'Item', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Amount', 'underworld-empire' ); ?></th>
-				<th><?php esc_html_e( 'Effect', 'underworld-empire' ); ?></th>
+				<th><?php esc_html_e( 'Item', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Amount', 'mafia-pbbg-engine' ); ?></th>
+				<th><?php esc_html_e( 'Effect', 'mafia-pbbg-engine' ); ?></th>
 				<th></th>
 			</tr>
 		</thead>
@@ -64,11 +64,11 @@ defined( 'ABSPATH' ) || exit;
 					<td><small><?php echo esc_html( implode( ', ', Items::describe_effects( $dfmg_item ) ) ); ?></small></td>
 					<td class="dfmg-actions">
 						<?php if ( 'equip' === $dfmg_usage ) : ?>
-							<?php echo $this->button( 'equip', __( 'Equip', 'underworld-empire' ), array( 'item' => $dfmg_item['id'] ) ); // phpcs:ignore ?>
+							<?php echo $this->button( 'equip', __( 'Equip', 'mafia-pbbg-engine' ), array( 'item' => $dfmg_item['id'] ) ); // phpcs:ignore ?>
 						<?php elseif ( 'use' === $dfmg_usage ) : ?>
-							<?php echo $this->button( 'use', __( 'Use', 'underworld-empire' ), array( 'item' => $dfmg_item['id'] ) ); // phpcs:ignore ?>
+							<?php echo $this->button( 'use', __( 'Use', 'mafia-pbbg-engine' ), array( 'item' => $dfmg_item['id'] ) ); // phpcs:ignore ?>
 						<?php endif; ?>
-						<?php echo $this->button( 'sell', sprintf( /* translators: %s: money */ __( 'Sell (%s)', 'underworld-empire' ), Format::money( floor( $dfmg_item['price'] * $sell_pct / 100 ) ) ), array( 'item' => $dfmg_item['id'] ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
+						<?php echo $this->button( 'sell', sprintf( /* translators: %s: money */ __( 'Sell (%s)', 'mafia-pbbg-engine' ), Format::money( floor( $dfmg_item['price'] * $sell_pct / 100 ) ) ), array( 'item' => $dfmg_item['id'] ), 'dfmg-button dfmg-button--ghost dfmg-button--small' ); // phpcs:ignore ?>
 					</td>
 				</tr>
 			<?php endforeach; ?>

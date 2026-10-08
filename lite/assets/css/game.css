@@ -1,9 +1,9 @@
 /*
- * Underworld Empire – front end styles.
+ * Mafia PBBG Engine – front end styles.
  * All rules are scoped to .dfmg (the game) and .dfmg-hud (game elements placed elsewhere)
  * so the active theme is left alone.
  *
- * Two appearances (Underworld Empire → Settings → Appearance):
+ * Two appearances (Mafia PBBG Engine → Settings → Appearance):
  *  - Theme (default): colours and font follow the active WordPress theme. Block themes can
  *    fine-tune the game through these optional palette slugs in theme.json:
  *    accent, surface, surface-2, border, muted, button, button-text.

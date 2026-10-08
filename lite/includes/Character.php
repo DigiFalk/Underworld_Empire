@@ -111,14 +111,14 @@ final class Character {
 	public static function validate_name( string $name ) {
 		$name = trim( $name );
 		if ( ! preg_match( '/^[A-Za-z0-9_\-]{3,20}$/', $name ) ) {
-			return new \WP_Error( 'name', __( 'A name consists of 3 to 20 letters, digits, - or _.', 'underworld-empire' ) );
+			return new \WP_Error( 'name', __( 'A name consists of 3 to 20 letters, digits, - or _.', 'mafia-pbbg-engine' ) );
 		}
 		if ( self::find_by_name( $name ) ) {
-			return new \WP_Error( 'name', __( 'This name is already taken.', 'underworld-empire' ) );
+			return new \WP_Error( 'name', __( 'This name is already taken.', 'mafia-pbbg-engine' ) );
 		}
 		$blocked = apply_filters( 'dfmg_blocked_names', array( 'admin', 'administrator', 'moderator', 'system', 'systeem' ) );
 		if ( in_array( strtolower( $name ), $blocked, true ) ) {
-			return new \WP_Error( 'name', __( 'This name is not allowed.', 'underworld-empire' ) );
+			return new \WP_Error( 'name', __( 'This name is not allowed.', 'mafia-pbbg-engine' ) );
 		}
 		return true;
 	}
@@ -135,7 +135,7 @@ final class Character {
 		}
 		$alive = (int) DB::value( 'SELECT COUNT(*) FROM {characters} WHERE user_id = %d AND status = %d', $user_id, self::ALIVE );
 		if ( $alive ) {
-			return new \WP_Error( 'alive', __( 'You already have a living character.', 'underworld-empire' ) );
+			return new \WP_Error( 'alive', __( 'You already have a living character.', 'mafia-pbbg-engine' ) );
 		}
 
 		$data = apply_filters(
@@ -161,7 +161,7 @@ final class Character {
 
 		$id = DB::insert( 'characters', $data );
 		if ( ! $id ) {
-			return new \WP_Error( 'db', __( 'Character could not be created.', 'underworld-empire' ) );
+			return new \WP_Error( 'db', __( 'Character could not be created.', 'mafia-pbbg-engine' ) );
 		}
 		self::$current = false;
 		$character     = self::find( $id );
@@ -425,16 +425,16 @@ final class Character {
 			}
 			if ( (int) $next['bullet_reward'] ) {
 				/* translators: %s: number of bullets */
-				$rewards[] = sprintf( __( '%s bullets', 'underworld-empire' ), Format::number( $next['bullet_reward'] ) );
+				$rewards[] = sprintf( __( '%s bullets', 'mafia-pbbg-engine' ), Format::number( $next['bullet_reward'] ) );
 			}
 			$message = sprintf(
 				/* translators: %s: rank name */
-				__( 'Congratulations! You have been promoted to %s.', 'underworld-empire' ),
+				__( 'Congratulations! You have been promoted to %s.', 'mafia-pbbg-engine' ),
 				$next['name']
 			);
 			if ( $rewards ) {
 				/* translators: %s: list of rewards */
-				$message .= ' ' . sprintf( __( 'Reward: %s.', 'underworld-empire' ), implode( ', ', $rewards ) );
+				$message .= ' ' . sprintf( __( 'Reward: %s.', 'mafia-pbbg-engine' ), implode( ', ', $rewards ) );
 			}
 			$this->notify( $message );
 			$this->log( 'rank.up', true, (int) $next['id'] );
@@ -491,7 +491,7 @@ final class Character {
 	public function location(): array {
 		return Locations::get( (int) $this->row['location_id'] ) ?? array(
 			'id'   => 0,
-			'name' => __( 'Unknown', 'underworld-empire' ),
+			'name' => __( 'Unknown', 'mafia-pbbg-engine' ),
 		);
 	}
 
@@ -580,6 +580,6 @@ final class Character {
 
 	public static function link_by_id( int $id ): string {
 		$c = self::find( $id );
-		return $c ? $c->link() : '<em>' . esc_html__( 'Unknown', 'underworld-empire' ) . '</em>';
+		return $c ? $c->link() : '<em>' . esc_html__( 'Unknown', 'mafia-pbbg-engine' ) . '</em>';
 	}
 }

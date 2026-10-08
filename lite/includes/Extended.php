@@ -1,6 +1,6 @@
 <?php
 /**
- * Underworld Empire Extended: the free add-on with families, murders, the theme and premium
+ * Mafia PBBG Engine Extended: the free add-on with families, murders, the theme and premium
  * modules. This class only detects it and links to it; the GitHub edition of this plugin can
  * also install it (see Bridge).
  *
@@ -22,11 +22,11 @@ final class Extended {
 	 */
 	public static function url(): string {
 		/**
-		 * Download page of Underworld Empire Extended.
+		 * Download page of Mafia PBBG Engine Extended.
 		 *
 		 * @param string $url
 		 */
-		return (string) apply_filters( 'dfmg_extended_url', 'https://digifalk.com/en/product/underworld-empire-extended/' );
+		return (string) apply_filters( 'dfmg_extended_url', 'https://digifalk.com/en/product/mafia-pbbg-engine-extended/' );
 	}
 
 	/**
@@ -37,6 +37,6 @@ final class Extended {
 			return Bridge::button();
 		}
 		return '<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="' . esc_url( self::url() ) . '" target="_blank" rel="noopener">'
-			. esc_html__( 'Get Extended (free)', 'underworld-empire' ) . ' ' . Icons::svg( 'external', 14 ) . '</a>';
+			. esc_html__( 'Get Extended (free)', 'mafia-pbbg-engine' ) . ' ' . Icons::svg( 'external', 14 ) . '</a>';
 	}
 }

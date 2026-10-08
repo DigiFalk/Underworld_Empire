@@ -1,7 +1,23 @@
 # Changelog
 
-All notable changes to Underworld Empire. Each `## x.y.z` section is used as the notes of the
+All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
+
+## 1.14.0
+
+- **New name: Mafia PBBG Engine** (was Underworld Empire). The add-on is now Mafia PBBG Engine
+  Extended. The name changes everywhere you see it: the admin menu, the credit line
+  ("Mafia PBBG Engine by DigiFalk"), the plugin and theme names and the documentation.
+- Nothing changes for existing sites: the plugin folders, the update zips
+  (`underworld-empire.zip`, `underworld-empire-extended.zip`), settings, game data, licenses and
+  the `[underworld_empire]` shortcode stay the same.
+- The WordPress.org edition gets the slug `mafia-pbbg-engine`
+  (`mafia-pbbg-engine-wordpress-org.zip`, folder and main file `mafia-pbbg-engine`), and the
+  text domain is now `mafia-pbbg-engine`.
+- Extended no longer declares a plugin dependency by slug, so it works with both editions
+  (it still checks that the free plugin is active).
+- New installs create the game page "Mafia Game".
+- The link to Extended goes to https://digifalk.com/en/product/mafia-pbbg-engine-extended/.
 
 ## 1.13.3
 

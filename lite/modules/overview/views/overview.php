@@ -17,12 +17,12 @@ use DigiFalk\UnderworldEmpire\Icons;
 defined( 'ABSPATH' ) || exit;
 
 $dfmg_tiles = array(
-	array( 'cash', __( 'Cash', 'underworld-empire' ), Format::money( $c->money ) ),
-	array( 'bank', __( 'Bank', 'underworld-empire' ), Format::money( $c->bank ) ),
-	array( 'bullets', __( 'Bullets', 'underworld-empire' ), Format::number( $c->bullets ) ),
-	array( 'power', __( 'Attack / defense', 'underworld-empire' ), round( $c->attack_power() ) . ' / ' . round( $c->defense_power() ) ),
-	array( 'city', __( 'City', 'underworld-empire' ), $c->location_name() ),
-	array( 'wealth', __( 'Wealth', 'underworld-empire' ), $c->wealth_title() ),
+	array( 'cash', __( 'Cash', 'mafia-pbbg-engine' ), Format::money( $c->money ) ),
+	array( 'bank', __( 'Bank', 'mafia-pbbg-engine' ), Format::money( $c->bank ) ),
+	array( 'bullets', __( 'Bullets', 'mafia-pbbg-engine' ), Format::number( $c->bullets ) ),
+	array( 'power', __( 'Attack / defense', 'mafia-pbbg-engine' ), round( $c->attack_power() ) . ' / ' . round( $c->defense_power() ) ),
+	array( 'city', __( 'City', 'mafia-pbbg-engine' ), $c->location_name() ),
+	array( 'wealth', __( 'Wealth', 'mafia-pbbg-engine' ), $c->wealth_title() ),
 );
 $dfmg_ready = 0;
 foreach ( $timers as $dfmg_timer ) {
@@ -35,16 +35,16 @@ foreach ( $timers as $dfmg_timer ) {
 		<div>
 			<p class="dfmg-hero__eyebrow"><?php echo esc_html( $c->rank_name() ); ?></p>
 			<h3 class="dfmg-hero__name"><?php echo esc_html( $c->name ); ?></h3>
-			<p class="dfmg-hero__meta"><?php echo Icons::svg( 'calendar', 14 ); // phpcs:ignore ?> <?php /* translators: %s: date */ echo esc_html( sprintf( __( 'Playing since %s', 'underworld-empire' ), Format::date( (int) $c->created_at ) ) ); ?></p>
+			<p class="dfmg-hero__meta"><?php echo Icons::svg( 'calendar', 14 ); // phpcs:ignore ?> <?php /* translators: %s: date */ echo esc_html( sprintf( __( 'Playing since %s', 'mafia-pbbg-engine' ), Format::date( (int) $c->created_at ) ) ); ?></p>
 		</div>
 	</div>
 	<div class="dfmg-hero__bars">
 		<div class="dfmg-meter">
-			<div class="dfmg-meter__head"><span><?php echo Icons::svg( 'rank', 14 ); // phpcs:ignore ?> <?php echo esc_html( $next ? sprintf( /* translators: %s: rank */ __( 'Next rank: %s', 'underworld-empire' ), $next['name'] ) : __( 'Highest rank reached', 'underworld-empire' ) ); ?></span><strong><?php echo esc_html( $c->rank_progress() . '%' ); ?></strong></div>
+			<div class="dfmg-meter__head"><span><?php echo Icons::svg( 'rank', 14 ); // phpcs:ignore ?> <?php echo esc_html( $next ? sprintf( /* translators: %s: rank */ __( 'Next rank: %s', 'mafia-pbbg-engine' ), $next['name'] ) : __( 'Highest rank reached', 'mafia-pbbg-engine' ) ); ?></span><strong><?php echo esc_html( $c->rank_progress() . '%' ); ?></strong></div>
 			<?php echo UI::bar( $c->rank_progress(), '', true ); // phpcs:ignore ?>
 		</div>
 		<div class="dfmg-meter dfmg-meter--health">
-			<div class="dfmg-meter__head"><span><?php echo Icons::svg( 'health', 14 ); // phpcs:ignore ?> <?php esc_html_e( 'Health', 'underworld-empire' ); ?></span><strong><?php echo esc_html( $c->health_percent() . '%' ); ?></strong></div>
+			<div class="dfmg-meter__head"><span><?php echo Icons::svg( 'health', 14 ); // phpcs:ignore ?> <?php esc_html_e( 'Health', 'mafia-pbbg-engine' ); ?></span><strong><?php echo esc_html( $c->health_percent() . '%' ); ?></strong></div>
 			<?php echo UI::bar( $c->health_percent(), '', true ); // phpcs:ignore ?>
 		</div>
 	</div>
@@ -62,14 +62,14 @@ foreach ( $timers as $dfmg_timer ) {
 
 <div class="dfmg-grid dfmg-grid--2">
 	<section class="dfmg-card">
-		<h3 class="dfmg-card__title"><?php echo Icons::svg( 'timer', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Timers', 'underworld-empire' ); ?>
+		<h3 class="dfmg-card__title"><?php echo Icons::svg( 'timer', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Timers', 'mafia-pbbg-engine' ); ?>
 			<?php if ( $timers ) : ?>
 				<?php /* translators: 1: ready timers, 2: all timers */ ?>
-				<span class="dfmg-pill"><?php echo esc_html( sprintf( __( '%1$d of %2$d ready', 'underworld-empire' ), $dfmg_ready, count( $timers ) ) ); ?></span>
+				<span class="dfmg-pill"><?php echo esc_html( sprintf( __( '%1$d of %2$d ready', 'mafia-pbbg-engine' ), $dfmg_ready, count( $timers ) ) ); ?></span>
 			<?php endif; ?>
 		</h3>
 		<?php if ( ! $timers ) : ?>
-			<?php echo UI::empty_state( __( 'No timers.', 'underworld-empire' ) ); // phpcs:ignore ?>
+			<?php echo UI::empty_state( __( 'No timers.', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
 		<?php else : ?>
 			<ul class="dfmg-timerlist">
 				<?php foreach ( $timers as $dfmg_timer ) : ?>
@@ -86,9 +86,9 @@ foreach ( $timers as $dfmg_timer ) {
 	</section>
 
 	<section class="dfmg-card">
-		<h3 class="dfmg-card__title"><?php echo Icons::svg( 'notifications', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Latest notifications', 'underworld-empire' ); ?></h3>
+		<h3 class="dfmg-card__title"><?php echo Icons::svg( 'notifications', 18 ); // phpcs:ignore ?> <?php esc_html_e( 'Latest notifications', 'mafia-pbbg-engine' ); ?></h3>
 		<?php if ( ! $notifications ) : ?>
-			<?php echo UI::empty_state( __( 'No notifications yet.', 'underworld-empire' ) ); // phpcs:ignore ?>
+			<?php echo UI::empty_state( __( 'No notifications yet.', 'mafia-pbbg-engine' ) ); // phpcs:ignore ?>
 		<?php else : ?>
 			<ul class="dfmg-feed">
 				<?php foreach ( $notifications as $dfmg_n ) : ?>

@@ -20,24 +20,24 @@ defined( 'ABSPATH' ) || exit;
 final class Profile extends Module {
 
 	public function title(): string {
-		return __( 'Profile', 'underworld-empire' );
+		return __( 'Profile', 'mafia-pbbg-engine' );
 	}
 
 	public function settings_fields(): array {
 		return array(
 			'avatar_upload' => array(
-				'label'       => __( 'Players can upload an avatar', 'underworld-empire' ),
+				'label'       => __( 'Players can upload an avatar', 'mafia-pbbg-engine' ),
 				'type'        => 'checkbox',
 				'default'     => 1,
-				'description' => __( 'Saved as a square .webp image and used as the WordPress avatar of the user on the whole site.', 'underworld-empire' ),
+				'description' => __( 'Saved as a square .webp image and used as the WordPress avatar of the user on the whole site.', 'mafia-pbbg-engine' ),
 			),
 			'avatar_max_kb' => array(
-				'label'   => __( 'Maximum upload size (KB)', 'underworld-empire' ),
+				'label'   => __( 'Maximum upload size (KB)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 2048,
 			),
 			'avatar_size'   => array(
-				'label'   => __( 'Avatar size (pixels)', 'underworld-empire' ),
+				'label'   => __( 'Avatar size (pixels)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 256,
 			),
@@ -59,7 +59,7 @@ final class Profile extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'My profile', 'underworld-empire' ),
+				'label' => __( 'My profile', 'mafia-pbbg-engine' ),
 				'group' => 'general',
 				'order' => 30,
 			),
@@ -70,20 +70,20 @@ final class Profile extends Module {
 		$name   = (string) ( $query['player'] ?? '' );
 		$target = '' !== $name ? Character::find_by_name( $name ) : $c;
 		if ( ! $target ) {
-			$this->error( __( 'This player doesn\'t exist.', 'underworld-empire' ) );
+			$this->error( __( 'This player doesn\'t exist.', 'mafia-pbbg-engine' ) );
 			$target = $c;
 		}
 		$fields = array(
-			__( 'Rank', 'underworld-empire' )    => esc_html( $target->rank_name() ),
-			__( 'Wealth', 'underworld-empire' ) => esc_html( $target->wealth_title() ),
-			__( 'Status', 'underworld-empire' )  => $target->is_alive()
-				? ( $target->is_online() ? '<span class="dfmg-online">' . esc_html__( 'Online', 'underworld-empire' ) . '</span>' : esc_html__( 'Alive', 'underworld-empire' ) )
-				: '<span class="dfmg-dead">' . esc_html__( 'Murdered', 'underworld-empire' ) . '</span>',
-			__( 'Murders', 'underworld-empire' ) => (int) DB::value( "SELECT COUNT(*) FROM {activity} WHERE character_id = %d AND action = 'murder' AND success = 1", $target->id() ),
-			__( 'Started', 'underworld-empire' ) => esc_html( \DigiFalk\UnderworldEmpire\Format::date( (int) $target->created_at ) ),
+			__( 'Rank', 'mafia-pbbg-engine' )    => esc_html( $target->rank_name() ),
+			__( 'Wealth', 'mafia-pbbg-engine' ) => esc_html( $target->wealth_title() ),
+			__( 'Status', 'mafia-pbbg-engine' )  => $target->is_alive()
+				? ( $target->is_online() ? '<span class="dfmg-online">' . esc_html__( 'Online', 'mafia-pbbg-engine' ) . '</span>' : esc_html__( 'Alive', 'mafia-pbbg-engine' ) )
+				: '<span class="dfmg-dead">' . esc_html__( 'Murdered', 'mafia-pbbg-engine' ) . '</span>',
+			__( 'Murders', 'mafia-pbbg-engine' ) => (int) DB::value( "SELECT COUNT(*) FROM {activity} WHERE character_id = %d AND action = 'murder' AND success = 1", $target->id() ),
+			__( 'Started', 'mafia-pbbg-engine' ) => esc_html( \DigiFalk\UnderworldEmpire\Format::date( (int) $target->created_at ) ),
 		);
 		if ( ! $target->is_alive() && $target->shot_by ) {
-			$fields[ __( 'Murdered by', 'underworld-empire' ) ] = Character::link_by_id( (int) $target->shot_by );
+			$fields[ __( 'Murdered by', 'mafia-pbbg-engine' ) ] = Character::link_by_id( (int) $target->shot_by );
 		}
 		$own = $target->id() === $c->id();
 		return $this->view(
@@ -104,12 +104,12 @@ final class Profile extends Module {
 
 	public function action_bio( Character $c, array $input ): void {
 		$c->set( 'bio', wp_kses_post( mb_substr( (string) ( $input['bio'] ?? '' ), 0, 5000 ) ) );
-		$this->success( __( 'Profile saved.', 'underworld-empire' ) );
+		$this->success( __( 'Profile saved.', 'mafia-pbbg-engine' ) );
 	}
 
 	public function action_avatar( Character $c, array $input ): void {
 		if ( ! $this->uploads_enabled() ) {
-			$this->error( __( 'Uploading an avatar is switched off.', 'underworld-empire' ) );
+			$this->error( __( 'Uploading an avatar is switched off.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput -- nonce checked by Game::handle_action, file validated by Avatar::save.
@@ -119,12 +119,12 @@ final class Profile extends Module {
 			$this->error( $result->get_error_message() );
 			return;
 		}
-		$this->success( __( 'Your new avatar is saved. It is also your profile picture on the rest of the site.', 'underworld-empire' ) );
+		$this->success( __( 'Your new avatar is saved. It is also your profile picture on the rest of the site.', 'mafia-pbbg-engine' ) );
 	}
 
 	public function action_avatar_remove( Character $c, array $input ): void {
 		Avatar::delete( (int) $c->user_id );
-		$this->success( __( 'Your avatar was removed.', 'underworld-empire' ) );
+		$this->success( __( 'Your avatar was removed.', 'mafia-pbbg-engine' ) );
 	}
 }
 

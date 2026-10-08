@@ -23,7 +23,7 @@ final class Notifications extends Module {
 	const PER_PAGE = 25;
 
 	public function title(): string {
-		return __( 'Notifications', 'underworld-empire' );
+		return __( 'Notifications', 'mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -38,7 +38,7 @@ final class Notifications extends Module {
 		$unread = (int) DB::value( 'SELECT COUNT(*) FROM {notifications} WHERE character_id = %d AND is_read = 0', $c->id() );
 		return array(
 			array(
-				'label' => __( 'Notifications', 'underworld-empire' ),
+				'label' => __( 'Notifications', 'mafia-pbbg-engine' ),
 				'group' => 'general',
 				'order' => 10,
 				'badge' => $unread ?: '',
@@ -58,7 +58,7 @@ final class Notifications extends Module {
 		DB::query( 'UPDATE {notifications} SET is_read = 1 WHERE character_id = %d AND is_read = 0', $c->id() );
 
 		if ( ! $rows ) {
-			return UI::empty_state( __( 'You have no notifications.', 'underworld-empire' ) );
+			return UI::empty_state( __( 'You have no notifications.', 'mafia-pbbg-engine' ) );
 		}
 		$html = '<ul class="dfmg-list dfmg-notifications">';
 		foreach ( $rows as $row ) {
@@ -67,7 +67,7 @@ final class Notifications extends Module {
 		}
 		$html .= '</ul>';
 		$html .= UI::pager( $this->id(), array(), $paged, (int) ceil( $total / self::PER_PAGE ) );
-		$html .= $this->button( 'clear', __( 'Delete all notifications', 'underworld-empire' ), array(), 'dfmg-button dfmg-button--ghost dfmg-button--small' );
+		$html .= $this->button( 'clear', __( 'Delete all notifications', 'mafia-pbbg-engine' ), array(), 'dfmg-button dfmg-button--ghost dfmg-button--small' );
 		return $html;
 	}
 

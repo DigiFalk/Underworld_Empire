@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 final class Overview extends Module {
 
 	public function title(): string {
-		return __( 'Overview', 'underworld-empire' );
+		return __( 'Overview', 'mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -36,7 +36,7 @@ final class Overview extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Overview', 'underworld-empire' ),
+				'label' => __( 'Overview', 'mafia-pbbg-engine' ),
 				'group' => 'general',
 				'order' => 1,
 			),

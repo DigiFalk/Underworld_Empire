@@ -276,8 +276,8 @@ final class Installer {
 		}
 		$page_id = wp_insert_post(
 			array(
-				'post_title'   => __( 'Underworld Empire', 'underworld-empire' ),
-				'post_name'    => 'underworld-empire',
+				'post_title'   => __( 'Mafia Game', 'mafia-pbbg-engine' ),
+				'post_name'    => 'mafia-game',
 				'post_content' => '[underworld_empire]',
 				'post_status'  => 'publish',
 				'post_type'    => 'page',

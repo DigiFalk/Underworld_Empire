@@ -1,5 +1,5 @@
 /**
- * Underworld Empire admin: filter and search on the Modules screen.
+ * Mafia PBBG Engine admin: filter and search on the Modules screen.
  */
 ( function () {
 	'use strict';

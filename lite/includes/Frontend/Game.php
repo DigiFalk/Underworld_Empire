@@ -66,7 +66,7 @@ final class Game {
 	public static function mode_toggle(): string {
 		$sun  = '<svg class="dfmg-mode-toggle__sun" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
 		$moon = '<svg class="dfmg-mode-toggle__moon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 14.6A8.5 8.5 0 0 1 9.4 3.3a8.5 8.5 0 1 0 11.3 11.3z"/></svg>';
-		return '<button type="button" class="dfmg-hud-icon dfmg-mode-toggle" aria-pressed="false" aria-label="' . esc_attr__( 'Switch between light and dark', 'underworld-empire' ) . '" title="' . esc_attr__( 'Light / dark', 'underworld-empire' ) . '">' . $moon . $sun . '</button>';
+		return '<button type="button" class="dfmg-hud-icon dfmg-mode-toggle" aria-pressed="false" aria-label="' . esc_attr__( 'Switch between light and dark', 'mafia-pbbg-engine' ) . '" title="' . esc_attr__( 'Light / dark', 'mafia-pbbg-engine' ) . '">' . $moon . $sun . '</button>';
 	}
 
 	/**
@@ -122,7 +122,7 @@ final class Game {
 			$reserved = array_intersect( array_keys( $args ), (array) $GLOBALS['wp']->public_query_vars );
 			if ( $reserved ) {
 				/* translators: %s: query vars */
-				_doing_it_wrong( __METHOD__, esc_html( sprintf( __( 'Game links can\'t use the WordPress query vars: %s. Pick another name (for example "pg" instead of "paged").', 'underworld-empire' ), implode( ', ', $reserved ) ) ), '1.10.1' );
+				_doing_it_wrong( __METHOD__, esc_html( sprintf( __( 'Game links can\'t use the WordPress query vars: %s. Pick another name (for example "pg" instead of "paged").', 'mafia-pbbg-engine' ), implode( ', ', $reserved ) ) ), '1.10.1' );
 			}
 		}
 		if ( $route && self::DEFAULT_ROUTE !== $route ) {
@@ -222,10 +222,10 @@ final class Game {
 		$module   = $registry->get( $route ) ?: $registry->get( self::DEFAULT_ROUTE );
 
 		if ( ! $module ) {
-			return self::wrap( '<p>' . esc_html__( 'No modules are active.', 'underworld-empire' ) . '</p>' );
+			return self::wrap( '<p>' . esc_html__( 'No modules are active.', 'mafia-pbbg-engine' ) . '</p>' );
 		}
 		if ( $module->id() !== $route ) {
-			Flash::error( __( 'This page doesn\'t exist.', 'underworld-empire' ) );
+			Flash::error( __( 'This page doesn\'t exist.', 'mafia-pbbg-engine' ) );
 		}
 
 		$module    = self::resolve( $c, $module );
@@ -266,15 +266,15 @@ final class Game {
 		$groups = apply_filters(
 			'dfmg_menu_groups',
 			array(
-				'general'   => __( 'General', 'underworld-empire' ),
-				'crime'     => __( 'Crime', 'underworld-empire' ),
-				'city'      => __( 'City', 'underworld-empire' ),
-				'casino'    => __( 'Casino', 'underworld-empire' ),
-				'murder'    => __( 'Murder', 'underworld-empire' ),
-				'family'    => __( 'Family', 'underworld-empire' ),
-				'money'     => __( 'Assets', 'underworld-empire' ),
-				'premium'   => __( 'Premium', 'underworld-empire' ),
-				'community' => __( 'Community', 'underworld-empire' ),
+				'general'   => __( 'General', 'mafia-pbbg-engine' ),
+				'crime'     => __( 'Crime', 'mafia-pbbg-engine' ),
+				'city'      => __( 'City', 'mafia-pbbg-engine' ),
+				'casino'    => __( 'Casino', 'mafia-pbbg-engine' ),
+				'murder'    => __( 'Murder', 'mafia-pbbg-engine' ),
+				'family'    => __( 'Family', 'mafia-pbbg-engine' ),
+				'money'     => __( 'Assets', 'mafia-pbbg-engine' ),
+				'premium'   => __( 'Premium', 'mafia-pbbg-engine' ),
+				'community' => __( 'Community', 'mafia-pbbg-engine' ),
 			)
 		);
 
@@ -338,7 +338,7 @@ final class Game {
 		// phpcs:enable
 
 		if ( ! wp_verify_nonce( sanitize_text_field( $input['_dfmg_nonce'] ?? '' ), self::nonce_action( $module_id, $action ) ) ) {
-			Flash::error( __( 'Your session has expired, please try again.', 'underworld-empire' ) );
+			Flash::error( __( 'Your session has expired, please try again.', 'mafia-pbbg-engine' ) );
 			self::redirect( 'core' === $module_id ? '' : $module_id );
 		}
 
@@ -362,13 +362,13 @@ final class Game {
 		$module   = $registry->get( $module_id );
 		$method   = 'action_' . str_replace( '-', '_', $action );
 		if ( ! $module || ! is_callable( array( $module, $method ) ) ) {
-			Flash::error( __( 'Unknown action.', 'underworld-empire' ) );
+			Flash::error( __( 'Unknown action.', 'mafia-pbbg-engine' ) );
 			self::redirect( '' );
 		}
 
 		$resolved = self::resolve( $c, $module );
 		if ( $resolved->id() !== $module->id() ) {
-			Flash::error( __( 'You can\'t do that right now.', 'underworld-empire' ) );
+			Flash::error( __( 'You can\'t do that right now.', 'mafia-pbbg-engine' ) );
 			self::redirect( $resolved->id() );
 		}
 
@@ -391,7 +391,7 @@ final class Game {
 				Flash::error( $result->get_error_message() );
 			} else {
 				/* translators: %s: character name */
-				Flash::success( sprintf( __( 'Welcome to the underworld, %s.', 'underworld-empire' ), $result->name ) );
+				Flash::success( sprintf( __( 'Welcome to the underworld, %s.', 'mafia-pbbg-engine' ), $result->name ) );
 			}
 		}
 		self::redirect( '' );
@@ -405,24 +405,24 @@ final class Game {
 		$config = Property::type( $type );
 		$route  = sanitize_key( $input['return'] ?? '' );
 		if ( ! $config ) {
-			Flash::error( __( 'This property doesn\'t exist.', 'underworld-empire' ) );
+			Flash::error( __( 'This property doesn\'t exist.', 'mafia-pbbg-engine' ) );
 			self::redirect( $route );
 		}
 		$property = Property::get( $type, (int) $c->location_id );
 		if ( $property->is_owned() ) {
-			Flash::error( __( 'This property already has an owner.', 'underworld-empire' ) );
+			Flash::error( __( 'This property already has an owner.', 'mafia-pbbg-engine' ) );
 			self::redirect( $route );
 		}
 		$price = $property->buy_price();
 		if ( ! $c->spend( 'money', $price ) ) {
 			/* translators: %s: money */
-			Flash::error( sprintf( __( 'You need %s in cash.', 'underworld-empire' ), Format::money( $price ) ) );
+			Flash::error( sprintf( __( 'You need %s in cash.', 'mafia-pbbg-engine' ), Format::money( $price ) ) );
 			self::redirect( $route );
 		}
 		$property->transfer( $c->id() );
 		$c->log( 'property.buy', true, $price, $property->location_id() );
 		/* translators: 1: property, 2: city */
-		Flash::success( sprintf( __( 'Congratulations, the %1$s in %2$s is now yours.', 'underworld-empire' ), $property->label(), $c->location_name() ) );
+		Flash::success( sprintf( __( 'Congratulations, the %1$s in %2$s is now yours.', 'mafia-pbbg-engine' ), $property->label(), $c->location_name() ) );
 		self::redirect( $route );
 	}
 

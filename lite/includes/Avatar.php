@@ -105,7 +105,7 @@ final class Avatar {
 
 	public static function profile_description( string $description, $user ): string {
 		if ( $user instanceof \WP_User && self::url( (int) $user->ID ) ) {
-			return __( 'This picture was uploaded on the game profile page and can be changed there.', 'underworld-empire' );
+			return __( 'This picture was uploaded on the game profile page and can be changed there.', 'mafia-pbbg-engine' );
 		}
 		return $description;
 	}
@@ -118,14 +118,14 @@ final class Avatar {
 	public static function save( int $user_id, array $file, int $size = 256, int $max_kb = 2048 ) {
 		$error = (int) ( $file['error'] ?? UPLOAD_ERR_NO_FILE );
 		if ( UPLOAD_ERR_NO_FILE === $error || empty( $file['tmp_name'] ) ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'Choose an image first.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'Choose an image first.', 'mafia-pbbg-engine' ) );
 		}
 		if ( UPLOAD_ERR_INI_SIZE === $error || UPLOAD_ERR_FORM_SIZE === $error || (int) $file['size'] > $max_kb * 1024 ) {
 			/* translators: %s: maximum file size */
-			return new \WP_Error( 'dfmg_avatar', sprintf( __( 'The image is too large. The maximum is %s.', 'underworld-empire' ), size_format( $max_kb * 1024 ) ) );
+			return new \WP_Error( 'dfmg_avatar', sprintf( __( 'The image is too large. The maximum is %s.', 'mafia-pbbg-engine' ), size_format( $max_kb * 1024 ) ) );
 		}
 		if ( UPLOAD_ERR_OK !== $error || ! is_uploaded_file( $file['tmp_name'] ) ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'The upload failed, please try again.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'The upload failed, please try again.', 'mafia-pbbg-engine' ) );
 		}
 		$mimes = array(
 			'jpg|jpeg|jpe' => 'image/jpeg',
@@ -136,7 +136,7 @@ final class Avatar {
 		$check = wp_check_filetype_and_ext( $file['tmp_name'], (string) $file['name'], $mimes );
 		$info  = @getimagesize( $file['tmp_name'] ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged
 		if ( empty( $check['type'] ) || ! $info || ! in_array( $info['mime'] ?? '', $mimes, true ) ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'Upload a JPG, PNG, GIF or WebP image.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'Upload a JPG, PNG, GIF or WebP image.', 'mafia-pbbg-engine' ) );
 		}
 		return self::store( $user_id, (string) $file['tmp_name'], $size );
 	}
@@ -149,15 +149,15 @@ final class Avatar {
 	 */
 	public static function store( int $user_id, string $path, int $size = 256 ) {
 		if ( ! self::supported() ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'This server can\'t create WebP images. Ask the site administrator to enable WebP support in GD or Imagick.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'This server can\'t create WebP images. Ask the site administrator to enable WebP support in GD or Imagick.', 'mafia-pbbg-engine' ) );
 		}
 		if ( ! is_file( $path ) ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'This image can\'t be read.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'This image can\'t be read.', 'mafia-pbbg-engine' ) );
 		}
 
 		$editor = wp_get_image_editor( $path );
 		if ( is_wp_error( $editor ) ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'This image can\'t be read.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'This image can\'t be read.', 'mafia-pbbg-engine' ) );
 		}
 		// Square crop from the centre, scaled down to the avatar size.
 		$dims   = $editor->get_size();
@@ -165,13 +165,13 @@ final class Avatar {
 		$target = min( $side, max( 32, $size ) );
 		$result = $editor->crop( (int) floor( ( $dims['width'] - $side ) / 2 ), (int) floor( ( $dims['height'] - $side ) / 2 ), $side, $side, $target, $target );
 		if ( is_wp_error( $result ) ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'This image can\'t be processed.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'This image can\'t be processed.', 'mafia-pbbg-engine' ) );
 		}
 		$editor->set_quality( 82 );
 
 		$dir = self::dir();
 		if ( ! wp_mkdir_p( $dir['path'] ) ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'The avatar folder can\'t be created.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'The avatar folder can\'t be created.', 'mafia-pbbg-engine' ) );
 		}
 		if ( ! is_file( $dir['path'] . '/index.php' ) ) {
 			file_put_contents( $dir['path'] . '/index.php', "<?php\n// Silence is golden.\n" ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
@@ -180,7 +180,7 @@ final class Avatar {
 		$name  = $user_id . '-' . strtolower( wp_generate_password( 10, false ) ) . '.webp';
 		$saved = $editor->save( $dir['path'] . '/' . $name, 'image/webp' );
 		if ( is_wp_error( $saved ) || 'image/webp' !== ( $saved['mime-type'] ?? '' ) ) {
-			return new \WP_Error( 'dfmg_avatar', __( 'The image could not be saved.', 'underworld-empire' ) );
+			return new \WP_Error( 'dfmg_avatar', __( 'The image could not be saved.', 'mafia-pbbg-engine' ) );
 		}
 		if ( basename( (string) $saved['path'] ) !== $name ) {
 			$name = basename( (string) $saved['path'] );

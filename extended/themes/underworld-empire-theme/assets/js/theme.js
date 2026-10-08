@@ -1,5 +1,5 @@
 /**
- * Underworld Empire theme: mobile menu panel, submenus, sticky header, scroll to top.
+ * Mafia PBBG Engine theme: mobile menu panel, submenus, sticky header, scroll to top.
  * Uses event delegation so it keeps working when the Customizer re-renders the header.
  */
 ( function () {

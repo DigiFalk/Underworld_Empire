@@ -24,15 +24,15 @@ final class Layout {
 	 */
 	public static function zones(): array {
 		return array(
-			'header-left'   => array( __( 'Header left', 'underworld-empire' ), 'bar' ),
-			'header-center' => array( __( 'Header center', 'underworld-empire' ), 'bar' ),
-			'header-right'  => array( __( 'Header right', 'underworld-empire' ), 'bar' ),
-			'sidebar'       => array( __( 'Sidebar', 'underworld-empire' ), 'stack' ),
-			'top'           => array( __( 'Above the content', 'underworld-empire' ), 'bar' ),
-			'bottom'        => array( __( 'Below the content', 'underworld-empire' ), 'bar' ),
-			'footer-left'   => array( __( 'Footer left', 'underworld-empire' ), 'bar' ),
-			'footer-center' => array( __( 'Footer center', 'underworld-empire' ), 'bar' ),
-			'footer-right'  => array( __( 'Footer right', 'underworld-empire' ), 'bar' ),
+			'header-left'   => array( __( 'Header left', 'mafia-pbbg-engine' ), 'bar' ),
+			'header-center' => array( __( 'Header center', 'mafia-pbbg-engine' ), 'bar' ),
+			'header-right'  => array( __( 'Header right', 'mafia-pbbg-engine' ), 'bar' ),
+			'sidebar'       => array( __( 'Sidebar', 'mafia-pbbg-engine' ), 'stack' ),
+			'top'           => array( __( 'Above the content', 'mafia-pbbg-engine' ), 'bar' ),
+			'bottom'        => array( __( 'Below the content', 'mafia-pbbg-engine' ), 'bar' ),
+			'footer-left'   => array( __( 'Footer left', 'mafia-pbbg-engine' ), 'bar' ),
+			'footer-center' => array( __( 'Footer center', 'mafia-pbbg-engine' ), 'bar' ),
+			'footer-right'  => array( __( 'Footer right', 'mafia-pbbg-engine' ), 'bar' ),
 		);
 	}
 
@@ -109,8 +109,8 @@ final class Layout {
 		$wp_customize->add_section(
 			'dfmg_game_layout',
 			array(
-				'title'       => __( 'Game layout', 'underworld-empire' ),
-				'description' => __( 'Drag game elements to the header, sidebar, footer or around the content of the game pages. Tip: game elements can also be placed in the theme header and footer, in widget areas, or anywhere with the [ue_hud element="cash"] shortcode.', 'underworld-empire' ),
+				'title'       => __( 'Game layout', 'mafia-pbbg-engine' ),
+				'description' => __( 'Drag game elements to the header, sidebar, footer or around the content of the game pages. Tip: game elements can also be placed in the theme header and footer, in widget areas, or anywhere with the [ue_hud element="cash"] shortcode.', 'mafia-pbbg-engine' ),
 				'priority'    => 25,
 				'capability'  => 'manage_options',
 			)
@@ -130,7 +130,7 @@ final class Layout {
 				$wp_customize,
 				self::OPTION,
 				array(
-					'label'   => __( 'Game layout', 'underworld-empire' ),
+					'label'   => __( 'Game layout', 'mafia-pbbg-engine' ),
 					'section' => 'dfmg_game_layout',
 				)
 			)
@@ -165,15 +165,15 @@ final class Layout {
 				'defaults' => self::defaults(),
 				'gameUrl'  => Game::page_url(),
 				'i18n'     => array(
-					'available' => __( 'Available elements – drag them into a zone', 'underworld-empire' ),
-					'add'       => __( 'Add element', 'underworld-empire' ),
-					'remove'    => __( 'Remove', 'underworld-empire' ),
-					'reset'     => __( 'Reset to default', 'underworld-empire' ),
-					'header'    => __( 'Header', 'underworld-empire' ),
-					'content'   => __( 'Game page', 'underworld-empire' ),
-					'footer'    => __( 'Footer', 'underworld-empire' ),
-					'page'      => __( 'Page content', 'underworld-empire' ),
-					'title'     => __( 'Game layout', 'underworld-empire' ),
+					'available' => __( 'Available elements – drag them into a zone', 'mafia-pbbg-engine' ),
+					'add'       => __( 'Add element', 'mafia-pbbg-engine' ),
+					'remove'    => __( 'Remove', 'mafia-pbbg-engine' ),
+					'reset'     => __( 'Reset to default', 'mafia-pbbg-engine' ),
+					'header'    => __( 'Header', 'mafia-pbbg-engine' ),
+					'content'   => __( 'Game page', 'mafia-pbbg-engine' ),
+					'footer'    => __( 'Footer', 'mafia-pbbg-engine' ),
+					'page'      => __( 'Page content', 'mafia-pbbg-engine' ),
+					'title'     => __( 'Game layout', 'mafia-pbbg-engine' ),
 				),
 			)
 		);

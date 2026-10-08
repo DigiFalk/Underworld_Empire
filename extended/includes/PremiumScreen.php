@@ -1,6 +1,6 @@
 <?php
 /**
- * The premium modules section on the Modules screen of Underworld Empire.
+ * The premium modules section on the Modules screen of Mafia PBBG Engine.
  *
  * @package DigiFalk\UnderworldEmpire\Extended
  */
@@ -87,7 +87,7 @@ final class PremiumScreen {
 							<?php endif; ?>
 							<?php if ( $too_old ) : ?>
 								<?php /* translators: %s: version */ ?>
-								<p class="dfmg-admin-note"><?php echo esc_html( sprintf( __( 'Needs Underworld Empire %s or newer. Update the plugin first.', 'underworld-empire' ), $product['requires'] ) ); ?></p>
+								<p class="dfmg-admin-note"><?php echo esc_html( sprintf( __( 'Needs Mafia PBBG Engine %s or newer. Update the plugin first.', 'underworld-empire' ), $product['requires'] ) ); ?></p>
 							<?php endif; ?>
 
 							<?php if ( $license ) : ?>

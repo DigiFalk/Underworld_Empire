@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
 final class Garage extends Module {
 
 	public function title(): string {
-		return __( 'Garage', 'underworld-empire' );
+		return __( 'Garage', 'mafia-pbbg-engine' );
 	}
 
 	public function schema(): array {
@@ -73,17 +73,17 @@ final class Garage extends Module {
 	public function settings_fields(): array {
 		return array(
 			'garage_crush_rate'    => array(
-				'label'       => __( 'Car crusher: value per bullet', 'underworld-empire' ),
+				'label'       => __( 'Car crusher: value per bullet', 'mafia-pbbg-engine' ),
 				'type'        => 'int',
 				'default'     => 15,
 			),
 			'garage_repair_factor' => array(
-				'label'   => __( 'Repair cost (% of damage value)', 'underworld-empire' ),
+				'label'   => __( 'Repair cost (% of damage value)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 80,
 			),
 			'garage_ship_percent'  => array(
-				'label'   => __( 'Shipping cost (% of car value)', 'underworld-empire' ),
+				'label'   => __( 'Shipping cost (% of car value)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 10,
 			),
@@ -93,17 +93,17 @@ final class Garage extends Module {
 	public function admin_tables(): array {
 		return array(
 			'cars' => array(
-				'label'   => __( 'Cars', 'underworld-empire' ),
+				'label'   => __( 'Cars', 'mafia-pbbg-engine' ),
 				'table'   => 'cars',
 				'order'   => 'value ASC',
 				'columns' => array(
-					'name'   => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
-					'value'  => array( 'label' => __( 'Value', 'underworld-empire' ), 'type' => 'int' ),
+					'name'   => array( 'label' => __( 'Name', 'mafia-pbbg-engine' ), 'required' => true ),
+					'value'  => array( 'label' => __( 'Value', 'mafia-pbbg-engine' ), 'type' => 'int' ),
 					'rarity' => array(
-						'label'       => __( 'Rarity (weight)', 'underworld-empire' ),
+						'label'       => __( 'Rarity (weight)', 'mafia-pbbg-engine' ),
 						'type'        => 'int',
 						'default'     => 100,
-						'description' => __( 'The higher, the more often this car gets stolen.', 'underworld-empire' ),
+						'description' => __( 'The higher, the more often this car gets stolen.', 'mafia-pbbg-engine' ),
 					),
 				),
 			),
@@ -114,7 +114,7 @@ final class Garage extends Module {
 		$count = (int) DB::value( 'SELECT COUNT(*) FROM {garage} WHERE character_id = %d', $c->id() );
 		return array(
 			array(
-				'label' => __( 'Garage', 'underworld-empire' ),
+				'label' => __( 'Garage', 'mafia-pbbg-engine' ),
 				'group' => 'money',
 				'order' => 30,
 				'badge' => $count ?: '',
@@ -152,14 +152,14 @@ final class Garage extends Module {
 			$c->id()
 		);
 		if ( ! $row ) {
-			$this->error( __( 'This car is not in your garage.', 'underworld-empire' ) );
+			$this->error( __( 'This car is not in your garage.', 'mafia-pbbg-engine' ) );
 		}
 		return $row;
 	}
 
 	private function here( Character $c, array $row ): bool {
 		if ( (int) $row['location_id'] !== (int) $c->location_id ) {
-			$this->error( __( 'This car is in another city. Ship it here first.', 'underworld-empire' ) );
+			$this->error( __( 'This car is in another city. Ship it here first.', 'mafia-pbbg-engine' ) );
 			return false;
 		}
 		return true;
@@ -210,7 +210,7 @@ final class Garage extends Module {
 			$c->add( 'money', $worth );
 			$c->log( 'garage.sell', true, $worth, (int) $row['car_id'] );
 			/* translators: 1: car, 2: money */
-			$this->success( sprintf( __( 'You sold your %1$s for %2$s.', 'underworld-empire' ), $row['name'], Format::money( $worth ) ) );
+			$this->success( sprintf( __( 'You sold your %1$s for %2$s.', 'mafia-pbbg-engine' ), $row['name'], Format::money( $worth ) ) );
 		}
 	}
 
@@ -224,7 +224,7 @@ final class Garage extends Module {
 			$c->add( 'bullets', $bullets );
 			$c->log( 'garage.crush', true, $bullets, (int) $row['car_id'] );
 			/* translators: 1: car, 2: bullets */
-			$this->success( sprintf( __( 'Your %1$s went into the crusher. You got %2$s bullets.', 'underworld-empire' ), $row['name'], Format::number( $bullets ) ) );
+			$this->success( sprintf( __( 'Your %1$s went into the crusher. You got %2$s bullets.', 'mafia-pbbg-engine' ), $row['name'], Format::number( $bullets ) ) );
 		}
 	}
 
@@ -234,18 +234,18 @@ final class Garage extends Module {
 			return;
 		}
 		if ( ! (int) $row['damage'] ) {
-			$this->error( __( 'This car has no damage.', 'underworld-empire' ) );
+			$this->error( __( 'This car has no damage.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$cost = $this->repair_cost( $row );
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'The repair costs %s. You don\'t have that in cash.', 'underworld-empire' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'The repair costs %s. You don\'t have that in cash.', 'mafia-pbbg-engine' ), Format::money( $cost ) ) );
 			return;
 		}
 		DB::update( 'garage', array( 'damage' => 0 ), array( 'id' => $row['id'] ) );
 		/* translators: 1: car, 2: money */
-		$this->success( sprintf( __( 'Your %1$s is as good as new. Cost: %2$s.', 'underworld-empire' ), $row['name'], Format::money( $cost ) ) );
+		$this->success( sprintf( __( 'Your %1$s is as good as new. Cost: %2$s.', 'mafia-pbbg-engine' ), $row['name'], Format::money( $cost ) ) );
 	}
 
 	public function action_ship( Character $c, array $input ): void {
@@ -254,18 +254,18 @@ final class Garage extends Module {
 			return;
 		}
 		if ( (int) $row['location_id'] === (int) $c->location_id ) {
-			$this->error( __( 'This car is already in this city.', 'underworld-empire' ) );
+			$this->error( __( 'This car is already in this city.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$cost = $this->ship_cost( $row );
 		if ( ! $c->spend( 'money', $cost ) ) {
 			/* translators: %s: money */
-			$this->error( sprintf( __( 'Shipping costs %s. You don\'t have that in cash.', 'underworld-empire' ), Format::money( $cost ) ) );
+			$this->error( sprintf( __( 'Shipping costs %s. You don\'t have that in cash.', 'mafia-pbbg-engine' ), Format::money( $cost ) ) );
 			return;
 		}
 		DB::update( 'garage', array( 'location_id' => (int) $c->location_id ), array( 'id' => $row['id'] ) );
 		/* translators: 1: car, 2: city */
-		$this->success( sprintf( __( 'Your %1$s is now in %2$s.', 'underworld-empire' ), $row['name'], $c->location_name() ) );
+		$this->success( sprintf( __( 'Your %1$s is now in %2$s.', 'mafia-pbbg-engine' ), $row['name'], $c->location_name() ) );
 	}
 }
 

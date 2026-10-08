@@ -1,6 +1,6 @@
 /* global wp, jQuery, uetCustomizer */
 /**
- * Underworld Empire theme – Customizer controls:
+ * Mafia PBBG Engine theme – Customizer controls:
  *  - colour palettes,
  *  - desktop / tablet / mobile values,
  *  - drag & drop header and footer builder.

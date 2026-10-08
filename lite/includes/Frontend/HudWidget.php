@@ -14,9 +14,9 @@ class HudWidget extends \WP_Widget {
 	public function __construct() {
 		parent::__construct(
 			'dfmg_hud',
-			__( 'Underworld Empire: game element', 'underworld-empire' ),
+			__( 'Mafia PBBG Engine: game element', 'mafia-pbbg-engine' ),
 			array(
-				'description'                 => __( 'Show a live piece of the game, such as cash, timers or the game menu.', 'underworld-empire' ),
+				'description'                 => __( 'Show a live piece of the game, such as cash, timers or the game menu.', 'mafia-pbbg-engine' ),
 				'customize_selective_refresh' => true,
 			)
 		);
@@ -42,11 +42,11 @@ class HudWidget extends \WP_Widget {
 		$element = (string) ( $instance['element'] ?? 'player' );
 		?>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'underworld-empire' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>"><?php esc_html_e( 'Title:', 'mafia-pbbg-engine' ); ?></label>
 			<input class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'title' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'title' ) ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<p>
-			<label for="<?php echo esc_attr( $this->get_field_id( 'element' ) ); ?>"><?php esc_html_e( 'Element:', 'underworld-empire' ); ?></label>
+			<label for="<?php echo esc_attr( $this->get_field_id( 'element' ) ); ?>"><?php esc_html_e( 'Element:', 'mafia-pbbg-engine' ); ?></label>
 			<select class="widefat" id="<?php echo esc_attr( $this->get_field_id( 'element' ) ); ?>" name="<?php echo esc_attr( $this->get_field_name( 'element' ) ); ?>">
 				<?php foreach ( Hud::labels() as $key => $label ) : ?>
 					<option value="<?php echo esc_attr( $key ); ?>" <?php selected( $element, $key ); ?>><?php echo esc_html( $label ); ?></option>

@@ -70,68 +70,68 @@ final class Settings {
 	public static function core_fields(): array {
 		return array(
 			'appearance'         => array(
-				'label'       => __( 'Appearance', 'underworld-empire' ),
+				'label'       => __( 'Appearance', 'mafia-pbbg-engine' ),
 				'type'        => 'select',
 				'default'     => 'theme',
 				'options'     => array(
-					'theme' => __( 'Follow the colours and font of the WordPress theme', 'underworld-empire' ),
-					'dark'  => __( 'Built-in dark look', 'underworld-empire' ),
+					'theme' => __( 'Follow the colours and font of the WordPress theme', 'mafia-pbbg-engine' ),
+					'dark'  => __( 'Built-in dark look', 'mafia-pbbg-engine' ),
 				),
-				'description' => __( 'Tip: Underworld Empire Extended comes with the matching "Underworld Empire" theme (Appearance → Themes). With "Follow the theme" the game also switches along with the light/dark mode of that theme. This is the starting look: players can switch between light and dark with the light/dark switch (a game element, see Appearance → Customize → Game layout).', 'underworld-empire' ),
+				'description' => __( 'Tip: Mafia PBBG Engine Extended comes with the matching "Mafia PBBG Engine" theme (Appearance → Themes). With "Follow the theme" the game also switches along with the light/dark mode of that theme. This is the starting look: players can switch between light and dark with the light/dark switch (a game element, see Appearance → Customize → Game layout).', 'mafia-pbbg-engine' ),
 			),
 			'show_credit'        => array(
-				'label'       => __( 'Show "Underworld Empire by DigiFalk" at the bottom of game pages', 'underworld-empire' ),
+				'label'       => __( 'Show "Mafia PBBG Engine by DigiFalk" at the bottom of game pages', 'mafia-pbbg-engine' ),
 				'type'        => 'checkbox',
 				'default'     => 0,
-				'description' => __( 'A small line with a link to the maker of the game. Thank you for your support! Always shown while Underworld Empire Extended is active.', 'underworld-empire' ),
+				'description' => __( 'A small line with a link to the maker of the game. Thank you for your support! Always shown while Mafia PBBG Engine Extended is active.', 'mafia-pbbg-engine' ),
 			),
 			'currency_symbol'    => array(
-				'label'   => __( 'Currency symbol', 'underworld-empire' ),
+				'label'   => __( 'Currency symbol', 'mafia-pbbg-engine' ),
 				'type'    => 'text',
 				'default' => '$',
 			),
 			'start_money'        => array(
-				'label'   => __( 'Starting money for new characters', 'underworld-empire' ),
+				'label'   => __( 'Starting money for new characters', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 250,
 			),
 			'start_bullets'      => array(
-				'label'   => __( 'Starting bullets for new characters', 'underworld-empire' ),
+				'label'   => __( 'Starting bullets for new characters', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 100,
 			),
 			'round_name'         => array(
-				'label'   => __( 'Current round name', 'underworld-empire' ),
+				'label'   => __( 'Current round name', 'mafia-pbbg-engine' ),
 				'type'    => 'text',
-				'default' => __( 'Round 1', 'underworld-empire' ),
+				'default' => __( 'Round 1', 'mafia-pbbg-engine' ),
 			),
 			'round_start'        => array(
-				'label'       => __( 'Round start', 'underworld-empire' ),
+				'label'       => __( 'Round start', 'mafia-pbbg-engine' ),
 				'type'        => 'datetime',
 				'default'     => '',
-				'description' => __( 'Leave empty = open immediately.', 'underworld-empire' ),
+				'description' => __( 'Leave empty = open immediately.', 'mafia-pbbg-engine' ),
 			),
 			'round_end'          => array(
-				'label'       => __( 'Round end', 'underworld-empire' ),
+				'label'       => __( 'Round end', 'mafia-pbbg-engine' ),
 				'type'        => 'datetime',
 				'default'     => '',
-				'description' => __( 'Leave empty = no end date.', 'underworld-empire' ),
+				'description' => __( 'Leave empty = no end date.', 'mafia-pbbg-engine' ),
 			),
 			'online_minutes'     => array(
-				'label'   => __( 'Minutes a player counts as online', 'underworld-empire' ),
+				'label'   => __( 'Minutes a player counts as online', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 15,
 			),
 			'hide_admin_bar'     => array(
-				'label'   => __( 'Hide the WordPress admin bar for players', 'underworld-empire' ),
+				'label'   => __( 'Hide the WordPress admin bar for players', 'mafia-pbbg-engine' ),
 				'type'    => 'checkbox',
 				'default' => 1,
 			),
 			'delete_on_uninstall' => array(
-				'label'       => __( 'Delete all game data when the plugin is deleted', 'underworld-empire' ),
+				'label'       => __( 'Delete all game data when the plugin is deleted', 'mafia-pbbg-engine' ),
 				'type'        => 'checkbox',
 				'default'     => 0,
-				'description' => __( 'Warning: all tables and settings will be erased.', 'underworld-empire' ),
+				'description' => __( 'Warning: all tables and settings will be erased.', 'mafia-pbbg-engine' ),
 			),
 		);
 	}

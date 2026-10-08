@@ -1,6 +1,6 @@
 <?php
 /**
- * Self-updates Underworld Empire Extended from GitHub releases through the standard
+ * Self-updates Mafia PBBG Engine Extended from GitHub releases through the standard
  * WordPress plugin updater.
  *
  * The plugin header contains "Update URI: https://github.com/...", so WordPress (5.8+)
@@ -169,7 +169,7 @@ final class Updater {
 			return $result;
 		}
 		return (object) array(
-			'name'          => 'Underworld Empire Extended',
+			'name'          => 'Mafia PBBG Engine Extended',
 			'slug'          => self::SLUG,
 			'version'       => $release['version'],
 			'author'        => '<a href="https://github.com/DigiFalk">DigiFalk</a>',
@@ -179,7 +179,7 @@ final class Updater {
 			'last_updated'  => $release['published'],
 			'download_link' => $release['package'],
 			'sections'      => array(
-				'description' => esc_html__( 'Families, murders, the Underworld Empire theme and premium modules for Underworld Empire.', 'underworld-empire' ),
+				'description' => esc_html__( 'Families, murders, the Mafia PBBG Engine theme and premium modules for Mafia PBBG Engine.', 'underworld-empire' ),
 				'changelog'   => self::markdown( $release['notes'] ),
 			),
 		);

@@ -8,7 +8,7 @@
  *  3. Other plugins: add_action( 'dfmg_register_modules', fn( $registry ) => $registry->add( '/path/to/module.php' ) );
  *
  * Modules with the header "Premium: yes" are bought on the DigiFalk store. They only run when
- * the dfmg_module_runnable filter allows it: Underworld Empire Extended does that for modules
+ * the dfmg_module_runnable filter allows it: Mafia PBBG Engine Extended does that for modules
  * with an activated license.
  *
  * @package DigiFalk\UnderworldEmpire
@@ -143,7 +143,7 @@ final class Registry {
 			return false;
 		}
 		/**
-		 * Whether a module may run. Premium modules only run when a plugin (Underworld Empire
+		 * Whether a module may run. Premium modules only run when a plugin (Mafia PBBG Engine
 		 * Extended) confirms their license.
 		 *
 		 * @param bool   $runnable
@@ -244,21 +244,21 @@ final class Registry {
 	public function enable( string $id ) {
 		$info = $this->info( $id );
 		if ( ! $info ) {
-			return new \WP_Error( 'module', __( 'Module not found.', 'underworld-empire' ) );
+			return new \WP_Error( 'module', __( 'Module not found.', 'mafia-pbbg-engine' ) );
 		}
 		if ( ! $this->runnable( $id ) ) {
-			return new \WP_Error( 'module', __( 'This premium module needs Underworld Empire Extended and an active license. Enter your license key on the Modules screen.', 'underworld-empire' ) );
+			return new \WP_Error( 'module', __( 'This premium module needs Mafia PBBG Engine Extended and an active license. Enter your license key on the Modules screen.', 'mafia-pbbg-engine' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $info['requires'] as $dep ) {
 			if ( ! in_array( $dep, $enabled, true ) ) {
 				/* translators: 1: module, 2: required module */
-				return new \WP_Error( 'module', sprintf( __( '%1$s requires the module "%2$s". Enable that one first.', 'underworld-empire' ), $info['name'], $dep ) );
+				return new \WP_Error( 'module', sprintf( __( '%1$s requires the module "%2$s". Enable that one first.', 'mafia-pbbg-engine' ), $info['name'], $dep ) );
 			}
 		}
 		$module = $this->load( $id );
 		if ( ! $module ) {
-			return new \WP_Error( 'module', __( 'Module could not be loaded.', 'underworld-empire' ) );
+			return new \WP_Error( 'module', __( 'Module could not be loaded.', 'mafia-pbbg-engine' ) );
 		}
 		$this->install( $module );
 		if ( ! in_array( $id, $enabled, true ) ) {
@@ -275,16 +275,16 @@ final class Registry {
 	public function disable( string $id ) {
 		$info = $this->info( $id );
 		if ( ! $info ) {
-			return new \WP_Error( 'module', __( 'Module not found.', 'underworld-empire' ) );
+			return new \WP_Error( 'module', __( 'Module not found.', 'mafia-pbbg-engine' ) );
 		}
 		if ( $info['required'] ) {
-			return new \WP_Error( 'module', __( 'This module is required and can\'t be disabled.', 'underworld-empire' ) );
+			return new \WP_Error( 'module', __( 'This module is required and can\'t be disabled.', 'mafia-pbbg-engine' ) );
 		}
 		$enabled = $this->enabled_ids();
 		foreach ( $enabled as $other ) {
 			if ( in_array( $id, $this->info( $other )['requires'], true ) ) {
 				/* translators: %s: module name */
-				return new \WP_Error( 'module', sprintf( __( 'The module "%s" requires this module. Disable that one first.', 'underworld-empire' ), $this->info( $other )['name'] ) );
+				return new \WP_Error( 'module', sprintf( __( 'The module "%s" requires this module. Disable that one first.', 'mafia-pbbg-engine' ), $this->info( $other )['name'] ) );
 			}
 		}
 		update_option( self::OPTION_ENABLED, array_values( array_diff( $enabled, array( $id ) ) ) );

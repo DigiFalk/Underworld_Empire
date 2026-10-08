@@ -18,12 +18,12 @@ final class Setup {
 	public static function init(): void {
 		add_action( 'dfmg_register_modules', array( __CLASS__, 'register_modules' ) );
 		add_action( 'dfmg_modules_booted', array( __CLASS__, 'enable_new' ) );
-		// "Underworld Empire by DigiFalk" stays on game pages (White Label can change it).
+		// "Mafia PBBG Engine by DigiFalk" stays on game pages (White Label can change it).
 		add_filter( 'dfmg_show_credit', '__return_true', 5 );
 	}
 
 	/**
-	 * The theme moved from the Underworld Empire plugin to this plugin in 1.12.0. WordPress
+	 * The theme moved from the Mafia PBBG Engine plugin to this plugin in 1.12.0. WordPress
 	 * remembers the folder of the active theme (and caches all theme folders), so point it to
 	 * the new folder when the remembered one no longer exists.
 	 */

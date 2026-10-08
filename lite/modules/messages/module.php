@@ -21,7 +21,7 @@ final class Messages extends Module {
 	const PER_PAGE = 20;
 
 	public function title(): string {
-		return __( 'Messages', 'underworld-empire' );
+		return __( 'Messages', 'mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -58,7 +58,7 @@ final class Messages extends Module {
 	public function settings_fields(): array {
 		return array(
 			'messages_cooldown' => array(
-				'label'   => __( 'Cooldown between messages (sec)', 'underworld-empire' ),
+				'label'   => __( 'Cooldown between messages (sec)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 10,
 			),
@@ -69,7 +69,7 @@ final class Messages extends Module {
 		add_filter(
 			'dfmg_profile_actions',
 			function ( $actions, Character $target ) {
-				$actions[] = '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( $this->url( array( 'view' => 'compose', 'to' => $target->name ) ) ) . '">' . esc_html__( 'Send message', 'underworld-empire' ) . '</a>';
+				$actions[] = '<a class="dfmg-button dfmg-button--ghost" href="' . esc_url( $this->url( array( 'view' => 'compose', 'to' => $target->name ) ) ) . '">' . esc_html__( 'Send message', 'mafia-pbbg-engine' ) . '</a>';
 				return $actions;
 			},
 			10,
@@ -84,7 +84,7 @@ final class Messages extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Messages', 'underworld-empire' ),
+				'label' => __( 'Messages', 'mafia-pbbg-engine' ),
 				'group' => 'general',
 				'order' => 20,
 				'badge' => self::unread( $c ) ?: '',
@@ -163,15 +163,15 @@ final class Messages extends Module {
 			'to'   => $input['to'] ?? '',
 		);
 		if ( ! $to || ! $to->is_alive() ) {
-			$this->error( __( 'This player doesn\'t exist (anymore).', 'underworld-empire' ) );
+			$this->error( __( 'This player doesn\'t exist (anymore).', 'mafia-pbbg-engine' ) );
 			return $back;
 		}
 		if ( '' === $body ) {
-			$this->error( __( 'Your message is empty.', 'underworld-empire' ) );
+			$this->error( __( 'Your message is empty.', 'mafia-pbbg-engine' ) );
 			return $back;
 		}
 		if ( ! $c->claim_cooldown( 'message', (int) $this->setting( 'messages_cooldown' ) ) ) {
-			$this->error( __( 'You\'re sending messages too fast. Wait a moment.', 'underworld-empire' ) );
+			$this->error( __( 'You\'re sending messages too fast. Wait a moment.', 'mafia-pbbg-engine' ) );
 			return $back;
 		}
 		DB::insert(
@@ -179,7 +179,7 @@ final class Messages extends Module {
 			array(
 				'sender_id'    => $c->id(),
 				'recipient_id' => $to->id(),
-				'subject'      => $subject ?: __( '(no subject)', 'underworld-empire' ),
+				'subject'      => $subject ?: __( '(no subject)', 'mafia-pbbg-engine' ),
 				'body'         => mb_substr( $body, 0, 10000 ),
 				'parent_id'    => absint( $input['reply'] ?? 0 ),
 				'created_at'   => time(),
@@ -187,7 +187,7 @@ final class Messages extends Module {
 		);
 		do_action( 'dfmg_message_sent', $c, $to );
 		/* translators: %s: player */
-		$this->success( sprintf( __( 'Message sent to %s.', 'underworld-empire' ), $to->name ) );
+		$this->success( sprintf( __( 'Message sent to %s.', 'mafia-pbbg-engine' ), $to->name ) );
 		return array( 'view' => 'sent' );
 	}
 

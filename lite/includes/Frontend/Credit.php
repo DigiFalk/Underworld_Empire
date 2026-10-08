@@ -1,9 +1,9 @@
 <?php
 /**
- * "Underworld Empire by DigiFalk" at the bottom of every game page.
+ * "Mafia PBBG Engine by DigiFalk" at the bottom of every game page.
  *
- * Off by default: the site owner chooses to show it (Settings → Show "Underworld Empire by
- * DigiFalk"). Underworld Empire Extended always shows it through the dfmg_show_credit filter;
+ * Off by default: the site owner chooses to show it (Settings → Show "Mafia PBBG Engine by
+ * DigiFalk"). Mafia PBBG Engine Extended always shows it through the dfmg_show_credit filter;
  * the premium module White Label (ue-white-label) removes it, or replaces it with the site's
  * own text, while its license is active.
  *
@@ -41,7 +41,7 @@ final class Credit {
 			return '' === $html ? '' : '<div class="dfmg-footer__credit">' . wp_kses_post( $html ) . '</div>';
 		}
 		/**
-		 * Show "Underworld Empire by DigiFalk" at the bottom of game pages.
+		 * Show "Mafia PBBG Engine by DigiFalk" at the bottom of game pages.
 		 *
 		 * @param bool $show The "show_credit" setting (off by default).
 		 */
@@ -50,8 +50,8 @@ final class Credit {
 		}
 		return '<div class="dfmg-footer__credit">' . sprintf(
 			/* translators: 1: game name, 2: link to DigiFalk */
-			esc_html__( '%1$s by %2$s', 'underworld-empire' ),
-			'Underworld Empire',
+			esc_html__( '%1$s by %2$s', 'mafia-pbbg-engine' ),
+			'Mafia PBBG Engine',
 			'<a href="' . esc_url( self::URL ) . '" target="_blank" rel="noopener">DigiFalk</a>'
 		) . '</div>';
 	}

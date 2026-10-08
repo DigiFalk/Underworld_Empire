@@ -24,7 +24,7 @@ final class CarTheft extends Module {
 	const TIMER = 'theft';
 
 	public function title(): string {
-		return __( 'Car theft', 'underworld-empire' );
+		return __( 'Car theft', 'mafia-pbbg-engine' );
 	}
 
 	public function schema(): array {
@@ -72,12 +72,12 @@ final class CarTheft extends Module {
 	public function settings_fields(): array {
 		return array(
 			'theft_cooldown'    => array(
-				'label'   => __( 'Cooldown between attempts (sec)', 'underworld-empire' ),
+				'label'   => __( 'Cooldown between attempts (sec)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 180,
 			),
 			'theft_jail_chance' => array(
-				'label'   => __( 'Chance of jail on failure (%)', 'underworld-empire' ),
+				'label'   => __( 'Chance of jail on failure (%)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 33,
 			),
@@ -87,18 +87,18 @@ final class CarTheft extends Module {
 	public function admin_tables(): array {
 		return array(
 			'theft_spots' => array(
-				'label'   => __( 'Theft spots', 'underworld-empire' ),
+				'label'   => __( 'Theft spots', 'mafia-pbbg-engine' ),
 				'table'   => 'theft_spots',
 				'order'   => 'min_rank ASC, chance DESC',
 				'columns' => array(
-					'name'       => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
-					'chance'     => array( 'label' => __( 'Chance (%)', 'underworld-empire' ), 'type' => 'int', 'default' => 50 ),
-					'min_rank'   => array( 'label' => __( 'From rank (level)', 'underworld-empire' ), 'type' => 'int', 'default' => 1 ),
-					'max_damage' => array( 'label' => __( 'Max. damage (%)', 'underworld-empire' ), 'type' => 'int', 'default' => 50 ),
-					'min_value'  => array( 'label' => __( 'Min. car value', 'underworld-empire' ), 'type' => 'int' ),
-					'max_value'  => array( 'label' => __( 'Max. car value', 'underworld-empire' ), 'type' => 'int' ),
-					'exp'        => array( 'label' => __( 'Experience', 'underworld-empire' ), 'type' => 'int', 'default' => 2 ),
-					'jail_time'  => array( 'label' => __( 'Jail time (sec)', 'underworld-empire' ), 'type' => 'int', 'default' => 60 ),
+					'name'       => array( 'label' => __( 'Name', 'mafia-pbbg-engine' ), 'required' => true ),
+					'chance'     => array( 'label' => __( 'Chance (%)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 50 ),
+					'min_rank'   => array( 'label' => __( 'From rank (level)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 1 ),
+					'max_damage' => array( 'label' => __( 'Max. damage (%)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 50 ),
+					'min_value'  => array( 'label' => __( 'Min. car value', 'mafia-pbbg-engine' ), 'type' => 'int' ),
+					'max_value'  => array( 'label' => __( 'Max. car value', 'mafia-pbbg-engine' ), 'type' => 'int' ),
+					'exp'        => array( 'label' => __( 'Experience', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 2 ),
+					'jail_time'  => array( 'label' => __( 'Jail time (sec)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 60 ),
 				),
 			),
 		);
@@ -107,7 +107,7 @@ final class CarTheft extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Car theft', 'underworld-empire' ),
+				'label' => __( 'Car theft', 'mafia-pbbg-engine' ),
 				'group' => 'crime',
 				'order' => 20,
 				'timer' => self::TIMER,
@@ -159,16 +159,16 @@ final class CarTheft extends Module {
 			}
 		}
 		if ( ! $spot ) {
-			$this->error( __( 'You don\'t know this spot (yet).', 'underworld-empire' ) );
+			$this->error( __( 'You don\'t know this spot (yet).', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		$car = $this->pick_car( (int) $spot['min_value'], (int) $spot['max_value'] );
 		if ( ! $car ) {
-			$this->error( __( 'There are no cars here. Ask the administrator to add cars.', 'underworld-empire' ) );
+			$this->error( __( 'There are no cars here. Ask the administrator to add cars.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $this->setting( 'theft_cooldown' ) ) ) {
-			$this->error( __( 'You have to wait a little.', 'underworld-empire' ) );
+			$this->error( __( 'You have to wait a little.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 
@@ -178,7 +178,7 @@ final class CarTheft extends Module {
 			$c->add( 'exp', (int) $spot['exp'] );
 			$c->log( 'car-theft', true, (int) round( $car['value'] * ( 100 - $damage ) / 100 ), (int) $car['id'] );
 			/* translators: 1: car, 2: damage percent, 3: value */
-			$this->success( sprintf( __( 'Car stolen: %1$s with %2$d%% damage (value %3$s).', 'underworld-empire' ), $car['name'], $damage, Format::money( round( $car['value'] * ( 100 - $damage ) / 100 ) ) ) );
+			$this->success( sprintf( __( 'Car stolen: %1$s with %2$d%% damage (value %3$s).', 'mafia-pbbg-engine' ), $car['name'], $damage, Format::money( round( $car['value'] * ( 100 - $damage ) / 100 ) ) ) );
 			return;
 		}
 
@@ -186,10 +186,10 @@ final class CarTheft extends Module {
 		if ( wp_rand( 1, 100 ) <= (int) $this->setting( 'theft_jail_chance' ) ) {
 			$c->jail( (int) $spot['jail_time'] );
 			/* translators: %s: car */
-			$this->error( sprintf( __( 'The alarm of the %s went off. The police arrest you.', 'underworld-empire' ), $car['name'] ) );
+			$this->error( sprintf( __( 'The alarm of the %s went off. The police arrest you.', 'mafia-pbbg-engine' ), $car['name'] ) );
 		} else {
 			/* translators: %s: car */
-			$this->error( sprintf( __( 'You couldn\'t get the %s open.', 'underworld-empire' ), $car['name'] ) );
+			$this->error( sprintf( __( 'You couldn\'t get the %s open.', 'mafia-pbbg-engine' ), $car['name'] ) );
 		}
 	}
 }

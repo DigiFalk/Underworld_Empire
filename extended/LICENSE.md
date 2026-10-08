@@ -2,12 +2,12 @@
 
 Copyright (c) 2026 DigiFalk. All rights reserved.
 
-This license applies to Underworld Empire Extended version 1.13.0 and newer: the plugin, its
-modules, the Underworld Empire theme, and their source code, templates, stylesheets, scripts,
+This license applies to Mafia PBBG Engine Extended version 1.13.0 and newer: the plugin, its
+modules, the Mafia PBBG Engine theme, and their source code, templates, stylesheets, scripts,
 images and documentation (together "the Software"), and to DigiFalk premium modules (section
 4). The Software is the property of DigiFalk. It is licensed to you, not sold.
 
-The free plugin Underworld Empire (the game engine that the Software extends) is not covered
+The free plugin Mafia PBBG Engine (the game engine that the Software extends) is not covered
 by this license. It is free software under the GNU General Public License, version 2 or later.
 
 ## 1. What you may do
@@ -30,7 +30,7 @@ Unless DigiFalk has given you written permission, you may not:
 2. Distribute the Software or any part of it, free or paid, modified or not: no selling,
    renting, sublicensing, sharing download copies or offering it as part of another
    product. Others can download the Software themselves from DigiFalk.
-3. Remove, hide or change the "Underworld Empire by DigiFalk" line shown on game pages,
+3. Remove, hide or change the "Mafia PBBG Engine by DigiFalk" line shown on game pages,
    except with the White Label premium module from DigiFalk, or remove or change this
    license, copyright notices or author information.
 4. Use the Software, or any part of it, as the basis for a competing product.
@@ -50,7 +50,7 @@ Unless DigiFalk has given you written permission, you may not:
 2. A module of your own may not contain code, images or texts copied from the Software or
    from DigiFalk premium modules, whether changed or not. A module with the same id as a
    module of the Software replaces that module; this is allowed only when the replacement
-   contains nothing copied from the Software. (Code from the free plugin Underworld Empire may
+   contains nothing copied from the Software. (Code from the free plugin Mafia PBBG Engine may
    be used under its own license, the GPL.)
 3. Your own modules belong to you. You may use them, share them and sell them, as long as
    they follow this section.
@@ -62,7 +62,7 @@ Unless DigiFalk has given you written permission, you may not:
    bought for it. Sections 2.1, 2.2 and 2.5 apply to premium modules as well: you may not
    modify, share or resell them.
 2. You may not make, have made, publish or sell, in any way, a module or other software
-   for Underworld Empire or the Software that copies or imitates a DigiFalk premium module, or that offers the
+   for Mafia PBBG Engine or the Software that copies or imitates a DigiFalk premium module, or that offers the
    same or substantially the same features. This applies to your own modules and to
    modules made by others for you, free or paid.
 3. Section 4.2 does not apply to a module that you demonstrably published before DigiFalk

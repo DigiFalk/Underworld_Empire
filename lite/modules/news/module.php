@@ -22,7 +22,7 @@ final class News extends Module {
 	const POST_TYPE = 'dfmg_news';
 
 	public function title(): string {
-		return __( 'News', 'underworld-empire' );
+		return __( 'News', 'mafia-pbbg-engine' );
 	}
 
 	public function allowed_in_jail(): bool {
@@ -43,10 +43,10 @@ final class News extends Module {
 			self::POST_TYPE,
 			array(
 				'labels'       => array(
-					'name'          => __( 'Game news', 'underworld-empire' ),
-					'singular_name' => __( 'News item', 'underworld-empire' ),
-					'add_new_item'  => __( 'New news item', 'underworld-empire' ),
-					'edit_item'     => __( 'Edit news item', 'underworld-empire' ),
+					'name'          => __( 'Game news', 'mafia-pbbg-engine' ),
+					'singular_name' => __( 'News item', 'mafia-pbbg-engine' ),
+					'add_new_item'  => __( 'New news item', 'mafia-pbbg-engine' ),
+					'edit_item'     => __( 'Edit news item', 'mafia-pbbg-engine' ),
 				),
 				'public'       => false,
 				'show_ui'      => true,
@@ -61,7 +61,7 @@ final class News extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'News', 'underworld-empire' ),
+				'label' => __( 'News', 'mafia-pbbg-engine' ),
 				'group' => 'community',
 				'order' => 5,
 			),
@@ -80,7 +80,7 @@ final class News extends Module {
 
 	private function markup( array $posts, bool $full ): string {
 		if ( ! $posts ) {
-			return UI::empty_state( __( 'No news yet.', 'underworld-empire' ) );
+			return UI::empty_state( __( 'No news yet.', 'mafia-pbbg-engine' ) );
 		}
 		$html = '';
 		foreach ( $posts as $post ) {
@@ -92,7 +92,7 @@ final class News extends Module {
 	}
 
 	public function login_news(): void {
-		echo '<div class="dfmg-login-news"><h3>' . esc_html__( 'Latest news', 'underworld-empire' ) . '</h3>' . $this->markup( $this->posts( 3 ), false ) . '</div>'; // phpcs:ignore
+		echo '<div class="dfmg-login-news"><h3>' . esc_html__( 'Latest news', 'mafia-pbbg-engine' ) . '</h3>' . $this->markup( $this->posts( 3 ), false ) . '</div>'; // phpcs:ignore
 	}
 
 	public function render( Character $c, array $query ): string {

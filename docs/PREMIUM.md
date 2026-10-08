@@ -2,19 +2,19 @@
 
 Premium modules are sold in the DigiFalk store (https://digifalk.com), which runs the
 **DigiFalk Licenses** plugin on top of WooCommerce. This document is the contract between
-that store and Underworld Empire.
+that store and Mafia PBBG Engine.
 
-The license system lives in **Underworld Empire Extended** (`extended/includes/Licenses.php`,
+The license system lives in **Mafia PBBG Engine Extended** (`extended/includes/Licenses.php`,
 `extended/includes/PremiumScreen.php`). Without Extended premium modules don't run: the free
 plugin only asks the `dfmg_module_runnable` filter, and Extended answers it for modules with
 an active license.
 
 ## How it works for the buyer
 
-1. On **Underworld Empire → Modules** the section *Premium modules* shows every premium
+1. On **Mafia PBBG Engine → Modules** the section *Premium modules* shows every premium
    module as a locked card with its price, a **Buy** button and a field for the license key.
 2. The buyer buys the module in the store and receives a license key by email.
-3. The buyer pastes the key and clicks **Activate**. Underworld Empire activates the key for
+3. The buyer pastes the key and clicks **Activate**. Mafia PBBG Engine activates the key for
    this site, downloads the module, checks it and installs it in
    `wp-content/underworld-modules/<product>/`, then switches it on.
 4. Updates: the plugin checks the store daily (or on *Check for updates*). When a newer
@@ -59,10 +59,10 @@ reached. New products in the store appear automatically.
 
 ## Footer credit and White Label
 
-Game pages show "Underworld Empire by DigiFalk" (`Frontend\Credit`). In the free plugin it is
+Game pages show "Mafia PBBG Engine by DigiFalk" (`Frontend\Credit`). In the free plugin it is
 off until the site owner says yes on the dashboard (asked once) or switches on *Settings →
-Show "Underworld Empire by DigiFalk"*;
-Underworld Empire Extended always shows it (filter `dfmg_show_credit`). It is only removed
+Show "Mafia PBBG Engine by DigiFalk"*;
+Mafia PBBG Engine Extended always shows it (filter `dfmg_show_credit`). It is only removed
 while the premium module `ue-white-label` is booted and licensed (`Registry::runnable`). That
 module can return its own footer HTML with the filter `dfmg_white_label_credit`; the filter is
 ignored without the module.
@@ -81,7 +81,7 @@ ignored without the module.
 ### Rotating the store's signing keys
 
 The public key is built into the plugin. Before you rotate the keys in DigiFalk Licenses,
-release an Underworld Empire update with the new public key in `Licenses::STORE_PUBLIC_KEY`,
+release an Mafia PBBG Engine update with the new public key in `Licenses::STORE_PUBLIC_KEY`,
 otherwise sites refuse the newly signed downloads. Sites that can't update yet can set
 `DFMG_STORE_PUBLIC_KEY` in `wp-config.php`.
 
@@ -100,7 +100,7 @@ non-2xx status with `{ "code": "…", "message": "…" }`; the message is shown 
 } ] }
 ```
 
-`icon` is an Underworld Empire icon name (optional), `requires` the minimum plugin version.
+`icon` is an Mafia PBBG Engine icon name (optional), `requires` the minimum plugin version.
 
 ### `POST /activate`
 

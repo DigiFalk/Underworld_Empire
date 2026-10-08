@@ -23,7 +23,7 @@ final class Crimes extends Module {
 	const TIMER = 'crime';
 
 	public function title(): string {
-		return __( 'Crimes', 'underworld-empire' );
+		return __( 'Crimes', 'mafia-pbbg-engine' );
 	}
 
 	public function schema(): array {
@@ -87,12 +87,12 @@ final class Crimes extends Module {
 	public function settings_fields(): array {
 		return array(
 			'crimes_jail_chance' => array(
-				'label'       => __( 'Chance of jail on failure (%)', 'underworld-empire' ),
+				'label'       => __( 'Chance of jail on failure (%)', 'mafia-pbbg-engine' ),
 				'type'        => 'int',
 				'default'     => 33,
 			),
 			'crimes_max_skill'   => array(
-				'label'   => __( 'Maximum success chance (%)', 'underworld-empire' ),
+				'label'   => __( 'Maximum success chance (%)', 'mafia-pbbg-engine' ),
 				'type'    => 'int',
 				'default' => 95,
 			),
@@ -102,21 +102,21 @@ final class Crimes extends Module {
 	public function admin_tables(): array {
 		return array(
 			'crimes' => array(
-				'label'   => __( 'Crimes', 'underworld-empire' ),
+				'label'   => __( 'Crimes', 'mafia-pbbg-engine' ),
 				'table'   => 'crimes',
 				'order'   => 'min_rank ASC, id ASC',
 				'columns' => array(
-					'name'         => array( 'label' => __( 'Name', 'underworld-empire' ), 'required' => true ),
-					'description'  => array( 'label' => __( 'Description', 'underworld-empire' ), 'type' => 'textarea' ),
-					'min_rank'     => array( 'label' => __( 'From rank (level)', 'underworld-empire' ), 'type' => 'int', 'default' => 1 ),
-					'cooldown'     => array( 'label' => __( 'Cooldown (sec)', 'underworld-empire' ), 'type' => 'int', 'default' => 60 ),
-					'min_money'    => array( 'label' => __( 'Min. money', 'underworld-empire' ), 'type' => 'int' ),
-					'max_money'    => array( 'label' => __( 'Max. money', 'underworld-empire' ), 'type' => 'int' ),
-					'min_bullets'  => array( 'label' => __( 'Min. bullets', 'underworld-empire' ), 'type' => 'int', 'list' => false ),
-					'max_bullets'  => array( 'label' => __( 'Max. bullets', 'underworld-empire' ), 'type' => 'int', 'list' => false ),
-					'exp'          => array( 'label' => __( 'Experience', 'underworld-empire' ), 'type' => 'int', 'default' => 1 ),
-					'start_chance' => array( 'label' => __( 'Starting chance (%)', 'underworld-empire' ), 'type' => 'int', 'default' => 20 ),
-					'jail_time'    => array( 'label' => __( 'Jail time (sec)', 'underworld-empire' ), 'type' => 'int', 'default' => 60 ),
+					'name'         => array( 'label' => __( 'Name', 'mafia-pbbg-engine' ), 'required' => true ),
+					'description'  => array( 'label' => __( 'Description', 'mafia-pbbg-engine' ), 'type' => 'textarea' ),
+					'min_rank'     => array( 'label' => __( 'From rank (level)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 1 ),
+					'cooldown'     => array( 'label' => __( 'Cooldown (sec)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 60 ),
+					'min_money'    => array( 'label' => __( 'Min. money', 'mafia-pbbg-engine' ), 'type' => 'int' ),
+					'max_money'    => array( 'label' => __( 'Max. money', 'mafia-pbbg-engine' ), 'type' => 'int' ),
+					'min_bullets'  => array( 'label' => __( 'Min. bullets', 'mafia-pbbg-engine' ), 'type' => 'int', 'list' => false ),
+					'max_bullets'  => array( 'label' => __( 'Max. bullets', 'mafia-pbbg-engine' ), 'type' => 'int', 'list' => false ),
+					'exp'          => array( 'label' => __( 'Experience', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 1 ),
+					'start_chance' => array( 'label' => __( 'Starting chance (%)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 20 ),
+					'jail_time'    => array( 'label' => __( 'Jail time (sec)', 'mafia-pbbg-engine' ), 'type' => 'int', 'default' => 60 ),
 				),
 			),
 		);
@@ -125,7 +125,7 @@ final class Crimes extends Module {
 	public function menu( Character $c ): array {
 		return array(
 			array(
-				'label' => __( 'Crimes', 'underworld-empire' ),
+				'label' => __( 'Crimes', 'mafia-pbbg-engine' ),
 				'group' => 'crime',
 				'order' => 10,
 				'timer' => self::TIMER,
@@ -171,11 +171,11 @@ final class Crimes extends Module {
 			}
 		}
 		if ( ! $crime ) {
-			$this->error( __( 'This crime doesn\'t exist or is too hard for you yet.', 'underworld-empire' ) );
+			$this->error( __( 'This crime doesn\'t exist or is too hard for you yet.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 		if ( ! $c->claim_cooldown( self::TIMER, (int) $crime['cooldown'] ) ) {
-			$this->error( __( 'You have to wait a little before your next crime.', 'underworld-empire' ) );
+			$this->error( __( 'You have to wait a little before your next crime.', 'mafia-pbbg-engine' ) );
 			return;
 		}
 
@@ -193,18 +193,18 @@ final class Crimes extends Module {
 			$loot = array( Format::money( $money ) );
 			if ( $bullets ) {
 				/* translators: %s: number of bullets */
-				$loot[] = sprintf( __( '%s bullets', 'underworld-empire' ), Format::number( $bullets ) );
+				$loot[] = sprintf( __( '%s bullets', 'mafia-pbbg-engine' ), Format::number( $bullets ) );
 			}
 			/* translators: 1: crime, 2: loot */
-			$this->success( sprintf( __( 'Success: "%1$s". Your loot: %2$s.', 'underworld-empire' ), $crime['name'], implode( ' ' . __( 'and', 'underworld-empire' ) . ' ', $loot ) ) );
+			$this->success( sprintf( __( 'Success: "%1$s". Your loot: %2$s.', 'mafia-pbbg-engine' ), $crime['name'], implode( ' ' . __( 'and', 'mafia-pbbg-engine' ) . ' ', $loot ) ) );
 			$c->log( 'crimes', true, $money, $id );
 		} else {
 			$gain = wp_rand( 1, 2 );
 			if ( wp_rand( 1, 100 ) <= (int) $this->setting( 'crimes_jail_chance' ) ) {
 				$c->jail( (int) $crime['jail_time'] );
-				$this->error( __( 'Failed! The police were faster and you end up in a cell.', 'underworld-empire' ) );
+				$this->error( __( 'Failed! The police were faster and you end up in a cell.', 'mafia-pbbg-engine' ) );
 			} else {
-				$this->error( __( 'Failed, but you managed to get away unseen.', 'underworld-empire' ) );
+				$this->error( __( 'Failed, but you managed to get away unseen.', 'mafia-pbbg-engine' ) );
 			}
 			$c->log( 'crimes', false, 0, $id );
 		}

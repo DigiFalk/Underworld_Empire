@@ -36,7 +36,7 @@ final class Locations {
 
 	public static function name( int $id ): string {
 		$row = self::get( $id );
-		return $row ? $row['name'] : __( 'Unknown', 'underworld-empire' );
+		return $row ? $row['name'] : __( 'Unknown', 'mafia-pbbg-engine' );
 	}
 
 	public static function first_id(): int {

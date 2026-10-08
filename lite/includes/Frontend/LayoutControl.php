@@ -17,7 +17,7 @@ class LayoutControl extends \WP_Customize_Control {
 	public function render_content() {
 		?>
 		<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-		<p class="description customize-control-description"><?php esc_html_e( 'The layout builder is shown at the bottom of the preview. Changes are visible immediately.', 'underworld-empire' ); ?></p>
+		<p class="description customize-control-description"><?php esc_html_e( 'The layout builder is shown at the bottom of the preview. Changes are visible immediately.', 'mafia-pbbg-engine' ); ?></p>
 		<input type="hidden" class="dfmg-layout-value" <?php $this->link(); ?> value="<?php echo esc_attr( (string) $this->value() ); ?>">
 		<?php
 	}

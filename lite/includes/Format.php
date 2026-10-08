@@ -58,12 +58,12 @@ final class Format {
 	public static function countdown( int $expires, string $done_text = '' ): string {
 		$left = $expires - time();
 		if ( $left <= 0 ) {
-			return '<span class="dfmg-ready">' . esc_html( $done_text ?: __( 'Ready', 'underworld-empire' ) ) . '</span>';
+			return '<span class="dfmg-ready">' . esc_html( $done_text ?: __( 'Ready', 'mafia-pbbg-engine' ) ) . '</span>';
 		}
 		return sprintf(
 			'<span class="dfmg-countdown" data-expires="%1$d" data-done="%2$s">%3$s</span>',
 			$expires,
-			esc_attr( $done_text ?: __( 'Ready', 'underworld-empire' ) ),
+			esc_attr( $done_text ?: __( 'Ready', 'mafia-pbbg-engine' ) ),
 			esc_html( self::duration( $left ) )
 		);
 	}
@@ -74,7 +74,7 @@ final class Format {
 
 	public static function ago( int $timestamp ): string {
 		/* translators: %s: human time difference */
-		return sprintf( __( '%s ago', 'underworld-empire' ), human_time_diff( $timestamp, time() ) );
+		return sprintf( __( '%s ago', 'mafia-pbbg-engine' ), human_time_diff( $timestamp, time() ) );
 	}
 
 	/**

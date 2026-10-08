@@ -39,15 +39,15 @@ final class Items {
 			'dfmg_item_types',
 			array(
 				'weapon'     => array(
-					'label' => __( 'Weapon', 'underworld-empire' ),
+					'label' => __( 'Weapon', 'mafia-pbbg-engine' ),
 					'usage' => 'equip',
 				),
 				'armor'      => array(
-					'label' => __( 'Armor', 'underworld-empire' ),
+					'label' => __( 'Armor', 'mafia-pbbg-engine' ),
 					'usage' => 'equip',
 				),
 				'consumable' => array(
-					'label' => __( 'Consumable', 'underworld-empire' ),
+					'label' => __( 'Consumable', 'mafia-pbbg-engine' ),
 					'usage' => 'use',
 				),
 			)
@@ -63,11 +63,11 @@ final class Items {
 			'dfmg_equip_slots',
 			array(
 				'weapon' => array(
-					'label' => __( 'Weapon', 'underworld-empire' ),
+					'label' => __( 'Weapon', 'mafia-pbbg-engine' ),
 					'types' => array( 'weapon' ),
 				),
 				'armor'  => array(
-					'label' => __( 'Armor', 'underworld-empire' ),
+					'label' => __( 'Armor', 'mafia-pbbg-engine' ),
 					'types' => array( 'armor' ),
 				),
 			)
@@ -79,7 +79,7 @@ final class Items {
 			'dfmg_item_effects',
 			array(
 				'attack_pct'   => array(
-					'label'  => __( 'Attack power +%', 'underworld-empire' ),
+					'label'  => __( 'Attack power +%', 'mafia-pbbg-engine' ),
 					'usage'  => 'equip',
 					'filter' => 'dfmg_attack_power',
 					'apply'  => static function ( $current, $value ) {
@@ -87,7 +87,7 @@ final class Items {
 					},
 				),
 				'defense_pct'  => array(
-					'label'  => __( 'Defense +%', 'underworld-empire' ),
+					'label'  => __( 'Defense +%', 'mafia-pbbg-engine' ),
 					'usage'  => 'equip',
 					'filter' => 'dfmg_defense_power',
 					'apply'  => static function ( $current, $value ) {
@@ -95,7 +95,7 @@ final class Items {
 					},
 				),
 				'max_health'   => array(
-					'label'  => __( 'Maximum health +', 'underworld-empire' ),
+					'label'  => __( 'Maximum health +', 'mafia-pbbg-engine' ),
 					'usage'  => 'equip',
 					'filter' => 'dfmg_max_health',
 					'apply'  => static function ( $current, $value ) {
@@ -103,7 +103,7 @@ final class Items {
 					},
 				),
 				'heal_pct'     => array(
-					'label' => __( 'Heals % health', 'underworld-empire' ),
+					'label' => __( 'Heals % health', 'mafia-pbbg-engine' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$heal = (int) round( $c->max_health() * (float) $value / 100 );
@@ -111,28 +111,28 @@ final class Items {
 					},
 				),
 				'reset_timer'  => array(
-					'label' => __( 'Reset timer (e.g. jail)', 'underworld-empire' ),
+					'label' => __( 'Reset timer (e.g. jail)', 'mafia-pbbg-engine' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$c->clear_timer( sanitize_key( $value ) );
 					},
 				),
 				'give_money'   => array(
-					'label' => __( 'Gives money', 'underworld-empire' ),
+					'label' => __( 'Gives money', 'mafia-pbbg-engine' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$c->add( 'money', (int) $value );
 					},
 				),
 				'give_bullets' => array(
-					'label' => __( 'Gives bullets', 'underworld-empire' ),
+					'label' => __( 'Gives bullets', 'mafia-pbbg-engine' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$c->add( 'bullets', (int) $value );
 					},
 				),
 				'give_exp'     => array(
-					'label' => __( 'Gives experience', 'underworld-empire' ),
+					'label' => __( 'Gives experience', 'mafia-pbbg-engine' ),
 					'usage' => 'use',
 					'apply' => static function ( Character $c, $value ) {
 						$c->add( 'exp', (int) $value );
@@ -233,17 +233,17 @@ final class Items {
 		$slots = self::slots();
 		$item  = self::get( $item_id );
 		if ( ! $item || ! isset( $slots[ $slot ] ) ) {
-			return new \WP_Error( 'item', __( 'This item or slot doesn\'t exist.', 'underworld-empire' ) );
+			return new \WP_Error( 'item', __( 'This item or slot doesn\'t exist.', 'mafia-pbbg-engine' ) );
 		}
 		if ( ! in_array( $item['type'], (array) $slots[ $slot ]['types'], true ) ) {
-			return new \WP_Error( 'item', __( 'This item doesn\'t fit in this slot.', 'underworld-empire' ) );
+			return new \WP_Error( 'item', __( 'This item doesn\'t fit in this slot.', 'mafia-pbbg-engine' ) );
 		}
 		$check = apply_filters( 'dfmg_can_equip', true, $c, $item, $slot );
 		if ( is_wp_error( $check ) ) {
 			return $check;
 		}
 		if ( ! self::take( $c, $item_id ) ) {
-			return new \WP_Error( 'item', __( 'You don\'t have this item.', 'underworld-empire' ) );
+			return new \WP_Error( 'item', __( 'You don\'t have this item.', 'mafia-pbbg-engine' ) );
 		}
 		self::unequip( $c, $slot );
 		DB::query(
@@ -282,10 +282,10 @@ final class Items {
 	public static function consume( Character $c, int $item_id ) {
 		$item = self::get( $item_id );
 		if ( ! $item || 'use' !== self::usage( $item ) ) {
-			return new \WP_Error( 'item', __( 'This item can\'t be used.', 'underworld-empire' ) );
+			return new \WP_Error( 'item', __( 'This item can\'t be used.', 'mafia-pbbg-engine' ) );
 		}
 		if ( ! self::take( $c, $item_id ) ) {
-			return new \WP_Error( 'item', __( 'You don\'t have this item.', 'underworld-empire' ) );
+			return new \WP_Error( 'item', __( 'You don\'t have this item.', 'mafia-pbbg-engine' ) );
 		}
 		$effects = self::effects();
 		foreach ( self::parse_effects( (string) $item['effects'] ) as $key => $value ) {

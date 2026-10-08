@@ -8,9 +8,9 @@
 defined( 'ABSPATH' ) || exit;
 
 $dfmg_tabs = array(
-	'inbox'   => __( 'Inbox', 'underworld-empire' ),
-	'sent'    => __( 'Sent', 'underworld-empire' ),
-	'compose' => __( 'New message', 'underworld-empire' ),
+	'inbox'   => __( 'Inbox', 'mafia-pbbg-engine' ),
+	'sent'    => __( 'Sent', 'mafia-pbbg-engine' ),
+	'compose' => __( 'New message', 'mafia-pbbg-engine' ),
 );
 ?>
 <nav class="dfmg-tabs">

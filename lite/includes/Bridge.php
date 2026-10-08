@@ -1,12 +1,12 @@
 <?php
 /**
- * Underworld Empire Extended: detection and installation.
+ * Mafia PBBG Engine Extended: detection and installation.
  *
  * Only in the GitHub edition of this plugin: the wordpress.org edition leaves this file (and
  * Updater.php) out, because plugins from WordPress.org may not install other plugins.
  *
  * Since 1.12.0 families, murders, the theme, premium licenses and more live in the separate
- * plugin Underworld Empire Extended. Sites that used those modules before get Extended
+ * plugin Mafia PBBG Engine Extended. Sites that used those modules before get Extended
  * installed and activated automatically after updating, so the game keeps working. Other
  * sites can install it with one click on the Modules screen.
  *
@@ -36,8 +36,8 @@ final class Bridge {
 		add_action( 'admin_init', array( __CLASS__, 'admin' ) );
 		add_action( 'admin_post_dfmg_install_extended', array( __CLASS__, 'handle' ) );
 		add_action( 'admin_notices', array( __CLASS__, 'notice' ) );
-		// The Underworld Empire theme moved to Extended: until Extended is active, don't let
-		// WordPress switch an active Underworld Empire theme back to a default theme.
+		// The Mafia PBBG Engine theme moved to Extended: until Extended is active, don't let
+		// WordPress switch an active Mafia PBBG Engine theme back to a default theme.
 		if ( ! self::extended_active() && 'underworld-empire-theme' === get_option( 'stylesheet' ) ) {
 			add_filter( 'validate_current_theme', '__return_false' );
 		}
@@ -75,7 +75,7 @@ final class Bridge {
 		$release = Updater::release();
 		$url     = (string) ( $release['assets'][ self::ASSET_NAME ] ?? '' );
 		/**
-		 * Download url of Underworld Empire Extended.
+		 * Download url of Mafia PBBG Engine Extended.
 		 *
 		 * @param string $url
 		 */
@@ -98,10 +98,10 @@ final class Bridge {
 			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 			$package = self::package();
 			if ( '' === $package ) {
-				return new \WP_Error( 'dfmg_extended', __( 'Underworld Empire Extended could not be found on GitHub. Try again later.', 'underworld-empire' ) );
+				return new \WP_Error( 'dfmg_extended', __( 'Mafia PBBG Engine Extended could not be found on GitHub. Try again later.', 'mafia-pbbg-engine' ) );
 			}
 			if ( 'direct' !== get_filesystem_method() || ! WP_Filesystem() ) {
-				return new \WP_Error( 'dfmg_extended', __( 'WordPress may not write to the plugins folder on this site. Install Underworld Empire Extended yourself: Plugins → Add New → Upload Plugin.', 'underworld-empire' ) );
+				return new \WP_Error( 'dfmg_extended', __( 'WordPress may not write to the plugins folder on this site. Install Mafia PBBG Engine Extended yourself: Plugins → Add New → Upload Plugin.', 'mafia-pbbg-engine' ) );
 			}
 			$skin     = new \WP_Ajax_Upgrader_Skin();
 			$upgrader = new \Plugin_Upgrader( $skin );
@@ -111,7 +111,7 @@ final class Bridge {
 			}
 			if ( ! $result || ! self::installed() ) {
 				$errors = $skin->get_errors();
-				return $errors->has_errors() ? $errors : new \WP_Error( 'dfmg_extended', __( 'Underworld Empire Extended could not be installed.', 'underworld-empire' ) );
+				return $errors->has_errors() ? $errors : new \WP_Error( 'dfmg_extended', __( 'Mafia PBBG Engine Extended could not be installed.', 'mafia-pbbg-engine' ) );
 			}
 		}
 		$activated = activate_plugin( self::PLUGIN );
@@ -147,19 +147,19 @@ final class Bridge {
 	 */
 	public static function button(): string {
 		if ( ! current_user_can( 'install_plugins' ) || ! current_user_can( 'activate_plugins' ) ) {
-			return '<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="' . esc_url( 'https://github.com/' . Updater::repo() . '/releases/latest' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Download Extended', 'underworld-empire' ) . '</a>';
+			return '<a class="dfmg-admin-btn dfmg-admin-btn--gold" href="' . esc_url( 'https://github.com/' . Updater::repo() . '/releases/latest' ) . '" target="_blank" rel="noopener">' . esc_html__( 'Download Extended', 'mafia-pbbg-engine' ) . '</a>';
 		}
 		return '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '">'
 			. '<input type="hidden" name="action" value="dfmg_install_extended">'
 			. wp_nonce_field( 'dfmg_install_extended', '_wpnonce', true, false )
 			. '<button type="submit" class="dfmg-admin-btn dfmg-admin-btn--gold">'
-			. ( self::installed() ? esc_html__( 'Activate Extended', 'underworld-empire' ) : esc_html__( 'Install Extended (free)', 'underworld-empire' ) )
+			. ( self::installed() ? esc_html__( 'Activate Extended', 'mafia-pbbg-engine' ) : esc_html__( 'Install Extended (free)', 'mafia-pbbg-engine' ) )
 			. '</button></form>';
 	}
 
 	public static function handle(): void {
 		if ( ! current_user_can( 'install_plugins' ) || ! current_user_can( 'activate_plugins' ) ) {
-			wp_die( esc_html__( 'Access denied.', 'underworld-empire' ) );
+			wp_die( esc_html__( 'Access denied.', 'mafia-pbbg-engine' ) );
 		}
 		check_admin_referer( 'dfmg_install_extended' );
 		$result = self::install();
@@ -167,7 +167,7 @@ final class Bridge {
 			update_option( self::OPTION_ERROR, $result->get_error_message() );
 			set_transient( 'dfmg_admin_error_' . get_current_user_id(), $result->get_error_message(), 60 );
 		} else {
-			set_transient( 'dfmg_admin_success_' . get_current_user_id(), __( 'Underworld Empire Extended is installed and active.', 'underworld-empire' ), 60 );
+			set_transient( 'dfmg_admin_success_' . get_current_user_id(), __( 'Mafia PBBG Engine Extended is installed and active.', 'mafia-pbbg-engine' ), 60 );
 		}
 		wp_safe_redirect( admin_url( 'admin.php?page=dfmg-modules' ) );
 		exit;
@@ -182,9 +182,9 @@ final class Bridge {
 		if ( ! $error || self::extended_active() || ! current_user_can( 'activate_plugins' ) ) {
 			return;
 		}
-		echo '<div class="notice notice-error"><p><strong>' . esc_html__( 'Underworld Empire: families, murders, the theme and premium modules now live in the free plugin Underworld Empire Extended. It could not be installed automatically.', 'underworld-empire' ) . '</strong> '
+		echo '<div class="notice notice-error"><p><strong>' . esc_html__( 'Mafia PBBG Engine: families, murders, the theme and premium modules now live in the free plugin Mafia PBBG Engine Extended. It could not be installed automatically.', 'mafia-pbbg-engine' ) . '</strong> '
 			. esc_html( (string) $error ) . ' '
-			. esc_html__( 'Your game data is kept; it comes back as soon as Extended is active.', 'underworld-empire' ) . '</p>'
+			. esc_html__( 'Your game data is kept; it comes back as soon as Extended is active.', 'mafia-pbbg-engine' ) . '</p>'
 			. '<p>' . self::button() . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 }

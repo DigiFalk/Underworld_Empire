@@ -1,12 +1,11 @@
 <?php
 /**
- * Plugin Name:       Underworld Empire Extended
+ * Plugin Name:       Mafia PBBG Engine Extended
  * Plugin URI:        https://digifalk.com/
- * Description:       Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum and the Underworld Empire theme for the Underworld Empire mafia game. Also needed for premium modules.
- * Version:           1.13.3
+ * Description:       Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum and the Mafia PBBG Engine theme for the Mafia PBBG Engine mafia game. Also needed for premium modules.
+ * Version:           1.14.0
  * Requires at least: 6.0
  * Requires PHP:      7.4
- * Requires Plugins:  underworld-empire
  * Author:            DigiFalk
  * Author URI:        https://digifalk.com/
  * License:           DigiFalk License (see LICENSE.md)
@@ -20,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'DFMG_EXTENDED_VERSION', '1.13.3' );
+define( 'DFMG_EXTENDED_VERSION', '1.14.0' );
 define( 'DFMG_EXTENDED_FILE', __FILE__ );
 define( 'DFMG_EXTENDED_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DFMG_EXTENDED_URL', plugin_dir_url( __FILE__ ) );
@@ -38,7 +37,7 @@ spl_autoload_register(
 	}
 );
 
-// The "Underworld Empire" theme: shows up under Appearance → Themes while this plugin is active.
+// The "Mafia PBBG Engine" theme: shows up under Appearance → Themes while this plugin is active.
 register_theme_directory( DFMG_EXTENDED_DIR . 'themes' );
 add_filter(
 	'theme_root_uri',
@@ -62,7 +61,7 @@ register_deactivation_hook(
 	}
 );
 
-// Underworld Empire itself is loaded after this plugin, so wait until all plugins are loaded.
+// Mafia PBBG Engine itself is loaded after this plugin, so wait until all plugins are loaded.
 add_action(
 	'plugins_loaded',
 	static function () {
@@ -70,7 +69,7 @@ add_action(
 			add_action(
 				'admin_notices',
 				static function () {
-					echo '<div class="notice notice-error"><p>' . esc_html__( 'Underworld Empire Extended needs the plugin Underworld Empire. Install and activate it first.', 'underworld-empire' ) . '</p></div>';
+					echo '<div class="notice notice-error"><p>' . esc_html__( 'Mafia PBBG Engine Extended needs the plugin Mafia PBBG Engine. Install and activate it first.', 'underworld-empire' ) . '</p></div>';
 				}
 			);
 			return;

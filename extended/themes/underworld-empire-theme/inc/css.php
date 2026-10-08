@@ -4,7 +4,7 @@
  *
  * The colours are also written to the WordPress preset variables
  * (--wp--preset--color--accent, ...) so blocks, the editor and the
- * Underworld Empire game use the same palette.
+ * Mafia PBBG Engine game use the same palette.
  *
  * @package UnderworldEmpireTheme
  */
@@ -75,7 +75,7 @@ function uet_color_vars( array $c, bool $light_set = false ): array {
 		'--uet-frow-above-bg'              => $row( 'frow_above_bg', 'transparent' ),
 		'--uet-frow-primary-bg'            => $row( 'frow_primary_bg', 'transparent' ),
 		'--uet-frow-below-bg'              => $row( 'frow_below_bg', 'transparent' ),
-		// WordPress presets, used by blocks and by the Underworld Empire game.
+		// WordPress presets, used by blocks and by the Mafia PBBG Engine game.
 		'--wp--preset--color--base'        => $c['base'],
 		'--wp--preset--color--surface'     => $c['surface'],
 		'--wp--preset--color--surface-2'   => $c['surface_2'],
