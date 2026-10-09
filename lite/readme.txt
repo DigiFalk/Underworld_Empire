@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.2
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,10 @@ No. This plugin does not send data to external services.
 Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
 
 == Changelog ==
+
+= 2.1.0 =
+* With a theme that switches light and dark for the whole site, the game follows that switch.
+* New for developers: the filter dfmg_profile_own_actions adds buttons to the player's own profile.
 
 = 2.0.2 =
 * Links point to the new GitHub repository.

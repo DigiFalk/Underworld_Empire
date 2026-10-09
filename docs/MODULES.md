@@ -224,6 +224,7 @@ add_filter( 'dfmg_item_effects', function ( $effects ) {
 | `dfmg_hud_elements` | `array $elements` – game elements for the game layout, theme builders, widget and `[mpe_hud]` shortcode (replaces `dfmg_header_stats`). |
 | `dfmg_overview_panels`, `dfmg_overview_timers` | extra blocks on the overview |
 | `dfmg_profile_fields`, `dfmg_profile_actions` | profile page |
+| `dfmg_profile_own_actions` | `array $buttons, Character $c` – HTML buttons on the player's own profile (`dfmg_profile_actions` is for the profiles of others). |
 | `dfmg_property_types` | business types |
 | `dfmg_item_types`, `dfmg_equip_slots`, `dfmg_item_effects` | items |
 | `dfmg_family_permissions` | family permissions |

@@ -136,7 +136,7 @@ function mpet_options(): array {
 		'color_button_bg'        => array( $dark['button_bg'], 'mpet_colors', 'color', __( 'Button background', 'mafia-pbbg-engine-theme' ) ),
 		'color_button_text'      => array( $dark['button_text'], 'mpet_colors', 'color', __( 'Button text', 'mafia-pbbg-engine-theme' ) ),
 		/* Light & dark mode ------------------------------------------------- */
-		'color_mode'             => array( 'single', 'mpet_color_modes', 'select', __( 'Light and dark mode', 'mafia-pbbg-engine-theme' ), array(
+		'color_mode'             => array( 'toggle', 'mpet_color_modes', 'select', __( 'Light and dark mode', 'mafia-pbbg-engine-theme' ), array(
 			'single'       => __( 'One colour scheme (only the colours above)', 'mafia-pbbg-engine-theme' ),
 			'toggle'       => __( 'Dark by default, visitors can switch to light', 'mafia-pbbg-engine-theme' ),
 			'toggle_light' => __( 'Light by default, visitors can switch to dark', 'mafia-pbbg-engine-theme' ),

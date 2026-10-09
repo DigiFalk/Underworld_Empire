@@ -3,6 +3,20 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.1.0
+
+- Light and dark with the Mafia PBBG Engine theme work again: the theme has its light/dark
+  switch on by default (Customize → Global → Light & dark mode) and switches the whole site,
+  the game included. The game then uses that switch instead of its own one, so there is one
+  switch that does what it says. Other themes keep the switch of the game (as in 2.0).
+- New in Extended: the module **Combined menu** (on by default). With the Mafia PBBG Engine
+  theme the mobile menu (hamburger) of the site also holds the game menu, under a separator
+  line, on every page of the site. The game no longer shows its own menu button on phones.
+  Without that theme nothing changes.
+- For module makers: the filter `dfmg_profile_own_actions` adds buttons to the player's own
+  profile page. The theme has a filter `mpet_header_popup` for the mobile menu panel.
+- Theme 4.1.0.
+
 ## 2.0.2
 
 - The GitHub repository is now https://github.com/DigiFalk/Mafia_PBBG_engine. Updates, links

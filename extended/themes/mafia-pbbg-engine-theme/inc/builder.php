@@ -411,6 +411,12 @@ function mpet_render_header(): void {
 	foreach ( $layout['mobile']['popup'] as $element ) {
 		$popup .= '<div class="mpet-popup__item mpet-popup__item--' . esc_attr( $element ) . '">' . mpet_header_element( $element, 'popup' ) . '</div>';
 	}
+	/**
+	 * HTML of the mobile menu panel (the items chosen in the header builder).
+	 *
+	 * @param string $popup
+	 */
+	$popup = (string) apply_filters( 'mpet_header_popup', $popup );
 	$style = 'offcanvas' === mpet_opt( 'mobile_popup' ) ? 'offcanvas' : 'dropdown';
 	echo '<header class="mpet-header" id="masthead">';
 	echo '<div class="mpet-header__desktop">' . mpet_header_rows( $layout['desktop'], 'desktop' ) . '</div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped

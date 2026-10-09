@@ -9,7 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MPET_VERSION', '4.0.0' );
+define( 'MPET_VERSION', '4.1.0' );
 define( 'MPET_DIR', trailingslashit( get_template_directory() ) );
 define( 'MPET_URI', trailingslashit( get_template_directory_uri() ) );
 
@@ -26,3 +26,7 @@ require MPET_DIR . 'inc/meta-box.php';
 if ( class_exists( 'WooCommerce' ) ) {
 	require MPET_DIR . 'inc/woocommerce.php';
 }
+
+// This theme switches light and dark for the whole site, the game included (Customize →
+// Global → Light & dark mode). The game then follows the theme instead of using its own switch.
+add_filter( 'dfmg_theme_handles_mode', '__return_true' );

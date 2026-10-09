@@ -93,7 +93,9 @@ final class Profile extends Module {
 				'target'  => $target,
 				'own'     => $own,
 				'fields'  => apply_filters( 'dfmg_profile_fields', $fields, $target, $c ),
-				'actions' => ( $own || ! $target->is_alive() ) ? array() : apply_filters( 'dfmg_profile_actions', array(), $target, $c ),
+				'actions' => $own
+					? apply_filters( 'dfmg_profile_own_actions', array(), $c )
+					: ( $target->is_alive() ? apply_filters( 'dfmg_profile_actions', array(), $target, $c ) : array() ),
 				'avatar'  => get_avatar( (int) $target->user_id, 96 ),
 				'upload'  => $own && $this->uploads_enabled(),
 				'has_own' => $own && '' !== Avatar::url( (int) $c->user_id ),

@@ -46,8 +46,23 @@ final class Game {
 		if ( self::is_game_page() || self::uses_hud() ) {
 			wp_enqueue_style( 'dfmg-game' );
 			wp_enqueue_script( 'dfmg-game' );
-			add_action( 'wp_head', array( __CLASS__, 'print_mode_script' ), 2 );
+			if ( ! self::theme_handles_mode() ) {
+				add_action( 'wp_head', array( __CLASS__, 'print_mode_script' ), 2 );
+			}
 		}
+	}
+
+	/**
+	 * Does the active theme switch light and dark itself (for the whole site, the game
+	 * included)? Then the game has no light/dark switch of its own and follows the theme.
+	 */
+	public static function theme_handles_mode(): bool {
+		/**
+		 * True when the theme switches light and dark for the whole site, game included.
+		 *
+		 * @param bool $handles
+		 */
+		return (bool) apply_filters( 'dfmg_theme_handles_mode', false );
 	}
 
 	/**
@@ -64,6 +79,9 @@ final class Game {
 	 * the theme, dark is the built-in dark look.
 	 */
 	public static function mode_toggle(): string {
+		if ( self::theme_handles_mode() ) {
+			return '';
+		}
 		$sun  = '<svg class="dfmg-mode-toggle__sun" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.5" fill="currentColor"/><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 2v2.5M12 19.5V22M2 12h2.5M19.5 12H22M4.9 4.9l1.8 1.8M17.3 17.3l1.8 1.8M4.9 19.1l1.8-1.8M17.3 6.7l1.8-1.8"/></svg>';
 		$moon = '<svg class="dfmg-mode-toggle__moon" width="19" height="19" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.7 14.6A8.5 8.5 0 0 1 9.4 3.3a8.5 8.5 0 1 0 11.3 11.3z"/></svg>';
 		return '<button type="button" class="dfmg-hud-icon dfmg-mode-toggle" aria-pressed="false" aria-label="' . esc_attr__( 'Switch between light and dark', 'mafia-pbbg-engine' ) . '" title="' . esc_attr__( 'Light / dark', 'mafia-pbbg-engine' ) . '">' . $moon . $sun . '</button>';
@@ -255,7 +273,7 @@ final class Game {
 			$html .= Credit::html();
 		}
 		// Follow the light/dark choice set on <html> (see print_mode_script()) before anything is painted.
-		$sync = wp_get_inline_script_tag( "(function(e){var m=document.documentElement.getAttribute('data-dfmg-mode');if(e&&m){e.classList.toggle('dfmg--dark',m==='dark')}})(document.currentScript&&document.currentScript.parentNode);" );
+		$sync = self::theme_handles_mode() ? '' : wp_get_inline_script_tag( "(function(e){var m=document.documentElement.getAttribute('data-dfmg-mode');if(e&&m){e.classList.toggle('dfmg--dark',m==='dark')}})(document.currentScript&&document.currentScript.parentNode);" );
 		return '<div class="' . esc_attr( $class ) . '" data-now="' . esc_attr( (string) time() ) . '">' . $sync . $html . '</div>';
 	}
 
