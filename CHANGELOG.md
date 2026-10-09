@@ -3,6 +3,13 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.1.1
+
+- With the Mafia PBBG Engine theme the game shows no second light/dark switch when the
+  header or footer of the site already has one. Without the switch in the site header or
+  footer, the game shows the switch of the theme. With other themes the game keeps its own
+  switch. Theme 4.1.1.
+
 ## 2.1.0
 
 - Light and dark with the Mafia PBBG Engine theme work again: the theme has its light/dark

@@ -321,6 +321,24 @@ function mpet_mode_toggle( bool $with_label = false ): string {
 }
 
 /**
+ * Does the header or footer of the site show the light/dark switch?
+ */
+function mpet_site_has_mode_toggle(): bool {
+	if ( 'single' === mpet_color_mode() ) {
+		return false;
+	}
+	$found   = false;
+	$layouts = array( mpet_header_builder(), mpet_footer_builder() );
+	array_walk_recursive(
+		$layouts,
+		static function ( $item ) use ( &$found ) {
+			$found = $found || 'mode' === $item;
+		}
+	);
+	return $found;
+}
+
+/**
  * The switch can also be placed in the game (Customize → Game layout, widget, shortcode).
  */
 add_filter(
@@ -331,7 +349,8 @@ add_filter(
 				'label'  => __( 'Light/dark switch', 'mafia-pbbg-engine-theme' ),
 				'theme'  => false,
 				'render' => static function ( $character, $context ) {
-					return mpet_mode_toggle( 'stack' === $context );
+					// The header or footer of the site already has the switch: no second one in the game.
+					return mpet_site_has_mode_toggle() ? '' : mpet_mode_toggle( 'stack' === $context );
 				},
 			);
 		}

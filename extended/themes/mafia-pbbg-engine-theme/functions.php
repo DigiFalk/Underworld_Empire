@@ -9,7 +9,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'MPET_VERSION', '4.1.0' );
+define( 'MPET_VERSION', '4.1.1' );
 define( 'MPET_DIR', trailingslashit( get_template_directory() ) );
 define( 'MPET_URI', trailingslashit( get_template_directory_uri() ) );
 

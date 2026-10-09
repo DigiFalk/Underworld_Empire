@@ -3,7 +3,7 @@
  * Plugin Name:       Mafia PBBG Engine
  * Plugin URI:        https://github.com/DigiFalk/Mafia_PBBG_engine
  * Description:       A complete, modular mafia browser game (PBBG) for WordPress. Crimes, car theft, jail, travel, bank and more — all as separate, extendable modules. Families, murders and the Mafia PBBG Engine theme come with the free Mafia PBBG Engine Extended.
- * Version:           2.1.0
+ * Version:           2.1.1
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            DigiFalk
@@ -32,7 +32,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'DFMG_VERSION', '2.1.0' );
+define( 'DFMG_VERSION', '2.1.1' );
 define( 'DFMG_DB_VERSION', '1' );
 define( 'DFMG_FILE', __FILE__ );
 define( 'DFMG_DIR', plugin_dir_path( __FILE__ ) );
