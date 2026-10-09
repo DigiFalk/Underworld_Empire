@@ -355,7 +355,7 @@ final class Admin {
 			array( 'module', __( 'Modules', 'mafia-pbbg-engine' ), __( 'Switch game features on or off', 'mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-modules' ) ),
 			array( 'data', __( 'Game data', 'mafia-pbbg-engine' ), __( 'Players, ranks, cities and items', 'mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-data' ) ),
 			array( 'settings', __( 'Settings', 'mafia-pbbg-engine' ), __( 'Round, money and appearance', 'mafia-pbbg-engine' ), admin_url( 'admin.php?page=dfmg-settings' ) ),
-			array( 'book', __( 'Documentation', 'mafia-pbbg-engine' ), __( 'Build your own modules', 'mafia-pbbg-engine' ), 'https://github.com/DigiFalk/Underworld_Empire/blob/main/docs/MODULES.md' ),
+			array( 'book', __( 'Documentation', 'mafia-pbbg-engine' ), __( 'Build your own modules', 'mafia-pbbg-engine' ), 'https://github.com/DigiFalk/Mafia_PBBG_engine/blob/main/docs/MODULES.md' ),
 		);
 		?>
 		<div class="wrap dfmg-admin">

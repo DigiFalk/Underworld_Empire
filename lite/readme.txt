@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -44,7 +44,7 @@ The game in this plugin is complete on its own. The free add-on **Mafia PBBG Eng
 
 = Source code =
 
-The source code, documentation for module developers and the development history are on [GitHub](https://github.com/DigiFalk/Underworld_Empire).
+The source code, documentation for module developers and the development history are on [GitHub](https://github.com/DigiFalk/Mafia_PBBG_engine).
 
 == Installation ==
 
@@ -79,6 +79,9 @@ Nothing, unless you turn on *Delete all game data when the plugin is deleted* un
 
 == Changelog ==
 
+= 2.0.2 =
+* Links point to the new GitHub repository.
+
 = 2.0.1 =
 * A module that can't be loaded no longer breaks the site: it is skipped and the admin sees why.
 
@@ -104,4 +107,4 @@ Nothing, unless you turn on *Delete all game data when the plugin is deleted* un
 = 1.12.0 =
 * Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum and the theme moved to the free add-on Mafia PBBG Engine Extended.
 
-The full changelog is on [GitHub](https://github.com/DigiFalk/Underworld_Empire/blob/main/CHANGELOG.md).
+The full changelog is on [GitHub](https://github.com/DigiFalk/Mafia_PBBG_engine/blob/main/CHANGELOG.md).

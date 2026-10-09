@@ -3,6 +3,11 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.0.2
+
+- The GitHub repository is now https://github.com/DigiFalk/Mafia_PBBG_engine. Updates, links
+  and the documentation use the new address.
+
 ## 2.0.1
 
 - A module that can't be loaded (for example a premium module made for Underworld Empire,

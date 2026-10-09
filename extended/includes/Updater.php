@@ -34,7 +34,7 @@ final class Updater {
 	}
 
 	public static function repo(): string {
-		return defined( 'DFMG_UPDATE_REPO' ) ? (string) DFMG_UPDATE_REPO : 'DigiFalk/Underworld_Empire';
+		return defined( 'DFMG_UPDATE_REPO' ) ? (string) DFMG_UPDATE_REPO : 'DigiFalk/Mafia_PBBG_engine';
 	}
 
 	private static function token(): string {

@@ -15,7 +15,7 @@ The game comes as two plugins. This repository holds both, each in its own folde
 | [`lite/`](lite) | **Mafia PBBG Engine** (`mafia-pbbg-engine.zip`) | The game engine and 16 modules: a complete game with crimes, car theft, jail, hospital, travel, bank, inventory, messages and leaderboards. |
 | [`extended/`](extended) | **Mafia PBBG Engine Extended** (`mafia-pbbg-engine-extended.zip`, free) | Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum, the **Mafia PBBG Engine theme** and premium modules (license keys). Needs Mafia PBBG Engine. |
 
-Every [GitHub release](https://github.com/DigiFalk/Underworld_Empire/releases) carries three zips:
+Every [GitHub release](https://github.com/DigiFalk/Mafia_PBBG_engine/releases) carries three zips:
 
 | Zip | What it is |
 | --- | --- |
@@ -206,7 +206,7 @@ online* are always shown. Modules and themes can add their own elements with the
 ## Updates
 
 Both plugins update themselves through the normal WordPress update screen. They check the
-[GitHub releases](https://github.com/DigiFalk/Underworld_Empire/releases) of this repository
+[GitHub releases](https://github.com/DigiFalk/Mafia_PBBG_engine/releases) of this repository
 (every 12 hours, or immediately via the *Check for updates* link on the Plugins screen)
 and install the `mafia-pbbg-engine.zip` and `mafia-pbbg-engine-extended.zip` assets of the
 newest release.
@@ -214,7 +214,7 @@ newest release.
 Optional settings in `wp-config.php`:
 
 ```php
-define( 'DFMG_UPDATE_REPO', 'DigiFalk/Underworld_Empire' ); // repository to take releases from
+define( 'DFMG_UPDATE_REPO', 'DigiFalk/Mafia_PBBG_engine' ); // repository to take releases from
 define( 'DFMG_GITHUB_TOKEN', 'ghp_...' );                // only needed for a private repository
 ```
 

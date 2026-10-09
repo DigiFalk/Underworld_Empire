@@ -3,14 +3,14 @@
  * Plugin Name:       Mafia PBBG Engine Extended
  * Plugin URI:        https://digifalk.com/
  * Description:       Families, murders, detectives, bounties, the bullet factory, black market, blackjack, police chases, properties, the forum and the Mafia PBBG Engine theme for the Mafia PBBG Engine mafia game. Also needed for premium modules.
- * Version:           2.0.1
+ * Version:           2.0.2
  * Requires at least: 6.0
  * Requires PHP:      7.4
  * Author:            DigiFalk
  * Author URI:        https://digifalk.com/
  * License:           DigiFalk License (see LICENSE.md)
  * License URI:       https://digifalk.com/
- * Update URI:        https://github.com/DigiFalk/Underworld_Empire
+ * Update URI:        https://github.com/DigiFalk/Mafia_PBBG_engine
  * Text Domain:       mafia-pbbg-engine
  *
  * @package DigiFalk\MafiaPBBGEngine\Extended
@@ -19,7 +19,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'DFMG_EXTENDED_VERSION', '2.0.1' );
+define( 'DFMG_EXTENDED_VERSION', '2.0.2' );
 define( 'DFMG_EXTENDED_FILE', __FILE__ );
 define( 'DFMG_EXTENDED_DIR', plugin_dir_path( __FILE__ ) );
 define( 'DFMG_EXTENDED_URL', plugin_dir_url( __FILE__ ) );
