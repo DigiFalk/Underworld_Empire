@@ -3,6 +3,16 @@
 All notable changes to Mafia PBBG Engine (called Underworld Empire up to version 1.13). Each `## x.y.z` section is used as the notes of the
 GitHub release for that version.
 
+## 2.0.1
+
+- A module that can't be loaded (for example a premium module made for Underworld Empire,
+  before 2.0) no longer breaks the site. It is skipped, switching it on shows why, and the
+  admin gets a notice with the error and what to do.
+- Extended refuses to install a premium module download made for Underworld Empire and asks
+  for version 2.0.0 or newer of that module.
+- Premium module downloads are unpacked in `wp-content/upgrade` instead of the system temp
+  folder, which PHP can't always read (for example on Windows with Local).
+
 ## 2.0.0
 
 - Mafia PBBG Engine now carries its name everywhere, also inside:

@@ -33,6 +33,7 @@ final class Admin {
 		add_action( 'admin_post_dfmg_module', array( __CLASS__, 'handle_module' ) );
 		add_action( 'admin_post_dfmg_new_round', array( __CLASS__, 'handle_new_round' ) );
 		add_action( 'admin_post_dfmg_credit_choice', array( __CLASS__, 'handle_credit_choice' ) );
+		add_action( 'admin_notices', array( __CLASS__, 'module_errors_notice' ) );
 		add_filter( 'submenu_file', array( __CLASS__, 'highlight_menu' ) );
 		// Hide the module configuration page from the menu once WordPress has checked access to it.
 		add_action(
@@ -562,6 +563,28 @@ final class Admin {
 			</div>
 		</section>
 		<?php
+	}
+
+	/**
+	 * Modules that could not be loaded (for example made for an older version) are skipped;
+	 * tell the admin which ones and why.
+	 */
+	public static function module_errors_notice(): void {
+		if ( ! self::can() ) {
+			return;
+		}
+		$registry = Plugin::instance()->modules;
+		foreach ( \DigiFalk\MafiaPBBGEngine\Module\Registry::errors() as $id => $message ) {
+			$info = $registry->info( (string) $id );
+			if ( ! $info || ! $registry->is_enabled( (string) $id ) ) {
+				continue;
+			}
+			echo '<div class="notice notice-error"><p><strong>' . esc_html(
+				/* translators: %s: module name */
+				sprintf( __( 'Mafia PBBG Engine: the module "%s" could not be loaded and is switched off for now.', 'mafia-pbbg-engine' ), $info['name'] )
+			) . '</strong> ' . esc_html__( 'It may be made for another version of Mafia PBBG Engine. Update the module (premium modules: Modules screen, Update or Download again), or switch it off.', 'mafia-pbbg-engine' )
+				. '</p><p><code>' . esc_html( (string) $message ) . '</code></p></div>';
+		}
 	}
 
 	public static function handle_credit_choice(): void {

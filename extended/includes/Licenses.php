@@ -416,7 +416,10 @@ final class Licenses {
 		if ( ! WP_Filesystem() ) {
 			return new \WP_Error( 'dfmg_store', __( 'WordPress can\'t write files on this server. Check the file permissions of wp-content.', 'mafia-pbbg-engine' ) );
 		}
-		$work = trailingslashit( get_temp_dir() ) . 'dfmg-premium-' . wp_generate_password( 8, false, false );
+		// Unpack inside wp-content/upgrade (like WordPress updates do): the system temp folder is
+		// not always readable for PHP, for example on Windows.
+		$work = trailingslashit( WP_CONTENT_DIR ) . 'upgrade/dfmg-premium-' . wp_generate_password( 8, false, false );
+		wp_mkdir_p( dirname( $work ) );
 		$res  = unzip_file( $zip, $work );
 		if ( is_wp_error( $res ) ) {
 			$wp_filesystem->delete( $work, true );
@@ -429,6 +432,12 @@ final class Licenses {
 		if ( empty( $header['name'] ) || 'yes' !== strtolower( trim( (string) $header['premium'] ) ) ) {
 			$wp_filesystem->delete( $work, true );
 			return new \WP_Error( 'dfmg_store', __( 'The download does not contain this premium module.', 'mafia-pbbg-engine' ) );
+		}
+		// Modules made for Underworld Empire (before Mafia PBBG Engine 2.0) use classes that no
+		// longer exist and would break the site.
+		if ( false !== strpos( (string) file_get_contents( $source . '/module.php' ), 'DigiFalk\\UnderworldEmpire' ) ) { // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
+			$wp_filesystem->delete( $work, true );
+			return new \WP_Error( 'dfmg_store', __( 'This download is an old version of the module, made for Underworld Empire. The store needs to offer version 2.0.0 or newer of this module for Mafia PBBG Engine.', 'mafia-pbbg-engine' ) );
 		}
 		if ( ! wp_mkdir_p( DFMG_CUSTOM_MODULES_DIR ) ) {
 			$wp_filesystem->delete( $work, true );

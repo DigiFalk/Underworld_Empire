@@ -4,7 +4,7 @@ Tags: game, browser game, mafia, rpg, multiplayer
 Requires at least: 6.0
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.0.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -78,6 +78,9 @@ No. This plugin does not send data to external services.
 Nothing, unless you turn on *Delete all game data when the plugin is deleted* under *Settings*.
 
 == Changelog ==
+
+= 2.0.1 =
+* A module that can't be loaded no longer breaks the site: it is skipped and the admin sees why.
 
 = 2.0.0 =
 * Mafia PBBG Engine carries its new name everywhere: folders, shortcodes ([mafia_pbbg_engine]), the folder for your own modules (wp-content/mafia-pbbg-modules) and more.

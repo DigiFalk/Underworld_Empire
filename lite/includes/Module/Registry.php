@@ -168,13 +168,46 @@ final class Registry {
 		if ( ! $info ) {
 			return null;
 		}
-		$module = include $info['file'];
+		// A module that breaks (for example one made for an older version of the engine) is
+		// skipped and reported in the admin, instead of taking the whole site down.
+		try {
+			$module = include $info['file'];
+		} catch ( \Throwable $e ) {
+			self::report_error( $id, $e->getMessage() );
+			return null;
+		}
 		if ( ! $module instanceof Module ) {
 			return null;
 		}
 		$module->setup( $id, dirname( $info['file'] ), $info );
 		$this->loaded[ $id ] = $module;
+		self::clear_error( $id );
 		return $module;
+	}
+
+	const OPTION_ERRORS = 'dfmg_module_errors';
+
+	/**
+	 * Modules that could not be loaded: id => error message.
+	 */
+	public static function errors(): array {
+		return (array) get_option( self::OPTION_ERRORS, array() );
+	}
+
+	private static function report_error( string $id, string $message ): void {
+		$errors = self::errors();
+		if ( ( $errors[ $id ] ?? '' ) !== $message ) {
+			$errors[ $id ] = $message;
+			update_option( self::OPTION_ERRORS, $errors, false );
+		}
+	}
+
+	private static function clear_error( string $id ): void {
+		$errors = self::errors();
+		if ( isset( $errors[ $id ] ) ) {
+			unset( $errors[ $id ] );
+			update_option( self::OPTION_ERRORS, $errors, false );
+		}
 	}
 
 	/**
@@ -258,7 +291,14 @@ final class Registry {
 		}
 		$module = $this->load( $id );
 		if ( ! $module ) {
-			return new \WP_Error( 'module', __( 'Module could not be loaded.', 'mafia-pbbg-engine' ) );
+			$error = self::errors()[ $id ] ?? '';
+			return new \WP_Error(
+				'module',
+				'' === $error
+					? __( 'Module could not be loaded.', 'mafia-pbbg-engine' )
+					/* translators: %s: error message */
+					: sprintf( __( 'Module could not be loaded. It may be made for another version of Mafia PBBG Engine; update the module. Error: %s', 'mafia-pbbg-engine' ), $error )
+			);
 		}
 		$this->install( $module );
 		if ( ! in_array( $id, $enabled, true ) ) {
